@@ -1,4 +1,5 @@
 import type { Amounts, Command, GameDefinition, GameState, Job } from '../engine/types';
+import { planRoute } from '../engine/navigation';
 import { activityDuration, cargo, dispatch, price, routesFrom, view } from '../engine/simulation';
 import { describeEvent, guidance } from '../game/text';
 import { drawPortrait, drawScene } from './art';
@@ -174,12 +175,44 @@ export function mountApp(root: HTMLElement, controller: AppController) {
           .map((l) => {
             const here = l.id === s.location,
               route = routesFrom(g, s).find((r) => r.target === l.id),
+              itinerary = !here && !route ? planRoute(g, s, l.id) : [],
+              nextLeg = itinerary[0],
+              nextLocation = nextLeg
+                ? g.locations.find((location) => location.id === nextLeg.to)!
+                : null,
               d = s.discoveries[l.id];
-            return `<article class="route-card ${here ? 'current' : ''}"><div><div class="flex"><span class="body-disc" style="--body:${l.color}" aria-hidden="true"></span><div><h3>${esc(l.name)} ${here ? '<span class="accent">/ CURRENT</span>' : ''}</h3><small>${esc(l.kind)} · ${d?.surveyed ? 'Surveyed' : 'Unsurveyed'}</small></div></div><p>${esc(l.description)}</p>${route ? `<div class="eyebrow accent">${duration(route.seconds)} REAL · ${route.days >= 365 ? `${Math.round((route.days / 365.25) * 10) / 10} YEARS / CRYOSLEEP` : `${route.days} DAYS SHIP TIME`}</div><p>${esc(amountText(route.cost))} · ${Math.round(route.risk * 100)}% incident risk</p>` : !here ? '<p>Reach a connected body to plot a course here.</p>' : ''}</div>${here ? '<span class="badge" style="align-self:center">YOU ARE HERE</span>' : route ? button('Set course', { type: 'travel', target: l.id }, true) : '<button disabled title="There is no direct route from your current location.">No direct route</button>'}</article>`;
+            const itineraryText = itinerary.length
+              ? [s.location, ...itinerary.map((leg) => leg.to)]
+                  .map((id) => g.locations.find((location) => location.id === id)!.name)
+                  .join(' → ')
+              : '';
+            const totalCost: Amounts = {};
+            for (const leg of itinerary)
+              for (const [resource, amount] of Object.entries(leg.cost))
+                totalCost[resource] = (totalCost[resource] ?? 0) + amount;
+            const routeDetails = route
+              ? `<div class="eyebrow accent">${duration(route.seconds)} REAL · ${route.days >= 365 ? `${Math.round((route.days / 365.25) * 10) / 10} YEARS / CRYOSLEEP` : `${route.days} DAYS SHIP TIME`}</div><p>${esc(amountText(route.cost))} · ${Math.round(route.risk * 100)}% incident risk</p>`
+              : nextLeg && nextLocation
+                ? `<p class="accent">${esc(itineraryText)}</p><p>First travel to ${esc(nextLocation.name)}. Then issue the next course order toward ${esc(l.name)}.</p><p>Full itinerary: ${duration(itinerary.reduce((seconds, leg) => seconds + leg.seconds, 0))} real · ${esc(amountText(totalCost))}</p><p>Next leg only: ${duration(nextLeg.seconds)} real · ${esc(amountText(nextLeg.cost))}. Each leg requires a separate order.</p>`
+                : !here
+                  ? '<p>No charted route reaches this destination. Survey connected locations to resolve more navigation contacts.</p>'
+                  : '';
+            const action = here
+              ? '<span class="badge" style="align-self:center">YOU ARE HERE</span>'
+              : route
+                ? button('Set course', { type: 'travel', target: l.id }, true)
+                : nextLeg && nextLocation
+                  ? button(
+                      `Travel to ${nextLocation.name}`,
+                      { type: 'travel', target: nextLeg.to },
+                      true,
+                    )
+                  : '<button disabled>No charted route</button>';
+            return `<article class="route-card ${here ? 'current' : ''}"><div><div class="flex"><span class="body-disc" style="--body:${l.color}" aria-hidden="true"></span><div><h3>${esc(l.name)} ${here ? '<span class="accent">/ CURRENT</span>' : ''}</h3><small>${esc(l.kind)} · ${d?.surveyed ? 'Surveyed' : 'Unsurveyed'}</small></div></div><p>${esc(l.description)}</p>${routeDetails}</div>${action}</article>`;
           })
           .join('')
       : '<div class="empty-note">This system is an unresolved signal. Survey worlds along the frontier to establish a route.</div>';
-    return `<div class="dashboard"><div class="stack"><section class="panel"><div class="panel-head"><h2>Frontier navigation chart</h2><span class="eyebrow">4 SYSTEMS / LOCAL ARRAY</span></div>${map}<div class="panel-footer">SELECT A SYSTEM · DASHED LINES INDICATE POTENTIAL INTERSTELLAR CORRIDORS</div></section><section class="panel"><div class="panel-head"><h2>${esc(region.name)} system</h2><span class="eyebrow">${locations.length} CONTACTS</span></div><div class="panel-body"><div class="system-summary"><p>${esc(region.subtitle)}</p><small>All times are real unless marked ship time.</small></div><div class="route-list">${bodyList}</div></div></section></div><div class="stack">${panel('Flight planning', `<p>Survey a body to resolve the rest of its system and any outbound signals. Arrival at a new station resolves nearby bodies.</p><div class="line"></div><p>Interstellar crossings spend years in cryosleep. Your crew stays safe while you are away. Route costs include departure and arrival burns.</p><div class="line"></div><p>Support jobs may run in transit. Finish existing support work before departure.</p>`, 'READ BEFORE DEPARTURE')}${panel('Recovery service', `<p>Stranded? A tug can bring the Kestrel to the nearest station with at least 40% hull integrity. The 150 credit fee becomes debt, repaid through work shifts.</p><div class="row-actions">${button('Request recovery tow', { type: 'rescue' })}</div>`, 'NO CREW LEFT BEHIND')}</div></div>`;
+    return `<div class="dashboard"><div class="stack"><section class="panel"><div class="panel-head"><h2>Frontier navigation chart</h2><span class="eyebrow">4 SYSTEMS / LOCAL ARRAY</span></div>${map}<div class="panel-footer">SELECT A SYSTEM · DASHED LINES INDICATE POTENTIAL INTERSTELLAR CORRIDORS</div></section><section class="panel"><div class="panel-head"><h2>${esc(region.name)} system</h2><span class="eyebrow">${locations.length} CONTACTS</span></div><div class="panel-body"><div class="system-summary"><p>${esc(region.subtitle)}</p><small>All times are real unless marked ship time.</small></div><div class="route-list">${bodyList}</div></div></section></div><div class="stack">${panel('Flight planning', `<p>Survey a body to resolve the rest of its system and any outbound signals. Arrival at a new station resolves nearby bodies.</p><div class="line"></div><p>Interstellar routes depart from specific worlds. A destination reached through other locations shows its itinerary and a button for the next leg. Travel is ordered one leg at a time.</p><div class="line"></div><p>Interstellar crossings spend years in cryosleep. Your crew stays safe while you are away. Route costs include departure and arrival burns.</p><div class="line"></div><p>Support jobs may run in transit. Finish existing support work before departure.</p>`, 'READ BEFORE DEPARTURE')}${panel('Recovery service', `<p>Stranded? A tug can bring the Kestrel to the nearest station with at least 40% hull integrity. The 150 credit fee becomes debt, repaid through work shifts.</p><div class="row-actions">${button('Request recovery tow', { type: 'rescue' })}</div>`, 'NO CREW LEFT BEHIND')}</div></div>`;
   }
   function activityCard(id: string) {
     const a = g.activities.find((a) => a.id === id)!,

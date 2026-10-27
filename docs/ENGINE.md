@@ -56,3 +56,7 @@ Storage format and definition generation version are independent. This initial r
 ## Verification contract
 
 New mechanics need behavior tests that show costs, completion, rejection conditions, and offline equivalence. Catalog changes need reference and reachability checks. Generator changes need reproducibility and compatibility checks. Theme portability is covered separately from the science fiction UI: the Victorian fixture runs travel, investigation, missions, and save restoration without importing `src/game`.
+
+## Route planning
+
+`planRoute(definition, state, destination)` from `engine/navigation` returns the shortest itinerary by real travel time through known locations. Legs are oriented in travel order, including reverse traversal of undirected routes. Unknown or disconnected destinations return an empty itinerary. Planning does not reveal destinations, spend supplies, or queue commands: the host previews the itinerary and issues each travel order explicitly.
