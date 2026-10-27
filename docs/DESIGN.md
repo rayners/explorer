@@ -1,0 +1,25 @@
+# Far Wake v0.1 design
+
+The player is the captain of the survey vessel Kestrel, operating under an Orison Combine charter in 2186. The tone is industrial, dryly bureaucratic, and occasionally unsettling. Exploration and logistics lead; supernatural explanations and franchise characters are absent.
+
+The loop is: accept work → check supplies and condition → travel → survey → explore or extract → process supplies and repair → return to a hub → file work and choose who owns discoveries → prepare for a longer voyage.
+
+Local trips take roughly one minute. Surveys take about forty seconds with the starting specialist. Expeditions and resource gathering take roughly one to two minutes. Interstellar legs take 15–60 real minutes and 4–12 fictional years. The crew is in cryosleep for long voyages. Calendar time changes market prices on arrival; accepted contracts do not expire while asleep.
+
+A single foreground order and a single support job keep the management light. Costs are paid at order time and rewards applied exactly once at completion. Jobs do not repeat automatically. Encounters pause consequential time for a choice; they cannot destroy the run during absence. Resource overflow is discarded with a log entry. Cargo capacity and costs are always visible.
+
+Crew specialty assignments affect duration, extraction yield, and combat odds. Injury reduces specialty effectiveness, while station treatment restores it. Rest currently removes a member from work; it does not automatically heal them. Ship wear increases during travel and increases arrival hull damage. Repairs and servicing consume parts. These mechanics reward preparation without requiring frantic tapping.
+
+Faction politics begins with exclusive data licensing, relief deliveries, mission reputation, hostile encounters, trade prices, and access restrictions. It does not simulate faction fleets or autonomous territorial wars. Pirate attacks are resolved in up to two failed firing rounds, or immediately through evasion, bargaining, or cargo surrender. Surrender always provides an escape route without a resource requirement.
+
+The galaxy has an authored topology so every route and introductory contract can be tested. Seeded frontier yields and site identifiers demonstrate the generation seam. Full procedural campaigns and roguelite rules are deferred.
+
+## Later versions
+
+- Generator modules for variable system graphs, celestial bodies, sites, and mission instances with stable instance IDs.
+- Generator-version compatibility and saved generated catalogs when worlds grow dynamically.
+- Explicit run boundaries, loss/recovery rules, optional persistent unlocks, and roguelite balancing.
+- Richer crew development, alternative ships, deeper faction disputes, and additional settings.
+- More varied illustrated scenes and event-specific art.
+
+These are extension points rather than promises about reset or reward rules. Existing v1 saves should remain playable when generator capabilities expand.
