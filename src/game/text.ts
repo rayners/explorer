@@ -76,7 +76,7 @@ export function guidance(s: GameState): { title: string; text: string; tab: stri
   if (!s.milestones.includes('interstellar'))
     return {
       title: 'The edge is a direction.',
-      text: 'Explore local sites, build reserves, and follow a resolved interstellar route. At Cinder, a course to the Pale Reach is waiting.',
+      text: 'Explore local sites, build reserves, and follow a resolved interstellar route. Once charted, the Pale Reach can be reached from anywhere in Vesper.',
       tab: 'navigation',
     };
   return {

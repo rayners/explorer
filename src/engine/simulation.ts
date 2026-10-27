@@ -1,3 +1,4 @@
+import { routesAt } from './navigation';
 import type {
   Amounts,
   Command,
@@ -108,9 +109,7 @@ export function activityDuration(g: GameDefinition, s: GameState, id: string) {
   return Math.round(a.seconds / (1 + skillBonus(g, s, a.skill, a.slot)));
 }
 export function routesFrom(g: GameDefinition, s: GameState) {
-  return g.routes
-    .filter((r) => r.from === s.location || r.to === s.location)
-    .map((r) => ({ ...r, target: r.from === s.location ? r.to : r.from }));
+  return routesAt(g, s.location).map((route) => ({ ...route, target: route.to }));
 }
 export function view(g: GameDefinition, s: GameState) {
   return {

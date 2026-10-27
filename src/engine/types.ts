@@ -152,6 +152,7 @@ export interface GameDefinition {
   factions: { id: string; name: string; description: string; color: string }[];
   initial: { location: string; inventory: Amounts; crew: Member[]; capacity: number };
   rules: {
+    interregionalTravel?: 'location' | 'region';
     marketCycle?: { days: number; multipliers: number[] };
     oppositionFaction: string;
     combatSkill: string;

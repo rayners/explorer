@@ -13,7 +13,7 @@ Open the printed localhost URL on the desktop, or the printed LAN URL on a phone
 
 Accept **First light** on Overview, plot a course to **Cinder** in Navigation, and run an orbital survey in Operations. Return to a station and file the contract in Contacts. Surveys reveal routes and sites. Gather ice and ore, process them into supplies, and prepare for an interstellar crossing.
 
-Interstellar routes depart from specific worlds: **Cinder → Wayfarer Exchange (Pale Reach)** and **Morrow → Union Anchorage (Meridian)**. If you are elsewhere, select the destination system to see the charted itinerary and travel to its departure world. Each leg requires its own order; journeys are not automatically queued.
+Once a neighboring system is charted, you can depart from **any planet, moon, asteroid field, or station** in your current system. Select the destination system in Navigation and set course for a known location there. The displayed interstellar time and supply cost include local departure and arrival transfers. Journeys through intermediate systems still require separate orders.
 
 ![Far Wake desktop console](docs/screenshots/desktop.png)
 

@@ -29,3 +29,19 @@ it('reconciles once, caps absence, and never rewinds a wall timestamp', () => {
   expect(reconcile(g, result, 1).savedAt).toBe(121000);
   expect(reconcile(g, loaded, 999999999).state.elapsed).toBe(86400);
 });
+it('keeps an existing interstellar voyage intact when region-wide travel is enabled', () => {
+  const game = createGame(7);
+  const previous = { ...game, rules: { ...game.rules, interregionalTravel: 'location' as const } };
+  let state = createState(previous, 7);
+  state.location = 'cinder';
+  state.known.push('pale-0');
+  state.discoveries['pale-0'] = { surveyed: true, sites: [], dataSold: false };
+  state = dispatch(previous, state, { type: 'travel', target: 'pale-0' }).state;
+  state = advance(previous, state, 200);
+  const loaded = decodeSave(encodeSave(state, 1000), createGame);
+  expect(loaded.state).toEqual(state);
+  expect(loaded.state.primary?.remaining).toBe(700);
+  const after = advance(game, loaded.state, 700);
+  expect(after.location).toBe('pale-0');
+  expect(after.inventory.fuel).toBe(state.inventory.fuel);
+});

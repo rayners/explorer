@@ -60,3 +60,5 @@ New mechanics need behavior tests that show costs, completion, rejection conditi
 ## Route planning
 
 `planRoute(definition, state, destination)` from `engine/navigation` returns the shortest itinerary by real travel time through known locations. Legs are oriented in travel order, including reverse traversal of undirected routes. Unknown or disconnected destinations return an empty itinerary. Planning does not reveal destinations, spend supplies, or queue commands: the host previews the itinerary and issues each travel order explicitly.
+
+Interregional connections default to location-specific endpoints, suitable for roads, passes, or gates. A game can opt into `rules.interregionalTravel: "region"` to connect all locations in neighboring regions. Far Wake uses this policy for open-space travel; estimates include local transfers. `routesAt` supplies the same effective connections to planning and command validation. Destination knowledge and supply checks still apply, and existing travel jobs keep their saved duration and costs.

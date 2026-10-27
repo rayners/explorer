@@ -559,6 +559,7 @@ export function createGame(seed = 1701): GameDefinition {
       ],
     },
     rules: {
+      interregionalTravel: 'region',
       marketCycle: { days: 365, multipliers: [1, 1.2, 0.9] },
       oppositionFaction: 'pirates',
       combatSkill: 'security',

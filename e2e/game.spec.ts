@@ -150,7 +150,7 @@ test('LAN fallback coordinates command ownership without Web Locks', async ({ pa
   await expect(other.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
   await other.close();
 });
-test('an interstellar destination shows its departure world and a playable first leg', async ({
+test('a charted interstellar destination can be reached directly from a station', async ({
   page,
 }) => {
   await nav(page, 'navigation');
@@ -191,16 +191,15 @@ test('an interstellar destination shows its departure world and a playable first
   const destination = page
     .locator('.route-card')
     .filter({ has: page.getByRole('heading', { name: 'Wayfarer Exchange', exact: true }) });
-  await expect(destination).toContainText('Anchor Station → Cinder → Wayfarer Exchange');
-  await expect(destination).toContainText('Each leg requires a separate order.');
+  await expect(destination).toContainText('15m 0s REAL');
+  await expect(destination.getByRole('button', { name: 'Set course' })).toBeEnabled();
+  await expect(destination.getByRole('button', { name: 'Travel to Cinder' })).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await destination.getByRole('button', { name: 'Travel to Cinder', exact: true }).click();
-  expect((await state(page)).primary.target).toBe('cinder');
-  await next(page, 65);
-  if ((await state(page)).encounter)
-    await page.getByRole('button', { name: 'Surrender cargo', exact: true }).click();
   await destination.getByRole('button', { name: 'Set course' }).click();
   await expect(page.locator('#confirm-dialog')).toContainText('cryosleep');
   await page.getByRole('button', { name: 'Confirm order' }).click();
-  expect((await state(page)).primary.target).toBe('pale-0');
+  const departed = await state(page);
+  expect(departed.primary.target).toBe('pale-0');
+  expect(departed.location).toBe('anchor');
+  expect(departed.primary.total).toBe(900);
 });
