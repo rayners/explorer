@@ -20,10 +20,13 @@ describe('content and isolation', () => {
         if (visited.has(r.to)) visited.add(r.from);
       }
     expect(visited.size).toBe(16);
-    expect(g.missions.length).toBe(12);
+    expect(g.missions.length).toBe(13);
     for (const m of g.missions) {
       if (m.requires) expect(g.missions.some((x) => x.id === m.requires)).toBe(true);
-      if (m.objective.target) expect(ids).toContain(m.objective.target);
+      if (m.objective.target)
+        expect(m.objective.kind === 'threatStopped' ? g.threats!.map((t) => t.id) : ids).toContain(
+          m.objective.target,
+        );
     }
     for (const a of g.activities)
       for (const r of Object.keys({ ...a.cost, ...a.reward }))

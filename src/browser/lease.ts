@@ -4,9 +4,8 @@ interface LeaseStorage {
   setItem(key: string, value: string): void;
   removeItem(key: string): void;
 }
-export function createLease(storage: LeaseStorage, id: string) {
-  const key = 'far-wake.command-lease',
-    lifetime = 12000;
+export function createLease(storage: LeaseStorage, id: string, key = 'far-wake.command-lease') {
+  const lifetime = 12000;
   const read = (): { id: string; until: number } | null => {
     const raw = storage.getItem(key);
     if (raw === null) return null;

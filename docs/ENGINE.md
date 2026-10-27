@@ -41,7 +41,7 @@ A minimal game supplies:
 
 For example, a Victorian game maps `travelResource` to carriage fares, `surveyActivity` to investigate, and `combatSkill` to deduction. A fantasy game could use roads, rations, dungeon expeditions, adventurers, relics, and guilds. The `station` boolean means a service hub; it does not require a space station. The initial integration fixture is `tests/victorian.test.ts`.
 
-Game events carry `key` and `params`, never rendered narrative. The application maps them to localized or themed writing. Current human-readable validation errors are shared English; another language can introduce error codes without altering the simulation mechanisms.
+Game events carry `key` and `params`, never rendered narrative. The application maps them to localized or themed writing. Current human-readable validation errors use shared, setting-neutral English; another language can introduce error codes without altering the simulation mechanisms.
 
 Time has two units: real seconds for waiting and fictional days recorded by journeys. Travel commits its calendar duration on arrival; the in-transit UI previews the arrival year. Market-cycle rules optionally vary prices with fictional elapsed years. This is compressed logistics, not an orbital dynamics or relativistic physics simulator.
 
@@ -51,7 +51,7 @@ The host supplies elapsed time to the engine and owns storage. `encodeSave(state
 
 Keep browser timestamps monotonic when the system clock moves backward. Save on commands, periodic checkpoints, `visibilitychange`, and `pagehide`. Background browser timers are not a reliable simulation clock. The host may use Web Locks to ensure exactly one writing tab; other tabs only display saved updates. HTTP LAN previews use a checked, renewable storage lease as a best-effort fallback; HTTPS Web Locks provide the atomic guarantee.
 
-Storage format and definition generation version are independent. This initial release has no older formats to migrate. Before changing either, retain old generator behavior or migrate generated content and provide explicit save migrations with old-save fixtures. Rejection is safer than silently regenerating a different universe for an old seed.
+Storage format and definition generation version are independent. State schema 2 migrates legacy version-one states after verifying their original checksum. The envelope format remains 1. Before changing either, retain old generator behavior or migrate generated content and provide explicit save migrations with old-save fixtures. Rejection is safer than silently regenerating a different universe for an old seed.
 
 ## Verification contract
 
@@ -64,3 +64,13 @@ New mechanics need behavior tests that show costs, completion, rejection conditi
 Interregional connections default to location-specific endpoints, suitable for roads, passes, or gates. A game can opt into `rules.interregionalTravel: "region"` to connect all locations in neighboring regions. Far Wake uses this policy for open-space travel; estimates include local transfers. `routesAt` supplies the same effective connections to planning and command validation. Destination knowledge and supply checks still apply, and existing travel jobs keep their saved duration and costs.
 
 Mission outcome objectives use `combatWon` for actual combat victories and `aidDelivered` for completed relief deliveries. These are separate from activity IDs such as `raid` and `aid`, so starting an encounter or completing a single activity cannot count twice.
+
+## Recruitment, casualties and threats
+
+`GameDefinition.recruitment` supplies a base accommodation limit and recruit offers (role, costs, name pool, and optional emergency eligibility). Accommodation upgrades use `crewCapacity`. `hire` creates a reproducible identity and increments `recruitSerial`; the member starts resting. `living(state)` and `crewCapacity(game,state)` provide the current roster and capacity. Dead members remain in `crew` with `life: "dead"`, provide no skills, and cannot be assigned or healed. The engine retains the initial cast so memorial records and legacy saves remain valid.
+
+Activities may declare `requirements` by skill, count, and assignment; they may also restrict availability to particular location IDs. Both games use these checks for medical care and class-dependent expeditions. Settings supply skill IDs; the engine has no engineer, fighter, mage, or cleric branches.
+
+Optional `ThreatDef` catalogs configure skills, response costs, evasion, detection pacing, and cargo loss. An `expose` activity starts one hidden incident, recorded in `threatHistory`. Activity-boundary transitions reveal it. `threatAlert` pauses all consequential time; contained threats permit operations. Only the explicit `threat` commands can cause casualties. Search, containment, confrontation, and guaranteed purging all use saved random state and emit structured events. A `threatStopped` objective can award a mission independently of ordinary combat outcomes.
+
+`src/browser/runtime.ts` accepts a definition factory, namespace, debug namespace and UI mount. The settings-specific content is supplied by the mount; saves, preferences, lease keys and Web Locks are isolated by namespace. Both games share the site-root service worker while exposing independent installation manifests. Never reuse a namespace for a different definition.

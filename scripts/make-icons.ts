@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, mkdirSync } from 'node:fs';
 import { deflateSync } from 'node:zlib';
 export const iconPixels = [
   '................',
@@ -34,14 +34,14 @@ const chunk = (type: string, data: Buffer) => {
   sum.writeUInt32BE(crc(Buffer.concat([tag, data])));
   return Buffer.concat([length, tag, data, sum]);
 };
-export function png(size: number) {
+export function png(size: number, pixels = iconPixels, ink = [218, 167, 124, 255]) {
   const data = Buffer.alloc((size * 4 + 1) * size);
   for (let y = 0; y < size; y++) {
     const row = y * (size * 4 + 1);
     for (let x = 0; x < size; x++) {
       const col =
-        iconPixels[Math.floor((y / size) * 16)][Math.floor((x / size) * 16)] === 'a'
-          ? [218, 167, 124, 255]
+        pixels[Math.floor((y / size) * 16)][Math.floor((x / size) * 16)] === 'a'
+          ? ink
           : [16, 27, 30, 255];
       for (let k = 0; k < 4; k++) data[row + 1 + x * 4 + k] = col[k];
     }
@@ -61,6 +61,34 @@ export function png(size: number) {
 if (process.argv[1]?.endsWith('make-icons.ts')) {
   for (const size of [180, 192, 512])
     writeFileSync(`public/${size === 180 ? 'apple-touch-icon' : `icon-${size}`}.png`, png(size));
+  mkdirSync('public/hollowmere', { recursive: true });
+  const castle = [
+    '................',
+    '.......a........',
+    '......aaa.......',
+    '......aaa.......',
+    '..a...aaa...a...',
+    '..aa.aaaaa.aa...',
+    '..aaaaaaaaaaa...',
+    '..aaaaaaaaaaa...',
+    '..aa..aaa..aa...',
+    '..aaaaaaaaaaa...',
+    '..aaaaa.aaaaa...',
+    '..aaaa...aaaa...',
+    '..aaaa...aaaa...',
+    '..aaaa...aaaa...',
+    '................',
+    '................',
+  ];
+  for (const size of [180, 192, 512])
+    writeFileSync(
+      `public/hollowmere/${size === 180 ? 'apple-touch-icon' : `icon-${size}`}.png`,
+      png(size, castle, [190, 163, 103, 255]),
+    );
+  writeFileSync(
+    'public/hollowmere/icon.svg',
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#1a1c19"/><path d="M12 52V24h8v8h8V12h8v20h8v-8h8v28H36V40h-8v12z" fill="#bea367"/></svg>',
+  );
   writeFileSync(
     'public/icon.svg',
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#101b1e"/><path d="M12 12h40L16 52V12m0 20h20m0 20 16-16v16z" fill="none" stroke="#daa77c" stroke-width="3"/></svg>',

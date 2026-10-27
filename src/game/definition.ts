@@ -296,6 +296,74 @@ export function createGame(seed = 1701): GameDefinition {
   ];
   return {
     id: 'far-wake',
+    recruitment: {
+      capacity: 4,
+      offers: [
+        {
+          id: 'engineer',
+          name: 'Engineer',
+          skill: 'engineering',
+          description:
+            'Faster repairs, refining and fabrication. Support engineers also improve internal threat searches.',
+          cost: { credits: 140 },
+          names: ['Leena Cho', 'Emil Mercer', 'Ruth Sato', 'Niko Vale'],
+        },
+        {
+          id: 'medic',
+          name: 'Medical officer',
+          skill: 'medical',
+          description:
+            'Enables field triage. Assigned support medics can save a crew member during a creature attack.',
+          cost: { credits: 160 },
+          names: ['Dr. Selene Ibarra', 'Dr. Noel Singh', 'Dr. Imani Cole', 'Dr. Theo Lin'],
+        },
+        {
+          id: 'security-officer',
+          name: 'Security officer',
+          skill: 'security',
+          description: 'Improves combat, searches, containment and direct confrontation.',
+          cost: { credits: 150 },
+          names: ['Vera Holt', 'Tomas Reed', 'Sol Adeyemi', 'June Alvarez'],
+        },
+        {
+          id: 'surveyor',
+          name: 'Survey specialist',
+          skill: 'survey',
+          description: 'Faster surveys and surface expeditions.',
+          cost: { credits: 130 },
+          names: ['Anja Bell', 'Dara Chen', 'Owen Neri', 'Esme Voss'],
+        },
+        {
+          id: 'relief-hand',
+          name: 'Emergency relief hand',
+          skill: 'general',
+          description:
+            'A free replacement when no crew survive. Assign them to Expedition to earn station wages.',
+          cost: {},
+          emergency: true,
+          names: ['Alex Ward', 'Sami Osei', 'Robin Tao', 'Lee Moss'],
+        },
+      ],
+    },
+    threats: [
+      {
+        id: 'stowaway',
+        name: 'The unmanifested',
+        description:
+          'Something brought back from Morrow is moving through the maintenance ducts. It hides from security and attacks when repeated searches fail. Losses are permanent; responses wait for your orders.',
+        searchSkill: 'security',
+        supportSkill: 'engineering',
+        combatSkill: 'security',
+        medicalSkill: 'medical',
+        stealth: 0.15,
+        revealAfter: 2,
+        attackAfter: 2,
+        searchCost: { provisions: 1 },
+        containCost: { parts: 2 },
+        combatCost: { ammo: 2 },
+        purgeLoss: 0.2,
+      },
+    ],
     milestones: [
       { id: 'interstellar', measure: 'journeyDays', threshold: 365 },
       { id: 'frontier', measure: 'surveyedLocations', threshold: 10 },
@@ -305,7 +373,19 @@ export function createGame(seed = 1701): GameDefinition {
     regions,
     locations,
     routes,
-    missions,
+    missions: [
+      ...missions,
+      {
+        id: 'unmanifested',
+        name: 'Unmanifested cargo',
+        description:
+          'Investigate the sealed specimen at Morrow, then stop any resulting shipboard threat. This optional investigation can lead to permanent crew losses.',
+        faction: 'combine',
+        objective: { kind: 'threatStopped', target: 'stowaway', count: 1 },
+        reward: { credits: 450, parts: 8 },
+        reputation: 10,
+      },
+    ],
     resources: [
       {
         id: 'credits',
@@ -365,6 +445,38 @@ export function createGame(seed = 1701): GameDefinition {
       },
     ],
     activities: [
+      {
+        id: 'specimen',
+        name: 'Recover sealed specimen',
+        description:
+          'Optional containment investigation at Morrow. An unidentified organism may come aboard. Once alerted, failed responses can permanently kill crew. Purging cargo is a safe escape.',
+        seconds: 90,
+        slot: 'primary',
+        cost: { provisions: 2 },
+        reward: { credits: 40 },
+        skill: 'survey',
+        requiresSurvey: true,
+        repeatable: false,
+        at: 'field',
+        effect: 'expose',
+        locations: ['morrow'],
+        threat: 'stowaway',
+      },
+      {
+        id: 'triage',
+        name: 'Field triage',
+        description:
+          'A support medic treats injured crew without a station. Consumes 2 provisions.',
+        seconds: 45,
+        slot: 'support',
+        cost: { provisions: 2 },
+        reward: {},
+        skill: 'medical',
+        repeatable: true,
+        at: 'any',
+        effect: 'heal',
+        requirements: [{ skill: 'medical', count: 1 }],
+      },
       {
         id: 'survey',
         name: 'Orbital survey',
@@ -559,6 +671,7 @@ export function createGame(seed = 1701): GameDefinition {
       ],
     },
     rules: {
+      medicalSkill: 'medical',
       interregionalTravel: 'region',
       marketCycle: { days: 365, multipliers: [1, 1.2, 0.9] },
       oppositionFaction: 'pirates',
@@ -579,6 +692,21 @@ export function createGame(seed = 1701): GameDefinition {
       recoveryDebt: 150,
     },
     upgrades: [
+      {
+        id: 'berths',
+        name: 'Expanded cryo berths',
+        description: 'Two additional bunks and cryo pods. Crew capacity increases from 4 to 6.',
+        cost: { credits: 220, parts: 4 },
+        crewCapacity: 2,
+      },
+      {
+        id: 'habitat',
+        name: 'Auxiliary habitat module',
+        description:
+          'Two more pressurized berths. With expanded berths installed, the Kestrel can carry eight crew.',
+        cost: { credits: 450, parts: 8 },
+        crewCapacity: 2,
+      },
       {
         id: 'cargo',
         name: 'External cargo racks',

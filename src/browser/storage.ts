@@ -8,16 +8,17 @@ export function writeReplacement(
   storage: Pick<Storage, 'setItem'>,
   current: LoadedSave,
   next: LoadedSave,
+  keys = { save: SAVE_KEY, backup: BACKUP_KEY },
 ): void {
   try {
-    storage.setItem(BACKUP_KEY, encodeSave(current.state, current.savedAt));
+    storage.setItem(keys.backup, encodeSave(current.state, current.savedAt));
   } catch {
     throw Error(
       'Replacement not saved: the current expedition could not be backed up. It is unchanged. Export your save and free browser storage before trying again.',
     );
   }
   try {
-    storage.setItem(SAVE_KEY, encodeSave(next.state, next.savedAt));
+    storage.setItem(keys.save, encodeSave(next.state, next.savedAt));
   } catch {
     throw Error(
       'Replacement not saved: browser storage is unavailable or full. The current expedition is unchanged. Export your save and free browser storage before trying again.',

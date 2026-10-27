@@ -7,10 +7,15 @@ for (const [name, browserType, options] of [
 ] as const) {
   const browser = await browserType.launch();
   const page = await browser.newPage(options);
-  await page.goto('http://127.0.0.1:5199');
-  await page.waitForFunction(
-    () => document.querySelector('#save-status')?.textContent === 'LOCAL SAVE ACTIVE',
-  );
-  await page.screenshot({ path: `docs/screenshots/${name}.png` });
+  for (const [path, prefix] of [
+    ['/', ''],
+    ['/hollowmere/', 'hollowmere-'],
+  ] as const) {
+    await page.goto(`http://127.0.0.1:5199${path}`);
+    await page.waitForFunction(
+      () => document.querySelector('#save-status')?.textContent === 'LOCAL SAVE ACTIVE',
+    );
+    await page.screenshot({ path: `docs/screenshots/${prefix}${name}.png` });
+  }
   await browser.close();
 }

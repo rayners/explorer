@@ -1,3 +1,5 @@
+import { living, crewCapacity, recruitName } from './personnel';
+import { threatAlert, developThreat, respondToThreat } from './threats';
 import { routesAt } from './navigation';
 import type {
   Amounts,
@@ -57,7 +59,7 @@ function roll(s: GameState) {
 export function createState(g: GameDefinition, seed: number): GameState {
   const known = g.locations.filter((l) => l.initiallyKnown).map((l) => l.id);
   return {
-    version: 1,
+    version: 2,
     definition: g.id,
     generationVersion: g.generationVersion,
     seed: seed >>> 0,
@@ -70,7 +72,10 @@ export function createState(g: GameDefinition, seed: number): GameState {
     wear: 8,
     capacity: g.initial.capacity,
     debt: 0,
-    crew: clone(g.initial.crew),
+    crew: clone(g.initial.crew).map((member) => ({ ...member, life: 'alive' as const })),
+    recruitSerial: 0,
+    threat: null,
+    threatHistory: [],
     known,
     discoveries: Object.fromEntries(
       known.map((id) => [
@@ -97,7 +102,7 @@ export function skillBonus(
 ) {
   return (
     s.crew
-      .filter((c) => c.assignment === slot && c.skill === skill)
+      .filter((c) => c.life !== 'dead' && c.assignment === slot && c.skill === skill)
       .reduce((n, c) => n + (c.injury ? 0.06 : 0.18), 0) +
     g.upgrades
       .filter((u) => s.upgrades.includes(u.id) && u.skill === skill)
@@ -147,9 +152,40 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
   const fail = (error: string): CommandResult => ({ state: input, error });
   if (s.encounter && command.type !== 'encounter')
     return fail('Resolve the encounter before issuing new orders.');
-  if (command.type === 'assign') {
+  const threatContext = { event, progress, roll, spend, affordable, bonus: skillBonus };
+  if (threatAlert(s) && !['threat', 'assign', 'hire', 'encounter'].includes(command.type))
+    return fail('Resolve or contain the threat before resuming operations.');
+  if (command.type === 'threat') {
+    const error = respondToThreat(g, s, command.action, threatContext);
+    if (error) return fail(error);
+  } else if (command.type === 'hire') {
+    if (!loc.station || s.primary?.kind === 'travel' || s.primary?.kind === 'rescue')
+      return fail('Recruitment requires visiting a service hub.');
+    const offer = g.recruitment?.offers.find((o) => o.id === command.id);
+    if (!offer) return fail('This specialist is not available.');
+    if (offer.emergency && living(s).length > 0)
+      return fail('Emergency relief is reserved for expeditions with no surviving members.');
+    if (living(s).length >= crewCapacity(g, s))
+      return fail('No accommodation available. Install a capacity upgrade first.');
+    if (s.crew.length >= 1000)
+      return fail('The roster archive is full. Export this expedition before starting another.');
+    if (!affordable(s, offer.cost)) return fail('Insufficient funds to recruit this specialist.');
+    spend(s, offer.cost);
+    const serial = s.recruitSerial++;
+    const member = {
+      id: `${offer.id}-${serial}`,
+      name: recruitName(offer, s.seed, serial),
+      skill: offer.skill,
+      assignment: 'rest' as const,
+      injury: 0,
+      life: 'alive' as const,
+      recruit: offer.id,
+    };
+    s.crew.push(member);
+    event(s, 'memberHired', { member: member.name, skill: member.skill });
+  } else if (command.type === 'assign') {
     const member = s.crew.find((c) => c.id === command.member);
-    if (!member) return fail('Unknown party member.');
+    if (!member || member.life === 'dead') return fail('This member is not available for duty.');
     if (!['primary', 'support', 'rest'].includes(command.assignment))
       return fail('Unknown assignment.');
     if (
@@ -198,9 +234,24 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     if (a.slot === 'support' && s.primary?.kind === 'travel' && a.at !== 'any')
       return fail('This activity requires a destination.');
     if (a.at === 'station' && (!loc.station || s.primary?.kind === 'travel'))
-      return fail('Dock at a station first.');
+      return fail('Visit a service hub first.');
     if (a.at === 'field' && loc.station) return fail('Choose an exploration destination first.');
     const discovery = s.discoveries[loc.id];
+    if (a.locations && !a.locations.includes(loc.id))
+      return fail('This activity is available at a different location.');
+    if (a.effect === 'expose' && (s.threat || s.threatHistory.includes(a.threat ?? '')))
+      return fail('This expedition incident has already been investigated.');
+    for (const requirement of a.requirements ?? []) {
+      const count = living(s).filter(
+        (member) =>
+          member.skill === requirement.skill &&
+          member.assignment === (requirement.assignment ?? a.slot),
+      ).length;
+      if (count < requirement.count)
+        return fail(
+          `Requires ${requirement.count} ${requirement.skill} specialist on the ${requirement.assignment ?? a.slot} team.`,
+        );
+    }
     if (a.requiresSurvey && !discovery?.surveyed) return fail('Complete a survey first.');
     if (id === g.rules.surveyActivity && discovery?.surveyed)
       return fail('This location is already surveyed.');
@@ -211,10 +262,10 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     if (a.effect === 'repair' && s.integrity >= 100)
       return fail('Condition is already at maximum.');
     if (a.effect === 'service' && s.wear === 0) return fail('Equipment is already fully serviced.');
-    if (a.effect === 'heal' && !s.crew.some((c) => c.injury))
+    if (a.effect === 'heal' && !living(s).some((c) => c.injury))
       return fail('Nobody needs treatment.');
-    if (!s.crew.some((c) => c.assignment === a.slot))
-      return fail('Assign at least one crew member to this team.');
+    if (!living(s).some((c) => c.assignment === a.slot))
+      return fail('Assign at least one living member to this team.');
     if (!affordable(s, a.cost)) return fail('Insufficient supplies for this activity.');
     const duration = activityDuration(g, s, id);
     spend(s, a.cost);
@@ -260,7 +311,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     event(s, 'rescueRequested');
   } else if (command.type === 'trade') {
     if (!loc.station || s.primary?.kind === 'travel' || s.primary?.kind === 'rescue')
-      return fail('Trading requires docking at a station.');
+      return fail('Trading requires visiting a service hub.');
     const r = g.resources.find((r) => r.id === command.resource);
     if (
       !r ||
@@ -285,7 +336,8 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     }
     event(s, 'trade', { resource: r.id, amount: n, direction: command.direction });
   } else if (command.type === 'accept') {
-    if (!loc.station || s.primary?.kind === 'travel') return fail('Visit a station mission board.');
+    if (!loc.station || s.primary?.kind === 'travel')
+      return fail('Visit a service hub mission board.');
     const m = g.missions.find((m) => m.id === command.id);
     if (!m || s.missions.some((x) => x.id === m.id)) return fail('Contract unavailable.');
     if (m.requires && !s.missions.some((x) => x.id === m.requires && x.claimed))
@@ -303,6 +355,10 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     if (m.objective.kind === g.rules.exploreActivity)
       initialProgress = targets.reduce((n, id) => n + (s.discoveries[id]?.sites.length ?? 0), 0);
     if (m.objective.kind === 'travel' && m.objective.target === s.location) initialProgress = 1;
+    if (m.objective.kind === 'threatStopped')
+      initialProgress = s.threatHistory.filter(
+        (id) => (!m.objective.target || m.objective.target === id) && s.threat?.id !== id,
+      ).length;
     s.missions.push({
       id: m.id,
       progress: Math.min(m.objective.count, initialProgress),
@@ -316,7 +372,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     event(s, 'missionAbandoned', { mission: command.id });
   } else if (command.type === 'claim') {
     if (!loc.station || s.primary?.kind === 'travel')
-      return fail('Visit a station to file the contract.');
+      return fail('Visit a service hub to file the contract.');
     const m = s.missions.find((m) => m.id === command.id),
       def = g.missions.find((d) => d.id === command.id);
     if (!m || !def || m.claimed || m.progress < def.objective.count)
@@ -326,7 +382,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     rep(s, def.faction, def.reputation);
     event(s, 'missionClaimed', { mission: def.id });
   } else if (command.type === 'sellData') {
-    if (!loc.station || s.primary?.kind === 'travel') return fail('Visit a station data exchange.');
+    if (!loc.station || s.primary?.kind === 'travel') return fail('Visit a service hub exchange.');
     const records = Object.entries(s.discoveries).filter(
       ([id, d]) => d.surveyed && !d.dataSold && !g.locations.find((l) => l.id === id)!.station,
     );
@@ -342,7 +398,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     event(s, 'dataSold', { count: records.length, faction: loc.faction ?? '' });
   } else if (command.type === 'upgrade') {
     if (!loc.station || s.primary?.kind === 'travel')
-      return fail('Dock for equipment installation.');
+      return fail('Visit a service hub for equipment installation.');
     const u = g.upgrades.find((u) => u.id === command.id);
     if (!u || s.upgrades.includes(u.id)) return fail('Equipment unavailable.');
     if (!affordable(s, u.cost)) return fail('Insufficient supplies for this upgrade.');
@@ -360,7 +416,12 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
       s.inventory[ammo] -= 2;
       const chance = Math.min(
         0.95,
-        0.55 + skillBonus(g, s, g.rules.combatSkill, 'primary') - power * 0.06,
+        0.55 +
+          skillBonus(g, s, g.rules.combatSkill, 'primary') +
+          (g.rules.additionalCombatSkill
+            ? skillBonus(g, s, g.rules.additionalCombatSkill, 'primary')
+            : 0) -
+          power * 0.06,
       );
       if (roll(s) < chance) {
         gain(g, s, { [g.rules.currency]: 60, [g.rules.materials]: 3 });
@@ -465,7 +526,7 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
     }
     if (a.effect === 'repair') s.integrity = Math.min(100, s.integrity + 35);
     if (a.effect === 'service') s.wear = Math.max(0, s.wear - 35);
-    if (a.effect === 'heal') for (const c of s.crew) c.injury = 0;
+    if (a.effect === 'heal') for (const c of living(s)) c.injury = 0;
     if (a.effect === 'aid' && loc.faction) {
       rep(s, loc.faction, 8);
       const rival = g.factions.find(
@@ -498,11 +559,12 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
       event(s, 'intercepted');
     } else {
       s.integrity = Math.max(10, s.integrity - 8);
-      const c = s.crew.find((c) => c.assignment === 'primary');
+      const c = living(s).find((c) => c.assignment === 'primary');
       if (c) c.injury = 1;
       event(s, 'hazard');
     }
   }
+  developThreat(g, s, job, { event, progress, roll, spend, affordable, bonus: skillBonus });
   const surveyed = Object.entries(s.discoveries).filter(
     ([id, d]) => d.surveyed && !g.locations.find((l) => l.id === id)!.station,
   ).length;
@@ -516,10 +578,11 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
 }
 /** Advance to activity boundaries; no per-frame randomness or repeated rewards. */
 export function advance(g: GameDefinition, input: GameState, seconds: number): GameState {
-  if (!Number.isFinite(seconds) || seconds <= 0 || input.encounter) return input;
+  if (!Number.isFinite(seconds) || seconds <= 0 || input.encounter || threatAlert(input))
+    return input;
   const s = clone(input);
   let left = round(Math.min(seconds, OFFLINE_CAP));
-  while (left > 0 && !s.encounter) {
+  while (left > 0 && !s.encounter && !threatAlert(s)) {
     const jobs = [s.primary, s.support].filter((j): j is Job => j !== null);
     const step = round(Math.min(left, ...jobs.map((j) => j.remaining)));
     if (step <= 0) break;

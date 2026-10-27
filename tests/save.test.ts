@@ -45,3 +45,39 @@ it('keeps an existing interstellar voyage intact when region-wide travel is enab
   expect(after.location).toBe('pale-0');
   expect(after.inventory.fuel).toBe(state.inventory.fuel);
 });
+it('validates recruited members and casualties while rejecting invented identities', () => {
+  const game = createGame(7);
+  let state = createState(game, 7);
+  state = dispatch(game, state, { type: 'hire', id: 'medic' }).state;
+  expect(decodeSave(encodeSave(state, 1000), createGame).state).toEqual(state);
+  state.crew[0].life = 'dead';
+  expect(decodeSave(encodeSave(state, 1000), createGame).state).toEqual(state);
+  state.crew.at(-1)!.name = 'Invented';
+  expect(() => decodeSave(encodeSave(state, 1000), createGame)).toThrow();
+});
+it('rejects malformed roster and capacity fields without throwing from validation', () => {
+  const game = createGame(1701),
+    state = createState(game, 1701);
+  const invalid = [
+    { ...state, upgrades: null },
+    { ...state, upgrades: 123 },
+    { ...state, crew: [...state.crew, null] },
+    {
+      ...state,
+      crew: [
+        ...state.crew,
+        {
+          id: 42,
+          recruit: 'medic',
+          name: 'Invalid',
+          skill: 'medical',
+          life: 'alive',
+          assignment: 'rest',
+          injury: 0,
+        },
+      ],
+    },
+  ];
+  for (const value of invalid)
+    expect(() => decodeSave(encodeSave(value as any, 1000), createGame)).toThrow('invalid');
+});

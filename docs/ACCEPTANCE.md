@@ -6,8 +6,8 @@ Automated coverage uses Chromium desktop and actual WebKit with iPhone 15 Pro Ma
 
 - `npm test`: deterministic time advancement, save validation, references, resources, maintenance, objectives, relationships, recoverability, alternate-genre integration, and complete-frontier simulations across eight seeds.
 - `npm run build`: strict TypeScript and static PWA production output.
-- `npm run test:e2e`: accept/travel/survey/file journey, reload restoration, save import/export, keyboard dialog dismissal, portrait and landscape overflow, competing-tab ownership, failed import/reset writes, touch-visible cargo explanations, and valid crew reassignment during independent work.
-- `npm run test:offline` after build: a saved voyage catches up on launch; production service worker then serves the app after an offline reload in Chromium and WebKit. Development helpers must be absent.
+- `npm run test:e2e`: recruitment/capacity and roster persistence, legacy save migration, hidden threats and purging, fantasy class requirements, cross-game save/lock isolation, and the original accept/travel/survey/file journey, reload restoration, save import/export, keyboard dialog dismissal, portrait and landscape overflow, competing-tab ownership, failed import/reset writes, touch-visible cargo explanations, and valid crew reassignment during independent work.
+- `npm run test:offline` after build: a saved voyage catches up on launch; production service worker then serves the app after an offline reload for both Far Wake and Hollowmere in Chromium and WebKit. Development helpers must be absent.
 - `npm audit`: dependency advisories.
 
 ## Physical iPhone 15 Pro Max — pending
@@ -26,3 +26,11 @@ Use Safari at https://rayners.github.io/explorer/ for installation/offline tests
 10. Enter an encounter, leave the app, and return. The choice must remain pending without additional losses.
 
 No physical-device result is claimed until this checklist is run on the actual phone.
+
+## v0.2 physical-device additions — pending
+
+- Recruit a specialist at a station, assign them to a team, upgrade accommodation, and reload.
+- Start the optional Morrow specimen investigation; leave during incubation and verify that detection waits for your response without casualties.
+- Confirm the creature can be safely purged and casualty records survive reloads.
+- Open Hollowmere from Far Wake Settings. Complete its first oath, change class assignments, and return to Far Wake with the original save intact.
+- Install Hollowmere separately from its own page; verify that its icon opens the fantasy game while the Far Wake icon still opens the ship game.

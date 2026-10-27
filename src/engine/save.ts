@@ -1,3 +1,4 @@
+import { crewCapacity, living, recruitName } from './personnel';
 import type { GameDefinition, GameState, Job } from './types';
 import { advance, OFFLINE_CAP } from './simulation';
 export interface SaveEnvelope {
@@ -33,7 +34,7 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
     activities = new Set(g.activities.map((a) => a.id)),
     resources = new Set(g.resources.map((r) => r.id));
   if (
-    s.version !== 1 ||
+    s.version !== 2 ||
     s.definition !== g.id ||
     s.generationVersion !== g.generationVersion ||
     !Number.isInteger(s.seed) ||
@@ -122,17 +123,64 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
   )
     return false;
   if (
+    !unique(s.upgrades) ||
+    !s.upgrades.every((id) => g.upgrades.some((u) => u.id === id)) ||
+    !unique(s.milestones)
+  )
+    return false;
+  if (
     !Array.isArray(s.crew) ||
-    s.crew.length !== g.initial.crew.length ||
+    s.crew.length > 1000 ||
+    !s.crew.every((member) => object(member)) ||
+    !Number.isInteger(s.recruitSerial) ||
+    s.recruitSerial < 0 ||
+    !g.initial.crew.every((member) => s.crew.some((candidate) => candidate?.id === member.id)) ||
+    living(s).length > crewCapacity(g, s) ||
     new Set(s.crew.map((c) => c?.id)).size !== s.crew.length ||
     !s.crew.every(
       (c) =>
         object(c) &&
-        g.initial.crew.some((x) => x.id === c.id && x.name === c.name && x.skill === c.skill) &&
+        typeof c.id === 'string' &&
+        typeof c.name === 'string' &&
+        typeof c.skill === 'string' &&
+        (g.initial.crew.some(
+          (x) =>
+            x.id === c.id && x.name === c.name && x.skill === c.skill && c.recruit === undefined,
+        ) ||
+          (g.recruitment?.offers ?? []).some((offer) => {
+            if (c.recruit !== offer.id || !c.id.startsWith(offer.id + '-')) return false;
+            const serial = Number(c.id.slice(offer.id.length + 1));
+            return (
+              Number.isInteger(serial) &&
+              serial >= 0 &&
+              serial < s.recruitSerial &&
+              c.id === `${offer.id}-${serial}` &&
+              c.name === recruitName(offer, s.seed, serial) &&
+              c.skill === offer.skill
+            );
+          })) &&
+        ['alive', 'dead'].includes(c.life ?? '') &&
         ['primary', 'support', 'rest'].includes(c.assignment) &&
         finite(c.injury) &&
         c.injury <= 1,
     )
+  )
+    return false;
+  if (
+    !unique(s.threatHistory) ||
+    !s.threatHistory.every((id) => g.threats?.some((t) => t.id === id))
+  )
+    return false;
+  if (
+    s.threat !== null &&
+    (!object(s.threat) ||
+      !g.threats?.some((t) => t.id === s.threat!.id) ||
+      !['hidden', 'suspected', 'located', 'contained'].includes(s.threat.stage) ||
+      !finite(s.threat.pressure) ||
+      !Number.isInteger(s.threat.pressure) ||
+      !finite(s.threat.signs) ||
+      !Number.isInteger(s.threat.signs) ||
+      !s.threatHistory.includes(s.threat.id))
   )
     return false;
   if (
@@ -150,12 +198,6 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
         ) &&
         typeof m.claimed === 'boolean',
     )
-  )
-    return false;
-  if (
-    !unique(s.upgrades) ||
-    !s.upgrades.every((id) => g.upgrades.some((u) => u.id === id)) ||
-    !unique(s.milestones)
   )
     return false;
   if (
@@ -213,6 +255,19 @@ export function decodeSave(text: string, definition: (seed: number) => GameDefin
   if (checksum(JSON.stringify(payload)) !== v.checksum)
     throw Error('Save checksum failed. Keep the original export and try again.');
   const g = definition(v.state.seed as number);
+  // Verify the original checksum above before migrating legacy checkpoint fields.
+  if (v.state.version === 1) {
+    v.state = {
+      ...v.state,
+      version: 2,
+      recruitSerial: 0,
+      threat: null,
+      threatHistory: [],
+      crew: Array.isArray(v.state.crew)
+        ? v.state.crew.map((member) => (object(member) ? { ...member, life: 'alive' } : member))
+        : v.state.crew,
+    };
+  }
   if (!validateState(v.state, g))
     throw Error('Save state is invalid or its content generation version is unsupported.');
   return { state: v.state, savedAt: v.savedAt };

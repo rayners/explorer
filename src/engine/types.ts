@@ -45,6 +45,8 @@ export interface Member {
   skill: string;
   assignment: 'primary' | 'support' | 'rest';
   injury: number;
+  life?: 'alive' | 'dead';
+  recruit?: string;
 }
 export interface ActivityDef {
   id: string;
@@ -58,7 +60,10 @@ export interface ActivityDef {
   requiresSurvey?: boolean;
   repeatable: boolean;
   at: 'station' | 'field' | 'any';
-  effect?: 'repair' | 'service' | 'heal' | 'aid';
+  effect?: 'repair' | 'service' | 'heal' | 'aid' | 'expose';
+  locations?: string[];
+  requirements?: { skill: string; count: number; assignment?: Member['assignment'] }[];
+  threat?: string;
 }
 export interface Objective {
   kind: string;
@@ -110,6 +115,37 @@ export interface Discovery {
   sites: string[];
   dataSold: boolean;
 }
+export interface RecruitDef {
+  id: string;
+  name: string;
+  description: string;
+  skill: string;
+  cost: Amounts;
+  names: string[];
+  emergency?: boolean;
+}
+export interface ThreatDef {
+  id: string;
+  name: string;
+  description: string;
+  searchSkill: string;
+  supportSkill: string;
+  combatSkill: string;
+  medicalSkill: string;
+  stealth: number;
+  revealAfter: number;
+  attackAfter: number;
+  searchCost: Amounts;
+  containCost: Amounts;
+  combatCost: Amounts;
+  purgeLoss: number;
+}
+export interface ThreatState {
+  id: string;
+  stage: 'hidden' | 'suspected' | 'located' | 'contained';
+  pressure: number;
+  signs: number;
+}
 export interface GameState {
   version: number;
   definition: string;
@@ -125,6 +161,9 @@ export interface GameState {
   capacity: number;
   debt: number;
   crew: Member[];
+  recruitSerial: number;
+  threat: ThreatState | null;
+  threatHistory: string[];
   known: string[];
   discoveries: Record<string, Discovery>;
   reputation: Amounts;
@@ -138,6 +177,8 @@ export interface GameState {
   milestones: string[];
 }
 export interface GameDefinition {
+  recruitment?: { capacity: number; offers: RecruitDef[] };
+  threats?: ThreatDef[];
   milestones?: { id: string; measure: 'journeyDays' | 'surveyedLocations'; threshold: number }[];
   hooks?: { afterActivity?: (state: GameState, activity: ActivityDef) => GameState };
   id: string;
@@ -152,6 +193,8 @@ export interface GameDefinition {
   factions: { id: string; name: string; description: string; color: string }[];
   initial: { location: string; inventory: Amounts; crew: Member[]; capacity: number };
   rules: {
+    medicalSkill?: string;
+    additionalCombatSkill?: string;
     interregionalTravel?: 'location' | 'region';
     marketCycle?: { days: number; multipliers: number[] };
     oppositionFaction: string;
@@ -177,6 +220,7 @@ export interface GameDefinition {
     description: string;
     cost: Amounts;
     capacity?: number;
+    crewCapacity?: number;
     skill?: string;
     bonus?: number;
   }[];
@@ -184,6 +228,8 @@ export interface GameDefinition {
 export type Command =
   | { type: 'travel'; target: string }
   | { type: 'activity'; id: string }
+  | { type: 'hire'; id: string }
+  | { type: 'threat'; action: 'search' | 'contain' | 'confront' | 'purge' }
   | { type: 'work' }
   | { type: 'rescue' }
   | { type: 'accept' | 'claim' | 'abandon'; id: string }

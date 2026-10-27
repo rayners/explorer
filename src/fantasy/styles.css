@@ -1,0 +1,168 @@
+body.fantasy {
+  background: #1a1c19;
+  color: #d9d3bd;
+  --muted: #a2a38b;
+  --line: #464b3a;
+  --accent: #bea367;
+  --green: #a7b28c;
+  --panel: #23271e;
+  --red: #d7a9a0;
+}
+.fantasy .sidebar {
+  background: #1b211a;
+}
+.fantasy .brand {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+.fantasy .brand small {
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+.fantasy .sigil {
+  color: var(--accent);
+  font-size: 38px;
+}
+.fantasy .topbar {
+  background: #1a2019;
+}
+.fantasy h1,
+.fantasy .location-title {
+  color: #e4d9b8;
+}
+.fantasy .resource-strip {
+  background: #20271d;
+}
+.fantasy .panel {
+  background: #23291f;
+}
+.fantasy .activity-card,
+.fantasy .route-card {
+  background: #252c21;
+}
+.fantasy .map {
+  background-color: #172219;
+  background-image:
+    radial-gradient(#667156 1px, transparent 1px), linear-gradient(#33412e88 1px, transparent 1px),
+    linear-gradient(90deg, #33412e88 1px, transparent 1px);
+}
+.fantasy .star-button {
+  background: #172219e0 !important;
+}
+.fantasy button {
+  background: #303a29;
+}
+.fantasy button.primary {
+  background: var(--accent);
+  color: #1c261b;
+}
+.fantasy button.quiet {
+  background: transparent;
+}
+.fantasy .nav-button {
+  background: transparent;
+}
+.fantasy .nav-button[aria-current='page'] {
+  background: #343b28;
+  border-color: #766d45;
+  color: #e0c180;
+}
+.fantasy .active-job {
+  background: #303625;
+  border-color: #7a7950;
+}
+.fantasy .encounter {
+  background: #372d25;
+}
+.fantasy dialog {
+  background: #20271d;
+  color: #d9d3bd;
+}
+.fantasy dialog textarea {
+  background: #171e16;
+}
+.fantasy .action-reason {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 5px;
+  line-height: 1.7;
+}
+.fantasy .row-actions .action-reason {
+  flex-basis: 100%;
+}
+.fantasy .fantasy-trade {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  align-items: start;
+  min-width: 0;
+}
+.fantasy .fantasy-trade .action-reason {
+  grid-column: 1/-1;
+}
+.fantasy .trade-row {
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 1fr);
+}
+.fantasy .route-card > div {
+  min-width: 0;
+}
+.fantasy .route-card .action-reason {
+  max-width: 180px;
+}
+.fantasy .section-label {
+  margin-top: 28px;
+}
+.other-game {
+  display: block;
+  margin-top: 16px;
+  font-size: 10px;
+}
+.fantasy .resource small {
+  letter-spacing: 0.4px;
+}
+.fantasy .activity-card button {
+  align-self: stretch;
+}
+.fantasy .crew-row {
+  padding: 14px 0;
+}
+.fantasy .scene {
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 640px) {
+  .fantasy .trade-row {
+    grid-template-columns: 1fr;
+  }
+  .fantasy .navigation {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .fantasy .topbar .eyebrow {
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+  .fantasy .topbar small {
+    font-size: 9px;
+  }
+  .fantasy .sigil {
+    font-size: 30px;
+  }
+  .fantasy .route-card {
+    grid-template-columns: 1fr;
+  }
+  .fantasy .route-card button {
+    width: 100%;
+  }
+  .fantasy .fantasy-trade {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .fantasy .nav-button {
+    font-size: 10px;
+  }
+  .fantasy .nav-button span {
+    font-size: 17px;
+  }
+  .fantasy .topbar {
+    padding-top: calc(12px + env(safe-area-inset-top));
+  }
+}

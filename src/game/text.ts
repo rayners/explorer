@@ -5,6 +5,24 @@ export function describeEvent(g: GameDefinition, e: GameEvent): string {
     activity = g.activities.find((a) => a.id === p.activity)?.name ?? p.activity,
     mission = g.missions.find((m) => m.id === p.mission)?.name ?? p.mission;
   const messages: Record<string, string> = {
+    memberHired: `${p.member} joined the crew as ${p.skill}. Assign them to a team in Operations.`,
+    memberLost: `${p.member} was killed by the shipboard threat. Their place in the manifest is now a memorial.`,
+    threatAnomaly:
+      'Cargo mass differs from the expedition report. The biofilter has requested an unscheduled cycle.',
+    threatRevealed:
+      'Internal movement detected. A lifeform is aboard the Kestrel. Operations hold for your response.',
+    threatLocated:
+      'Security has located the unmanifested lifeform. Containment or direct confrontation is possible.',
+    threatContained:
+      'Bulkheads sealed. The lifeform is contained; normal operations can resume, but it is still aboard.',
+    threatEvaded:
+      'The contact slipped away. Security lost the trace. Another failed response may provoke an attack.',
+    threatRescued: `${p.member} was attacked. The support medic kept them alive; treatment is still needed.`,
+    threatStopped:
+      p.method === 'purge'
+        ? 'Contaminated cargo section vented. The organism is gone.'
+        : 'The creature has been stopped. The ship is clear.',
+    jobAbandoned: 'A team lost its last surviving member. Its unfinished job has been abandoned.',
     welcome:
       'Charter FW-017 activated. Welcome aboard the survey vessel Kestrel. There is a lot of sky left.',
     departed: `Course laid in for ${location(p.target)}. ${p.days} ship-calendar days to arrival.`,
@@ -40,6 +58,12 @@ export function describeEvent(g: GameDefinition, e: GameEvent): string {
   return messages[e.key] ?? e.key;
 }
 export function guidance(s: GameState): { title: string; text: string; tab: string } {
+  if (s.threat && s.threat.stage !== 'hidden')
+    return {
+      title: 'Something is aboard.',
+      text: 'Coordinate security, engineering and medical staff. You can always vent the affected cargo section to remove the threat safely.',
+      tab: 'operations',
+    };
   if (s.encounter)
     return {
       title: 'A contact wants your attention.',

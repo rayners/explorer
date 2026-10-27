@@ -108,6 +108,7 @@ export function drawScene(canvas: HTMLCanvasElement, loc: LocationDef, travel = 
   for (let y = 0; y < 260; y += 2) rect(0, y, 640, 1, '#07151a0c');
 }
 export function drawPortrait(canvas: HTMLCanvasElement, index: number) {
+  index = index % 3;
   canvas.width = 24;
   canvas.height = 24;
   const c = canvas.getContext('2d')!;
