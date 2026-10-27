@@ -8,7 +8,7 @@ const nav = async (page: Page, name: string) =>
     .getByRole('button', { name: new RegExp(name, 'i') })
     .click();
 test.beforeEach(async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/far-wake/');
   await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
 });
 test('captain accepts a contract, travels, surveys, and files the findings', async ({ page }) => {
@@ -85,7 +85,7 @@ test('console fits the viewport and supports keyboard and save transfer', async 
 });
 test('only one tab can write to an expedition', async ({ page, context }) => {
   const second = await context.newPage();
-  await second.goto('/');
+  await second.goto('/far-wake/');
   await expect(second.locator('#save-status')).toHaveText('READ-ONLY TAB');
   await expect(second.getByText('This tab is read-only.', { exact: false })).toBeVisible();
   await nav(page, 'operations');
@@ -132,10 +132,10 @@ test('LAN fallback coordinates command ownership without Web Locks', async ({ pa
     Object.defineProperty(navigator, 'locks', { value: undefined, configurable: true });
   });
   const active = await context.newPage();
-  await active.goto('/');
+  await active.goto('/far-wake/');
   await expect(active.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
   const other = await context.newPage();
-  await other.goto('/');
+  await other.goto('/far-wake/');
   await expect(other.locator('#save-status')).toHaveText('READ-ONLY TAB');
   await nav(active, 'operations');
   await active

@@ -1,6 +1,6 @@
 # Hollowmere — Beyond the Last Lantern
 
-Play: https://rayners.github.io/explorer/hollowmere/
+Play: https://rayners.github.io/explorer/hollowmere/ · [All games](https://rayners.github.io/explorer/)
 
 A dark fantasy exploration game about a company of the living, crossing a forest that keeps its own accounts. It is a separate game built on Far Wake's engine. Its saves, preferences and tab ownership are independent.
 

@@ -22,7 +22,7 @@ async function importState(page: Page, raw: string) {
   await page.getByRole('button', { name: 'Confirm order' }).click();
   await expect(page.locator('#settings-dialog')).not.toBeVisible();
 }
-async function open(page: Page, path = '/') {
+async function open(page: Page, path = '/far-wake/') {
   await page.goto(path);
   await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
 }

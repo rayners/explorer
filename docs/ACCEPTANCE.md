@@ -12,7 +12,7 @@ Automated coverage uses Chromium desktop and actual WebKit with iPhone 15 Pro Ma
 
 ## Physical iPhone 15 Pro Max — pending
 
-Use Safari at https://rayners.github.io/explorer/ for installation/offline tests. A LAN HTTP URL is useful for gameplay testing but does not enable phone service workers.
+Use Safari at https://rayners.github.io/explorer/far-wake/ for Far Wake installation/offline tests. The site root is the game selector. A LAN HTTP URL is useful for gameplay testing but does not enable phone service workers.
 
 1. Accept First light, depart for Cinder, rotate the device, survey, and file the contract at Anchor Station.
 2. Check safe-area padding, text readability, native select controls, touch targets, scroll behavior, and keyboard access to save text. Nothing should require hover.
@@ -34,3 +34,13 @@ No physical-device result is claimed until this checklist is run on the actual p
 - Confirm the creature can be safely purged and casualty records survive reloads.
 - Open Hollowmere from Far Wake Settings. Complete its first oath, change class assignments, and return to Far Wake with the original save intact.
 - Install Hollowmere separately from its own page; verify that its icon opens the fantasy game while the Far Wake icon still opens the ship game.
+
+## Game-library checks
+
+- Open the site root: both games appear without creating or advancing a save.
+- Resume a pre-move Far Wake save through its card; resources and progress remain intact.
+- Use All games from either game, then resume either game again.
+- Verify selector and game links without horizontal overflow on desktop, phone and tablet.
+- Load the selector online once, then open both games and reload their pages offline.
+- Existing Far Wake installations retain their manifest identity and receive the new start URL. A standalone root launch redirects to Far Wake, while an explicit All games link opens the selector.
+- On the physical iPhone, verify that an existing home-screen icon opens Far Wake after update and that both games can return to the selector. This physical install-upgrade check remains pending.

@@ -74,3 +74,9 @@ Activities may declare `requirements` by skill, count, and assignment; they may 
 Optional `ThreatDef` catalogs configure skills, response costs, evasion, detection pacing, and cargo loss. An `expose` activity starts one hidden incident, recorded in `threatHistory`. Activity-boundary transitions reveal it. `threatAlert` pauses all consequential time; contained threats permit operations. Only the explicit `threat` commands can cause casualties. Search, containment, confrontation, and guaranteed purging all use saved random state and emit structured events. A `threatStopped` objective can award a mission independently of ordinary combat outcomes.
 
 `src/browser/runtime.ts` accepts a definition factory, namespace, debug namespace and UI mount. The settings-specific content is supplied by the mount; saves, preferences, lease keys and Web Locks are isolated by namespace. Both games share the site-root service worker while exposing independent installation manifests. Never reuse a namespace for a different definition.
+
+## Game library and entry pages
+
+`src/picker/catalog.ts` contains the implemented game cards and their save-key metadata. The library reads recognizable checkpoints only to select Play/Resume labels; it imports neither game definitions nor simulations and never changes a save. Each game has an independent HTML entry page, build input, manifest and namespaced runtime.
+
+Far Wake’s historical manifest URL is retained at the site root. `farWakeManifest` emits an ID matching its former root start URL for the configured deployment base, with its new start and scope at `far-wake/`. Legacy standalone root launches redirect to that page unless `?games=1` explicitly requests the library. Root service-worker registration precaches the selector and both game pages for offline navigation.

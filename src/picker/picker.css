@@ -1,0 +1,370 @@
+:root {
+  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  background: #141d1b;
+  color: #dedbca;
+  color-scheme: dark;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+a {
+  color: inherit;
+  touch-action: manipulation;
+}
+a:focus-visible {
+  outline: 3px solid #e5b27d;
+  outline-offset: 6px;
+}
+.library {
+  max-width: 1180px;
+  margin: auto;
+  padding: 30px 36px 28px;
+  min-height: 100dvh;
+}
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #34413a;
+}
+.library-mark {
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 3px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.library-mark span {
+  font-size: 26px;
+  color: #d5af7d;
+}
+.library-note,
+.eyebrow {
+  font-size: 9px;
+  letter-spacing: 1.6px;
+  color: #9fae9d;
+  line-height: 1.8;
+}
+.introduction {
+  padding: 43px 0 32px;
+}
+.introduction h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 43px;
+  font-weight: normal;
+  letter-spacing: -1.3px;
+  line-height: 1.15;
+  margin: 12px 0 15px;
+  color: #e9e3ce;
+}
+.introduction > p:last-child {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #a4b2a3;
+  margin: 0;
+}
+.game-doors {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.game-door {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  min-width: 0;
+  border: 1px solid #3d4d48;
+  background: #1a2b2d;
+  --accent: #daa77c;
+  transition:
+    transform 0.15s,
+    border-color 0.15s;
+}
+.game-door:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+.game-door.hollowmere {
+  background: #242b20;
+  border-color: #4b513c;
+  --accent: #bea367;
+}
+.door-art {
+  height: 185px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background-color: #0d1d24;
+  background-image:
+    radial-gradient(#8a9d9033 1px, transparent 1px),
+    linear-gradient(#24404633 1px, transparent 1px),
+    linear-gradient(90deg, #24404633 1px, transparent 1px);
+  background-size:
+    37px 31px,
+    34px 34px,
+    34px 34px;
+  border-bottom: 1px solid #3d4d48;
+}
+.hollowmere .door-art {
+  background-color: #1a2219;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 31px,
+      #3a4b2c77 32px,
+      #3a4b2c77 35px,
+      transparent 36px,
+      transparent 63px
+    ),
+    linear-gradient(transparent, #293624);
+  border-color: #4b513c;
+}
+.door-art img {
+  image-rendering: pixelated;
+  width: 112px;
+  height: 112px;
+  filter: drop-shadow(0 8px 18px #0005);
+}
+.art-coordinate,
+.art-caption {
+  position: absolute;
+  font-size: 8px;
+  letter-spacing: 1.6px;
+  color: #a6ad91;
+}
+.art-coordinate {
+  top: 17px;
+  left: 19px;
+}
+.art-caption {
+  right: 18px;
+  bottom: 16px;
+}
+.door-body {
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.door-body > .eyebrow {
+  color: var(--accent);
+  font-size: 8px;
+}
+.door-body h2 {
+  font-size: 34px;
+  font-family: Georgia, serif;
+  letter-spacing: -0.5px;
+  font-weight: normal;
+  margin: 8px 0 15px;
+  color: #e6e0c9;
+}
+.far-wake h2 {
+  font-family: ui-monospace, Consolas, monospace;
+  text-transform: uppercase;
+  font-size: 29px;
+  letter-spacing: 2px;
+}
+.door-description {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #acb9a8;
+  margin: 0;
+  flex: 1;
+}
+.tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0;
+  margin: 19px 0;
+}
+.tags li {
+  border: 1px solid #58634b;
+  font-size: 8px;
+  padding: 6px 8px;
+  color: #bec5b0;
+  letter-spacing: 0.3px;
+}
+.motto {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.6;
+  color: #d5c7a7;
+  margin: 5px 0 23px;
+}
+.door-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--accent);
+  color: #1a2827;
+  min-height: 48px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: bold;
+  gap: 12px;
+}
+.door-action > span:last-child {
+  font-size: 20px;
+  font-weight: normal;
+}
+.door-body > small {
+  font-size: 9px;
+  line-height: 1.8;
+  color: #98ab9d;
+  margin-top: 11px;
+}
+.library-footer {
+  border-top: 1px solid #34413a;
+  margin-top: 30px;
+  padding-top: 16px;
+  font-size: 9px;
+  color: #91a28f;
+  line-height: 1.9;
+}
+.library-footer p {
+  margin: 4px 0;
+}
+@media (max-width: 640px) {
+  .library {
+    padding: calc(18px + env(safe-area-inset-top)) 18px calc(20px + env(safe-area-inset-bottom));
+  }
+  .library-header {
+    padding-bottom: 14px;
+    gap: 8px;
+  }
+  .library-note {
+    font-size: 7px;
+    letter-spacing: 0.7px;
+    max-width: 125px;
+    text-align: right;
+  }
+  .library-mark {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+  .introduction {
+    padding: 27px 0;
+  }
+  .introduction h1 {
+    font-size: 33px;
+    max-width: 350px;
+  }
+  .introduction > p:last-child {
+    font-size: 11px;
+  }
+  .game-doors {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .door-art {
+    height: 155px;
+  }
+  .door-art img {
+    width: 96px;
+    height: 96px;
+  }
+  .door-body {
+    padding: 21px;
+  }
+  .door-description {
+    font-size: 12px;
+  }
+  .game-door:hover {
+    transform: none;
+  }
+  .door-body h2 {
+    font-size: 31px;
+  }
+  .far-wake h2 {
+    font-size: 26px;
+  }
+  .library-footer {
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-door {
+    transition: none;
+  }
+}
+@media (max-width: 640px) {
+  .introduction {
+    padding: 22px 0;
+  }
+  .introduction h1 {
+    font-size: 29px;
+    margin: 9px 0 11px;
+  }
+  .game-door {
+    display: grid;
+    grid-template-columns: 60px minmax(0, 1fr);
+  }
+  .door-art {
+    height: 100%;
+    min-height: 220px;
+    border-bottom: 0;
+    border-right: 1px solid #3d4d48;
+  }
+  .hollowmere .door-art {
+    border-color: #4b513c;
+  }
+  .door-art img {
+    width: 48px;
+    height: 48px;
+  }
+  .art-coordinate,
+  .art-caption {
+    display: none;
+  }
+  .door-body {
+    padding: 15px;
+  }
+  .door-body > .eyebrow {
+    font-size: 7px;
+    letter-spacing: 0.7px;
+    margin: 0;
+  }
+  .door-body h2 {
+    font-size: 27px;
+    margin: 7px 0 10px;
+  }
+  .far-wake h2 {
+    font-size: 23px;
+    letter-spacing: 1px;
+  }
+  .door-description {
+    font-size: 11px;
+    line-height: 1.75;
+  }
+  .tags,
+  .motto {
+    display: none;
+  }
+  .door-action {
+    margin-top: 14px;
+    min-height: 44px;
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+  .door-body > small {
+    font-size: 8px;
+    margin-top: 7px;
+  }
+  .game-doors {
+    gap: 16px;
+  }
+}

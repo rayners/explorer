@@ -1267,3 +1267,12 @@ body.reduce-motion * {
   color: var(--accent);
   margin-top: 4px;
 }
+.library-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-size: 10px;
+  white-space: nowrap;
+  text-underline-offset: 4px;
+}
