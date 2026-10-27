@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 const baseURL = `http://127.0.0.1:5200${process.env.PAGES_BASE_PATH ?? '/'}`;
 export default defineConfig({
   testDir: 'e2e',
+  outputDir: 'test-results/offline',
   testMatch: 'offline.spec.ts',
   timeout: 30000,
   reporter: 'list',

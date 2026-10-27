@@ -6,7 +6,7 @@ Automated coverage uses Chromium desktop and actual WebKit with iPhone 15 Pro Ma
 
 - `npm test`: deterministic time advancement, save validation, references, resources, maintenance, objectives, relationships, recoverability, alternate-genre integration, and complete-frontier simulations across eight seeds.
 - `npm run build`: strict TypeScript and static PWA production output.
-- `npm run test:e2e`: accept/travel/survey/file journey, reload restoration, save import/export, keyboard dialog dismissal, portrait and landscape overflow, and competing-tab ownership.
+- `npm run test:e2e`: accept/travel/survey/file journey, reload restoration, save import/export, keyboard dialog dismissal, portrait and landscape overflow, competing-tab ownership, failed import/reset writes, touch-visible cargo explanations, and valid crew reassignment during independent work.
 - `npm run test:offline` after build: a saved voyage catches up on launch; production service worker then serves the app after an offline reload in Chromium and WebKit. Development helpers must be absent.
 - `npm audit`: dependency advisories.
 

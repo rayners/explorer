@@ -250,7 +250,7 @@ export function createGame(seed = 1701): GameDefinition {
       description:
         'Complete two station relief deliveries. Supplies go directly to local life support.',
       faction: 'independent',
-      objective: { kind: 'aid', count: 2 },
+      objective: { kind: 'aidDelivered', count: 2 },
       reward: { credits: 180, fuel: 10 },
       reputation: 12,
     },
@@ -270,7 +270,7 @@ export function createGame(seed = 1701): GameDefinition {
       description:
         'Win two armed encounters. Be certain your insurance lists weapons discharge as an authorized activity.',
       faction: 'independent',
-      objective: { kind: 'raid', count: 2 },
+      objective: { kind: 'combatWon', count: 2 },
       reward: { credits: 350, ammo: 10 },
       reputation: 10,
     },

@@ -366,7 +366,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
         gain(g, s, { [g.rules.currency]: 60, [g.rules.materials]: 3 });
         rep(s, foe, -5);
         for (const f of g.factions) if (f.id !== foe) rep(s, f.id, 2);
-        progress(g, s, g.rules.raidActivity);
+        progress(g, s, 'combatWon');
         event(s, 'combatWon');
         s.encounter = null;
       } else {
@@ -472,7 +472,7 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
         (f) => f.id !== loc.faction && f.id !== g.rules.oppositionFaction,
       );
       if (rival) rep(s, rival.id, -2);
-      progress(g, s, 'aid');
+      progress(g, s, 'aidDelivered', loc.id);
     }
     gain(g, s, job.reward);
     progress(g, s, a.id, loc.id);

@@ -11,6 +11,7 @@ export interface AppController {
   reset: (seed: number) => void;
   isOwner: () => boolean;
   storageStatus: () => string;
+  storageError: () => string;
   setSound: (on: boolean) => void;
   setMotion: (on: boolean) => void;
   preferences: { sound: boolean; motion: boolean };
@@ -52,7 +53,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
     noticeTimer: ReturnType<typeof setTimeout>,
     confirmAction: (() => void) | null = null,
     returnFocus: HTMLElement | null = null;
-  root.innerHTML = `<a class="skip-link" href="#main-content">Skip to ship console</a><div class="app-shell"><aside class="sidebar"><div class="wordmark">${icon('logo')}<div class="brand">FAR<br>WAKE<small>FRONTIER SURVEY</small></div></div><div class="charter">EXPLORATION CHARTER / 017</div><nav class="navigation" aria-label="Ship console">${['overview', 'navigation', 'operations', 'contacts'].map((t, i) => `<button class="nav-button" data-tab="${t}" aria-current="${i === 0 ? 'page' : 'false'}">${icon(t)}<span>${t[0].toUpperCase() + t.slice(1)}</span><span class="nav-number">0${i + 1}</span></button>`).join('')}</nav><div class="sidebar-bottom"><div class="eyebrow">A LITTLE FURTHER OUT.</div><p style="font-size:10px;margin-top:8px">The frontier is patient.<br>Your creditors aren't.</p><div class="ship-id"><div class="flex">${icon('signal')}<strong>SV KESTREL</strong></div><small>LIGHT SURVEY VESSEL<br>ORISON COMBINE · CLASS III</small></div><button class="quiet" data-action="settings" style="width:100%;margin-top:20px">Ship settings</button></div></aside><div class="main-wrap"><header class="topbar"><div class="mobile-brand">FAR WAKE<span class="accent"> /</span></div><div class="topbar-location"><div class="eyebrow">ORISON COMBINE / DEEP FIELD OPERATIONS</div><small id="breadcrumb">VESPER SYSTEM · ANCHOR STATION</small></div><div class="topbar-right"><span class="eyebrow storage-label" id="save-status"><span class="save-dot"></span>LOCAL SAVE</span><span class="badge" id="year-badge">SHIP YEAR 2186</span><button class="quiet flex" data-action="settings" aria-label="Settings">${icon('settings')}</button></div></header><main class="page" id="main-content" tabindex="-1"></main></div></div><div class="notice" role="status" aria-live="polite"></div><dialog id="settings-dialog" aria-labelledby="settings-title"><div class="flex between"><h2 id="settings-title">Ship settings</h2><button data-action="close-settings" aria-label="Close settings">×</button></div><p>Your expedition lives on this device. Export a save to keep a backup or move between browsers.</p><label><input id="sound-setting" type="checkbox"> Enable quiet ship sounds</label><label><input id="motion-setting" type="checkbox"> Reduce motion</label><div class="line"></div><h3>Save & transfer</h3><div class="settings-actions"><button data-action="export">Export to text</button><button data-action="download">Download save</button><button data-action="copy">Copy save</button><button data-action="backup">Load local backup</button></div><textarea id="save-text" aria-label="Save JSON" placeholder="Export a save, or paste one here to import."></textarea><div class="settings-actions"><button data-action="import">Import pasted save</button><label style="margin:0"><span class="eyebrow">Or choose a save file</span><input id="save-file" type="file" accept=".json,application/json" style="display:block;width:100%"></label></div><p id="settings-error" class="dialog-error" role="status"></p><div class="line"></div><h3>How time works</h3><p>Jobs run while you are away, up to 24 hours. Arrivals and encounters stop safely. There is no automatic chain of expeditions. Cryosleep compresses fictional years into real minutes.</p><p>At stations, work shifts earn credits without supplies. If stranded elsewhere, request a recovery tow. Crew and ship survive, with a debt repaid through station work.</p><p id="save-details"></p><div class="line"></div><label for="new-seed">New expedition seed</label><input id="new-seed" type="number" min="0" max="4294967295" step="1" value="1701"><div class="settings-actions"><button class="danger quiet" data-action="reset">Start a new expedition</button></div><small>Original code and pixel artwork. No accounts, trackers, or server required. Version 0.1 · FAR WAKE</small></dialog><dialog id="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Confirm order</h2><p id="confirm-description"></p><div class="row-actions"><button data-action="confirm" class="primary">Confirm order</button><button data-action="cancel">Keep current orders</button></div></dialog>`;
+  root.innerHTML = `<a class="skip-link" href="#main-content">Skip to ship console</a><div class="app-shell"><aside class="sidebar"><div class="wordmark">${icon('logo')}<div class="brand">FAR<br>WAKE<small>FRONTIER SURVEY</small></div></div><div class="charter">EXPLORATION CHARTER / 017</div><nav class="navigation" aria-label="Ship console">${['overview', 'navigation', 'operations', 'contacts'].map((t, i) => `<button class="nav-button" data-tab="${t}" aria-current="${i === 0 ? 'page' : 'false'}">${icon(t)}<span>${t[0].toUpperCase() + t.slice(1)}</span><span class="nav-number">0${i + 1}</span></button>`).join('')}</nav><div class="sidebar-bottom"><div class="eyebrow">A LITTLE FURTHER OUT.</div><p style="font-size:10px;margin-top:8px">The frontier is patient.<br>Your creditors aren't.</p><div class="ship-id"><div class="flex">${icon('signal')}<strong>SV KESTREL</strong></div><small>LIGHT SURVEY VESSEL<br>ORISON COMBINE · CLASS III</small></div><button class="quiet" data-action="settings" style="width:100%;margin-top:20px">Ship settings</button></div></aside><div class="main-wrap"><header class="topbar"><div class="mobile-brand">FAR WAKE<span class="accent"> /</span></div><div class="topbar-location"><div class="eyebrow">ORISON COMBINE / DEEP FIELD OPERATIONS</div><small id="breadcrumb">VESPER SYSTEM · ANCHOR STATION</small></div><div class="topbar-right"><span class="eyebrow storage-label" id="save-status"><span class="save-dot"></span>LOCAL SAVE</span><span class="badge" id="year-badge">SHIP YEAR 2186</span><button class="quiet flex" data-action="settings" aria-label="Settings">${icon('settings')}</button></div></header><div id="save-warning" class="save-warning" role="alert" hidden><span></span><button data-action="settings">Save settings</button></div><main class="page" id="main-content" tabindex="-1"></main></div></div><div class="notice" role="status" aria-live="polite"></div><dialog id="settings-dialog" aria-labelledby="settings-title"><div class="flex between"><h2 id="settings-title">Ship settings</h2><button data-action="close-settings" aria-label="Close settings">×</button></div><p>Your expedition lives on this device. Export a save to keep a backup or move between browsers.</p><label><input id="sound-setting" type="checkbox"> Enable quiet ship sounds</label><label><input id="motion-setting" type="checkbox"> Reduce motion</label><div class="line"></div><h3>Save & transfer</h3><div class="settings-actions"><button data-action="export">Export to text</button><button data-action="download">Download save</button><button data-action="copy">Copy save</button><button data-action="backup">Load local backup</button></div><textarea id="save-text" aria-label="Save JSON" placeholder="Export a save, or paste one here to import."></textarea><div class="settings-actions"><button data-action="import">Import pasted save</button><label style="margin:0"><span class="eyebrow">Or choose a save file</span><input id="save-file" type="file" accept=".json,application/json" style="display:block;width:100%"></label></div><p id="settings-error" class="dialog-error" role="status"></p><div class="line"></div><h3>How time works</h3><p>Jobs run while you are away, up to 24 hours. Arrivals and encounters stop safely. There is no automatic chain of expeditions. Cryosleep compresses fictional years into real minutes.</p><p>At stations, work shifts earn credits without supplies. If stranded elsewhere, request a recovery tow. Crew and ship survive, with a debt repaid through station work.</p><p id="save-details"></p><div class="line"></div><label for="new-seed">New expedition seed</label><input id="new-seed" type="number" min="0" max="4294967295" step="1" value="1701"><div class="settings-actions"><button class="danger quiet" data-action="reset">Start a new expedition</button></div><small>Original code and pixel artwork. No accounts, trackers, or server required. Version 0.1 · FAR WAKE</small></dialog><dialog id="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Confirm order</h2><p id="confirm-description"></p><div class="row-actions"><button data-action="confirm" class="primary">Confirm order</button><button data-action="cancel">Keep current orders</button></div></dialog>`;
   const main = root.querySelector<HTMLElement>('main')!,
     settings = root.querySelector<HTMLDialogElement>('#settings-dialog')!,
     confirmDialog = root.querySelector<HTMLDialogElement>('#confirm-dialog')!;
@@ -65,10 +66,10 @@ export function mountApp(root: HTMLElement, controller: AppController) {
     Object.entries(a)
       .map(([id, n]) => `${n} ${g.resources.find((r) => r.id === id)?.name.toLowerCase() ?? id}`)
       .join(' · ') || 'No supplies required';
-  function button(label: string, c: Command, primary = false) {
+  function button(label: string, c: Command, primary = false, explanationId?: string) {
     const error = dispatch(g, s, c).error,
       disabled = error || !controller.isOwner();
-    return `<button ${disabled ? 'disabled' : ''} data-command="${esc(JSON.stringify(c))}" data-key="${esc(JSON.stringify(c))}" class="${primary ? 'primary' : ''}" ${error ? `title="${esc(error)}"` : ''}>${esc(label)}</button>`;
+    return `<button ${disabled ? 'disabled' : ''} data-command="${esc(JSON.stringify(c))}" data-key="${esc(JSON.stringify(c))}" class="${primary ? 'primary' : ''}" ${error ? `title="${esc(error)}"${explanationId ? ` aria-describedby="${explanationId}"` : ''}` : ''}>${esc(label)}</button>`;
   }
   function metric(label: string, value: number, max = 100, inverse = false) {
     return `<div class="metric"><div class="metric-label"><span>${label}</span><span>${Math.round(value)}${max === 100 ? '%' : ` / ${max}`}</span></div><div class="meter ${(inverse ? value > 65 : value < 30) ? 'red' : inverse ? 'amber' : ''}" role="meter" aria-label="${label}" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="${max}"><span style="width:${Math.min(100, (value / max) * 100)}%"></span></div></div>`;
@@ -117,10 +118,23 @@ export function mountApp(root: HTMLElement, controller: AppController) {
   }
   function crewControls() {
     return s.crew
-      .map(
-        (c, i) =>
-          `<div class="crew-row"><canvas class="portrait" data-portrait="${i}" role="img" aria-label="Pixel portrait of ${esc(c.name)}"></canvas><div class="crew-info"><strong>${esc(c.name)}</strong><small>${esc(c.skill.toUpperCase())} ${c.injury ? '· INJURED' : ''}</small></div><select aria-label="${esc(c.name)} assignment" data-member="${c.id}" ${s[c.assignment === 'rest' ? 'primary' : c.assignment] ? 'disabled' : ''}><option value="primary" ${c.assignment === 'primary' ? 'selected' : ''}>Expedition</option><option value="support" ${c.assignment === 'support' ? 'selected' : ''}>Support</option><option value="rest" ${c.assignment === 'rest' ? 'selected' : ''}>Rest</option></select></div>`,
-      )
+      .map((member, index) => {
+        const choices = (
+          [
+            ['primary', 'Expedition'],
+            ['support', 'Support'],
+            ['rest', 'Rest'],
+          ] as const
+        ).map(([assignment, label]) => ({
+          assignment,
+          label,
+          error: dispatch(g, s, { type: 'assign', member: member.id, assignment }).error,
+        }));
+        const locked =
+          !controller.isOwner() ||
+          !choices.some((choice) => choice.assignment !== member.assignment && !choice.error);
+        return `<div class="crew-row"><canvas class="portrait" data-portrait="${index}" role="img" aria-label="Pixel portrait of ${esc(member.name)}"></canvas><div class="crew-info"><strong>${esc(member.name)}</strong><small>${esc(member.skill.toUpperCase())} ${member.injury ? '· INJURED' : ''}</small></div><select aria-label="${esc(member.name)} assignment" data-member="${member.id}" ${locked ? 'disabled' : ''}>${choices.map((choice) => `<option value="${choice.assignment}" ${choice.assignment === member.assignment ? 'selected' : ''} ${choice.error ? 'disabled' : ''}>${choice.label}${choice.error && choice.assignment !== member.assignment ? ' (unavailable)' : ''}</option>`).join('')}</select>${locked && controller.isOwner() ? `<small>${esc(choices.find((choice) => choice.error)?.error ?? 'Assignments are unavailable.')}</small>` : ''}</div>`;
+      })
       .join('');
   }
   function crewCompact() {
@@ -237,13 +251,36 @@ export function mountApp(root: HTMLElement, controller: AppController) {
     };
     return `<div class="section-label">Faction relations</div><div class="faction-grid">${g.factions.map((f) => `<article class="faction-card" style="--faction:${f.color}"><h3>${esc(f.name)}</h3><p>${esc(f.description)}</p><div class="flex between"><span class="faction-score">${s.reputation[f.id] > 0 ? '+' : ''}${s.reputation[f.id]}</span><span class="eyebrow">${s.reputation[f.id] > 15 ? 'FAVORED' : s.reputation[f.id] < -15 ? 'DISTRUSTED' : 'NEUTRAL'}</span></div></article>`).join('')}</div><div class="section-label">Station exchange / ${loc.station ? esc(loc.name) : 'DOCKING REQUIRED'}</div><div class="dashboard"><div class="stack">${panel(
       'Provisions & resupply',
-      g.resources
-        .filter((r) => r.id !== 'credits')
-        .map(
-          (r) =>
-            `<div class="trade-row"><div><h3>${esc(r.name)} <span class="accent">${s.inventory[r.id]}</span></h3><small>${esc(r.description)}</small><small>Buy ${price(g, s, r.id, 'buy')} cr · sell ${price(g, s, r.id, 'sell')} cr per unit</small></div><div class="trade-actions">${button('Buy 5', { type: 'trade', resource: r.id, amount: 5, direction: 'buy' })}${button('Sell 5', { type: 'trade', resource: r.id, amount: 5, direction: 'sell' })}${button('Sell 1', { type: 'trade', resource: r.id, amount: 1, direction: 'sell' })}</div></div>`,
-        )
-        .join(''),
+      `<div class="resupply-cargo">${metric('Cargo hold', cargo(g, s), s.capacity)}<small>${Math.max(0, s.capacity - cargo(g, s))} cargo space free. Sell cargo to make room for supplies.</small></div>` +
+        g.resources
+          .filter((resource) => resource.id !== 'credits')
+          .map((resource) => {
+            const actions = (
+              [
+                ['Buy 5', 'buy', 5],
+                ['Sell 5', 'sell', 5],
+                ['Sell 1', 'sell', 1],
+              ] as const
+            ).map(([label, direction, amount]) => {
+              const command: Command = { type: 'trade', resource: resource.id, direction, amount };
+              return {
+                label,
+                command,
+                error: dispatch(g, s, command).error,
+                id: `trade-${resource.id}-${direction}-${amount}-reason`,
+              };
+            });
+            return `<div class="trade-row"><div><h3>${esc(resource.name)} <span class="accent">${s.inventory[resource.id]}</span></h3><small>${esc(resource.description)}</small><small>Buy ${price(g, s, resource.id, 'buy')} cr · sell ${price(g, s, resource.id, 'sell')} cr per unit</small>${actions
+              .filter((action) => action.error)
+              .map(
+                (action) =>
+                  `<small class="trade-reason" id="${action.id}">${esc(action.label)}: ${esc(action.error)}</small>`,
+              )
+              .join(
+                '',
+              )}</div><div class="trade-actions">${actions.map((action) => button(action.label, action.command, false, action.id)).join('')}</div></div>`;
+          })
+          .join(''),
       'LOCAL PRICES',
     )}${panel('Active contracts', active.length ? `<div class="activity-grid">${active.map((m) => missionCard(m.id)).join('')}</div>` : '<p>No active contracts. Accept a job below before you head out.</p>', `${active.length} / 3 ACTIVE`)}</div><div class="stack">${panel('Survey data exchange', `<p>License your unpublished surveys to the station owner. Each record earns 90 credits and +3 standing with the buyer. A rival faction loses 2 standing per record.</p><div class="line"></div><div class="status-lines"><div><span>Unpublished surveys</span><b>${Object.entries(s.discoveries).filter(([id, d]) => d.surveyed && !d.dataSold && !g.locations.find((l) => l.id === id)!.station).length}</b></div><div><span>Buyer</span><b>${esc(g.factions.find((f) => f.id === loc.faction)?.name ?? 'No station')}</b></div></div><div class="row-actions">${button('License survey data', { type: 'sellData' })}</div>`, 'EXCLUSIVE RIGHTS')}${panel('The political cost', `<p>Station prices improve with local standing. Giving relief supplies builds local trust but weakens a rival's claim. Unpopular captains lose access to faction contracts below −40 standing.</p><p style="margin-top:12px">Trade conditions change as fictional years pass during long voyages. Existing accepted contracts remain valid.</p>`, 'READ THE FINE PRINT')}</div></div><div class="section-label">Mission board / ${offered.length} CONTRACTS AVAILABLE</div><div class="activity-grid">${offered.map((m) => missionCard(m.id)).join('')}</div>${
       s.missions.some((m) => m.claimed)
@@ -272,6 +309,11 @@ export function mountApp(root: HTMLElement, controller: AppController) {
       `${v.region.name.toUpperCase()} SYSTEM · ${v.location.name.toUpperCase()}`;
     root.querySelector('#year-badge')!.textContent = `SHIP YEAR ${v.year}`;
     root.querySelector('#save-status')!.textContent = controller.storageStatus();
+    const saveWarning = root.querySelector<HTMLElement>('#save-warning')!;
+    const saveError = controller.storageError();
+    if (saveWarning.querySelector('span')!.textContent !== saveError)
+      saveWarning.querySelector('span')!.textContent = saveError;
+    saveWarning.hidden = !saveError;
     const nextSignature = JSON.stringify([
       s.location,
       s.inventory,

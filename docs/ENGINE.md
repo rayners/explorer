@@ -36,7 +36,7 @@ A minimal game supplies:
 - Undirected routes with real duration, fictional days, resource costs, and incident risk.
 - Resources with prices and cargo mass. Currency has zero mass.
 - Activities with duration, team slot, costs, rewards, skill, and location restrictions.
-- Mission objectives that match activity IDs or built-in events (`travel`, `sellData`, `aid`).
+- Mission objectives that match activity IDs or built-in events (`travel`, `sellData`, `aidDelivered`, `combatWon`).
 - Factions, initial inventory/team state, optional upgrades, data-defined milestone thresholds, and rule IDs mapping generic mechanisms to this game's content.
 
 For example, a Victorian game maps `travelResource` to carriage fares, `surveyActivity` to investigate, and `combatSkill` to deduction. A fantasy game could use roads, rations, dungeon expeditions, adventurers, relics, and guilds. The `station` boolean means a service hub; it does not require a space station. The initial integration fixture is `tests/victorian.test.ts`.
@@ -62,3 +62,5 @@ New mechanics need behavior tests that show costs, completion, rejection conditi
 `planRoute(definition, state, destination)` from `engine/navigation` returns the shortest itinerary by real travel time through known locations. Legs are oriented in travel order, including reverse traversal of undirected routes. Unknown or disconnected destinations return an empty itinerary. Planning does not reveal destinations, spend supplies, or queue commands: the host previews the itinerary and issues each travel order explicitly.
 
 Interregional connections default to location-specific endpoints, suitable for roads, passes, or gates. A game can opt into `rules.interregionalTravel: "region"` to connect all locations in neighboring regions. Far Wake uses this policy for open-space travel; estimates include local transfers. `routesAt` supplies the same effective connections to planning and command validation. Destination knowledge and supply checks still apply, and existing travel jobs keep their saved duration and costs.
+
+Mission outcome objectives use `combatWon` for actual combat victories and `aidDelivered` for completed relief deliveries. These are separate from activity IDs such as `raid` and `aid`, so starting an encounter or completing a single activity cannot count twice.

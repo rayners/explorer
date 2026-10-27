@@ -203,3 +203,106 @@ test('a charted interstellar destination can be reached directly from a station'
   expect(departed.location).toBe('anchor');
   expect(departed.primary.total).toBe(900);
 });
+for (const operation of ['import', 'reset'] as const)
+  test(`failed ${operation} preserves the current expedition and reports the failure`, async ({
+    page,
+  }) => {
+    const { createGame } = await import('../src/game/definition');
+    const { createState } = await import('../src/engine/simulation');
+    const { encodeSave } = await import('../src/engine/save');
+    const replacement = encodeSave(createState(createGame(44), 44), Date.now());
+    await page.evaluate(() => {
+      const original = Storage.prototype.setItem;
+      (window as any).__rejectSave = true;
+      Storage.prototype.setItem = function (key, value) {
+        if (key === 'far-wake.save.v1' && (window as any).__rejectSave)
+          throw new DOMException('Full storage', 'QuotaExceededError');
+        return original.call(this, key, value);
+      };
+    });
+    await page.getByRole('button', { name: 'Settings', exact: true }).click();
+    const attempt = async () => {
+      if (operation === 'import') {
+        await page.getByRole('textbox', { name: 'Save JSON' }).fill(replacement);
+        await page.getByRole('button', { name: 'Import pasted save' }).click();
+      } else {
+        await page.locator('#new-seed').fill('44');
+        await page.getByRole('button', { name: 'Start a new expedition' }).click();
+      }
+      await page.getByRole('button', { name: 'Confirm order' }).click();
+    };
+    await attempt();
+    await expect(page.locator('#settings-dialog')).toBeVisible();
+    await expect(page.locator('#settings-error')).toContainText('not saved');
+    await expect(page.locator('#save-warning')).toBeVisible();
+    expect((await state(page)).seed).toBe(1701);
+    expect(
+      await page.evaluate(() => JSON.parse(localStorage.getItem('far-wake.save.v1')!).state.seed),
+    ).toBe(1701);
+    await page.getByRole('button', { name: 'Export to text' }).click();
+    expect(
+      JSON.parse(await page.getByRole('textbox', { name: 'Save JSON' }).inputValue()).state.seed,
+    ).toBe(1701);
+    await page.evaluate(() => ((window as any).__rejectSave = false));
+    await attempt();
+    await expect(page.locator('#settings-dialog')).not.toBeVisible();
+    expect((await state(page)).seed).toBe(44);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await state(page)).seed).toBe(44);
+    await expect(page.locator('#save-warning')).not.toBeVisible();
+  });
+test('resupply explains a full cargo hold and updates after selling cargo', async ({ page }) => {
+  const { createGame } = await import('../src/game/definition');
+  const { createState } = await import('../src/engine/simulation');
+  const { encodeSave } = await import('../src/engine/save');
+  const full = createState(createGame(1701), 1701);
+  full.inventory.ore = 50;
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Save JSON' }).fill(encodeSave(full, Date.now()));
+  await page.getByRole('button', { name: 'Import pasted save' }).click();
+  await page.getByRole('button', { name: 'Confirm order' }).click();
+  await nav(page, 'contacts');
+  await expect(page.getByRole('meter', { name: 'Cargo hold' })).toHaveAttribute(
+    'aria-valuenow',
+    '120',
+  );
+  const fuel = page
+    .locator('.trade-row')
+    .filter({ has: page.getByRole('heading', { name: /Propellant/ }) });
+  await expect(fuel.getByRole('button', { name: 'Buy 5', exact: true })).toBeDisabled();
+  await expect(fuel.getByText('Buy 5: Not enough cargo space.', { exact: true })).toBeVisible();
+  const ore = page
+    .locator('.trade-row')
+    .filter({ has: page.getByRole('heading', { name: /Metal ore/ }) });
+  await ore.getByRole('button', { name: 'Sell 5', exact: true }).click();
+  await expect(fuel.getByRole('button', { name: 'Buy 5', exact: true })).toBeEnabled();
+  await expect(page.getByRole('meter', { name: 'Cargo hold' })).toHaveAttribute(
+    'aria-valuenow',
+    '115',
+  );
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+test('a resting engineer can join idle support while an expedition team is working', async ({
+  page,
+}) => {
+  await nav(page, 'operations');
+  const engineer = page.getByRole('combobox', { name: 'Ishaan Rao assignment' });
+  await engineer.selectOption('rest');
+  await page
+    .locator('.activity-card')
+    .filter({ has: page.getByRole('heading', { name: 'Station work shift', exact: true }) })
+    .getByRole('button', { name: 'Begin activity' })
+    .click();
+  await expect(engineer).toBeEnabled();
+  await expect(engineer.locator('option[value=primary]')).toBeDisabled();
+  await engineer.selectOption('support');
+  expect((await state(page)).crew.find((c: any) => c.id === 'ishaan').assignment).toBe('support');
+  await page
+    .locator('.activity-card')
+    .filter({ has: page.getByRole('heading', { name: 'Service machinery', exact: true }) })
+    .getByRole('button', { name: 'Start support job' })
+    .click();
+  await expect(page.locator('.active-job')).toHaveCount(2);
+  await expect(engineer).toBeDisabled();
+});

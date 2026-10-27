@@ -1,12 +1,11 @@
 import './ui/styles.css';
+import { SAVE_KEY as KEY, BACKUP_KEY as BACKUP, writeReplacement } from './browser/storage';
 import { createLease } from './browser/lease';
 import { createGame } from './game/definition';
 import { advance, createState, dispatch } from './engine/simulation';
 import { decodeSave, encodeSave, reconcile } from './engine/save';
 import { mountApp } from './ui/app';
 import type { Command, GameState } from './engine/types';
-const KEY = 'far-wake.save.v1',
-  BACKUP = 'far-wake.backup.v1';
 let game = createGame(1701),
   state = createState(game, 1701),
   savedAt = Date.now(),
@@ -138,11 +137,34 @@ function issue(command: Command) {
   persist();
   app.update(state, game);
 }
+function replaceExpedition(
+  nextGame: ReturnType<typeof createGame>,
+  next: { state: GameState; savedAt: number },
+) {
+  tick();
+  if (!ownsCommand()) throw Error('Only the active tab can replace the expedition.');
+  try {
+    writeReplacement(localStorage, { state, savedAt }, next);
+  } catch (error) {
+    storageOK = false;
+    storageError = (error as Error).message;
+    app.update(state, game, true);
+    throw error;
+  }
+  game = nextGame;
+  state = next.state;
+  savedAt = next.savedAt;
+  lastWall = Date.now();
+  storageOK = true;
+  storageError = '';
+  app.update(state, game, true);
+}
 const app = mountApp(document.querySelector('#app')!, {
   command: issue,
   isOwner: () => owner,
   storageStatus: () =>
     owner ? (storageOK ? 'LOCAL SAVE ACTIVE' : 'SAVE UNAVAILABLE') : 'READ-ONLY TAB',
+  storageError: () => storageError,
   preferences,
   exportSave: () => {
     tick();
@@ -159,35 +181,13 @@ const app = mountApp(document.querySelector('#app')!, {
   importSave: (text) => {
     if (!ownsCommand()) throw Error('Only the active tab can import saves.');
     const loaded = decodeSave(text, createGame);
-    try {
-      localStorage.setItem(BACKUP, encodeSave(state, savedAt));
-    } catch {
-      throw Error(
-        'Cannot back up your current expedition. Export it and free browser storage before importing.',
-      );
-    }
-    game = createGame(loaded.state.seed);
-    const caught = reconcile(game, loaded, Date.now());
-    state = caught.state;
-    savedAt = caught.savedAt;
-    lastWall = Date.now();
-    persist();
-    app.update(state, game, true);
+    const nextGame = createGame(loaded.state.seed);
+    replaceExpedition(nextGame, reconcile(nextGame, loaded, Date.now()));
   },
   reset: (seed) => {
     if (!ownsCommand()) throw Error('Only the active tab can start a new expedition.');
-    try {
-      localStorage.setItem(BACKUP, encodeSave(state, savedAt));
-    } catch {
-      throw Error(
-        'Cannot back up your current expedition. Export it and free browser storage first.',
-      );
-    }
-    game = createGame(seed);
-    state = createState(game, seed);
-    savedAt = lastWall = Date.now();
-    persist();
-    app.update(state, game, true);
+    const nextGame = createGame(seed);
+    replaceExpedition(nextGame, { state: createState(nextGame, seed), savedAt: Date.now() });
   },
   setSound: (on) => {
     preferences.sound = on;
