@@ -109,7 +109,7 @@ export function respondToThreat(
         victim.injury = 0;
         c.event(s, 'memberLost', { member: victim.name });
         for (const slot of ['primary', 'support'] as const)
-          if (s[slot] && !living(s).some((m) => m.assignment === slot)) {
+          if (s[slot]?.kind === 'activity' && !living(s).some((m) => m.assignment === slot)) {
             s[slot] = null;
             c.event(s, 'jobAbandoned');
           }

@@ -127,3 +127,18 @@ it('lets a resolved one-time incident satisfy a contract accepted afterward', ()
     )?.progress,
   ).toBe(0);
 });
+it('preserves a committed journey after the last companion is lost instead of teleporting home', () => {
+  let state = createState(game, 1701);
+  state = dispatch(game, state, { type: 'travel', target: 'cinder' }).state;
+  state.crew.slice(1).forEach((m) => (m.life = 'dead'));
+  state.threat = { id: 'stowaway', stage: 'suspected', pressure: 1, signs: 2 };
+  state.threatHistory = ['stowaway'];
+  state.rng = 1;
+  state = dispatch(game, state, { type: 'threat', action: 'search' }).state;
+  expect(state.crew.every((m) => m.life === 'dead')).toBe(true);
+  expect(state.primary?.kind).toBe('travel');
+  expect(state.primary?.target).toBe('cinder');
+  state = dispatch(game, state, { type: 'threat', action: 'purge' }).state;
+  state = advance(game, state, 60);
+  expect(state.location).toBe('cinder');
+});
