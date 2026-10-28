@@ -1,3 +1,5 @@
+import { missionDiscovered } from '../engine/missions';
+import { followUpBrief, followUpWork } from './mission-panels';
 import { activityPreview, sitePanel } from './site-panels';
 import { threatAlert } from '../engine/threats';
 import { living, crewCapacity } from '../engine/personnel';
@@ -237,7 +239,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
   function operations() {
     const loc = view(g, s).location,
       d = s.discoveries[loc.id];
-    return `<div class="dashboard"><div><div class="section-label">${loc.station ? 'Dockside operations' : 'Survey & field operations'}</div><div class="activity-grid">${(loc.station ? ['work', 'aid'] : ['survey', 'explore', 'gather', 'raid', ...g.activities.filter((a) => a.effect === 'expose' && a.locations?.includes(loc.id)).map((a) => a.id)]).map(activityCard).join('')}</div>${g.sites ? sitePanel(g, s, button) : !loc.station ? `<div class="section-label">Site registry / ${d?.sites.length ?? 0} OF ${loc.sites.length} INVESTIGATED</div>${panel('Surface contacts', loc.sites.map((site, i) => `<div class="log-row"><span class="${d?.sites.includes(site) ? 'green' : 'muted'}">${d?.sites.includes(site) ? '✓' : '◇'} ${String(i + 1).padStart(2, '0')}</span><span>${d?.surveyed ? esc(site) : 'Awaiting orbital survey'} ${d?.sites.includes(site) ? '· RECORD SECURED' : ''}</span></div>`).join(''))}` : ''}<div class="section-label">Engineering / independent support team</div><div class="activity-grid">${['repair', 'service', 'refine', 'fabricate', 'arm', 'triage', ...(loc.station ? ['heal'] : [])].map(activityCard).join('')}</div></div><div class="stack">${panel(
+    return `<div class="dashboard"><div><div class="section-label">${loc.station ? 'Dockside operations' : 'Survey & field operations'}</div><div class="activity-grid">${(loc.station ? ['work', 'aid'] : ['survey', 'explore', 'gather', 'raid', ...g.activities.filter((a) => a.effect === 'expose' && a.locations?.includes(loc.id)).map((a) => a.id)]).map(activityCard).join('')}</div>${g.sites ? sitePanel(g, s, button) : !loc.station ? `<div class="section-label">Site registry / ${d?.sites.length ?? 0} OF ${loc.sites.length} INVESTIGATED</div>${panel('Surface contacts', loc.sites.map((site, i) => `<div class="log-row"><span class="${d?.sites.includes(site) ? 'green' : 'muted'}">${d?.sites.includes(site) ? '✓' : '◇'} ${String(i + 1).padStart(2, '0')}</span><span>${d?.surveyed ? esc(site) : 'Awaiting orbital survey'} ${d?.sites.includes(site) ? '· RECORD SECURED' : ''}</span></div>`).join(''))}` : ''}${followUpWork(g, s, activityCard)}<div class="section-label">Engineering / independent support team</div><div class="activity-grid">${['repair', 'service', 'refine', 'fabricate', 'arm', 'triage', ...(loc.station ? ['heal'] : [])].map(activityCard).join('')}</div></div><div class="stack">${panel(
       'Crew assignments',
       `${crewControls()}${
         s.crew.some((m) => m.life === 'dead')
@@ -253,12 +255,15 @@ export function mountApp(root: HTMLElement, controller: AppController) {
   function contacts() {
     const loc = view(g, s).location,
       active = s.missions.filter((m) => !m.claimed),
-      offered = g.missions.filter((m) => !s.missions.some((x) => x.id === m.id));
+      offered = g.missions.filter(
+        (m) => !s.missions.some((x) => x.id === m.id) && missionDiscovered(g, s, m),
+      );
     const missionCard = (id: string) => {
       const m = g.missions.find((m) => m.id === id)!,
         state = s.missions.find((x) => x.id === id),
-        ready = state && state.progress >= m.objective.count;
-      return `<article class="activity-card"><div class="flex between"><h3>${esc(m.name)}</h3><span class="eyebrow">${esc(g.factions.find((f) => f.id === m.faction)!.name)}</span></div><p>${esc(m.description)}</p><div class="cost">${esc(amountText(m.reward))} · +${m.reputation} standing</div>${state ? `<div class="mission-status">${ready ? 'OBJECTIVES COMPLETE — FILE AT ANY STATION' : `${state.progress} / ${m.objective.count} OBJECTIVES COMPLETE`}</div>${button('File contract', { type: 'claim', id: m.id }, !!ready)}${button('Release contract', { type: 'abandon', id: m.id })}` : button('Accept contract', { type: 'accept', id: m.id }, m.id === 'first-light')}${!state && m.requires && !s.missions.some((x) => x.id === m.requires && x.claimed) ? `<small>Requires: ${esc(g.missions.find((x) => x.id === m.requires)!.name)}</small>` : ''}</article>`;
+        ready = state && state.progress >= m.objective.count,
+        acceptError = state ? undefined : dispatch(g, s, { type: 'accept', id: m.id }).error;
+      return `<article class="activity-card"><div class="flex between"><h3>${esc(m.name)}</h3><span class="eyebrow">${esc(g.factions.find((f) => f.id === m.faction)!.name)}</span></div><p>${esc(m.description)}</p>${followUpBrief(g, s, m.id)}<div class="cost">${esc(amountText(m.reward))} · +${m.reputation} standing</div>${state ? `<div class="mission-status">${ready ? 'OBJECTIVES COMPLETE — FILE AT ANY STATION' : `${state.progress} / ${m.objective.count} OBJECTIVES COMPLETE`}</div>${button('File contract', { type: 'claim', id: m.id }, !!ready)}${button('Release contract', { type: 'abandon', id: m.id })}` : button('Accept contract', { type: 'accept', id: m.id }, m.id === 'first-light')}${state && m.sourceSite && dispatch(g, s, { type: 'abandon', id: m.id }).error ? `<small>${esc(dispatch(g, s, { type: 'abandon', id: m.id }).error)}</small>` : ''}${acceptError ? `<small class="reason">${esc(acceptError)}</small>` : ''}${!state && m.requires && !s.missions.some((x) => x.id === m.requires && x.claimed) ? `<small>Requires: ${esc(g.missions.find((x) => x.id === m.requires)!.name)}</small>` : ''}</article>`;
     };
     return `<div class="section-label">Faction relations</div><div class="faction-grid">${g.factions.map((f) => `<article class="faction-card" style="--faction:${f.color}"><h3>${esc(f.name)}</h3><p>${esc(f.description)}</p><div class="flex between"><span class="faction-score">${s.reputation[f.id] > 0 ? '+' : ''}${s.reputation[f.id]}</span><span class="eyebrow">${s.reputation[f.id] > 15 ? 'FAVORED' : s.reputation[f.id] < -15 ? 'DISTRUSTED' : 'NEUTRAL'}</span></div></article>`).join('')}</div><div class="section-label">Station exchange / ${loc.station ? esc(loc.name) : 'DOCKING REQUIRED'}</div><div class="dashboard"><div class="stack">${panel(
       'Provisions & resupply',
@@ -384,7 +389,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.5<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.6<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
       root.classList.toggle('readonly', !controller.isOwner());
       for (const b of root.querySelectorAll<HTMLElement>('.nav-button'))
         b.setAttribute('aria-current', b.dataset.tab === tab ? 'page' : 'false');

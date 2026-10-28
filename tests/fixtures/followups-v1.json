@@ -1,0 +1,12 @@
+{
+  "far-wake": {
+    "seed": 1701,
+    "count": 36,
+    "sha256": "7236fe8926eccfb6eddc6768884b44dde7f521f6d4f8cbb1fc30b500bc08e745"
+  },
+  "hollowmere": {
+    "seed": 1701,
+    "count": 18,
+    "sha256": "bad903e2baac4430b3bf4e69211ae2a8bb67745700199eed9f2e01e84f290739"
+  }
+}

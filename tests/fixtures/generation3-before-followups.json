@@ -1,0 +1,471 @@
+{
+  "far-wake": {
+    "save": {
+      "format": "exploration-save",
+      "version": 1,
+      "savedAt": 1000,
+      "state": {
+        "version": 3,
+        "definition": "far-wake",
+        "generationVersion": 3,
+        "seed": 7,
+        "rng": 7,
+        "elapsed": 20,
+        "calendarDays": 0,
+        "location": "cinder",
+        "inventory": {
+          "credits": 320,
+          "fuel": 32,
+          "parts": 12,
+          "ammo": 8,
+          "provisions": 15,
+          "ore": 0,
+          "ice": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Vera Okonkwo",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ishaan",
+            "name": "Tomas Novak",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ada",
+            "name": "Sol Navarro",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": ["anchor", "cinder"],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": {
+          "id": "j1",
+          "kind": "activity",
+          "definition": "explore",
+          "target": "cinder",
+          "remaining": 94,
+          "total": 114,
+          "days": 0,
+          "reward": {
+            "credits": 21,
+            "parts": 2,
+            "ore": 2
+          },
+          "risk": 0,
+          "site": "site:cinder:2"
+        },
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:cinder:2",
+              "approach": "cautious"
+            }
+          }
+        ],
+        "nextEvent": 2,
+        "milestones": []
+      },
+      "checksum": "f71cddcc"
+    },
+    "completed": {
+      "version": 3,
+      "definition": "far-wake",
+      "generationVersion": 3,
+      "seed": 7,
+      "rng": 7,
+      "elapsed": 220,
+      "calendarDays": 0,
+      "location": "cinder",
+      "inventory": {
+        "credits": 341,
+        "fuel": 32,
+        "parts": 14,
+        "ammo": 8,
+        "provisions": 15,
+        "ore": 2,
+        "ice": 0
+      },
+      "integrity": 100,
+      "wear": 8,
+      "capacity": 120,
+      "debt": 0,
+      "crew": [
+        {
+          "id": "mara",
+          "name": "Vera Okonkwo",
+          "skill": "survey",
+          "assignment": "primary",
+          "injury": 0,
+          "life": "alive"
+        },
+        {
+          "id": "ishaan",
+          "name": "Tomas Novak",
+          "skill": "engineering",
+          "assignment": "support",
+          "injury": 0,
+          "life": "alive"
+        },
+        {
+          "id": "ada",
+          "name": "Sol Navarro",
+          "skill": "security",
+          "assignment": "primary",
+          "injury": 0,
+          "life": "alive"
+        }
+      ],
+      "recruitSerial": 0,
+      "threat": null,
+      "threatHistory": [],
+      "incidents": [],
+      "discoveryCooldown": 0,
+      "known": ["anchor", "cinder"],
+      "discoveries": {
+        "anchor": {
+          "surveyed": true,
+          "sites": [],
+          "dataSold": false
+        },
+        "cinder": {
+          "surveyed": true,
+          "sites": ["site:cinder:2"],
+          "dataSold": false
+        }
+      },
+      "reputation": {
+        "combine": 0,
+        "independent": 0,
+        "pirates": 0
+      },
+      "primary": null,
+      "support": null,
+      "encounter": null,
+      "missions": [],
+      "upgrades": [],
+      "events": [
+        {
+          "id": 0,
+          "at": 0,
+          "key": "welcome",
+          "params": {}
+        },
+        {
+          "id": 1,
+          "at": 0,
+          "key": "activityStarted",
+          "params": {
+            "activity": "explore",
+            "site": "site:cinder:2",
+            "approach": "cautious"
+          }
+        },
+        {
+          "id": 2,
+          "at": 114,
+          "key": "siteExplored",
+          "params": {
+            "target": "cinder",
+            "site": "site:cinder:2"
+          }
+        },
+        {
+          "id": 3,
+          "at": 114,
+          "key": "activityComplete",
+          "params": {
+            "activity": "explore",
+            "target": "cinder"
+          }
+        }
+      ],
+      "nextEvent": 4,
+      "milestones": []
+    }
+  },
+  "hollowmere": {
+    "save": {
+      "format": "exploration-save",
+      "version": 1,
+      "savedAt": 1000,
+      "state": {
+        "version": 3,
+        "definition": "hollowmere",
+        "generationVersion": 3,
+        "seed": 7,
+        "rng": 7,
+        "elapsed": 20,
+        "calendarDays": 0,
+        "location": "old-road",
+        "inventory": {
+          "gold": 320,
+          "rations": 27,
+          "wood": 12,
+          "bolts": 12,
+          "incense": 14,
+          "herbs": 4,
+          "relics": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Orrin Blackthorn",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ves",
+            "name": "Iona Thorn",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "elin",
+            "name": "Ronan Nettle",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": ["mournwatch", "old-road"],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": {
+          "id": "j1",
+          "kind": "activity",
+          "definition": "explore",
+          "target": "old-road",
+          "remaining": 83,
+          "total": 103,
+          "days": 0,
+          "reward": {
+            "gold": 51,
+            "relics": 1
+          },
+          "risk": 0,
+          "site": "site:old-road:2"
+        },
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:old-road:2",
+              "approach": "cautious"
+            }
+          }
+        ],
+        "nextEvent": 2,
+        "milestones": []
+      },
+      "checksum": "ac9aabf1"
+    },
+    "completed": {
+      "version": 3,
+      "definition": "hollowmere",
+      "generationVersion": 3,
+      "seed": 7,
+      "rng": 7,
+      "elapsed": 220,
+      "calendarDays": 0,
+      "location": "old-road",
+      "inventory": {
+        "gold": 371,
+        "rations": 27,
+        "wood": 12,
+        "bolts": 12,
+        "incense": 14,
+        "herbs": 4,
+        "relics": 1
+      },
+      "integrity": 100,
+      "wear": 8,
+      "capacity": 120,
+      "debt": 0,
+      "crew": [
+        {
+          "id": "bran",
+          "name": "Orrin Blackthorn",
+          "skill": "fighter",
+          "assignment": "primary",
+          "injury": 0,
+          "life": "alive"
+        },
+        {
+          "id": "ves",
+          "name": "Iona Thorn",
+          "skill": "mage",
+          "assignment": "primary",
+          "injury": 0,
+          "life": "alive"
+        },
+        {
+          "id": "elin",
+          "name": "Ronan Nettle",
+          "skill": "cleric",
+          "assignment": "support",
+          "injury": 0,
+          "life": "alive"
+        }
+      ],
+      "recruitSerial": 0,
+      "threat": null,
+      "threatHistory": [],
+      "incidents": [],
+      "discoveryCooldown": 0,
+      "known": ["mournwatch", "old-road"],
+      "discoveries": {
+        "mournwatch": {
+          "surveyed": true,
+          "sites": [],
+          "dataSold": false
+        },
+        "old-road": {
+          "surveyed": true,
+          "sites": ["site:old-road:2"],
+          "dataSold": false
+        }
+      },
+      "reputation": {
+        "wardens": 0,
+        "covenant": 0,
+        "court": 0
+      },
+      "primary": null,
+      "support": null,
+      "encounter": null,
+      "missions": [],
+      "upgrades": [],
+      "events": [
+        {
+          "id": 0,
+          "at": 0,
+          "key": "welcome",
+          "params": {}
+        },
+        {
+          "id": 1,
+          "at": 0,
+          "key": "activityStarted",
+          "params": {
+            "activity": "explore",
+            "site": "site:old-road:2",
+            "approach": "cautious"
+          }
+        },
+        {
+          "id": 2,
+          "at": 103,
+          "key": "siteExplored",
+          "params": {
+            "target": "old-road",
+            "site": "site:old-road:2"
+          }
+        },
+        {
+          "id": 3,
+          "at": 103,
+          "key": "activityComplete",
+          "params": {
+            "activity": "explore",
+            "target": "old-road"
+          }
+        }
+      ],
+      "nextEvent": 4,
+      "milestones": []
+    }
+  }
+}

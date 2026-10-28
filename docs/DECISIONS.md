@@ -1,6 +1,6 @@
 # Decisions and rationale
 
-Recorded against v0.2.1 on 2026-10-27; updated for v0.5.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
+Recorded against v0.2.1 on 2026-10-27; updated for v0.6.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
 
 | Decision                                                                   | Reason and consequence                                                                                                                                                                                                                                                                  |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -46,3 +46,7 @@ Both games now generate crew, faction, region and location names from themed voc
 ## Generated exploration sites (v0.5)
 
 Generation 3 adds meaningful site profiles in both games while retaining v2 names and authored geography. Trait components alter effort, returns, hazards and optional specialist approaches. Explicit selection can explore sites out of order; the quick activity uses the next direct approach. No specialist path is mandatory. Existing Job.site/timer/reward/risk fields commit choices, so no state migration is required. Generations 1/2 retain their old site IDs and job outcomes. Contextual discovery weights vary opportunities without exposing hidden onset. See [SITES.md](SITES.md).
+
+## Discovery-derived contracts (v0.6)
+
+Contextual follow-ups are additive to generation 3 so current site expeditions gain work without a reset. Templates derive IDs, source, work and recipient from frozen site profiles. Discovery-gated offers and accepted-contract-gated activities reuse existing state/mission accounting. Work grants no immediate reward; filing pays once. Completed work cannot be abandoned, preventing replay without a separate receipt schema. Generations 1/2 remain unchanged. See [MISSIONS.md](MISSIONS.md).

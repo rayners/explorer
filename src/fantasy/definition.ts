@@ -1,3 +1,5 @@
+import { finishFollowUps } from '../content/missions';
+import { fantasyFollowUps } from './missions';
 import { finishSites } from '../content/sites';
 import { fantasySites } from './sites';
 import { finishNamedDefinition } from '../content/names';
@@ -709,9 +711,12 @@ export function createHollowmere(seed = 1701, generationVersion = 3): GameDefini
       },
     ],
   };
-  return finishSites(
-    finishNamedDefinition(definition, seed, generationVersion, fantasyNames),
-    seed,
-    fantasySites,
+  return finishFollowUps(
+    finishSites(
+      finishNamedDefinition(definition, seed, generationVersion, fantasyNames),
+      seed,
+      fantasySites,
+    ),
+    fantasyFollowUps,
   );
 }

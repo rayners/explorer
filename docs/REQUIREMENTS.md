@@ -59,3 +59,5 @@ The user requested function-based content generation, beginning with crew, facti
 ## Ongoing roadmap work (2026-10-28)
 
 The user asked to keep working through the roadmap, adding detail as needed to focus the current task and then moving to the next item. The active queue starts with generated exploration sites, then missions derived from discoveries, then generated layouts. Site origins, conditions, opportunities and complications must affect actual choices and outcomes in both themes. [SITES.md](SITES.md) records the first implementation. Roguelite reset/progression rules remain deferred.
+
+The next delivered roadmap slice generates follow-up contracts from actual site discoveries in both settings. Its implementation choices and acceptance criteria are in [MISSIONS.md](MISSIONS.md); authored introductory missions and existing saves remain supported.

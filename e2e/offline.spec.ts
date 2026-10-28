@@ -229,3 +229,132 @@ test('selected generated-site expeditions finish exactly once across production 
   }
   await context.setOffline(false);
 });
+
+function preparedFollowUp(fantasy: boolean, readyToFile: boolean) {
+  const game = fantasy ? createHollowmere(1701) : createGame(1701);
+  const location = fantasy ? 'old-road' : 'cinder';
+  let state = createState(game, 1701);
+  state.location = location;
+  state.discoveries[location].surveyed = true;
+  const site = game.sites!.find((site) => site.location === location)!;
+  const mission = game.missions.find((mission) => mission.sourceSite === site.id)!;
+  const work = game.activities.find((activity) => activity.mission === mission.id)!;
+  state = advance(
+    game,
+    dispatch(game, state, { type: 'activity', id: 'explore', site: site.id }).state,
+    200,
+  );
+  state.location = game.initial.location;
+  state = dispatch(game, state, { type: 'accept', id: mission.id }).state;
+  state.location = location;
+  state.rng = 1;
+  state = dispatch(game, state, { type: 'activity', id: work.id }).state;
+  if (readyToFile) {
+    state = advance(game, state, 200);
+    state = advance(
+      game,
+      dispatch(game, state, { type: 'travel', target: game.initial.location }).state,
+      200,
+    );
+    if (state.encounter)
+      state = dispatch(game, state, { type: 'encounter', choice: 'surrender' }).state;
+  }
+  return { game, state, mission };
+}
+test('accepted discovery work catches up offline once and retains the completed receipt in both games', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  for (const fantasy of [false, true]) {
+    const { game, state, mission } = preparedFollowUp(fantasy, false);
+    const expected = advance(game, state, 200);
+    await page.addInitScript(
+      ({ key, raw }) => {
+        if (!sessionStorage.getItem(key)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(key, 'yes');
+        }
+      },
+      { key: `${game.id}.save.v1`, raw: encodeSave(state, Date.now() - 200000) },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${game.id}/`, baseURL).href);
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const saved = await page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key)!).state,
+      `${game.id}.save.v1`,
+    );
+    expect(saved.primary).toBeNull();
+    expect(saved.inventory).toEqual(expected.inventory);
+    expect(saved.missions.find((entry: any) => entry.id === mission.id)).toMatchObject({
+      progress: 1,
+      claimed: false,
+    });
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect(
+      await page.evaluate(
+        (key) => JSON.parse(localStorage.getItem(key)!).state.inventory,
+        `${game.id}.save.v1`,
+      ),
+    ).toEqual(expected.inventory);
+  }
+  await context.setOffline(false);
+});
+test('discovery follow-ups can be filed offline with one durable payment in both games', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  for (const fantasy of [false, true]) {
+    const { game, state, mission } = preparedFollowUp(fantasy, true);
+    await page.addInitScript(
+      ({ key, raw }) => {
+        if (!sessionStorage.getItem(key)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(key, 'yes');
+        }
+      },
+      { key: `${game.id}.save.v1`, raw: encodeSave(state, Date.now()) },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${game.id}/`, baseURL).href);
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: fantasy ? /Refuge/ : /Contacts/ })
+      .click();
+    await page
+      .locator('.activity-card')
+      .filter({ has: page.getByRole('heading', { name: mission.name, exact: true }) })
+      .getByRole('button', {
+        name: fantasy ? 'Report completed oath' : 'File contract',
+        exact: true,
+      })
+      .click();
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const saved = await page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key)!).state,
+      `${game.id}.save.v1`,
+    );
+    expect(saved.inventory[game.rules.currency]).toBe(
+      state.inventory[game.rules.currency] + mission.reward[game.rules.currency],
+    );
+    expect(saved.missions.find((entry: any) => entry.id === mission.id).claimed).toBe(true);
+  }
+  await context.setOffline(false);
+});

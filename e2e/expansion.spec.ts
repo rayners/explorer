@@ -463,3 +463,100 @@ test('generated sites let both games select and preserve a cautious expedition o
     );
   }
 });
+
+test('an explored site creates a follow-up with accepted field work and one-time hub payment in both games', async ({
+  page,
+}) => {
+  for (const fantasy of [false, true]) {
+    const game = fantasy ? createHollowmere(1701) : createGame(1701);
+    const location = fantasy ? 'old-road' : 'cinder';
+    const source = game.locations.find((entry) => entry.id === location)!;
+    const home = game.locations.find((entry) => entry.id === game.initial.location)!;
+    const site = game.sites!.find((site) => site.location === location)!;
+    const mission = game.missions.find((mission) => mission.sourceSite === site.id)!;
+    const work = game.activities.find((activity) => activity.mission === mission.id)!;
+    await open(page, `/${game.id}/`);
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    await expect(page.getByRole('heading', { name: mission.name, exact: true })).toHaveCount(0);
+    const start = createState(game, 1701);
+    start.location = location;
+    start.discoveries[location].surveyed = true;
+    await importState(page, encodeSave(start, Date.now()));
+    await nav(page, fantasy ? 'company' : 'operations');
+    await beginActivity(page, fantasy ? 'Lead an expedition' : 'Surface expedition');
+    await next(page, 150, fantasy);
+    await escape(page, fantasy);
+    await expect(
+      page
+        .locator('.site-card')
+        .filter({ has: page.getByRole('heading', { name: site.name, exact: true }) }),
+    ).toContainText('follow-up contract is available');
+    const travel = async (name: string) => {
+      await nav(page, fantasy ? 'journey' : 'navigation');
+      await page
+        .locator('.route-card')
+        .filter({ has: page.getByRole('heading', { name, exact: true }) })
+        .getByRole('button', { name: fantasy ? 'Travel' : 'Set course', exact: true })
+        .click();
+      await next(page, 100, fantasy);
+      await escape(page, fantasy);
+    };
+    await travel(home.name);
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    const card = page
+      .locator('.activity-card')
+      .filter({ has: page.getByRole('heading', { name: mission.name, exact: true }) });
+    await expect(card).toContainText('Work supplies:');
+    await expect(card).toContainText(source.name);
+    await card
+      .getByRole('button', { name: fantasy ? 'Accept oath' : 'Accept contract', exact: true })
+      .click();
+    await nav(page, fantasy ? 'company' : 'operations');
+    const task = page
+      .locator('.follow-up-work .activity-card')
+      .filter({ has: page.getByRole('heading', { name: work.name, exact: true }) });
+    await expect(task.getByRole('button', { name: 'Begin activity', exact: true })).toBeDisabled();
+    await expect(task).toContainText(source.name);
+    await travel(source.name);
+    await nav(page, fantasy ? 'company' : 'operations');
+    await task.getByRole('button', { name: 'Begin activity', exact: true }).click();
+    expect((await state(page, fantasy)).primary.definition).toBe(work.id);
+    await next(page, 150, fantasy);
+    await escape(page, fantasy);
+    expect(
+      (await state(page, fantasy)).missions.find((entry: any) => entry.id === mission.id).progress,
+    ).toBe(1);
+    await expect(task).toHaveCount(0);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await travel(home.name);
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    await expect(
+      card.getByRole('button', {
+        name: fantasy ? 'Release oath' : 'Release contract',
+        exact: true,
+      }),
+    ).toBeDisabled();
+    await expect(card).toContainText('retained until filed');
+    const before = await state(page, fantasy);
+    await card
+      .getByRole('button', {
+        name: fantasy ? 'Report completed oath' : 'File contract',
+        exact: true,
+      })
+      .click();
+    const after = await state(page, fantasy);
+    expect(after.inventory[game.rules.currency]).toBe(
+      before.inventory[game.rules.currency] + mission.reward[game.rules.currency],
+    );
+    expect(after.missions.find((entry: any) => entry.id === mission.id).claimed).toBe(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect(
+      (await state(page, fantasy)).missions.find((entry: any) => entry.id === mission.id).claimed,
+    ).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+  }
+});

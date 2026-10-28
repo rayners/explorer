@@ -62,3 +62,9 @@ Physical iPhone checks remain pending: read longer generated names in the roster
 Automated checks cover weighted trait generation, stable IDs, valid resources/skills, protected introductory profiles, direct/cautious/specialist tradeoffs, out-of-order exploration, exact costs/returns, rejection reasons, committed save/offline completion and frozen generation-3 catalogs. Released v0.4 job fixtures prove generation-2 exploration outcomes remain unchanged. Browser cases exercise both games on all device projects; production offline checks finish selected sites exactly once without development helpers.
 
 Physical iPhone checks remain pending: survey a location, expand an approach card by touch, read costs/risks/requirements, start a selected site, lock/force-close the app and return. Confirm the selected site completes once, its name is readable, the registry fits portrait/landscape, and completed records cannot be farmed.
+
+## v0.6 discovery-contract checks
+
+Automated checks cover contextual catalogs, valid references, hidden offers before exploration, source eligibility, acceptance/field-role/location/cost checks, active limits, standing, committed work, retained completed receipts, release/reaccept behavior, exact-once filing, offline work/filing, and invalid import references. Fixtures from released v0.5 preserve paid orders and discoveries. Full browser journeys run in both games across all device projects.
+
+Physical iPhone checks remain pending: discover a site, find its follow-up at a hub, read the work supplies and required roles, accept it, navigate back and perform the work, lock/close during the timer, then return to file. Check long generated headings and visible unavailable-action reasons in portrait/landscape.

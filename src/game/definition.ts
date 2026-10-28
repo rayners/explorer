@@ -1,3 +1,5 @@
+import { finishFollowUps } from '../content/missions';
+import { scienceFictionFollowUps } from './missions';
 import { finishSites } from '../content/sites';
 import { scienceFictionSites } from './sites';
 import { finishNamedDefinition } from '../content/names';
@@ -798,9 +800,12 @@ export function createGame(seed = 1701, generationVersion = 3): GameDefinition {
       },
     ],
   };
-  return finishSites(
-    finishNamedDefinition(definition, seed, generationVersion, scienceFictionNames),
-    seed,
-    scienceFictionSites,
+  return finishFollowUps(
+    finishSites(
+      finishNamedDefinition(definition, seed, generationVersion, scienceFictionNames),
+      seed,
+      scienceFictionSites,
+    ),
+    scienceFictionFollowUps,
   );
 }

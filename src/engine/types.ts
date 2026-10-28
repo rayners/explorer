@@ -101,6 +101,7 @@ export interface ActivityDef {
   locations?: string[];
   requirements?: SkillRequirement[];
   threat?: string;
+  mission?: string;
 }
 export interface Objective {
   kind: string;
@@ -116,6 +117,7 @@ export interface MissionDef {
   reward: Amounts;
   reputation: number;
   requires?: string;
+  sourceSite?: string;
 }
 export interface Job {
   id: string;

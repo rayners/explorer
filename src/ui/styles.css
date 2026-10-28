@@ -1340,3 +1340,11 @@ body.reduce-motion * {
   font-size: 11px;
   color: var(--muted);
 }
+
+.activity-card .badge {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.activity-card .flex > h3 {
+  min-width: 0;
+}

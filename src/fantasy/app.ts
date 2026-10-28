@@ -1,3 +1,5 @@
+import { missionDiscovered } from '../engine/missions';
+import { followUpBrief, followUpWork } from '../ui/mission-panels';
 import { activityPreview, sitePanel } from '../ui/site-panels';
 import type { GameDefinition, GameState, Command, Job } from '../engine/types';
 import type { AppController } from '../browser/controller';
@@ -136,7 +138,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   function actionCard(id: string) {
     const a = g.activities.find((a) => a.id === id)!,
       preview = activityPreview(g, s, id);
-    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, true)}</article>`;
+    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}</article>`;
   }
   function chronicle() {
     const v = view(g, s),
@@ -197,13 +199,14 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       .filter(
         (a) =>
           a.slot === 'primary' &&
+          !a.mission &&
           (loc.station ? a.at === 'station' : a.at === 'field') &&
           (!a.locations || a.locations.includes(loc.id)),
       )
       .map((a) => actionCard(a.id))
       .join(
         '',
-      )}</div>${sitePanel(g, s, (label, command, primary) => button(label, command, primary, false))}<div class="section-label">Support duties</div><div class="activity-grid">${g.activities
+      )}</div>${sitePanel(g, s, (label, command, primary) => button(label, command, primary, false))}${followUpWork(g, s, actionCard)}<div class="section-label">Support duties</div><div class="activity-grid">${g.activities
       .filter((a) => a.slot === 'support' && (a.at === 'any' || loc.station))
       .map((a) => actionCard(a.id))
       .join(
@@ -221,9 +224,10 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         )
         .join(''),
     )}<div class="section-label">Company recruitment</div>${recruitmentPanel(g, s, button)}<div class="section-label">Oaths & contracts / UP TO THREE ACTIVE</div><div class="activity-grid">${g.missions
+      .filter((m) => missionDiscovered(g, s, m))
       .map((m) => {
         const state = s.missions.find((x) => x.id === m.id);
-        return `<article class="activity-card"><h3>${esc(m.name)}</h3><p>${esc(m.description)}</p><small>${esc(amounts(m.reward))}</small>${state?.claimed ? '<span class="badge green">FULFILLED</span>' : state ? `<span class="mission-status">${state.progress} / ${m.objective.count}</span>${button('Report completed oath', { type: 'claim', id: m.id }, true)}${button('Release oath', { type: 'abandon', id: m.id })}` : button('Accept oath', { type: 'accept', id: m.id }, true)}</article>`;
+        return `<article class="activity-card"><h3>${esc(m.name)}</h3><p>${esc(m.description)}</p>${followUpBrief(g, s, m.id)}<small>${esc(amounts(m.reward))}</small>${state?.claimed ? '<span class="badge green">FULFILLED</span>' : state ? `<span class="mission-status">${state.progress} / ${m.objective.count}</span>${button('Report completed oath', { type: 'claim', id: m.id }, true)}${button('Release oath', { type: 'abandon', id: m.id })}` : button('Accept oath', { type: 'accept', id: m.id }, true)}</article>`;
       })
       .join(
         '',
@@ -290,7 +294,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${jobs()}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.5<br><a href="../?games=1">All games</a></span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${jobs()}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.6<br><a href="../?games=1">All games</a></span></footer>`;
       for (const el of root.querySelectorAll<HTMLElement>('[data-tab]'))
         el.setAttribute('aria-current', el.dataset.tab === tab ? 'page' : 'false');
       const canvas = main.querySelector<HTMLCanvasElement>('#fantasy-scene');

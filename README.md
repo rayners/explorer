@@ -27,11 +27,17 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.6
+
+Explored generated sites now unlock follow-up contracts in both games. Accept at a hub, bring the displayed supplies and crew, return to the source for field work, then file the result for payment and faction standing. Site traits determine whether the work involves restoration, archives/lore, replacement stores, reconnaissance or a fuller investigation.
+
+Current generation-3 expeditions gain these offers from existing discoveries. Costs, committed timers and completed receipts survive reloads and offline play; work and payment cannot be replayed by releasing the contract. See [discovery missions](docs/MISSIONS.md).
+
 ## New in v0.5
 
 New expeditions in both games generate exploration sites with origins, conditions, opportunities and complications that affect play. After surveying, choose any unfinished site and a direct, cautious or optional specialist approach. Costs, returns, duration, incident risk and staffing requirements are shown before ordering. Choices remain committed across reloads and offline play; completed sites cannot be farmed.
 
-Generation 3 keeps the generated names from v0.4. Existing expeditions retain their old sites and outcomes. Geography is still authored; discovery-derived missions and generated layouts are the next roadmap steps. See [generated sites](docs/SITES.md).
+Generation 3 keeps the generated names from v0.4. Existing expeditions retain their old sites and outcomes. Geography is still authored; discovery-derived missions are implemented next, with generated layouts following on the roadmap. See [generated sites](docs/SITES.md).
 
 ## New in v0.4
 
@@ -51,13 +57,13 @@ A recovered settlement claim creates a station follow-up: choose the Combine, th
 
 To investigate **Unmanifested cargo**, accept its contract at a station, survey the moon named in its brief (Morrow in legacy expeditions), and choose **Recover sealed specimen**. After the hidden incident develops, search, contain, confront, or vent the affected compartment. Failed explicit responses can permanently kill crew; ordinary offline catch-up never kills anyone. Venting is guaranteed to clear the organism at the cost of 20% of physical cargo. Casualties remain in a memorial and their berths can be filled by replacements. If everyone dies, a free relief hand is available at a station.
 
-**Hollowmere** is a separate dark fantasy game with nine places across a threatened settlement, haunted forest, and underground ruins; six contracts; original pixel landscapes; and its own saves. Fighters lead expeditions, mages open wards and bolster combat, clerics heal and consecrate, and scouts improve gathering. An optional reliquary investigation introduces the White Guest, a curse using the same internal-threat engine. Read [the Hollowmere guide](docs/HOLLOWMERE.md).
+**Hollowmere** is a separate dark fantasy game with nine places across a threatened settlement, haunted forest, and underground ruins; six authored contracts plus eighteen generation-3 discovery follow-ups; original pixel landscapes; and its own saves. Fighters lead expeditions, mages open wards and bolster combat, clerics heal and consecrate, and scouts improve gathering. An optional reliquary investigation introduces the White Guest, a curse using the same internal-threat engine. Read [the Hollowmere guide](docs/HOLLOWMERE.md).
 
 ![Hollowmere company chronicle](docs/screenshots/hollowmere-desktop.png)
 
 ## What is playable
 
-- Four connected systems, sixteen locations, twelve exploration bodies, thirty-six sites, and thirteen contracts.
+- Four connected systems, sixteen locations, twelve exploration bodies, thirty-six sites, thirteen authored contracts, and thirty-six discovery follow-ups for generation-3 expeditions.
 - Local journeys, sublight interstellar travel, cryosleep, and a fictional ship calendar. A four-year voyage can take fifteen real minutes.
 - Surveys, surface expeditions, mining, processing, repairs, machinery servicing, equipment upgrades, and four recruitable specialist roles.
 - Station markets, paid work, faction relief, exclusive survey-data licensing, and reputation-dependent prices and contracts. Long voyages also change market conditions.

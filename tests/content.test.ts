@@ -20,7 +20,7 @@ describe('content and isolation', () => {
         if (visited.has(r.to)) visited.add(r.from);
       }
     expect(visited.size).toBe(16);
-    expect(g.missions.length).toBe(13);
+    expect(g.missions.filter((mission) => !mission.sourceSite).length).toBe(13);
     for (const m of g.missions) {
       if (m.requires) expect(g.missions.some((x) => x.id === m.requires)).toBe(true);
       if (m.objective.target)

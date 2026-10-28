@@ -1,4 +1,4 @@
-# Far Wake v0.5 design
+# Far Wake v0.6 design
 
 Generation-1 names below describe the authored setting. Generation-2 and generation-3 expeditions use seeded names for people, factions, regions and locations while keeping the same roles, routes and mechanics; see [NAMES.md](NAMES.md).
 
@@ -45,3 +45,7 @@ Hollowmere has a separately themed interface, content catalogs and procedural de
 ## Generated exploration profiles
 
 Fresh generation-3 expeditions generate site origins, conditions, opportunities and complications. Surveys reveal their descriptions and choices. Direct recovery is the default, cautious recovery trades time/supplies/return for lower field-incident risk, and optional specialist approaches reward crew preparation. Site selection, costs and expected returns are explicit and remain committed through absence. Context changes discovery weights without revealing a hidden passenger. Earlier expeditions retain their original site lists. See [SITES.md](SITES.md).
+
+## Discovery follow-ups
+
+Explored generation-3 sites unlock station contracts for restored access, archive recovery, replacement stores, traffic assessment or extended studies. Their type comes from site traits; the source owner receives the report and standing. Accept at a hub, prepare resources/roles, perform the named field work from Operations and return to file. Costs are paid on order and payment follows filing once. Existing generation-3 discoveries gain these optional goals without a reset; generations 1/2 remain unchanged. See [MISSIONS.md](MISSIONS.md).

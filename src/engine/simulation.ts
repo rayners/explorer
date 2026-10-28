@@ -3,6 +3,7 @@ import { threatAlert, developThreat, respondToThreat } from './threats';
 import { routesAt } from './navigation';
 import { discoverAtSite, discoveryChoice } from './discoveries';
 import { explorationPlan } from './sites';
+import { missionDiscovered, missionWorkError } from './missions';
 import type {
   Amounts,
   Command,
@@ -247,6 +248,10 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
           : command.id;
     const a = g.activities.find((a) => a.id === id);
     if (!a) return fail('Unknown activity.');
+    if (a.mission) {
+      const error = missionWorkError(g, s, a.mission);
+      if (error) return fail(error);
+    }
     const selection = command.type === 'activity' ? command : undefined;
     if (id !== g.rules.exploreActivity && (selection?.site || selection?.approach))
       return fail('Site approaches are only available for exploration.');
@@ -372,6 +377,8 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
       return fail('Visit a service hub mission board.');
     const m = g.missions.find((m) => m.id === command.id);
     if (!m || s.missions.some((x) => x.id === m.id)) return fail('Contract unavailable.');
+    if (!missionDiscovered(g, s, m))
+      return fail('Explore the source site before accepting this follow-up.');
     if (m.requires && !s.missions.some((x) => x.id === m.requires && x.claimed))
       return fail('Complete the prerequisite contract first.');
     if (s.missions.filter((x) => !x.claimed).length >= 3)
@@ -400,6 +407,19 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
   } else if (command.type === 'abandon') {
     const m = s.missions.find((m) => m.id === command.id);
     if (!m || m.claimed) return fail('No active contract to abandon.');
+    const def = g.missions.find((definition) => definition.id === m.id)!;
+    if (def.sourceSite || g.activities.some((activity) => activity.mission === m.id)) {
+      if (m.progress >= def.objective.count)
+        return fail('Completed follow-up work is retained until filed at a service hub.');
+      if (
+        [s.primary, s.support].some(
+          (job) =>
+            job &&
+            g.activities.find((activity) => activity.id === job.definition)?.mission === m.id,
+        )
+      )
+        return fail('Finish the committed follow-up work before abandoning its contract.');
+    }
     s.missions = s.missions.filter((m) => m.id !== command.id);
     event(s, 'missionAbandoned', { mission: command.id });
   } else if (command.type === 'claim') {

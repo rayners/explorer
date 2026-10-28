@@ -68,3 +68,7 @@ The user requested generation functions for crew, faction and location names, pe
 ## Active roadmap and generated sites (2026-10-28)
 
 After discussing generated sites followed by discovery-derived missions and generated layouts, the user set the active goal to keep working through the roadmap, adding detail as needed and moving to the next item. [ROADMAP.md](ROADMAP.md) records that queue and [SITES.md](SITES.md) records the first task. Exact recipe weights, approach tradeoffs, generation-version choice and preserved Job.site contract are implementation decisions. Released generation-2 compatibility fixtures were captured from the v0.4 source, not reconstructed from desired behavior.
+
+## Discovery-derived missions (2026-10-28)
+
+Continuing the active roadmap goal, the next item implements follow-up work from explored generated sites in both themes. [MISSIONS.md](MISSIONS.md) distinguishes the requested direction from chosen templates, costs, recipient selection, additive compatibility and anti-replay accounting. Paid-site-order fixtures were captured from released v0.5 source before modifying mission catalogs.

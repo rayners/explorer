@@ -27,23 +27,25 @@ Read [requirements](docs/REQUIREMENTS.md), [decisions](docs/DECISIONS.md), [arch
 
 ## Code map
 
-| Path                                                   | Responsibility                                                          |
-| ------------------------------------------------------ | ----------------------------------------------------------------------- |
-| `src/engine/types.ts`                                  | Definitions, serializable state and commands                            |
-| `src/engine/simulation.ts`                             | Commands, time boundaries, economy, encounters, objectives              |
-| `src/engine/names.ts`, `src/content/names.ts`          | Pure seeded sampling and themed name/reference assembly                 |
-| `src/engine/sites.ts`, `src/engine/site-generation.ts` | Site choices and deterministic profile generation                       |
-| `src/content/sites.ts`, `src/ui/site-panels.ts`        | Themed catalog assembly and shared site controls                        |
-| `src/engine/discoveries.ts`                            | Once-only site events, silent exposure and persistent follow-up choices |
-| `src/engine/navigation.ts`                             | Effective routes and itinerary planning                                 |
-| `src/engine/personnel.ts`, `threats.ts`                | Recruitment, skills, casualties, internal incidents                     |
-| `src/engine/save.ts`, `random.ts`                      | Save validation/migration/reconciliation and seeded RNG                 |
-| `src/browser/`                                         | Lifecycle, controller, persistence and tab coordination                 |
-| `src/game/`, `src/ui/`                                 | Far Wake definitions/writing and DOM/pixel artwork                      |
-| `src/fantasy/`                                         | Hollowmere definitions, UI, art and entry point                         |
-| `src/picker/`                                          | Library catalog, UI and Far Wake manifest compatibility                 |
-| `tests/`, `e2e/`                                       | Behavior, content, portability, browser and offline checks              |
-| `scripts/`                                             | Frontier simulation, icons and screenshots                              |
+| Path                                                         | Responsibility                                                          |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| `src/engine/types.ts`                                        | Definitions, serializable state and commands                            |
+| `src/engine/simulation.ts`                                   | Commands, time boundaries, economy, encounters, objectives              |
+| `src/engine/names.ts`, `src/content/names.ts`                | Pure seeded sampling and themed name/reference assembly                 |
+| `src/engine/missions.ts`, `src/engine/mission-generation.ts` | Discovery eligibility, bound work and contextual contract generation    |
+| `src/content/missions.ts`, `src/ui/mission-panels.ts`        | Additive catalog assembly and shared field-work previews                |
+| `src/engine/sites.ts`, `src/engine/site-generation.ts`       | Site choices and deterministic profile generation                       |
+| `src/content/sites.ts`, `src/ui/site-panels.ts`              | Themed catalog assembly and shared site controls                        |
+| `src/engine/discoveries.ts`                                  | Once-only site events, silent exposure and persistent follow-up choices |
+| `src/engine/navigation.ts`                                   | Effective routes and itinerary planning                                 |
+| `src/engine/personnel.ts`, `threats.ts`                      | Recruitment, skills, casualties, internal incidents                     |
+| `src/engine/save.ts`, `random.ts`                            | Save validation/migration/reconciliation and seeded RNG                 |
+| `src/browser/`                                               | Lifecycle, controller, persistence and tab coordination                 |
+| `src/game/`, `src/ui/`                                       | Far Wake definitions/writing and DOM/pixel artwork                      |
+| `src/fantasy/`                                               | Hollowmere definitions, UI, art and entry point                         |
+| `src/picker/`                                                | Library catalog, UI and Far Wake manifest compatibility                 |
+| `tests/`, `e2e/`                                             | Behavior, content, portability, browser and offline checks              |
+| `scripts/`                                                   | Frontier simulation, icons and screenshots                              |
 
 Vite + TypeScript, hand-written DOM/CSS, Vitest and Playwright. Match surrounding style; avoid adding a framework or dependency without a concrete need. Artwork is currently code-native pixel art; no external fonts or image services are needed.
 
@@ -67,6 +69,8 @@ Add behavior tests for mechanics, regressions, save migrations and lifecycle cha
 `npm run icons` regenerates icons. `npm run screenshots` captures the library and both games; inspect `scripts/screenshots.ts` for server expectations. Development-only `?speed=60`, `window.__farWake` and `window.__hollowmere` helpers must remain absent in production.
 
 ## Adding a game or changing behavior
+
+[Discovery missions](docs/MISSIONS.md) documents the additive generation-3 contract catalog. Keep source discoveries, mission/activity IDs and accepted work compatible. Bound work requires an accepted unfinished contract; completed work is retained until filed and cannot be abandoned/replayed. No payment occurs at work completion. Existing generations 1/2 stay unchanged.
 
 [Generated sites](docs/SITES.md) defines the version-3 catalog and committed approach contract. Keep generations 1/2 unchanged. Use stable site IDs, preserve Job.site and its paid duration/risk/reward, and do not reroll site profiles during rendering or loading. Follow the active queue in [ROADMAP.md](docs/ROADMAP.md).
 

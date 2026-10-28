@@ -35,4 +35,8 @@ This is an authored first region of play with seeded detail variation, not an en
 
 ## Generated sites (v0.5)
 
-Fresh generation-3 companies discover generated shelters, shrines, ruins, encampments and natural hollows. Their condition, available finds and complications affect exploration. Cautious expeditions are slower and safer; specialist approaches use clerics, mages, scouts or fighters with visible requirements. The fighter leadership rule still applies to every expedition. New site cards are in Company after mapping a place. Earlier companies keep their original sites and outcomes. See [SITES.md](SITES.md).
+Fresh generation-3 companies discover generated shelters, shrines, ruins, encampments and natural hollows. Their condition, available finds and complications affect exploration. Cautious expeditions are slower and safer; specialist approaches use clerics, mages, scouts or fighters with visible requirements. The fighter leadership rule still applies to every site-exploration order. New site cards are in Company after mapping a place. Earlier companies keep their original sites and outcomes. See [SITES.md](SITES.md).
+
+## Follow-up oaths (v0.6)
+
+Explored generation-3 sites unlock a follow-up oath at refuges. Its source, patron, required supplies and any class requirement are shown before acceptance. Return to the named place and use Company’s accepted field-work section, then report at any refuge for payment and standing. Renew rites, restore paths, recover lore, replenish stores, keep watch or trace older routes according to the discovery. Completed work is retained until reported and cannot be repeated for more payment. Earlier generation-3 discoveries gain these offers without a reset.

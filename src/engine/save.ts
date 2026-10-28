@@ -1,6 +1,7 @@
 import { crewCapacity, living, recruitName } from './personnel';
 import type { DefinitionFactory, GameDefinition, GameState, Job } from './types';
 import { advance, OFFLINE_CAP } from './simulation';
+import { missionDiscovered } from './missions';
 export interface SaveEnvelope {
   format: 'exploration-save';
   version: 1;
@@ -93,9 +94,15 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
     )
   )
     return false;
-  const job = (j: Job | null) =>
-    j === null ||
-    (object(j) &&
+  const job = (j: Job | null): boolean => {
+    if (j === null) return true;
+    if (!object(j)) return false;
+    const activity =
+      j.kind === 'activity' ? g.activities.find((entry) => entry.id === j.definition) : undefined;
+    const mission = activity?.mission
+      ? g.missions.find((entry) => entry.id === activity.mission)
+      : undefined;
+    return (
       typeof j.id === 'string' &&
       ['travel', 'activity', 'rescue'].includes(j.kind) &&
       locations.has(j.target) &&
@@ -118,7 +125,22 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
         j.kind !== 'activity' ||
         j.definition !== g.rules.exploreActivity ||
         j.site !== undefined) &&
-      (j.kind !== 'activity' || activities.has(j.definition)));
+      (!activity?.mission ||
+        (!!mission &&
+          (!activity.locations || activity.locations.includes(j.target)) &&
+          Array.isArray(s.missions) &&
+          s.missions.some(
+            (entry) =>
+              object(entry) &&
+              entry.id === mission.id &&
+              !entry.claimed &&
+              typeof entry.progress === 'number' &&
+              entry.progress >= 0 &&
+              entry.progress < mission.objective.count,
+          ))) &&
+      (j.kind !== 'activity' || activities.has(j.definition))
+    );
+  };
   if (
     !job(s.primary) ||
     !job(s.support) ||
@@ -237,6 +259,7 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
         g.missions.some(
           (x) =>
             x.id === m.id &&
+            missionDiscovered(g, s, x) &&
             Number.isInteger(m.progress) &&
             m.progress >= 0 &&
             m.progress <= x.objective.count,

@@ -90,3 +90,11 @@ Schema 3 initializes an empty ledger and cooldown when loading schema 2, after c
 `explorationPlan` validates site/approach selection without mutation. Dispatch combines the chosen profile with the existing activity/team checks and commits the existing Job.site, timer, reward and risk fields. Completion uses those committed values and selected identity. Save validation rejects foreign/completed/missing generated-site job references. No new state fields or schema migration are needed; compatibility tests compare exact released v0.4 outcomes.
 
 `src/ui/site-panels.ts` renders both themes' surveyed registries and approach controls. The quick exploration cards preview the same default plan as dispatch. Narrative logs and incident histories render names through the generated catalog rather than exposing IDs. See [SITES.md](SITES.md).
+
+## Discovery-derived missions (v0.6)
+
+`src/engine/mission-generation.ts` selects themed follow-up templates from site traits and returns mission/activity definitions with stable source-derived IDs. `src/content/missions.ts` appends them for generation 3 only. Existing catalogs/IDs remain present, and frozen site profiles are untouched. The new contracts are additive for existing generation-3 saves.
+
+`MissionDef.sourceSite` gates offer visibility and acceptance through `missionDiscovered`. `ActivityDef.mission` binds work to an accepted unfinished contract. Ordinary activity jobs pay costs and resolve an activity-ID objective once; their immediate reward is empty. Mission claiming is the sole payment. Bound work cannot be abandoned underway, and completed work remains in the mission ledger until claimed. This reuses state schema 3 rather than introducing a parallel receipt store.
+
+`src/ui/mission-panels.ts` supplies actual work-cost/role previews and accepted-work sections to both themes. Save validation checks source discoveries and rejects dangling/already-completed bound jobs. Released v0.5 fixtures preserve old paid orders; the new follow-up catalog has its own frozen fixture. See [MISSIONS.md](MISSIONS.md).

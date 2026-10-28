@@ -34,9 +34,20 @@ export function sitePanel(g: GameDefinition, s: GameState, button: CommandButton
     .filter((site) => site.location === location.id)
     .map((site) => {
       const done = records.includes(site.id);
+      const mission = g.missions.find((mission) => mission.sourceSite === site.id);
+      const progress = s.missions.find((entry) => entry.id === mission?.id);
+      const followUp = mission
+        ? progress?.claimed
+          ? 'Follow-up filed.'
+          : progress
+            ? progress.progress >= mission.objective.count
+              ? 'Follow-up complete: return to a service hub to file it.'
+              : 'Follow-up accepted: return here and complete the field work.'
+            : 'A follow-up contract is available at a service hub.'
+        : '';
       return `<article class="site-card" data-site="${esc(site.id)}"><div class="flex between"><h3>${esc(site.name)}</h3><span class="badge">${done ? 'EXPLORED' : s.primary?.site === site.id ? 'IN PROGRESS' : 'UNEXPLORED'}</span></div><p class="site-traits">${[site.origin, site.condition, site.opportunity, site.complication].map((trait) => esc(trait.name)).join(' · ')}</p><p>${esc(site.description)}</p>${
         done
-          ? '<small>Findings secured. This site cannot be explored again.</small>'
+          ? `<small>Findings secured. This site cannot be explored again.</small>${followUp ? `<p class="cost">${esc(followUp)}</p>` : ''}`
           : `<details><summary>Choose an approach</summary><div class="site-approaches">${site.approaches
               .map((approach) => {
                 const command: Command = {

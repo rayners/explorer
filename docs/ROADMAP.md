@@ -1,14 +1,14 @@
 # Roadmap and status
 
-Baseline: v0.5.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.6.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Active implementation queue
 
 User direction (2026-10-28): keep working through the roadmap, recording decisions and moving to the next item after each verified delivery.
 
-1. **Implemented; validating delivery: generated exploration sites.** Origin, condition, opportunity and complication affect available approaches, costs, rewards and risks in both games. Preserve old generations; design/acceptance: [SITES.md](SITES.md).
-2. **Next: missions derived from discoveries.** Create follow-up work from actual explored sites, factions and consequences, with saved identity, clear goals and hub completion. Design before implementation.
-3. **Queued: generated system/realm layouts.** Vary topology and bodies/places while guaranteeing reachable service hubs, introductory goals and recovery. Version/persist generated references.
+1. **Delivered v0.5: generated exploration sites.** Origin, condition, opportunity and complication affect available approaches, costs, rewards and risks in both games. Preserve old generations; design/acceptance: [SITES.md](SITES.md).
+2. **Implemented; validating delivery: missions derived from discoveries.** Create follow-up work from actual explored sites, factions and consequences, with saved identity, clear goals and hub completion. Design and acceptance: [MISSIONS.md](MISSIONS.md).
+3. **Next: generated system/realm layouts.** Vary topology and bodies/places while guaranteeing reachable service hubs, introductory goals and recovery. Version/persist generated references.
 4. **Queued: broaden lasting events and crew development.** Build on the earlier event candidates; prioritize opportunities and lasting decisions over repeated penalties.
 
 Full procedural campaigns are a staged direction now; this queue supersedes the earlier blanket deferral for these specific steps. Roguelite resets/metaprogression remain deferred. Physical iPhone checks still require the real device and remain explicitly pending; they do not block independent implementation.
@@ -33,9 +33,17 @@ The v0.2.1 baseline passed 67 unit tests, 60 browser cases and 6 production offl
 
 Both settings generate initial/recruit crew, factions, regions and location names from larger themed vocabularies. Identity-based narrative references keep briefs and choices consistent. Generation-1 saves retain original names and future recruit selection; new expeditions use generation 2. Naming streams do not affect events or combat. [NAMES.md](NAMES.md) records the versioning contract, fixtures and later conditional-generation possibilities. Full procedural geography and missions remain deferred. Validation: 90 unit tests, 69 browser cases, 8 production offline cases, and unchanged frontier outcomes across eight seeds. Physical iPhone checks remain pending.
 
+Site delivery: commit `91f2e59`; [Pages workflow](https://github.com/rayners/explorer/actions/runs/40637906138) succeeded. Live iPhone WebKit checks passed for both games, including selected-site catch-up and offline exact-once rewards.
+
 ## Implemented in v0.5: generated sites
 
 Both games have weighted site origins, conditions, opportunities and complications; direct, cautious and optional specialist approaches affect costs, effort, returns and ordinary incident risk. Surveys reveal selectable registries; chosen sites complete once and out of order. Generation 3 retains v2 names while generations 1/2 keep old sites and exact committed-job outcomes. Site-context discovery weights vary opportunities. The simulator sells surplus stock before resupply and all eight seeds stay under 200 minutes. Validation: 100 unit tests, 72 browser cases and 10 production offline cases; physical-device checks remain pending. See [SITES.md](SITES.md).
+
+## Implemented in v0.6: missions from discoveries
+
+Generation-3 site traits derive one optional follow-up contract and field-work activity per site in both games. Actual exploration unlocks the offer; hub acceptance enables role/cost/location-checked work, followed by hub filing for one payment and standing change. Completed work cannot be released or repeated. Existing generation-3 saves gain offers without changing sites or committed jobs; generations 1/2 remain unchanged. See [MISSIONS.md](MISSIONS.md).
+
+Validation: 110 unit tests, 75 browser cases and 14 production offline cases. Released-v0.5 job fixtures verify exact compatibility; site/name/catalog fixtures guard identities. Physical-device acceptance remains pending.
 
 ## Required manual validation still pending
 

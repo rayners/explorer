@@ -25,7 +25,7 @@ The engine commits duration, risk and rewards at dispatch, using the existing Jo
 
 ## Following tasks
 
-Discovery-derived missions follow this slice. Their design should use stable site identities and traits, durable outcomes, recipient factions and hub turn-in, rather than random objectives disconnected from discoveries. Generated region/system layouts follow once mission references and reachability can be checked against them. Roguelite resets and metaprogression remain separate deferred design work.
+Discovery-derived missions were implemented next in [MISSIONS.md](MISSIONS.md). Their design uses stable site identities and traits, durable outcomes, recipient factions and hub turn-in, rather than random objectives disconnected from discoveries. Generated region/system layouts follow once mission references and reachability can be checked against them. Roguelite resets and metaprogression remain separate deferred design work.
 
 ## Implemented contract
 
