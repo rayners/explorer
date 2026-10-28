@@ -91,7 +91,7 @@ Far Wake’s historical manifest URL is retained at the site root. `farWakeManif
 
 ## Versioned name generation
 
-Factories for Far Wake and Hollowmere default to generation 5, retain 3 for generated-site/authored-map saves and 2 for generated-name/authored-site saves, and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
+Factories for Far Wake and Hollowmere default to generation 5, retain 4 for generated-map saves and 3 for generated-site/authored-map saves and 2 for generated-name/authored-site saves, and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
 
 `generateName(seed, namespace, pattern, ordinal)` returns an indexed name; `allocateNames` fills a catalog of stable IDs without duplicate display names. Theme-owned `NamePattern` data supplies parts and a separator. A `RecruitDef.nameSource` supplies the pattern, namespace, ordinal offset and optional title; when absent, legacy `names` selection is unchanged. Recruitment previews and save validation use `recruitName` consistently. These functions do not touch `GameState.rng`. See [NAMES.md](NAMES.md) for frozen vocabulary and future extension rules.
 

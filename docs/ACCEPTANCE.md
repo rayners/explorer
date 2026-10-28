@@ -79,8 +79,10 @@ Physical iPhone checks remain pending: export current progress before trying a f
 
 ## v0.8 personnel/opportunity checks
 
-Local validation: 133 unit tests, 81 browser cases and 18 production offline cases passed; targeted checks additionally cover full accommodation, resettlement and new panels in landscape.
+Release validation: 133 unit tests, 81 browser cases and 18 production offline cases passed locally and in CI; targeted checks additionally cover full accommodation, resettlement and new panels in landscape.
 
 Automated coverage verifies schema-1/2/3 migration, all old paid-job fields, zero historical practice, once-only credit to surviving committed specialists, thresholds/caps, injuries/resting/memorials, parallel jobs, actual threat-caused loss, role gates and malformed imports. Opportunity checks cover stable survivor names through other hiring, upgrades/capacity, free resting joins, resettlement, training caps/alternatives, repeated responses and history beyond log truncation. Browser flows cover both themes and device projects; production offline cases settle rescue and training once. Both campaign simulators retain recoverability and pacing.
 
 Physical iPhone checks remain pending: read practice/help on roster rows, finish matching primary/support work while locked and verify one point, import a pre-v0.8 save, find a survivor and hire another specialist before responding, verify the survivor's name stays fixed, fill/upgrade accommodation, confirm join or resettlement, and train/release recovered knowledge offline. Check confirmations, visible unavailable reasons, memorial records and portrait/landscape layout.
+
+Live v0.8 checks passed in iPhone WebKit for both themes: offline rescue joining, knowledge training, durable receipts and real schema-3 parallel-job migration with once-only practice. A following compatibility-preparation test freezes 11 generation-5 discovery responses for future faction projects. Physical-device results remain pending.

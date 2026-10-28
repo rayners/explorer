@@ -10,6 +10,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [ENGINE.md](ENGINE.md)             | Engine integration API, content contracts, time and save semantics      |
 | [DESIGN.md](DESIGN.md)             | Far Wake setting, gameplay loop, pacing and internal threat             |
 | [HOLLOWMERE.md](HOLLOWMERE.md)     | Fantasy setting, party roles, curse and recovery                        |
+| [PROJECTS.md](PROJECTS.md)         | Next-slice faction projects linked to settled discovery choices         |
 | [CREW.md](CREW.md)                 | Crew proficiency, lasting opportunities and migration contract          |
 | [WORLDS.md](WORLDS.md)             | Generated layouts, reachability guarantees and version compatibility    |
 | [MISSIONS.md](MISSIONS.md)         | Discovery-derived contracts, accepted field work and payment accounting |

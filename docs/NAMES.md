@@ -4,7 +4,7 @@ Implemented in v0.4, 2026-10-28; requested by the user as the next procedural-co
 
 ## Behavior
 
-The frozen version-2 naming algorithm is used by generation-2 through generation-5 expeditions. New expeditions default to generation 5, adding generated layouts before names/sites/contracts are assembled. Generations 2/3 retain their exact catalogs. They generate initial crew and recruits, faction names, region names and location names. Names remain display values over stable identities; generation 4 adds geography through the separate [world generator](WORLDS.md). Text referring to places or factions must resolve their display names rather than silently retaining the old names.
+The frozen version-2 naming algorithm is used by generation-2 through generation-5 expeditions. New expeditions default to generation 5, adding generated layouts before names/sites/contracts are assembled. Generations 2/3/4 retain their exact catalogs. They generate initial crew and recruits, faction names, region names and location names. Names remain display values over stable identities; generation 4 adds geography through the separate [world generator](WORLDS.md). Text referring to places or factions must resolve their display names rather than silently retaining the old names.
 
 Generation-version-1 saves continue using their original names and recruit pools. Factories accept an optional generation version, and all browser restore/import/backup/secondary-tab paths must rebuild that saved version. A fresh expedition or reset uses the latest version. Save envelope 1 remains unchanged; state schema 4 adds personnel practice separately: the existing saved seed and generation version identify the vocabulary/algorithm, and crew names are already stored.
 
