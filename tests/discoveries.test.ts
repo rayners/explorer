@@ -7,7 +7,7 @@ import { pendingDiscovery } from '../src/engine/discoveries';
 import type { GameDefinition, GameState } from '../src/engine/types';
 
 function setup(kind?: 'exposure' | 'choice') {
-  const game = createGame(7);
+  const game = createGame(7, 2);
   // Selection is isolated from ordinary encounter RNG; real catalogs are tested below too.
   game.locations.forEach((location) => (location.danger = 0));
   game.discoveryEvents!.chance = 1;

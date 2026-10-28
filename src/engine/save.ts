@@ -108,6 +108,16 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
       j.risk <= 1 &&
       object(j.reward) &&
       Object.entries(j.reward).every(([k, v]) => resources.has(k) && finite(v)) &&
+      (j.site === undefined ||
+        (typeof j.site === 'string' &&
+          j.kind === 'activity' &&
+          j.definition === g.rules.exploreActivity &&
+          g.locations.find((l) => l.id === j.target)!.sites.includes(j.site) &&
+          !s.discoveries[j.target]?.sites.includes(j.site))) &&
+      (!g.sites ||
+        j.kind !== 'activity' ||
+        j.definition !== g.rules.exploreActivity ||
+        j.site !== undefined) &&
       (j.kind !== 'activity' || activities.has(j.definition)));
   if (
     !job(s.primary) ||

@@ -47,10 +47,10 @@ it('rejects unusable vocabularies and reports catalog exhaustion instead of loop
 });
 it('varies crew, faction, region and location names across seeds in both settings', () => {
   for (const factory of [createGame, createHollowmere]) {
-    const a = factory(44),
-      b = factory(91);
+    const a = factory(44, 2),
+      b = factory(91, 2);
     expect(a.generationVersion).toBe(2);
-    expect(a).toEqual(factory(44));
+    expect(a).toEqual(factory(44, 2));
     expect(a.initial.crew.map((member) => member.name)).not.toEqual(
       b.initial.crew.map((member) => member.name),
     );

@@ -38,7 +38,7 @@ export function describeEvent(g: GameDefinition, e: GameEvent): string {
     activityStarted: `${activity} underway.`,
     activityComplete: `${activity} complete at ${location(p.target)}.`,
     surveyed: `Survey of ${location(p.target)} complete. ${p.count} new navigation contacts resolved.`,
-    siteExplored: `At ${location(p.target)}: ${p.site}. Records and salvage secured.`,
+    siteExplored: `At ${location(p.target)}: ${g.sites?.find((site) => site.id === p.site)?.name ?? p.site}. Records and salvage secured.`,
     missionAbandoned: `Contract released: ${mission}.`,
     missionAccepted: `Contract accepted: ${mission}.`,
     missionClaimed: `Contract filed: ${mission}. Payment received.`,

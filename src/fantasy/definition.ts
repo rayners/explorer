@@ -1,9 +1,11 @@
+import { finishSites } from '../content/sites';
+import { fantasySites } from './sites';
 import { finishNamedDefinition } from '../content/names';
 import { fantasyNames } from './names';
 import type { GameDefinition, LocationDef, RouteDef } from '../engine/types';
 import { generator } from '../engine/random';
 /** An independent dark-fantasy game using the same exploration and party engine. */
-export function createHollowmere(seed = 1701, generationVersion = 2): GameDefinition {
+export function createHollowmere(seed = 1701, generationVersion = 3): GameDefinition {
   const rng = generator(seed);
   const regions = [
     {
@@ -707,5 +709,9 @@ export function createHollowmere(seed = 1701, generationVersion = 2): GameDefini
       },
     ],
   };
-  return finishNamedDefinition(definition, seed, generationVersion, fantasyNames);
+  return finishSites(
+    finishNamedDefinition(definition, seed, generationVersion, fantasyNames),
+    seed,
+    fantasySites,
+  );
 }

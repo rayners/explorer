@@ -45,9 +45,11 @@ export function simulate(seed: number) {
   const prepare = () => {
     const discovery = pendingDiscovery(g, s);
     if (discovery) doOrder({ type: 'discovery', id: discovery.id, choice: 'archive' });
-    for (const id of ['ore', 'ice'])
-      if (s.inventory[id])
-        doOrder({ type: 'trade', resource: id, amount: s.inventory[id], direction: 'sell' });
+    const reserves = { fuel: 56, parts: 13, provisions: 24, ammo: 5, ore: 0, ice: 0 };
+    for (const [resource, target] of Object.entries(reserves)) {
+      const surplus = Math.max(0, s.inventory[resource] - target);
+      if (surplus) doOrder({ type: 'trade', resource, amount: surplus, direction: 'sell' });
+    }
     for (const [resource, target] of Object.entries({
       fuel: 56,
       parts: 13,

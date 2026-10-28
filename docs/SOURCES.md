@@ -64,3 +64,7 @@ The user said a creature getting loose aboard ship should sometimes be a surpris
 ## Function-based naming (2026-10-28)
 
 The user requested generation functions for crew, faction and location names, permitting larger random-selection lists initially and mentioning Bayesian or other procedural approaches as possible future mechanisms. [NAMES.md](NAMES.md) records the implementation. The indexed sampler, themed parts, independent domains, generation-version selection and compatibility fixtures are implementation choices. No Bayesian model or external generator is used.
+
+## Active roadmap and generated sites (2026-10-28)
+
+After discussing generated sites followed by discovery-derived missions and generated layouts, the user set the active goal to keep working through the roadmap, adding detail as needed and moving to the next item. [ROADMAP.md](ROADMAP.md) records that queue and [SITES.md](SITES.md) records the first task. Exact recipe weights, approach tradeoffs, generation-version choice and preserved Job.site contract are implementation decisions. Released generation-2 compatibility fixtures were captured from the v0.4 source, not reconstructed from desired behavior.

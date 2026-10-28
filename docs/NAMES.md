@@ -4,7 +4,7 @@ Implemented in v0.4, 2026-10-28; requested by the user as the next procedural-co
 
 ## Behavior
 
-New expeditions in both games use generation version 2. They generate initial crew and recruits, faction names, region names and location names. Gameplay identities, geography, resource deposits, missions and event behavior retain their stable IDs and current mechanics. Text referring to places or factions must resolve their display names rather than silently retaining the old names.
+The version-2 naming algorithm is used by generation-2 and generation-3 expeditions. New expeditions default to generation 3, adding generated sites while preserving the same names. They generate initial crew and recruits, faction names, region names and location names. Gameplay identities, geography, resource deposits, missions and event behavior retain their stable IDs and current mechanics. Text referring to places or factions must resolve their display names rather than silently retaining the old names.
 
 Generation-version-1 saves continue using their original names and recruit pools. Factories accept an optional generation version, and all browser restore/import/backup/secondary-tab paths must rebuild that saved version. A fresh expedition or reset uses the latest version. Save envelope 1 and state schema 3 are unchanged: the existing saved seed and generation version identify the vocabulary/algorithm, and crew names are already stored.
 
@@ -12,7 +12,7 @@ Generation-version-1 saves continue using their original names and recruit pools
 
 A shared pure name function composes parts sampled from theme-owned vocabularies. Each naming domain has a seed-derived stream independent of gameplay randomness. Its indexed sequence traverses the combinations without repeats before exhaustion, so initial members and later recruits can reserve distinct ordinals across roles, including memorials. World names use deterministic allocation in stable ID order with collision checking.
 
-The initial vocabulary and algorithm for generation version 2 become a compatibility contract. Changing either requires a new supported generation version or a migration/persisted name catalog. Adding names must not silently rename old saves. No ambient randomness, network or per-frame generation is allowed.
+The initial vocabulary and algorithm for generation version 2 become a compatibility contract. Changing either requires a new supported generation version or a migration/persisted name catalog. Generation 3 deliberately reuses that vocabulary and algorithm. Adding names must not silently rename old saves. No ambient randomness, network or per-frame generation is allowed.
 
 Theme data supplies people, faction styles and location-kind patterns separately from the shared function. This is an extension point for contextual grammars or conditional/Bayesian models later; those must keep deterministic inputs, compatibility and stable identity. No statistical generation model is implemented in the first slice.
 

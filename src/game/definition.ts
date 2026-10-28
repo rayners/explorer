@@ -1,9 +1,11 @@
+import { finishSites } from '../content/sites';
+import { scienceFictionSites } from './sites';
 import { finishNamedDefinition } from '../content/names';
 import { scienceFictionNames } from './names';
 import type { GameDefinition, LocationDef, MissionDef, RouteDef } from '../engine/types';
 import { generator } from '../engine/random';
 /** Stable frontier geography; generation v1 retains authored names, v2 generates display names. */
-export function createGame(seed = 1701, generationVersion = 2): GameDefinition {
+export function createGame(seed = 1701, generationVersion = 3): GameDefinition {
   const rng = generator(seed);
   const regions = [
     {
@@ -796,5 +798,9 @@ export function createGame(seed = 1701, generationVersion = 2): GameDefinition {
       },
     ],
   };
-  return finishNamedDefinition(definition, seed, generationVersion, scienceFictionNames);
+  return finishSites(
+    finishNamedDefinition(definition, seed, generationVersion, scienceFictionNames),
+    seed,
+    scienceFictionSites,
+  );
 }

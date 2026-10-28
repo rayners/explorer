@@ -30,17 +30,19 @@ export function discoverAtSite(
   }
   if (s.threat || pendingDiscovery(g, s)) return;
   const sites = Object.values(s.discoveries).reduce((total, d) => total + d.sites.length, 0);
+  const weights = g.sites?.find((entry) => entry.id === site)?.eventWeights ?? {};
   const eligible = policy.entries.filter(
     (def) =>
-      def.weight > 0 &&
+      def.weight * (weights[def.id] ?? 1) > 0 &&
       sites >= def.minimumSites &&
       (!def.locations || def.locations.includes(location)) &&
       !s.incidents.some((record) => record.id === def.id) &&
       (def.kind !== 'exposure' || !s.threatHistory.includes(def.threat)),
   );
   if (!eligible.length || c.roll(s) >= policy.chance) return;
-  let weight = c.roll(s) * eligible.reduce((total, def) => total + def.weight, 0);
-  const selected = eligible.find((def) => (weight -= def.weight) < 0)!;
+  let weight =
+    c.roll(s) * eligible.reduce((total, def) => total + def.weight * (weights[def.id] ?? 1), 0);
+  const selected = eligible.find((def) => (weight -= def.weight * (weights[def.id] ?? 1)) < 0)!;
   s.incidents.push({ id: selected.id, location, site, at: s.elapsed, choice: null });
   s.discoveryCooldown = policy.cooldown;
   if (selected.kind === 'exposure') {

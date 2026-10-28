@@ -1,3 +1,4 @@
+import { activityPreview, sitePanel } from './site-panels';
 import { threatAlert } from '../engine/threats';
 import { living, crewCapacity } from '../engine/personnel';
 import {
@@ -76,7 +77,8 @@ export function mountApp(root: HTMLElement, controller: AppController) {
       ? 'Recovery tow'
       : j.kind === 'travel'
         ? `En route to ${g.locations.find((l) => l.id === j.target)!.name}`
-        : g.activities.find((a) => a.id === j.definition)!.name;
+        : g.activities.find((a) => a.id === j.definition)!.name +
+          (j.site ? ` · ${g.sites?.find((site) => site.id === j.site)?.name ?? j.site}` : '');
   }
   function jobs() {
     return (['primary', 'support'] as const)
@@ -228,13 +230,14 @@ export function mountApp(root: HTMLElement, controller: AppController) {
   function activityCard(id: string) {
     const a = g.activities.find((a) => a.id === id)!,
       command: Command = { type: 'activity', id },
-      error = dispatch(g, s, command).error;
-    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${duration(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><div class="cost">${esc(amountText(a.cost))}</div>${a.id === 'gather' ? `<small>Deposit return: ${esc(amountText(view(g, s).location.yields))}, plus crew bonuses.</small>` : Object.keys(a.reward).length ? `<small>Return: ${esc(amountText(a.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Start support job' : 'Begin activity', command, !error)}${error ? `<div class="reason">${esc(error)}</div>` : ''}</article>`;
+      error = dispatch(g, s, command).error,
+      preview = activityPreview(g, s, id);
+    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${duration(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><div class="cost">${esc(amountText(preview.cost))}</div>${preview.note ? `<small>${esc(preview.note)}</small>` : ''}${a.id === 'gather' ? `<small>Deposit return: ${esc(amountText(view(g, s).location.yields))}, plus crew bonuses.</small>` : Object.keys(preview.reward).length ? `<small>Return: ${esc(amountText(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Start support job' : 'Begin activity', command, !error)}${error ? `<div class="reason">${esc(error)}</div>` : ''}</article>`;
   }
   function operations() {
     const loc = view(g, s).location,
       d = s.discoveries[loc.id];
-    return `<div class="dashboard"><div><div class="section-label">${loc.station ? 'Dockside operations' : 'Survey & field operations'}</div><div class="activity-grid">${(loc.station ? ['work', 'aid'] : ['survey', 'explore', 'gather', 'raid', ...g.activities.filter((a) => a.effect === 'expose' && a.locations?.includes(loc.id)).map((a) => a.id)]).map(activityCard).join('')}</div>${!loc.station ? `<div class="section-label">Site registry / ${d?.sites.length ?? 0} OF ${loc.sites.length} INVESTIGATED</div>${panel('Surface contacts', loc.sites.map((site, i) => `<div class="log-row"><span class="${d?.sites.includes(site) ? 'green' : 'muted'}">${d?.sites.includes(site) ? '✓' : '◇'} ${String(i + 1).padStart(2, '0')}</span><span>${d?.surveyed ? esc(site) : 'Awaiting orbital survey'} ${d?.sites.includes(site) ? '· RECORD SECURED' : ''}</span></div>`).join(''))}` : ''}<div class="section-label">Engineering / independent support team</div><div class="activity-grid">${['repair', 'service', 'refine', 'fabricate', 'arm', 'triage', ...(loc.station ? ['heal'] : [])].map(activityCard).join('')}</div></div><div class="stack">${panel(
+    return `<div class="dashboard"><div><div class="section-label">${loc.station ? 'Dockside operations' : 'Survey & field operations'}</div><div class="activity-grid">${(loc.station ? ['work', 'aid'] : ['survey', 'explore', 'gather', 'raid', ...g.activities.filter((a) => a.effect === 'expose' && a.locations?.includes(loc.id)).map((a) => a.id)]).map(activityCard).join('')}</div>${g.sites ? sitePanel(g, s, button) : !loc.station ? `<div class="section-label">Site registry / ${d?.sites.length ?? 0} OF ${loc.sites.length} INVESTIGATED</div>${panel('Surface contacts', loc.sites.map((site, i) => `<div class="log-row"><span class="${d?.sites.includes(site) ? 'green' : 'muted'}">${d?.sites.includes(site) ? '✓' : '◇'} ${String(i + 1).padStart(2, '0')}</span><span>${d?.surveyed ? esc(site) : 'Awaiting orbital survey'} ${d?.sites.includes(site) ? '· RECORD SECURED' : ''}</span></div>`).join(''))}` : ''}<div class="section-label">Engineering / independent support team</div><div class="activity-grid">${['repair', 'service', 'refine', 'fabricate', 'arm', 'triage', ...(loc.station ? ['heal'] : [])].map(activityCard).join('')}</div></div><div class="stack">${panel(
       'Crew assignments',
       `${crewControls()}${
         s.crew.some((m) => m.life === 'dead')
@@ -381,7 +384,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.4<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.5<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
       root.classList.toggle('readonly', !controller.isOwner());
       for (const b of root.querySelectorAll<HTMLElement>('.nav-button'))
         b.setAttribute('aria-current', b.dataset.tab === tab ? 'page' : 'false');

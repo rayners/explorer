@@ -1,3 +1,4 @@
+import { activityPreview, sitePanel } from '../ui/site-panels';
 import type { GameDefinition, GameState, Command, Job } from '../engine/types';
 import type { AppController } from '../browser/controller';
 import { dispatch, view, cargo, price, activityDuration, routesFrom } from '../engine/simulation';
@@ -52,16 +53,17 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
     Object.entries(values)
       .map(([id, n]) => `${n} ${g.resources.find((r) => r.id === id)?.name.toLowerCase() ?? id}`)
       .join(' · ') || 'No supplies required';
-  function button(label: string, command: Command, primary = false) {
+  function button(label: string, command: Command, primary = false, includeReason = true) {
     const error = dispatch(g, s, command).error;
-    return `<button data-command="${esc(JSON.stringify(command))}" data-key="${esc(JSON.stringify(command))}" class="${primary ? 'primary' : ''}" ${error || !controller.isOwner() ? 'disabled' : ''}>${esc(label)}</button>${error ? `<small class="action-reason">${esc(error)}</small>` : ''}`;
+    return `<button data-command="${esc(JSON.stringify(command))}" data-key="${esc(JSON.stringify(command))}" class="${primary ? 'primary' : ''}" ${error || !controller.isOwner() ? 'disabled' : ''}>${esc(label)}</button>${error && includeReason ? `<small class="action-reason">${esc(error)}</small>` : ''}`;
   }
   function jobName(job: Job) {
     return job.kind === 'travel'
       ? `Journey to ${g.locations.find((l) => l.id === job.target)!.name}`
       : job.kind === 'rescue'
         ? 'Escort to refuge'
-        : g.activities.find((a) => a.id === job.definition)!.name;
+        : g.activities.find((a) => a.id === job.definition)!.name +
+          (job.site ? ` · ${g.sites?.find((site) => site.id === job.site)?.name ?? job.site}` : '');
   }
   function jobs() {
     return (['primary', 'support'] as const)
@@ -85,7 +87,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       activityStarted: `${activity} begun.`,
       activityComplete: `${activity} completed at ${location}.`,
       surveyed: `${location} charted. ${p.count} paths and places revealed.`,
-      siteExplored: `At ${location}: ${p.site}. Records and relics recovered.`,
+      siteExplored: `At ${location}: ${g.sites?.find((site) => site.id === p.site)?.name ?? p.site}. Records and relics recovered.`,
       memberHired: `${p.member} joined the company as ${p.skill}. Assign them before setting out.`,
       memberLost: `${p.member} was killed by the White Guest. Their name remains in the ledger.`,
       threatAnomaly: 'An extra shadow fell across the campfire. Nobody could find its owner.',
@@ -132,8 +134,9 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       : '';
   }
   function actionCard(id: string) {
-    const a = g.activities.find((a) => a.id === id)!;
-    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(a.cost))}</small>${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, true)}</article>`;
+    const a = g.activities.find((a) => a.id === id)!,
+      preview = activityPreview(g, s, id);
+    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, true)}</article>`;
   }
   function chronicle() {
     const v = view(g, s),
@@ -200,7 +203,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       .map((a) => actionCard(a.id))
       .join(
         '',
-      )}</div><div class="section-label">Support duties</div><div class="activity-grid">${g.activities
+      )}</div>${sitePanel(g, s, (label, command, primary) => button(label, command, primary, false))}<div class="section-label">Support duties</div><div class="activity-grid">${g.activities
       .filter((a) => a.slot === 'support' && (a.at === 'any' || loc.station))
       .map((a) => actionCard(a.id))
       .join(
@@ -287,7 +290,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${jobs()}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.4<br><a href="../?games=1">All games</a></span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${jobs()}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.5<br><a href="../?games=1">All games</a></span></footer>`;
       for (const el of root.querySelectorAll<HTMLElement>('[data-tab]'))
         el.setAttribute('aria-current', el.dataset.tab === tab ? 'page' : 'false');
       const canvas = main.querySelector<HTMLCanvasElement>('#fantasy-scene');

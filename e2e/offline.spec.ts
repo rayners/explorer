@@ -1,3 +1,4 @@
+import { createHollowmere } from '../src/fantasy/definition';
 import { test, expect } from '@playwright/test';
 import { createGame } from '../src/game/definition';
 import { createState, dispatch, advance } from '../src/engine/simulation';
@@ -116,7 +117,7 @@ test('a recovered claim survives offline launch and applies its faction conseque
   context,
   baseURL,
 }) => {
-  const game = createGame(1701);
+  const game = createGame(1701, 2);
   let state = createState(game, 1701);
   state.rng = 1;
   state.location = 'morrow';
@@ -168,5 +169,63 @@ test('a recovered claim survives offline launch and applies its faction conseque
   expect(saved.reputation).toMatchObject({ independent: 14, combine: -8 });
   expect(saved.inventory.credits).toBe(credits + 90);
   expect(await page.evaluate(() => typeof (window as any).__farWake)).toBe('undefined');
+  await context.setOffline(false);
+});
+
+test('selected generated-site expeditions finish exactly once across production offline reloads in both themes', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  for (const fantasy of [false, true]) {
+    const game = fantasy ? createHollowmere(1701) : createGame(1701);
+    const location = fantasy ? 'old-road' : 'cinder';
+    const state = createState(game, 1701);
+    state.location = location;
+    state.discoveries[location].surveyed = true;
+    const site = game.sites!.filter((site) => site.location === location)[2];
+    const started = dispatch(game, state, {
+      type: 'activity',
+      id: 'explore',
+      site: site.id,
+      approach: 'cautious',
+    }).state;
+    const expected = advance(game, started, 200);
+    await page.addInitScript(
+      ({ raw, key }) => {
+        if (!sessionStorage.getItem('site-init-' + key)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem('site-init-' + key, 'yes');
+        }
+      },
+      { raw: encodeSave(started, Date.now() - 200000), key: `${game.id}.save.v1` },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${game.id}/`, baseURL).href);
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const saved = await page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key)!).state,
+      `${game.id}.save.v1`,
+    );
+    expect(saved.generationVersion).toBe(3);
+    expect(saved.discoveries[location].sites).toEqual([site.id]);
+    expect(saved.inventory).toEqual(expected.inventory);
+    expect(saved.primary).toBeNull();
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: fantasy ? /Company/ : /Operations/ })
+      .click();
+    await expect(
+      page
+        .locator('.site-card')
+        .filter({ has: page.getByRole('heading', { name: site.name, exact: true }) }),
+    ).toContainText('This site cannot be explored again');
+  }
   await context.setOffline(false);
 });

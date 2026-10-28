@@ -36,6 +36,37 @@ export interface RegionDef {
   y: number;
   color: string;
 }
+export interface SkillRequirement {
+  skill: string;
+  count: number;
+  assignment?: Member['assignment'];
+}
+export interface SiteTrait {
+  id: string;
+  name: string;
+}
+export interface SiteApproach {
+  id: string;
+  name: string;
+  description: string;
+  seconds: number;
+  cost: Amounts;
+  reward: Amounts;
+  risk: number;
+  requirements?: SkillRequirement[];
+}
+export interface SiteDef {
+  id: string;
+  location: string;
+  name: string;
+  description: string;
+  origin: SiteTrait;
+  condition: SiteTrait;
+  opportunity: SiteTrait;
+  complication: SiteTrait;
+  approaches: SiteApproach[];
+  eventWeights?: Amounts;
+}
 export interface RouteDef {
   from: string;
   to: string;
@@ -68,7 +99,7 @@ export interface ActivityDef {
   at: 'station' | 'field' | 'any';
   effect?: 'repair' | 'service' | 'heal' | 'aid' | 'expose';
   locations?: string[];
-  requirements?: { skill: string; count: number; assignment?: Member['assignment'] }[];
+  requirements?: SkillRequirement[];
   threat?: string;
 }
 export interface Objective {
@@ -213,6 +244,7 @@ export interface GameState {
   milestones: string[];
 }
 export interface GameDefinition {
+  sites?: SiteDef[];
   discoveryEvents?: { chance: number; cooldown: number; entries: DiscoveryEventDef[] };
   recruitment?: { capacity: number; offers: RecruitDef[] };
   threats?: ThreatDef[];
@@ -265,7 +297,7 @@ export interface GameDefinition {
 export type Command =
   | { type: 'discovery'; id: string; choice: string }
   | { type: 'travel'; target: string }
-  | { type: 'activity'; id: string }
+  | { type: 'activity'; id: string; site?: string; approach?: string }
   | { type: 'hire'; id: string }
   | { type: 'threat'; action: 'search' | 'contain' | 'confront' | 'purge' }
   | { type: 'work' }

@@ -2,6 +2,7 @@ import { living, crewCapacity, recruitName } from './personnel';
 import { threatAlert, developThreat, respondToThreat } from './threats';
 import { routesAt } from './navigation';
 import { discoverAtSite, discoveryChoice } from './discoveries';
+import { explorationPlan } from './sites';
 import type {
   Amounts,
   Command,
@@ -112,9 +113,17 @@ export function skillBonus(
       .reduce((n, u) => n + (u.bonus ?? 0), 0)
   );
 }
-export function activityDuration(g: GameDefinition, s: GameState, id: string) {
+export function activityDuration(
+  g: GameDefinition,
+  s: GameState,
+  id: string,
+  site?: string,
+  approach?: string,
+) {
   const a = g.activities.find((a) => a.id === id)!;
-  return Math.round(a.seconds / (1 + skillBonus(g, s, a.skill, a.slot)));
+  const plan = id === g.rules.exploreActivity ? explorationPlan(g, s, site, approach) : undefined;
+  const seconds = plan && typeof plan !== 'string' ? plan.approach.seconds : a.seconds;
+  return Math.round(seconds / (1 + skillBonus(g, s, a.skill, a.slot)));
 }
 export function routesFrom(g: GameDefinition, s: GameState) {
   return routesAt(g, s.location).map((route) => ({ ...route, target: route.to }));
@@ -238,6 +247,14 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
           : command.id;
     const a = g.activities.find((a) => a.id === id);
     if (!a) return fail('Unknown activity.');
+    const selection = command.type === 'activity' ? command : undefined;
+    if (id !== g.rules.exploreActivity && (selection?.site || selection?.approach))
+      return fail('Site approaches are only available for exploration.');
+    const plan =
+      id === g.rules.exploreActivity
+        ? explorationPlan(g, s, selection?.site, selection?.approach)
+        : undefined;
+    if (typeof plan === 'string') return fail(plan);
     if (s[a.slot]) return fail('That team is already working.');
     if (a.slot === 'support' && s.primary?.kind === 'rescue')
       return fail('Wait for recovery to finish.');
@@ -251,7 +268,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
       return fail('This activity is available at a different location.');
     if (a.effect === 'expose' && (s.threat || s.threatHistory.includes(a.threat ?? '')))
       return fail('This expedition incident has already been investigated.');
-    for (const requirement of a.requirements ?? []) {
+    for (const requirement of [...(a.requirements ?? []), ...(plan?.approach.requirements ?? [])]) {
       const count = living(s).filter(
         (member) =>
           member.skill === requirement.skill &&
@@ -276,9 +293,10 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
       return fail('Nobody needs treatment.');
     if (!living(s).some((c) => c.assignment === a.slot))
       return fail('Assign at least one living member to this team.');
-    if (!affordable(s, a.cost)) return fail('Insufficient supplies for this activity.');
-    const duration = activityDuration(g, s, id);
-    spend(s, a.cost);
+    const cost = plan?.approach.cost ?? a.cost;
+    if (!affordable(s, cost)) return fail('Insufficient supplies for this activity.');
+    const duration = activityDuration(g, s, id, selection?.site, selection?.approach);
+    spend(s, cost);
     s[a.slot] = {
       id: `j${s.nextEvent}`,
       kind: 'activity',
@@ -287,8 +305,9 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
       remaining: duration,
       total: duration,
       days: 0,
-      reward: clone(a.reward),
-      risk: a.slot === 'primary' && a.at === 'field' ? loc.danger : 0,
+      reward: clone(plan?.approach.reward ?? a.reward),
+      risk: plan?.approach.risk ?? (a.slot === 'primary' && a.at === 'field' ? loc.danger : 0),
+      ...(plan ? { site: plan.site.id } : {}),
     };
     if (id === g.rules.gatherActivity)
       s[a.slot]!.reward = Object.fromEntries(
@@ -297,7 +316,10 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
           Math.round(n * (1 + skillBonus(g, s, a.skill, a.slot))),
         ]),
       );
-    event(s, 'activityStarted', { activity: id });
+    event(s, 'activityStarted', {
+      activity: id,
+      ...(plan ? { site: plan.site.id, approach: plan.approach.id } : {}),
+    });
   } else if (command.type === 'rescue') {
     if (loc.station || s.primary?.kind === 'travel' || s.primary?.kind === 'rescue')
       return fail('Recovery is available while stranded at a field destination.');
@@ -530,10 +552,10 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
       event(s, 'surveyed', { target: loc.id, count: revealed.length });
     }
     if (a.id === g.rules.exploreActivity) {
-      const site = loc.sites.find((id) => !d.sites.includes(id));
-      if (site) d.sites.push(site);
+      const site = job.site ?? loc.sites.find((id) => !d.sites.includes(id));
+      if (site && !d.sites.includes(site)) d.sites.push(site);
       exploredSite = site;
-      gain(g, s, { [g.rules.currency]: 25 });
+      if (!job.site) gain(g, s, { [g.rules.currency]: 25 });
       event(s, 'siteExplored', { target: loc.id, site: site ?? '' });
     }
     if (a.effect === 'repair') s.integrity = Math.min(100, s.integrity + 35);

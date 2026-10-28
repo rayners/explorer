@@ -255,7 +255,7 @@ test('both games keep independent saves and command locks, and reject cross-game
 });
 
 function discoveryStart(rng: number) {
-  const game = createGame(1701);
+  const game = createGame(1701, 2);
   const start = createState(game, 1701);
   start.rng = rng;
   start.location = 'morrow';
@@ -394,7 +394,7 @@ test('released worlds retain their original names across import, secondary-tab u
   await page.getByRole('button', { name: 'Start a new expedition', exact: true }).click();
   await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
   const fresh = createGame(91);
-  expect((await state(page)).generationVersion).toBe(2);
+  expect((await state(page)).generationVersion).toBe(3);
   expect((await state(page)).crew.map((member: any) => member.name)).toEqual(
     fresh.initial.crew.map((member) => member.name),
   );
@@ -417,4 +417,49 @@ test('released worlds retain their original names across import, secondary-tab u
   await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
   expect((await state(page, true)).generationVersion).toBe(1);
   await expect(page.locator('#breadcrumb')).toContainText('Mournwatch');
+});
+
+test('generated sites let both games select and preserve a cautious expedition out of order', async ({
+  page,
+}) => {
+  for (const fantasy of [false, true]) {
+    const game = fantasy ? createHollowmere(1701) : createGame(1701);
+    const location = fantasy ? 'old-road' : 'cinder';
+    const start = createState(game, 1701);
+    start.location = location;
+    start.discoveries[location].surveyed = true;
+    await open(page, fantasy ? '/hollowmere/' : '/far-wake/');
+    await importState(page, encodeSave(start, Date.now()));
+    await nav(page, fantasy ? 'company' : 'operations');
+    const site = game.sites!.filter((site) => site.location === location)[2];
+    const card = page
+      .locator('.site-card')
+      .filter({ has: page.getByRole('heading', { name: site.name, exact: true }) });
+    await expect(card).toContainText(site.opportunity.name);
+    await card.locator('summary').click();
+    const cautious = site.approaches.find((approach) => approach.id === 'cautious')!;
+    const choice = card
+      .locator('.site-approach')
+      .filter({ has: page.getByRole('heading', { name: cautious.name, exact: true }) });
+    await expect(choice).toContainText('incident risk');
+    await expect(choice).toContainText('Cost:');
+    await expect(choice).toContainText('Return:');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    await choice.getByRole('button', { name: `Explore: ${cautious.name}`, exact: true }).click();
+    expect((await state(page, fantasy)).primary.site).toBe(site.id);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await state(page, fantasy)).primary.site).toBe(site.id);
+    await next(page, 200, fantasy);
+    await escape(page, fantasy);
+    expect((await state(page, fantasy)).discoveries[location].sites).toEqual([site.id]);
+    await nav(page, fantasy ? 'company' : 'operations');
+    await expect(card).toContainText('This site cannot be explored again');
+    await expect(card.getByRole('button')).toHaveCount(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+  }
 });

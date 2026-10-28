@@ -20,28 +20,30 @@ Read [requirements](docs/REQUIREMENTS.md), [decisions](docs/DECISIONS.md), [arch
 3. Keep one primary order and one support job. Pay costs on dispatch; resolve rewards once at completion. Offline catch-up is capped at 24 hours and stops at consequential choices. Never cause permanent casualties through absence.
 4. Permanent crew loss belongs to explicit responses to an internal threat, with casualty risk explained before responding. Surprise onset is allowed by the new design direction; it does not permit offline casualties. Retain memorial records. Preserve recovery: guaranteed purge, encounter surrender, recovery transport and emergency recruitment.
 5. Preserve already committed jobs when a casualty changes the roster. Enforce staffing for new orders without invalidating a paid journey already in progress.
-6. Saves are a compatibility contract. Envelope format 1, state schema 3 and definition generation versions 1 (legacy names) and 2 (generated names) are separate versions. Saved-shape changes require validation and migration tests. Generator changes must preserve old seeds/catalog identities or explicitly migrate them. Keep existing storage namespaces and manifest identity stable.
+6. Saves are a compatibility contract. Envelope format 1, state schema 3 and definition generation versions 1 (legacy names), 2 (generated names) and 3 (generated sites) are separate versions. Saved-shape changes require validation and migration tests. Generator changes must preserve old seeds/catalog identities or explicitly migrate them. Keep existing storage namespaces and manifest identity stable.
 7. Imports/resets must back up and write the replacement before swapping the active simulation. Storage errors leave the current expedition usable with a persistent warning and export available. Check ownership before commands and saves.
 8. Both games share browser lifecycle code and the site-root service worker, but have independent saves, preferences, command locks and install manifests. Do not reuse one game's namespace for another.
 9. Use visible reasons for unavailable actions; avoid hover-only explanations. Provide touch targets of at least 44px, safe-area padding, reduced motion and keyboard access. Check portrait and landscape overflow.
 
 ## Code map
 
-| Path                                          | Responsibility                                                          |
-| --------------------------------------------- | ----------------------------------------------------------------------- |
-| `src/engine/types.ts`                         | Definitions, serializable state and commands                            |
-| `src/engine/simulation.ts`                    | Commands, time boundaries, economy, encounters, objectives              |
-| `src/engine/names.ts`, `src/content/names.ts` | Pure seeded sampling and themed name/reference assembly                 |
-| `src/engine/discoveries.ts`                   | Once-only site events, silent exposure and persistent follow-up choices |
-| `src/engine/navigation.ts`                    | Effective routes and itinerary planning                                 |
-| `src/engine/personnel.ts`, `threats.ts`       | Recruitment, skills, casualties, internal incidents                     |
-| `src/engine/save.ts`, `random.ts`             | Save validation/migration/reconciliation and seeded RNG                 |
-| `src/browser/`                                | Lifecycle, controller, persistence and tab coordination                 |
-| `src/game/`, `src/ui/`                        | Far Wake definitions/writing and DOM/pixel artwork                      |
-| `src/fantasy/`                                | Hollowmere definitions, UI, art and entry point                         |
-| `src/picker/`                                 | Library catalog, UI and Far Wake manifest compatibility                 |
-| `tests/`, `e2e/`                              | Behavior, content, portability, browser and offline checks              |
-| `scripts/`                                    | Frontier simulation, icons and screenshots                              |
+| Path                                                   | Responsibility                                                          |
+| ------------------------------------------------------ | ----------------------------------------------------------------------- |
+| `src/engine/types.ts`                                  | Definitions, serializable state and commands                            |
+| `src/engine/simulation.ts`                             | Commands, time boundaries, economy, encounters, objectives              |
+| `src/engine/names.ts`, `src/content/names.ts`          | Pure seeded sampling and themed name/reference assembly                 |
+| `src/engine/sites.ts`, `src/engine/site-generation.ts` | Site choices and deterministic profile generation                       |
+| `src/content/sites.ts`, `src/ui/site-panels.ts`        | Themed catalog assembly and shared site controls                        |
+| `src/engine/discoveries.ts`                            | Once-only site events, silent exposure and persistent follow-up choices |
+| `src/engine/navigation.ts`                             | Effective routes and itinerary planning                                 |
+| `src/engine/personnel.ts`, `threats.ts`                | Recruitment, skills, casualties, internal incidents                     |
+| `src/engine/save.ts`, `random.ts`                      | Save validation/migration/reconciliation and seeded RNG                 |
+| `src/browser/`                                         | Lifecycle, controller, persistence and tab coordination                 |
+| `src/game/`, `src/ui/`                                 | Far Wake definitions/writing and DOM/pixel artwork                      |
+| `src/fantasy/`                                         | Hollowmere definitions, UI, art and entry point                         |
+| `src/picker/`                                          | Library catalog, UI and Far Wake manifest compatibility                 |
+| `tests/`, `e2e/`                                       | Behavior, content, portability, browser and offline checks              |
+| `scripts/`                                             | Frontier simulation, icons and screenshots                              |
 
 Vite + TypeScript, hand-written DOM/CSS, Vitest and Playwright. Match surrounding style; avoid adding a framework or dependency without a concrete need. Artwork is currently code-native pixel art; no external fonts or image services are needed.
 
@@ -66,7 +68,9 @@ Add behavior tests for mechanics, regressions, save migrations and lifecycle cha
 
 ## Adding a game or changing behavior
 
-[Name generation](docs/NAMES.md) documents the versioned vocabulary contract. New games default to generation 2; restores must pass the saved generation version through every definition-factory call. Keep naming independent of outcome RNG. Use stable-ID references in narrative rather than hard-coded display names.
+[Generated sites](docs/SITES.md) defines the version-3 catalog and committed approach contract. Keep generations 1/2 unchanged. Use stable site IDs, preserve Job.site and its paid duration/risk/reward, and do not reroll site profiles during rendering or loading. Follow the active queue in [ROADMAP.md](docs/ROADMAP.md).
+
+[Name generation](docs/NAMES.md) documents the versioned vocabulary contract. New games default to generation 3, retaining version-2 naming; restores must pass the saved generation version through every definition-factory call. Keep naming independent of outcome RNG. Use stable-ID references in narrative rather than hard-coded display names.
 
 [Discovery events](docs/EVENTS.md) documents surprise stowaways and the settlement-claim follow-up, implemented in v0.3. New sites can select a once-only incident; preserve the durable incident ledger and cooldown. Keep onset surprises separate from explicit casualty-risk decisions.
 

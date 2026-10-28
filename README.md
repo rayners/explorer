@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.5
+
+New expeditions in both games generate exploration sites with origins, conditions, opportunities and complications that affect play. After surveying, choose any unfinished site and a direct, cautious or optional specialist approach. Costs, returns, duration, incident risk and staffing requirements are shown before ordering. Choices remain committed across reloads and offline play; completed sites cannot be farmed.
+
+Generation 3 keeps the generated names from v0.4. Existing expeditions retain their old sites and outcomes. Geography is still authored; discovery-derived missions and generated layouts are the next roadmap steps. See [generated sites](docs/SITES.md).
+
 ## New in v0.4
 
 Crew, faction, region and location names now come from seeded generation functions in both games. Themed vocabularies compose people and place names; recruits draw from 1,024 personal-name combinations instead of a handful of repeated cast names. Mission briefs, guidance, logs and faction choices use each expedition's names.
@@ -87,7 +93,7 @@ Seeds currently vary frontier deposits and site identities within an authored fo
 
 ## Saves and compatibility
 
-The JSON envelope format remains **1**; generation **1** preserves released authored names and generation **2** generates names for fresh expeditions; the saved state schema is now **3**. Version-one and version-two states migrate automatically, preserving inventory, discoveries, contracts, upgrades, crew, and active job timers. Schema 2 initializes recruitment history and a clear internal-threat state; schema 3 initializes an empty incident ledger and discovery cooldown. Existing threats and committed jobs remain intact, and old sites are never rerolled. Unsupported future versions are rejected instead of silently regenerated.
+The JSON envelope format remains **1**; generation **1** preserves released authored names and generation **2** preserves generated names with authored sites, and generation **3** adds generated sites for fresh expeditions; the saved state schema is now **3**. Version-one and version-two states migrate automatically, preserving inventory, discoveries, contracts, upgrades, crew, and active job timers. Schema 2 initializes recruitment history and a clear internal-threat state; schema 3 initializes an empty incident ledger and discovery cooldown. Existing threats and committed jobs remain intact, and old sites are never rerolled. Unsupported future versions are rejected instead of silently regenerated.
 
 Browser storage keys are `far-wake.save.v1`, `far-wake.backup.v1` (before import/reset), and `far-wake.corrupt.v1` (unreadable original). Hollowmere uses the equivalent `hollowmere.*` namespace. Cross-game imports are rejected and both games can hold independent command locks. Saves are plain JSON with a checksum for accidental corruption, not an anti-cheat mechanism. Imports and resets keep the current expedition active until both its backup and replacement have been written; a storage failure leaves the current expedition intact and displays a persistent warning. Keep downloaded backups: browser storage can be cleared by the user or operating system. Settings can import a backup JSON copied from these keys.
 

@@ -1,6 +1,6 @@
-# Far Wake v0.4 design
+# Far Wake v0.5 design
 
-Generation-1 names below describe the authored setting. Fresh generation-2 expeditions use seeded names for people, factions, regions and locations while keeping the same roles, routes and mechanics; see [NAMES.md](NAMES.md).
+Generation-1 names below describe the authored setting. Generation-2 and generation-3 expeditions use seeded names for people, factions, regions and locations while keeping the same roles, routes and mechanics; see [NAMES.md](NAMES.md).
 
 The player is the captain of the survey vessel Kestrel, operating under an Orison Combine charter in 2186. The tone is industrial, dryly bureaucratic, and occasionally unsettling. Exploration and logistics lead; supernatural explanations and franchise characters are absent.
 
@@ -41,3 +41,7 @@ All randomness is seeded and saved. Revealing a threat during catch-up pauses fu
 ## Shared fantasy implementation
 
 Hollowmere has a separately themed interface, content catalogs and procedural details, with its own save namespace. It uses the same engine, recruitment and threat mechanics, save migration, transaction-safe imports, offline timing, and browser lifecycle. Its fighter/mage/cleric/scout composition is enforced by generic activity requirements, rather than hard-coded fantasy branches in the engine. See [HOLLOWMERE.md](HOLLOWMERE.md).
+
+## Generated exploration profiles
+
+Fresh generation-3 expeditions generate site origins, conditions, opportunities and complications. Surveys reveal their descriptions and choices. Direct recovery is the default, cautious recovery trades time/supplies/return for lower field-incident risk, and optional specialist approaches reward crew preparation. Site selection, costs and expected returns are explicit and remain committed through absence. Context changes discovery weights without revealing a hidden passenger. Earlier expeditions retain their original site lists. See [SITES.md](SITES.md).

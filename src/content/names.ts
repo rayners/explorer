@@ -26,9 +26,10 @@ export function finishNamedDefinition(
   version: number,
   theme: NamingTheme,
 ): GameDefinition {
-  if (version !== 1 && version !== 2) throw Error('Unsupported content generation version.');
+  if (version !== 1 && version !== 2 && version !== 3)
+    throw Error('Unsupported content generation version.');
   game.generationVersion = version;
-  if (version === 2) {
+  if (version >= 2) {
     const regions = allocateNames(
       seed,
       `${game.id}:regions:v2`,

@@ -91,6 +91,16 @@ Far Wake’s historical manifest URL is retained at the site root. `farWakeManif
 
 ## Versioned name generation
 
-Factories for Far Wake and Hollowmere default to generation 2 and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
+Factories for Far Wake and Hollowmere default to generation 3, retain 2 for generated-name/authored-site saves, and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
 
 `generateName(seed, namespace, pattern, ordinal)` returns an indexed name; `allocateNames` fills a catalog of stable IDs without duplicate display names. Theme-owned `NamePattern` data supplies parts and a separator. A `RecruitDef.nameSource` supplies the pattern, namespace, ordinal offset and optional title; when absent, legacy `names` selection is unchanged. Recruitment previews and save validation use `recruitName` consistently. These functions do not touch `GameState.rng`. See [NAMES.md](NAMES.md) for frozen vocabulary and future extension rules.
+
+## Selectable exploration sites
+
+An optional `GameDefinition.sites: SiteDef[]` supplies profile data. A `SiteDef` references its location, stable identity, display name/description, four traits, approaches and optional discovery-event weight multipliers. Its ID belongs in LocationDef.sites and saved discoveries. No theme identifiers are interpreted by the engine.
+
+`explorationPlan(game,state,site?,approach?)` returns an immutable selection, a setting-neutral rejection, or undefined for legacy activity-only games. `activityDuration` accepts optional site/approach IDs and uses the same selected effort. Explicit activity commands can select any unfinished local site; omission selects the next site's direct approach. Selection does not bypass survey, assignment, existing work, encounter or threat holds.
+
+The chosen profile supplies cost/reward/risk/effort and additional skill requirements. Dispatch pays cost and commits its `Job.site`, timers, reward and risk. Completion records that site and grants the stored return once, without the legacy extra exploration currency. A generated exploration job must have a valid unfinished local site on import. Older generations retain their original no-site job behavior. Profiles are definition data reconstructed by the saved generation version; do not change a released generator to recompute a different catalog for the same seed.
+
+`generateSites(seed,namespace,locations,recipe)` composes weighted components independently of the outcome RNG. Recipe data owns vocabulary, resource/skill references and balance. `SiteDef.eventWeights` multiplies eligible discovery weights at completion; zero excludes that event, while chance/cooldown/uniqueness rules remain unchanged. See [SITES.md](SITES.md).

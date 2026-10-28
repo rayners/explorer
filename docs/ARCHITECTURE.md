@@ -82,3 +82,11 @@ Schema 3 initializes an empty ledger and cooldown when loading schema 2, after c
 ## Name generation (v0.4)
 
 `src/engine/names.ts` supplies deterministic domain-separated sampling and collision-checked allocation. Each theme owns its vocabulary; `src/content/names.ts` builds display names and resolves stable-ID references in authored text. Generation 1 keeps the original names/pools; generation 2 uses the new sampler. `decodeSave` and all browser restoration paths pass the saved generation version to the factory, including secondary-tab updates. A new/reset game uses the current default. State schema 3 and envelope 1 remain unchanged; see [NAMES.md](NAMES.md) for the compatibility contract and frozen fixtures.
+
+## Generated sites (v0.5)
+
+`src/engine/site-generation.ts` composes weighted, theme-owned trait components in an independent seeded stream per site/axis. `src/content/sites.ts` installs the resulting catalog only for generation 3 and replaces LocationDef.sites with stable site IDs. Versions 1/2 return their original lists. Names still use the frozen v2 algorithm.
+
+`explorationPlan` validates site/approach selection without mutation. Dispatch combines the chosen profile with the existing activity/team checks and commits the existing Job.site, timer, reward and risk fields. Completion uses those committed values and selected identity. Save validation rejects foreign/completed/missing generated-site job references. No new state fields or schema migration are needed; compatibility tests compare exact released v0.4 outcomes.
+
+`src/ui/site-panels.ts` renders both themes' surveyed registries and approach controls. The quick exploration cards preview the same default plan as dispatch. Narrative logs and incident histories render names through the generated catalog rather than exposing IDs. See [SITES.md](SITES.md).

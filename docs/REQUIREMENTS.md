@@ -55,3 +55,7 @@ The user clarified that a creature getting loose should sometimes be a surprise,
 ## Name generation direction (2026-10-28)
 
 The user requested function-based content generation, beginning with crew, faction and location names. A random selection from larger option lists is an acceptable starting point, with Bayesian or other procedural mechanisms a possible later extension. [NAMES.md](NAMES.md) documents the seeded, versioned implementation and its boundaries. This request does not expand scope to generated geography, mission structure or roguelite rules.
+
+## Ongoing roadmap work (2026-10-28)
+
+The user asked to keep working through the roadmap, adding detail as needed to focus the current task and then moving to the next item. The active queue starts with generated exploration sites, then missions derived from discoveries, then generated layouts. Site origins, conditions, opportunities and complications must affect actual choices and outcomes in both themes. [SITES.md](SITES.md) records the first implementation. Roguelite reset/progression rules remain deferred.

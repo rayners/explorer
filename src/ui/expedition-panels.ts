@@ -75,7 +75,7 @@ export function discoveryPanel(
           `${value > 0 ? '+' : ''}${value} ${esc(names.find((n) => n.id === id)?.name ?? id)}`,
       )
       .join(' · ');
-  return `<section class="panel discovery-panel" aria-labelledby="discovery-title"><div class="panel-head"><h2 id="discovery-title">${esc(def.title)}</h2><span class="eyebrow">DISCOVERY / FOLLOW-UP</span></div><div class="panel-body"><p>${esc(def.description)}</p><p>Recovered at ${esc(g.locations.find((l) => l.id === record.location)?.name)}: ${esc(record.site)}. You can continue exploring; this choice will wait.</p><div class="activity-grid">${def.choices
+  return `<section class="panel discovery-panel" aria-labelledby="discovery-title"><div class="panel-head"><h2 id="discovery-title">${esc(def.title)}</h2><span class="eyebrow">DISCOVERY / FOLLOW-UP</span></div><div class="panel-body"><p>${esc(def.description)}</p><p>Recovered at ${esc(g.locations.find((l) => l.id === record.location)?.name)}: ${esc(g.sites?.find((site) => site.id === record.site)?.name ?? record.site)}. You can continue exploring; this choice will wait.</p><div class="activity-grid">${def.choices
     .map((choice) => {
       const command: Command = { type: 'discovery', id: def.id, choice: choice.id };
       const error = dispatch(g, s, command).error;
@@ -92,7 +92,7 @@ export function discoveryHistory(g: GameDefinition, s: GameState): string {
     if (def?.kind !== 'choice' || !record.choice) return [];
     const choice = def.choices.find((entry) => entry.id === record.choice)!;
     return [
-      `<p><strong>${esc(def.title)}</strong> · ${esc(choice.name)}<br><small>${esc(g.locations.find((l) => l.id === record.location)?.name)} · ${esc(record.site)}</small></p>`,
+      `<p><strong>${esc(def.title)}</strong> · ${esc(choice.name)}<br><small>${esc(g.locations.find((l) => l.id === record.location)?.name)} · ${esc(g.sites?.find((site) => site.id === record.site)?.name ?? record.site)}</small></p>`,
     ];
   });
   return records.length

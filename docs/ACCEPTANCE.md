@@ -56,3 +56,9 @@ Physical iPhone checks remain pending: encounter the new discovery card, verify 
 Automated coverage checks seeded variation, distinct roster/catalog names, preview/hire agreement, stable IDs/geography, unchanged outcome RNG, released generation-1 fixtures, generation-2 name snapshots and narrative references. Browser coverage uses generated labels for journeys, crew assignments and faction choices, and verifies legacy imports, read-only-tab updates and reloads retain original names.
 
 Physical iPhone checks remain pending: read longer generated names in the roster, chart, faction headers and choice cards; start another seed through the existing backup/confirmation flow; reload and export/import it offline; restore an old expedition and confirm its names and directions stay consistent.
+
+## v0.5 generated-site checks
+
+Automated checks cover weighted trait generation, stable IDs, valid resources/skills, protected introductory profiles, direct/cautious/specialist tradeoffs, out-of-order exploration, exact costs/returns, rejection reasons, committed save/offline completion and frozen generation-3 catalogs. Released v0.4 job fixtures prove generation-2 exploration outcomes remain unchanged. Browser cases exercise both games on all device projects; production offline checks finish selected sites exactly once without development helpers.
+
+Physical iPhone checks remain pending: survey a location, expand an approach card by touch, read costs/risks/requirements, start a selected site, lock/force-close the app and return. Confirm the selected site completes once, its name is readable, the registry fits portrait/landscape, and completed records cannot be farmed.

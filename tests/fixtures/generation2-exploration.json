@@ -1,0 +1,500 @@
+{
+  "far-wake": {
+    "save": {
+      "format": "exploration-save",
+      "version": 1,
+      "savedAt": 1000,
+      "state": {
+        "version": 3,
+        "definition": "far-wake",
+        "generationVersion": 2,
+        "seed": 7,
+        "rng": 7,
+        "elapsed": 20,
+        "calendarDays": 0,
+        "location": "morrow",
+        "inventory": {
+          "credits": 320,
+          "fuel": 32,
+          "parts": 12,
+          "ammo": 8,
+          "provisions": 16,
+          "ore": 0,
+          "ice": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Vera Okonkwo",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ishaan",
+            "name": "Tomas Novak",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ada",
+            "name": "Sol Navarro",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": ["anchor", "cinder", "morrow"],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "morrow": {
+            "surveyed": true,
+            "sites": ["Pressure ridge"],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": {
+          "id": "j1",
+          "kind": "activity",
+          "definition": "explore",
+          "target": "morrow",
+          "remaining": 65,
+          "total": 85,
+          "days": 0,
+          "reward": {
+            "parts": 3,
+            "ore": 3
+          },
+          "risk": 0.12
+        },
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore"
+            }
+          }
+        ],
+        "nextEvent": 2,
+        "milestones": []
+      },
+      "checksum": "dfa423c7"
+    },
+    "completed": {
+      "version": 3,
+      "definition": "far-wake",
+      "generationVersion": 2,
+      "seed": 7,
+      "rng": 3663131633,
+      "elapsed": 85,
+      "calendarDays": 0,
+      "location": "morrow",
+      "inventory": {
+        "credits": 345,
+        "fuel": 32,
+        "parts": 15,
+        "ammo": 8,
+        "provisions": 16,
+        "ore": 3,
+        "ice": 0
+      },
+      "integrity": 100,
+      "wear": 8,
+      "capacity": 120,
+      "debt": 0,
+      "crew": [
+        {
+          "id": "mara",
+          "name": "Vera Okonkwo",
+          "skill": "survey",
+          "assignment": "primary",
+          "injury": 0,
+          "life": "alive"
+        },
+        {
+          "id": "ishaan",
+          "name": "Tomas Novak",
+          "skill": "engineering",
+          "assignment": "support",
+          "injury": 0,
+          "life": "alive"
+        },
+        {
+          "id": "ada",
+          "name": "Sol Navarro",
+          "skill": "security",
+          "assignment": "primary",
+          "injury": 0,
+          "life": "alive"
+        }
+      ],
+      "recruitSerial": 0,
+      "threat": null,
+      "threatHistory": [],
+      "incidents": [],
+      "discoveryCooldown": 0,
+      "known": ["anchor", "cinder", "morrow"],
+      "discoveries": {
+        "anchor": {
+          "surveyed": true,
+          "sites": [],
+          "dataSold": false
+        },
+        "cinder": {
+          "surveyed": false,
+          "sites": [],
+          "dataSold": false
+        },
+        "morrow": {
+          "surveyed": true,
+          "sites": ["Pressure ridge", "Abandoned borehole"],
+          "dataSold": false
+        }
+      },
+      "reputation": {
+        "combine": 0,
+        "independent": 0,
+        "pirates": 0
+      },
+      "primary": null,
+      "support": null,
+      "encounter": {
+        "id": "e4",
+        "source": "pirates",
+        "strength": 1
+      },
+      "missions": [],
+      "upgrades": [],
+      "events": [
+        {
+          "id": 0,
+          "at": 0,
+          "key": "welcome",
+          "params": {}
+        },
+        {
+          "id": 1,
+          "at": 0,
+          "key": "activityStarted",
+          "params": {
+            "activity": "explore"
+          }
+        },
+        {
+          "id": 2,
+          "at": 85,
+          "key": "siteExplored",
+          "params": {
+            "target": "morrow",
+            "site": "Abandoned borehole"
+          }
+        },
+        {
+          "id": 3,
+          "at": 85,
+          "key": "activityComplete",
+          "params": {
+            "activity": "explore",
+            "target": "morrow"
+          }
+        },
+        {
+          "id": 4,
+          "at": 85,
+          "key": "intercepted",
+          "params": {}
+        }
+      ],
+      "nextEvent": 5,
+      "milestones": []
+    }
+  },
+  "hollowmere": {
+    "save": {
+      "format": "exploration-save",
+      "version": 1,
+      "savedAt": 1000,
+      "state": {
+        "version": 3,
+        "definition": "hollowmere",
+        "generationVersion": 2,
+        "seed": 7,
+        "rng": 7,
+        "elapsed": 20,
+        "calendarDays": 0,
+        "location": "briar",
+        "inventory": {
+          "gold": 320,
+          "rations": 28,
+          "wood": 12,
+          "bolts": 12,
+          "incense": 14,
+          "herbs": 4,
+          "relics": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Orrin Blackthorn",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ves",
+            "name": "Iona Thorn",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "elin",
+            "name": "Ronan Nettle",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": ["mournwatch", "old-road", "briar"],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "briar": {
+            "surveyed": true,
+            "sites": ["The locked well"],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": {
+          "id": "j1",
+          "kind": "activity",
+          "definition": "explore",
+          "target": "briar",
+          "remaining": 56,
+          "total": 76,
+          "days": 0,
+          "reward": {
+            "gold": 35,
+            "relics": 2
+          },
+          "risk": 0.12
+        },
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore"
+            }
+          }
+        ],
+        "nextEvent": 2,
+        "milestones": []
+      },
+      "checksum": "5974a2ef"
+    },
+    "completed": {
+      "version": 3,
+      "definition": "hollowmere",
+      "generationVersion": 2,
+      "seed": 7,
+      "rng": 3663131633,
+      "elapsed": 76,
+      "calendarDays": 0,
+      "location": "briar",
+      "inventory": {
+        "gold": 380,
+        "rations": 28,
+        "wood": 12,
+        "bolts": 12,
+        "incense": 14,
+        "herbs": 4,
+        "relics": 2
+      },
+      "integrity": 100,
+      "wear": 8,
+      "capacity": 120,
+      "debt": 0,
+      "crew": [
+        {
+          "id": "bran",
+          "name": "Orrin Blackthorn",
+          "skill": "fighter",
+          "assignment": "primary",
+          "injury": 0,
+          "life": "alive"
+        },
+        {
+          "id": "ves",
+          "name": "Iona Thorn",
+          "skill": "mage",
+          "assignment": "primary",
+          "injury": 0,
+          "life": "alive"
+        },
+        {
+          "id": "elin",
+          "name": "Ronan Nettle",
+          "skill": "cleric",
+          "assignment": "support",
+          "injury": 0,
+          "life": "alive"
+        }
+      ],
+      "recruitSerial": 0,
+      "threat": null,
+      "threatHistory": [],
+      "incidents": [],
+      "discoveryCooldown": 0,
+      "known": ["mournwatch", "old-road", "briar"],
+      "discoveries": {
+        "mournwatch": {
+          "surveyed": true,
+          "sites": [],
+          "dataSold": false
+        },
+        "old-road": {
+          "surveyed": false,
+          "sites": [],
+          "dataSold": false
+        },
+        "briar": {
+          "surveyed": true,
+          "sites": ["The locked well", "A nursery full of roots"],
+          "dataSold": false
+        }
+      },
+      "reputation": {
+        "wardens": 0,
+        "covenant": 0,
+        "court": 0
+      },
+      "primary": null,
+      "support": null,
+      "encounter": {
+        "id": "e4",
+        "source": "court",
+        "strength": 1
+      },
+      "missions": [],
+      "upgrades": [],
+      "events": [
+        {
+          "id": 0,
+          "at": 0,
+          "key": "welcome",
+          "params": {}
+        },
+        {
+          "id": 1,
+          "at": 0,
+          "key": "activityStarted",
+          "params": {
+            "activity": "explore"
+          }
+        },
+        {
+          "id": 2,
+          "at": 76,
+          "key": "siteExplored",
+          "params": {
+            "target": "briar",
+            "site": "A nursery full of roots"
+          }
+        },
+        {
+          "id": 3,
+          "at": 76,
+          "key": "activityComplete",
+          "params": {
+            "activity": "explore",
+            "target": "briar"
+          }
+        },
+        {
+          "id": 4,
+          "at": 76,
+          "key": "intercepted",
+          "params": {}
+        }
+      ],
+      "nextEvent": 5,
+      "milestones": []
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Decisions and rationale
 
-Recorded against v0.2.1 on 2026-10-27; updated for v0.4.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
+Recorded against v0.2.1 on 2026-10-27; updated for v0.5.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
 
 | Decision                                                                   | Reason and consequence                                                                                                                                                                                                                                                                  |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -42,3 +42,7 @@ The user clarified on 2026-10-27 that a creature should sometimes be a surprise.
 ## Seeded names (v0.4)
 
 Both games now generate crew, faction, region and location names from themed vocabularies using pure functions. Names have independent seeded domains and never consume combat/event RNG. Stable IDs and geography remain unchanged. Factories accept a saved generation version: 1 reproduces existing authored names/recruits; 2 is the default for fresh expeditions. No state-schema migration is needed because seed/version and crew names already persist. Vocabulary changes require a new compatible generation version. References in narrative resolve by identity after naming. See [NAMES.md](NAMES.md).
+
+## Generated exploration sites (v0.5)
+
+Generation 3 adds meaningful site profiles in both games while retaining v2 names and authored geography. Trait components alter effort, returns, hazards and optional specialist approaches. Explicit selection can explore sites out of order; the quick activity uses the next direct approach. No specialist path is mandatory. Existing Job.site/timer/reward/risk fields commit choices, so no state migration is required. Generations 1/2 retain their old site IDs and job outcomes. Contextual discovery weights vary opportunities without exposing hidden onset. See [SITES.md](SITES.md).
