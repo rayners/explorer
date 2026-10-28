@@ -20,7 +20,7 @@ Read [requirements](docs/REQUIREMENTS.md), [decisions](docs/DECISIONS.md), [arch
 3. Keep one primary order and one support job. Pay costs on dispatch; resolve rewards once at completion. Offline catch-up is capped at 24 hours and stops at consequential choices. Never cause permanent casualties through absence.
 4. Permanent crew loss belongs to explicit responses to an internal threat, with casualty risk explained before responding. Surprise onset is allowed by the new design direction; it does not permit offline casualties. Retain memorial records. Preserve recovery: guaranteed purge, encounter surrender, recovery transport and emergency recruitment.
 5. Preserve already committed jobs when a casualty changes the roster. Enforce staffing for new orders without invalidating a paid journey already in progress.
-6. Saves are a compatibility contract. Envelope format 1, state schema 4 and definition generation versions 1 (legacy names), 2 (generated names), 3 (generated sites), 4 (generated layouts) 5 (personnel opportunities) and 6 (discovery-driven projects) are separate versions. Saved-shape changes require validation and migration tests. Generator changes must preserve old seeds/catalog identities or explicitly migrate them. Keep existing storage namespaces and manifest identity stable.
+6. Saves are a compatibility contract. Envelope format 1, state schema 4 and definition generation versions 1 (legacy names), 2 (generated names), 3 (generated sites), 4 (generated layouts), 5 (personnel opportunities), 6 (discovery-driven projects) and 7 (discovery variety) are separate versions. Saved-shape changes require validation and migration tests. Generator changes must preserve old seeds/catalog identities or explicitly migrate them. Keep existing storage namespaces and manifest identity stable.
 7. Imports/resets must back up and write the replacement before swapping the active simulation. Storage errors leave the current expedition usable with a persistent warning and export available. Check ownership before commands and saves.
 8. Both games share browser lifecycle code and the site-root service worker, but have independent saves, preferences, command locks and install manifests. Do not reuse one game's namespace for another.
 9. Use visible reasons for unavailable actions; avoid hover-only explanations. Provide touch targets of at least 44px, safe-area padding, reduced motion and keyboard access. Check portrait and landscape overflow.
@@ -42,6 +42,7 @@ Read [requirements](docs/REQUIREMENTS.md), [decisions](docs/DECISIONS.md), [arch
 | `src/content/worlds.ts`, themed `world.ts`                    | Versioned layout recipes and assembly before names/sites/contracts      |
 | `src/engine/navigation.ts`                                    | Effective routes and itinerary planning                                 |
 | `src/engine/proficiency.ts`, `src/ui/proficiency.ts`          | Committed participant credit, bounded practice and roster writing       |
+| `src/content/variety.ts`, themed `variety.ts`                 | Generation-7 discoveries and varied source-bound role profiles          |
 | `src/content/opportunities.ts`, themed `opportunities.ts`     | Versioned rescue/knowledge choices and stable survivor identity         |
 | `src/engine/personnel.ts`, `threats.ts`                       | Recruitment, skills, casualties, internal incidents                     |
 | `src/engine/save.ts`, `random.ts`                             | Save validation/migration/reconciliation and seeded RNG                 |
@@ -82,6 +83,8 @@ When bumping a release version, edit only `package.json.version`, the lockfile r
 
 [Generated layouts](docs/WORLDS.md) defines frozen generation-4 recipes and world assembly before naming/sites/contracts. Generations 1–3 retain their exact geography and catalogs. Keep protected first routes, connected local/region graphs and a service hub per region. Use actual definition graphs/counts in charts; run `node --import tsx scripts/simulate-world.ts` when changing layouts or logistics.
 
+[Discovery variety](docs/VARIETY.md) adds generation-7 events/projects after frozen generation-6 assembly. Keep generations 1–6 unchanged. Project slot/requirements default to the old primary/single-role profile; explicit support/cross-team work uses existing job/assignment/practice semantics. Preserve stable rescue identities and safe alternatives.
+
 [Expedition planning](docs/PLANNING.md) is a read-only shared UI layer for existing bound contracts. Keep estimates based on known routes and current stock/assignments, preserve paid jobs/receipts, and never dispatch from route selection. Map targets are temporary view state; all generations 1–6 remain frozen.
 
 [Faction projects](docs/PROJECTS.md) adds generation-6 commissions requiring an exact settled incident, choice and source. Keep generations 1–5 frozen; visibility, acceptance and save validation must use the same prerequisite. Projects reuse paid activity jobs and one-time hub filing without a new state schema. Theme recipes own all patrons, costs and roles.
@@ -90,7 +93,7 @@ When bumping a release version, edit only `package.json.version`, the lockfile r
 
 [Generated sites](docs/SITES.md) defines the version-3 catalog and committed approach contract. Keep generations 1/2 unchanged. Use stable site IDs, preserve Job.site and its paid duration/risk/reward, and do not reroll site profiles during rendering or loading. Follow the active queue in [ROADMAP.md](docs/ROADMAP.md).
 
-[Name generation](docs/NAMES.md) documents the versioned vocabulary contract. New games default to generation 6, retaining version-2 naming; restores must pass the saved generation version through every definition-factory call. Keep naming independent of outcome RNG. Use stable-ID references in narrative rather than hard-coded display names.
+[Name generation](docs/NAMES.md) documents the versioned vocabulary contract. New games default to generation 7, retaining version-2 naming; restores must pass the saved generation version through every definition-factory call. Keep naming independent of outcome RNG. Use stable-ID references in narrative rather than hard-coded display names.
 
 [Discovery events](docs/EVENTS.md) documents surprise stowaways and the settlement-claim follow-up, implemented in v0.3. New sites can select a once-only incident; preserve the durable incident ledger and cooldown. Keep onset surprises separate from explicit casualty-risk decisions.
 

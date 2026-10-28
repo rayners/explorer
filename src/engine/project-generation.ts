@@ -1,4 +1,4 @@
-import type { ActivityDef, Amounts, GameDefinition, MissionDef } from './types';
+import type { ActivityDef, Amounts, GameDefinition, MissionDef, SkillRequirement } from './types';
 
 export interface ProjectBranch {
   incident: string;
@@ -9,6 +9,8 @@ export interface ProjectBranch {
   description: string;
   work: string;
   skill: string;
+  slot?: ActivityDef['slot'];
+  requirements?: SkillRequirement[];
   seconds: number;
   cost: Amounts;
   reward: Amounts;
@@ -48,14 +50,16 @@ export function generateProjects(game: GameDefinition, branches: ProjectBranch[]
         description: `${branch.description} Source: ${site.name} at ${location.name}. Patron: ${faction.name}. Supplies are committed on dispatch; file the receipt at a service hub for payment.`,
         locations: [location.id],
         at: 'field',
-        slot: 'primary',
+        slot: branch.slot ?? 'primary',
         requiresSurvey: true,
         repeatable: false,
         seconds: branch.seconds,
         cost: structuredClone(branch.cost),
         reward: {},
         skill: branch.skill,
-        requirements: [{ skill: branch.skill, count: 1 }],
+        requirements: branch.requirements
+          ? structuredClone(branch.requirements)
+          : [{ skill: branch.skill, count: 1 }],
       });
     }
   }

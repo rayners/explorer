@@ -657,3 +657,147 @@ test('existing and current expeditions plan receipt return routes offline withou
     }
   await context.setOffline(false);
 });
+
+test('generation-7 recruitment, training and faction responses settle exactly once offline', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  test.setTimeout(60000);
+  const { opportunityFixture } = await import('./opportunity-fixture');
+  const scenarios = [
+    { fantasy: false, id: 'distress-beacon', choice: 'berth' },
+    { fantasy: false, id: 'disputed-research', choice: 'publish' },
+    { fantasy: true, id: 'lost-caravan', choice: 'welcome' },
+    { fantasy: true, id: 'haunted-shrine', choice: 'consecrate' },
+  ];
+  for (const scenario of scenarios) {
+    const { game, state } = opportunityFixture(scenario.fantasy, scenario.id, true, 7),
+      key = `${game.id}.save.v1`,
+      marker = `variety-${game.id}-${scenario.id}`;
+    const expected = dispatch(game, state, {
+      type: 'discovery',
+      id: scenario.id,
+      choice: scenario.choice,
+    });
+    expect(expected.error).toBeUndefined();
+    await page.addInitScript(
+      ({ key, raw, marker }) => {
+        if (!sessionStorage.getItem(marker)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(marker, 'yes');
+        }
+      },
+      { key, raw: encodeSave(state, Date.now()), marker },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${game.id}/?variety=${scenario.id}`, baseURL).href);
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: scenario.fantasy ? /Refuge/ : /Contacts/ })
+      .click();
+    const def = game.discoveryEvents!.entries.find((entry) => entry.id === scenario.id)!;
+    if (def.kind !== 'choice') throw Error('Expected response');
+    const choice = def.choices.find((choice) => choice.id === scenario.choice)!;
+    await page
+      .locator('.discovery-panel')
+      .getByRole('button', { name: choice.name, exact: true })
+      .click();
+    await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const read = () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key),
+      saved = await read();
+    expect(saved.generationVersion).toBe(7);
+    expect(saved.crew).toEqual(expected.state.crew);
+    expect(saved.inventory).toEqual(expected.state.inventory);
+    expect(saved.reputation).toEqual(expected.state.reputation);
+    expect(saved.incidents).toEqual(expected.state.incidents);
+    expect(saved.recruitSerial).toBe(expected.state.recruitSerial);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await read()).crew).toEqual(saved.crew);
+    expect((await read()).inventory).toEqual(saved.inventory);
+  }
+  await context.setOffline(false);
+});
+
+test('new support commissions and parallel primary work retain offline receipts and single filing', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  const { supportVarietyFixture } = await import('./variety-fixture');
+  for (const fantasy of [false, true])
+    for (const ready of [false, true]) {
+      const { game, paid, completed, mission } = supportVarietyFixture(fantasy),
+        initial = ready ? { ...completed, location: game.initial.location } : paid;
+      const key = `${game.id}.save.v1`,
+        marker = `support-variety-${game.id}-${ready}`;
+      await page.addInitScript(
+        ({ key, raw, marker }) => {
+          if (!sessionStorage.getItem(marker)) {
+            localStorage.setItem(key, raw);
+            sessionStorage.setItem(marker, 'yes');
+          }
+        },
+        { key, raw: encodeSave(initial, Date.now() - (ready ? 0 : 200000)), marker },
+      );
+      await context.setOffline(false);
+      await page.goto(new URL(`${game.id}/?support=${ready}`, baseURL).href);
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      await page.evaluate(async () => await navigator.serviceWorker.ready);
+      await page.reload();
+      await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+      await context.setOffline(true);
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      const read = () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+      if (ready) {
+        await page
+          .getByRole('navigation')
+          .getByRole('button', { name: fantasy ? /Refuge/ : /Contacts/ })
+          .click();
+        await page
+          .locator('.activity-card')
+          .filter({ has: page.getByRole('heading', { name: mission.name, exact: true }) })
+          .getByRole('button', {
+            name: fantasy ? 'Report completed oath' : 'File contract',
+            exact: true,
+          })
+          .click();
+      }
+      const saved = await read();
+      expect(saved.primary).toBeNull();
+      expect(saved.support).toBeNull();
+      expect(saved.missions.find((entry: any) => entry.id === mission.id)).toMatchObject({
+        progress: 1,
+        claimed: ready,
+      });
+      expect(saved.crew).toEqual(completed.crew);
+      expect(saved.inventory[game.rules.currency]).toBe(
+        completed.inventory[game.rules.currency] +
+          (ready ? mission.reward[game.rules.currency] : 0),
+      );
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      const again = await read();
+      expect(again.inventory).toEqual(saved.inventory);
+      expect(again.crew).toEqual(saved.crew);
+      expect(again.reputation).toEqual(saved.reputation);
+      expect(
+        await page.evaluate(() => !('__farWake' in window) && !('__hollowmere' in window)),
+      ).toBe(true);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
+      );
+    }
+  await context.setOffline(false);
+});

@@ -394,7 +394,7 @@ test('released worlds retain their original names across import, secondary-tab u
   await page.getByRole('button', { name: 'Start a new expedition', exact: true }).click();
   await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
   const fresh = createGame(91);
-  expect((await state(page)).generationVersion).toBe(6);
+  expect((await state(page)).generationVersion).toBe(7);
   expect((await state(page)).crew.map((member: any) => member.name)).toEqual(
     fresh.initial.crew.map((member) => member.name),
   );
@@ -1024,5 +1024,164 @@ test('legacy discovery work plans explicit multi-leg journeys and guides complet
       .getByRole('button', { name: 'Review accepted work', exact: true })
       .click();
     await expect(page.locator('.follow-up-work')).toContainText('Field work complete');
+  }
+});
+
+test('new discoveries show explicit effects and unlock only the chosen generation-7 project', async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(60000);
+  const { opportunityFixture } = await import('./opportunity-fixture');
+  const { dispatch } = await import('../src/engine/simulation');
+  const scenarios = [
+    { fantasy: false, id: 'derelict-salvage', choice: 'recover' },
+    { fantasy: false, id: 'distress-beacon', choice: 'berth' },
+    { fantasy: false, id: 'disputed-research', choice: 'publish' },
+    { fantasy: true, id: 'haunted-shrine', choice: 'consecrate' },
+    { fantasy: true, id: 'lost-caravan', choice: 'welcome' },
+    { fantasy: true, id: 'dangerous-bargain', choice: 'accept' },
+  ];
+  for (const scenario of scenarios) {
+    const { game, state: found } = opportunityFixture(scenario.fantasy, scenario.id, true, 7);
+    const def = game.discoveryEvents!.entries.find((entry) => entry.id === scenario.id)!;
+    if (def.kind !== 'choice') throw Error('Expected response');
+    const choice = def.choices.find((choice) => choice.id === scenario.choice)!;
+    const expected = dispatch(game, found, { type: 'discovery', id: def.id, choice: choice.id });
+    expect(expected.error).toBeUndefined();
+    await open(page, `/${game.id}/`);
+    await importState(page, encodeSave(found, Date.now()));
+    await nav(page, scenario.fantasy ? 'refuge' : 'contacts');
+    const panel = page.locator('.discovery-panel');
+    await expect(panel).toContainText(def.title);
+    if (Object.values(choice.reputation).some((value) => value < 0))
+      await expect(panel).toContainText('-6');
+    await panel.getByRole('button', { name: choice.name, exact: true }).click();
+    await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+    const saved = await state(page, scenario.fantasy);
+    expect(saved.crew).toEqual(expected.state.crew);
+    expect(saved.inventory).toEqual(expected.state.inventory);
+    expect(saved.reputation).toEqual(expected.state.reputation);
+    expect(saved.incidents).toEqual(expected.state.incidents);
+    const mission = game.missions.find(
+      (mission) =>
+        mission.sourceSite === found.incidents[0].site &&
+        mission.discoveryChoice?.incident === def.id &&
+        mission.discoveryChoice.choice === choice.id,
+    )!;
+    await expect(page.locator('.project-offers .activity-card')).toHaveCount(1);
+    const card = page.locator('.project-offers .activity-card');
+    await expect(card).toContainText(mission.name);
+    await expect(card).toContainText('Team requirements:');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    if (testInfo.project.name === 'iphone' && scenario.id === 'dangerous-bargain')
+      await card.screenshot({ path: '/tmp/hollowmere-bargain-project.png' });
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await state(page, scenario.fantasy)).incidents).toEqual(expected.state.incidents);
+  }
+});
+
+test('support field commissions share the source with primary work and retain one receipt through reload', async ({
+  page,
+}, testInfo) => {
+  const { supportVarietyFixture } = await import('./variety-fixture');
+  const { planRoute } = await import('../src/engine/navigation');
+  for (const fantasy of [false, true]) {
+    const { game, state: prepared, mission, work } = supportVarietyFixture(fantasy);
+    await open(page, `/${game.id}/`);
+    await importState(page, encodeSave(prepared, Date.now()));
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    const task = page.locator('.follow-up-work .activity-card');
+    await expect(task).toContainText('Work team: Support');
+    const gather = game.activities.find((activity) => activity.id === game.rules.gatherActivity)!;
+    await page
+      .locator('.activity-card')
+      .filter({ has: page.getByRole('heading', { name: gather.name, exact: true }) })
+      .getByRole('button', { name: 'Begin activity', exact: true })
+      .click();
+    const before = await state(page, fantasy);
+    await task
+      .getByRole('button', {
+        name: fantasy ? 'Begin support work' : 'Start support job',
+        exact: true,
+      })
+      .click();
+    const working = await state(page, fantasy);
+    expect(working.primary.id).toBe(before.primary.id);
+    expect(working.support.definition).toBe(work.id);
+    await expect(task).toContainText('already committed');
+    if (testInfo.project.name === 'iphone')
+      await task.screenshot({ path: `/tmp/${game.id}-support-commission.png` });
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const restored = await state(page, fantasy);
+    expect(restored.support.id).toBe(working.support.id);
+    expect(restored.inventory).toEqual(working.inventory);
+    await next(page, 200, fantasy);
+    await escape(page, fantasy);
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    await expect(page.locator('.follow-up-work')).toContainText('Field work complete');
+    const current = await state(page, fantasy),
+      hub = game.locations
+        .filter((location) => location.station)
+        .map((location) => ({ location, path: planRoute(game, current, location.id) }))
+        .filter((entry) => entry.path.length)
+        .sort(
+          (a, b) =>
+            a.path.reduce((n, leg) => n + leg.seconds, 0) -
+            b.path.reduce((n, leg) => n + leg.seconds, 0),
+        )[0];
+    await page
+      .locator('.follow-up-work')
+      .getByRole('button', { name: 'Plot route to hub', exact: true })
+      .click();
+    for (const leg of hub.path) {
+      await page
+        .locator('.route-plan')
+        .getByRole('button', {
+          name: `Travel to ${game.locations.find((location) => location.id === leg.to)!.name}`,
+          exact: true,
+        })
+        .click();
+      if (!fantasy && leg.interregional)
+        await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+      await next(page, leg.seconds + 5, fantasy);
+      await escape(page, fantasy);
+    }
+    await page
+      .locator('.route-plan')
+      .getByRole('button', { name: 'Review contract board', exact: true })
+      .click();
+    const card = page
+      .locator('.activity-card')
+      .filter({ has: page.getByRole('heading', { name: mission.name, exact: true }) });
+    const beforeClaim = await state(page, fantasy);
+    await card
+      .getByRole('button', {
+        name: fantasy ? 'Report completed oath' : 'File contract',
+        exact: true,
+      })
+      .click();
+    const filed = await state(page, fantasy);
+    expect(filed.inventory[game.rules.currency]).toBe(
+      beforeClaim.inventory[game.rules.currency] + mission.reward[game.rules.currency],
+    );
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect(
+      (await state(page, fantasy)).missions.find((saved: any) => saved.id === mission.id),
+    ).toMatchObject({ progress: 1, claimed: true });
+    await page.setViewportSize({ width: 932, height: 430 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
   }
 });

@@ -20,6 +20,16 @@ export function opportunityFixture(
     );
     const intro = game.locations.find((l) => !l.station && l.initiallyKnown)!;
     state.discoveries[intro.id].sites = [...intro.sites];
+    const minimum = game.discoveryEvents!.entries.find((event) => event.id === id)!.minimumSites;
+    let explored = intro.sites.length;
+    for (const location of game.locations)
+      for (const site of location.sites) {
+        if (explored >= minimum - 1) break;
+        if (site === source.sites[0] || state.discoveries[location.id].sites.includes(site))
+          continue;
+        state.discoveries[location.id].sites.push(site);
+        explored++;
+      }
     const start = dispatch(game, state, {
       type: 'activity',
       id: game.rules.exploreActivity,

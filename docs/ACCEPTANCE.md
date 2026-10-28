@@ -104,3 +104,12 @@ Automated browser tests cover desktop Chromium and iPhone/tablet WebKit flows; p
 - Suspend Safari during paid work. On resume it must not demand the same supplies/staff again; completed receipts must show return-to-hub and filing guidance. Check offline route plotting/explicit travel, reload, and Home Screen launches. Existing saves need no reset.
 
 Automated WebKit emulation does not close these physical-device steps.
+
+## Discovery variety (v0.11) — physical checks pending
+
+- On the physical iPhone 15 Pro Max, use generation-7 expeditions in both games. Review each new discovery’s resources, training/recruitment and standing effects, including the two explicit −6 faction tradeoffs. Confirm safe alternatives remain usable with full accommodation or missing specialists.
+- Verify a rescued medic/fighter keeps the displayed name after other hiring, joins resting and cannot join twice. Check training at the cap and the alternative response.
+- Accept a support field commission, assign the displayed specialist and travel to the source. Start it beside a primary order; both should retain paid terms after suspension/reload. Departure must wait for support completion, and filing must pay once.
+- Try mixed-team work with a required specialist on the wrong team, then reassign correctly. Check role labels and visible reasons in portrait/landscape, offline and from both Home Screen apps. Keep older expedition exports/maps/work unchanged.
+
+Automated iPhone/tablet WebKit coverage remains emulation, not a physical-device result.

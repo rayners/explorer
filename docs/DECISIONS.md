@@ -1,6 +1,6 @@
 # Decisions and rationale
 
-Recorded against v0.2.1 on 2026-10-27; updated for v0.10.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
+Recorded against v0.2.1 on 2026-10-27; updated for v0.11.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
 
 | Decision                                                                   | Reason and consequence                                                                                                                                                                                                                                                                  |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -70,3 +70,7 @@ Generate a bounded potential catalog at generation 6, exposing only exact settle
 ## Expedition planning (v0.10)
 
 Use read-only shared UI selectors to connect discovery work with current resources, living team assignments and known travel routes. Keep dispatch authoritative and retain explicit orders and cryosleep confirmation. Surface optional projects first and keep completed receipts in the work view. Do not add saved unread markers, automatic resupply/assignment/travel or another generation version for a view-only improvement. Existing expeditions gain guidance without resetting or changing catalogs. See [PLANNING.md](PLANNING.md).
+
+## Discovery variety (v0.11)
+
+New generation 7 appends six finite discoveries and twelve response/source-bound commissions. Reuse existing recruitment, training, material and standing effects rather than add recurring pact obligations or automatic threat penalties. Extend project recipes with optional slot/requirements; frozen defaults reproduce all generation-6 projects. Four support field commissions use the existing zero-risk support job semantics and departure lock; cross-team prerequisites use existing assignment checks, with practice only for actual committed work-team participants. Old catalogs and schema/envelope remain unchanged. See [VARIETY.md](VARIETY.md).

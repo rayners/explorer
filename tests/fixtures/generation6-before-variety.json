@@ -1,0 +1,594 @@
+{
+  "sourceCommit": "c2723f89f9230c3dd92a3a5c8b05290d722aecb8",
+  "fixtures": [
+    {
+      "game": "far-wake",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000,\"state\":{\"version\":4,\"definition\":\"far-wake\",\"generationVersion\":6,\"seed\":1701,\"rng\":1,\"elapsed\":200,\"calendarDays\":0,\"location\":\"morrow\",\"inventory\":{\"credits\":415,\"fuel\":34,\"parts\":16,\"ammo\":8,\"provisions\":13,\"ore\":3,\"ice\":0},\"integrity\":92,\"wear\":8,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"mara\",\"name\":\"Hana Reed\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":1,\"life\":\"alive\",\"experience\":1},{\"id\":\"ishaan\",\"name\":\"Noel Holt\",\"skill\":\"engineering\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ada\",\"name\":\"Alex Cole\",\"skill\":\"security\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":1,\"threat\":null,\"threatHistory\":[],\"incidents\":[{\"id\":\"stranded-specialist\",\"location\":\"morrow\",\"site\":\"site:morrow:0\",\"at\":102,\"choice\":\"resettle\",\"recruitSerial\":0}],\"discoveryCooldown\":2,\"known\":[\"anchor\",\"cinder\",\"morrow\",\"rubble\",\"pale-0\",\"pale-1\",\"pale-2\",\"pale-3\",\"meridian-0\",\"meridian-1\",\"meridian-2\",\"meridian-3\",\"hollow-0\",\"hollow-1\",\"hollow-2\",\"hollow-3\",\"pale-generated-0\",\"meridian-generated-0\",\"hollow-generated-0\",\"generated-region-0-hub\",\"generated-region-0-generated-0\",\"generated-region-0-generated-1\",\"generated-region-0-generated-2\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":true,\"sites\":[\"site:cinder:0\",\"site:cinder:1\",\"site:cinder:2\"],\"dataSold\":false},\"morrow\":{\"surveyed\":true,\"sites\":[\"site:morrow:0\"],\"dataSold\":false},\"rubble\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-1\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-2\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-3\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-1\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-2\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-3\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-1\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-2\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-3\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"generated-region-0-hub\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"generated-region-0-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"generated-region-0-generated-1\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"generated-region-0-generated-2\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":8,\"pirates\":0},\"primary\":{\"id\":\"j9\",\"kind\":\"activity\",\"participants\":[\"mara\"],\"definition\":\"work:project:site:morrow:0:stranded-specialist:resettle\",\"target\":\"morrow\",\"remaining\":80,\"total\":80,\"days\":0,\"reward\":{},\"risk\":0.12},\"support\":null,\"encounter\":null,\"missions\":[{\"id\":\"project:site:morrow:0:stranded-specialist:resettle\",\"progress\":0,\"claimed\":false}],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"explore\",\"site\":\"site:morrow:0\",\"approach\":\"direct\"}},{\"id\":2,\"at\":102,\"key\":\"siteExplored\",\"params\":{\"target\":\"morrow\",\"site\":\"site:morrow:0\"}},{\"id\":3,\"at\":102,\"key\":\"activityComplete\",\"params\":{\"activity\":\"explore\",\"target\":\"morrow\"}},{\"id\":4,\"at\":102,\"key\":\"hazard\",\"params\":{}},{\"id\":5,\"at\":102,\"key\":\"discoveryFound\",\"params\":{\"discovery\":\"stranded-specialist\",\"target\":\"morrow\"}},{\"id\":6,\"at\":102,\"key\":\"milestone\",\"params\":{\"milestone\":\"frontier\"}},{\"id\":7,\"at\":200,\"key\":\"discoverySettled\",\"params\":{\"discovery\":\"stranded-specialist\",\"choice\":\"resettle\"}},{\"id\":8,\"at\":200,\"key\":\"missionAccepted\",\"params\":{\"mission\":\"project:site:morrow:0:stranded-specialist:resettle\"}},{\"id\":9,\"at\":200,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work:project:site:morrow:0:stranded-specialist:resettle\"}}],\"nextEvent\":10,\"milestones\":[\"frontier\"]},\"checksum\":\"f2e1c5a5\"}",
+      "seconds": 200,
+      "completed": {
+        "version": 4,
+        "definition": "far-wake",
+        "generationVersion": 6,
+        "seed": 1701,
+        "rng": 1831565814,
+        "elapsed": 400,
+        "calendarDays": 0,
+        "location": "morrow",
+        "inventory": {
+          "credits": 415,
+          "fuel": 34,
+          "parts": 16,
+          "ammo": 8,
+          "provisions": 13,
+          "ore": 3,
+          "ice": 0
+        },
+        "integrity": 92,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Hana Reed",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 1,
+            "life": "alive",
+            "experience": 2
+          },
+          {
+            "id": "ishaan",
+            "name": "Noel Holt",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "ada",
+            "name": "Alex Cole",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 1,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [
+          {
+            "id": "stranded-specialist",
+            "location": "morrow",
+            "site": "site:morrow:0",
+            "at": 102,
+            "choice": "resettle",
+            "recruitSerial": 0
+          }
+        ],
+        "discoveryCooldown": 2,
+        "known": [
+          "anchor",
+          "cinder",
+          "morrow",
+          "rubble",
+          "pale-0",
+          "pale-1",
+          "pale-2",
+          "pale-3",
+          "meridian-0",
+          "meridian-1",
+          "meridian-2",
+          "meridian-3",
+          "hollow-0",
+          "hollow-1",
+          "hollow-2",
+          "hollow-3",
+          "pale-generated-0",
+          "meridian-generated-0",
+          "hollow-generated-0",
+          "generated-region-0-hub",
+          "generated-region-0-generated-0",
+          "generated-region-0-generated-1",
+          "generated-region-0-generated-2"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": true,
+            "sites": [
+              "site:cinder:0",
+              "site:cinder:1",
+              "site:cinder:2"
+            ],
+            "dataSold": false
+          },
+          "morrow": {
+            "surveyed": true,
+            "sites": [
+              "site:morrow:0"
+            ],
+            "dataSold": false
+          },
+          "rubble": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-1": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-2": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-3": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-1": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-2": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-3": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-1": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-2": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-3": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-hub": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-generated-1": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-generated-2": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 8,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [
+          {
+            "id": "project:site:morrow:0:stranded-specialist:resettle",
+            "progress": 1,
+            "claimed": false
+          }
+        ],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:morrow:0",
+              "approach": "direct"
+            }
+          },
+          {
+            "id": 2,
+            "at": 102,
+            "key": "siteExplored",
+            "params": {
+              "target": "morrow",
+              "site": "site:morrow:0"
+            }
+          },
+          {
+            "id": 3,
+            "at": 102,
+            "key": "activityComplete",
+            "params": {
+              "activity": "explore",
+              "target": "morrow"
+            }
+          },
+          {
+            "id": 4,
+            "at": 102,
+            "key": "hazard",
+            "params": {}
+          },
+          {
+            "id": 5,
+            "at": 102,
+            "key": "discoveryFound",
+            "params": {
+              "discovery": "stranded-specialist",
+              "target": "morrow"
+            }
+          },
+          {
+            "id": 6,
+            "at": 102,
+            "key": "milestone",
+            "params": {
+              "milestone": "frontier"
+            }
+          },
+          {
+            "id": 7,
+            "at": 200,
+            "key": "discoverySettled",
+            "params": {
+              "discovery": "stranded-specialist",
+              "choice": "resettle"
+            }
+          },
+          {
+            "id": 8,
+            "at": 200,
+            "key": "missionAccepted",
+            "params": {
+              "mission": "project:site:morrow:0:stranded-specialist:resettle"
+            }
+          },
+          {
+            "id": 9,
+            "at": 200,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work:project:site:morrow:0:stranded-specialist:resettle"
+            }
+          },
+          {
+            "id": 10,
+            "at": 280,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work:project:site:morrow:0:stranded-specialist:resettle",
+              "target": "morrow"
+            }
+          }
+        ],
+        "nextEvent": 11,
+        "milestones": [
+          "frontier"
+        ]
+      }
+    },
+    {
+      "game": "hollowmere",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000,\"state\":{\"version\":4,\"definition\":\"hollowmere\",\"generationVersion\":6,\"seed\":1701,\"rng\":1,\"elapsed\":200,\"calendarDays\":0,\"location\":\"briar\",\"inventory\":{\"gold\":438,\"rations\":25,\"wood\":11,\"bolts\":12,\"incense\":14,\"herbs\":4,\"relics\":1},\"integrity\":100,\"wear\":8,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"bran\",\"name\":\"Sable Yew\",\"skill\":\"fighter\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":1},{\"id\":\"ves\",\"name\":\"Morwen Holt\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"elin\",\"name\":\"Edda Blackthorn\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":1,\"threat\":null,\"threatHistory\":[],\"incidents\":[{\"id\":\"stranded-specialist\",\"location\":\"briar\",\"site\":\"site:briar:0\",\"at\":68,\"choice\":\"resettle\",\"recruitSerial\":0}],\"discoveryCooldown\":2,\"known\":[\"mournwatch\",\"old-road\",\"briar\",\"ash-camp\",\"gallows\",\"stone-circle\",\"ossuary\",\"crypt\",\"abbey\",\"below-generated-0\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":true,\"sites\":[\"site:old-road:0\",\"site:old-road:1\",\"site:old-road:2\"],\"dataSold\":false},\"briar\":{\"surveyed\":true,\"sites\":[\"site:briar:0\"],\"dataSold\":false},\"ash-camp\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"gallows\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"stone-circle\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"ossuary\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"crypt\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"abbey\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"below-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":8,\"covenant\":0,\"court\":0},\"primary\":{\"id\":\"j9\",\"kind\":\"activity\",\"participants\":[\"bran\"],\"definition\":\"work:project:site:briar:0:stranded-specialist:resettle\",\"target\":\"briar\",\"remaining\":76,\"total\":76,\"days\":0,\"reward\":{},\"risk\":0.12},\"support\":null,\"encounter\":null,\"missions\":[{\"id\":\"project:site:briar:0:stranded-specialist:resettle\",\"progress\":0,\"claimed\":false}],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"explore\",\"site\":\"site:briar:0\",\"approach\":\"direct\"}},{\"id\":2,\"at\":68,\"key\":\"siteExplored\",\"params\":{\"target\":\"briar\",\"site\":\"site:briar:0\"}},{\"id\":3,\"at\":68,\"key\":\"activityComplete\",\"params\":{\"activity\":\"explore\",\"target\":\"briar\"}},{\"id\":4,\"at\":68,\"key\":\"discoveryFound\",\"params\":{\"discovery\":\"stranded-specialist\",\"target\":\"briar\"}},{\"id\":5,\"at\":68,\"key\":\"milestone\",\"params\":{\"milestone\":\"woodland\"}},{\"id\":6,\"at\":68,\"key\":\"milestone\",\"params\":{\"milestone\":\"charter\"}},{\"id\":7,\"at\":200,\"key\":\"discoverySettled\",\"params\":{\"discovery\":\"stranded-specialist\",\"choice\":\"resettle\"}},{\"id\":8,\"at\":200,\"key\":\"missionAccepted\",\"params\":{\"mission\":\"project:site:briar:0:stranded-specialist:resettle\"}},{\"id\":9,\"at\":200,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work:project:site:briar:0:stranded-specialist:resettle\"}}],\"nextEvent\":10,\"milestones\":[\"woodland\",\"charter\"]},\"checksum\":\"eef6ce65\"}",
+      "seconds": 200,
+      "completed": {
+        "version": 4,
+        "definition": "hollowmere",
+        "generationVersion": 6,
+        "seed": 1701,
+        "rng": 1831565814,
+        "elapsed": 400,
+        "calendarDays": 0,
+        "location": "briar",
+        "inventory": {
+          "gold": 438,
+          "rations": 25,
+          "wood": 11,
+          "bolts": 12,
+          "incense": 14,
+          "herbs": 4,
+          "relics": 1
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Sable Yew",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 2
+          },
+          {
+            "id": "ves",
+            "name": "Morwen Holt",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "elin",
+            "name": "Edda Blackthorn",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 1,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [
+          {
+            "id": "stranded-specialist",
+            "location": "briar",
+            "site": "site:briar:0",
+            "at": 68,
+            "choice": "resettle",
+            "recruitSerial": 0
+          }
+        ],
+        "discoveryCooldown": 2,
+        "known": [
+          "mournwatch",
+          "old-road",
+          "briar",
+          "ash-camp",
+          "gallows",
+          "stone-circle",
+          "ossuary",
+          "crypt",
+          "abbey",
+          "below-generated-0"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": true,
+            "sites": [
+              "site:old-road:0",
+              "site:old-road:1",
+              "site:old-road:2"
+            ],
+            "dataSold": false
+          },
+          "briar": {
+            "surveyed": true,
+            "sites": [
+              "site:briar:0"
+            ],
+            "dataSold": false
+          },
+          "ash-camp": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "gallows": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "stone-circle": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "ossuary": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "crypt": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "abbey": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "below-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 8,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [
+          {
+            "id": "project:site:briar:0:stranded-specialist:resettle",
+            "progress": 1,
+            "claimed": false
+          }
+        ],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:briar:0",
+              "approach": "direct"
+            }
+          },
+          {
+            "id": 2,
+            "at": 68,
+            "key": "siteExplored",
+            "params": {
+              "target": "briar",
+              "site": "site:briar:0"
+            }
+          },
+          {
+            "id": 3,
+            "at": 68,
+            "key": "activityComplete",
+            "params": {
+              "activity": "explore",
+              "target": "briar"
+            }
+          },
+          {
+            "id": 4,
+            "at": 68,
+            "key": "discoveryFound",
+            "params": {
+              "discovery": "stranded-specialist",
+              "target": "briar"
+            }
+          },
+          {
+            "id": 5,
+            "at": 68,
+            "key": "milestone",
+            "params": {
+              "milestone": "woodland"
+            }
+          },
+          {
+            "id": 6,
+            "at": 68,
+            "key": "milestone",
+            "params": {
+              "milestone": "charter"
+            }
+          },
+          {
+            "id": 7,
+            "at": 200,
+            "key": "discoverySettled",
+            "params": {
+              "discovery": "stranded-specialist",
+              "choice": "resettle"
+            }
+          },
+          {
+            "id": 8,
+            "at": 200,
+            "key": "missionAccepted",
+            "params": {
+              "mission": "project:site:briar:0:stranded-specialist:resettle"
+            }
+          },
+          {
+            "id": 9,
+            "at": 200,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work:project:site:briar:0:stranded-specialist:resettle"
+            }
+          },
+          {
+            "id": 10,
+            "at": 276,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work:project:site:briar:0:stranded-specialist:resettle",
+              "target": "briar"
+            }
+          }
+        ],
+        "nextEvent": 11,
+        "milestones": [
+          "woodland",
+          "charter"
+        ]
+      }
+    }
+  ]
+}

@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.11
+
+Fresh expeditions add three discoveries per game: derelict salvage, a distress beacon and disputed research in Far Wake; a haunted shrine, lost caravan and dangerous bargain in Hollowmere. Choices can grant materials, recruit a medic/fighter, train specialists or change faction standing. Each response unlocks a distinct optional commission.
+
+Some commissions use Support while an expedition works nearby; others need specialties split between Expedition and Support. Briefs show the teams, costs and consequences. These discoveries belong to generation 7; existing expeditions retain their original catalogs and remain playable. See [discovery variety](docs/VARIETY.md).
+
 ## New in v0.10
 
 Both games now connect discovery contracts to expedition planning. A discovery-work summary highlights unlocked projects, accepted work and receipts ready to file. Briefs compare supplies and assigned specialists, including estimated travel to the source and back to a known hub.

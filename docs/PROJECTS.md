@@ -69,3 +69,7 @@ Released in `89306ad` through successful [Pages workflow 40695337794](https://gi
 ## Finding and preparing projects (v0.10)
 
 A shared discovery-work summary exposes unlocked projects, active field work and receipts. Eligible unaccepted faction projects appear before ordinary board offers in both games. Their briefs show stock/assignment gaps and known outbound/work/return supply estimates, plus source/hub route actions. This UI applies to existing generation-6 projects without changing definitions, choices or payment. Older discovery contracts get the same preparation/receipt guidance. See [PLANNING.md](PLANNING.md).
+
+## Additional role profiles (v0.11)
+
+Generation 7 appends twelve commissions after the frozen generation-6 catalog, linked to six new discoveries. The recipe now permits a support slot or explicit cross-team role requirements, using existing job/staffing/practice rules. Original project definitions and accepted saves are unchanged. Safe responses and recovery remain independent of optional commissions. See [VARIETY.md](VARIETY.md).

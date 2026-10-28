@@ -94,3 +94,7 @@ The user endorsed the prepared next-step design (“Sounds great”, then “Mak
 ## Planning/readability, v0.10 (2026-10-28)
 
 The user approved the proposal to improve discovery-project visibility, preparation gaps, contract-linked route actions and clear next steps (“Makes sense. Do it”). [PLANNING.md](PLANNING.md) records the inspected UI gaps and bounded design. Choosing fastest known-time routes, estimating a known return hub, retaining completed receipts in the work view and keeping route selection temporary are implementation choices. No automatic dispatch or new procedural content is inferred.
+
+## Discovery variety, v0.11 (2026-10-28)
+
+The user approved proceeding with the next roadmap candidate: more discoveries/missions with different supplies, specialists, rewards and follow-up work (“Go ahead”). [VARIETY.md](VARIETY.md) records the chosen six encounters, twelve branches, team profiles and safe alternatives. These numerical terms and catalog generation 7 are implementation decisions. No unbounded procedural campaign, autonomous faction system or roguelite progression is inferred. Released v0.10 commit `c2723f8` supplies captured generation-6 paid-project fixtures.

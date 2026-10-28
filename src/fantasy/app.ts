@@ -7,7 +7,7 @@ import {
 import { proficiencyLabel, proficiencyHelp } from '../ui/proficiency';
 import { chartLines } from '../ui/world-map';
 import { missionDiscovered } from '../engine/missions';
-import { followUpBrief, followUpWork } from '../ui/mission-panels';
+import { followUpBrief, followUpWork, workTeamRequirements } from '../ui/mission-panels';
 import { activityPreview, sitePanel } from '../ui/site-panels';
 import type { GameDefinition, GameState, Command, Job } from '../engine/types';
 import type { AppController } from '../browser/controller';
@@ -154,7 +154,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   function actionCard(id: string) {
     const a = g.activities.find((a) => a.id === id)!,
       preview = activityPreview(g, s, id);
-    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${a.mission ? preparationPanel(g, s, a.mission, 'work') : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}</article>`;
+    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${a.mission ? `<p class="cost">${workTeamRequirements(a)}</p>${preparationPanel(g, s, a.mission, 'work')}` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}</article>`;
   }
   function chronicle() {
     const v = view(g, s),
@@ -226,7 +226,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       .join(
         '',
       )}</div>${sitePanel(g, s, (label, command, primary) => button(label, command, primary, false))}<div class="section-label">Support duties</div><div class="activity-grid">${g.activities
-      .filter((a) => a.slot === 'support' && (a.at === 'any' || loc.station))
+      .filter((a) => !a.mission && a.slot === 'support' && (a.at === 'any' || loc.station))
       .map((a) => actionCard(a.id))
       .join(
         '',
@@ -329,7 +329,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${planningSummary(g, s)}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.10<br><a href="../?games=1">All games</a></span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${planningSummary(g, s)}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.11<br><a href="../?games=1">All games</a></span></footer>`;
       for (const el of root.querySelectorAll<HTMLElement>('[data-tab]'))
         el.setAttribute('aria-current', el.dataset.tab === tab ? 'page' : 'false');
       const canvas = main.querySelector<HTMLCanvasElement>('#fantasy-scene');

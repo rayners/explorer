@@ -1,11 +1,15 @@
 import { preparationPanel } from './planning-panels';
-import type { GameDefinition, GameState } from '../engine/types';
+import type { ActivityDef, GameDefinition, GameState } from '../engine/types';
 import { activityDuration } from '../engine/simulation';
 const esc = (value: unknown) =>
   String(value ?? '').replace(
     /[&<>"']/g,
     (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
   );
+export function workTeamRequirements(activity: ActivityDef): string {
+  const team = (slot: string) => (slot === 'support' ? 'support' : 'expedition');
+  return `Work team: ${activity.slot === 'support' ? 'Support' : 'Expedition'}<br>Team requirements: ${activity.requirements?.map((requirement) => `${requirement.count} ${esc(requirement.skill)} (${team(requirement.assignment ?? activity.slot)})`).join(' · ') || 'One living member on the work team'}`;
+}
 /** Show the actual work requirements before the player accepts a generated contract. */
 export function followUpBrief(
   g: GameDefinition,
@@ -30,7 +34,7 @@ export function followUpBrief(
         `${amount} ${esc(g.resources.find((resource) => resource.id === id)?.name ?? id)}`,
     )
     .join(' · ');
-  return `<p class="cost">Field work: ${committed?.total ?? activityDuration(g, s, activity.id)}s real<br>Work supplies: ${cost || 'None'}${patron}${activity.requirements?.length ? `<br>Expedition requirements: ${activity.requirements.map((r) => `${r.count} ${esc(r.skill)}`).join(' · ')}` : ''}</p>${preparation}`;
+  return `<p class="cost">Field work: ${committed?.total ?? activityDuration(g, s, activity.id)}s real<br>Work supplies: ${cost || 'None'}${patron}<br>${workTeamRequirements(activity)}</p>${preparation}`;
 }
 /** Accepted work remains visible with its destination even while preparing at a hub. */
 export function followUpWork(

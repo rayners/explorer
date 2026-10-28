@@ -72,3 +72,7 @@ Both settings now include once-only rescue and knowledge choices, documented in 
 ## Lasting follow-up commissions (v0.9)
 
 In generation 6, settled charter, rescued-specialist and recovered-knowledge choices can expose optional faction projects linked to their exact source. The original incident roll and once-only ledger remain unchanged; no event rerolls or passive consequences are added. Response cards preview the resulting project/patron. See [PROJECTS.md](PROJECTS.md).
+
+## Broader discoveries (v0.11)
+
+Generation 7 appends derelict salvage, a clinic distress beacon and disputed research in Far Wake, plus a haunted shrine, lost caravan and faction bargain in Hollowmere. Each uses the same once-only/cooldown/pending-choice selector and safe hub responses; minimum explored-site counts are 4/6/8 and introductory locations stay protected. New rescue roles reserve names at actual onset. Responses expose exact-source branch commissions, including support and mixed-role work. No automatic curse, new stowaway trigger or recurring debt is added. Generations 1–6 keep their original streams/catalogs. See [VARIETY.md](VARIETY.md).

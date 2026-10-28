@@ -16,6 +16,7 @@ it('preserves complete released generation 1–3 definitions and freezes generat
     'worlds-v4.json',
     'worlds-v5.json',
     'worlds-v6.json',
+    'worlds-v7.json',
   ].flatMap((file) => JSON.parse(readFileSync(`tests/fixtures/${file}`, 'utf8')));
   for (const fixture of fixtures) {
     const game = (fixture.game === 'far-wake' ? createGame : createHollowmere)(

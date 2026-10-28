@@ -10,6 +10,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [ENGINE.md](ENGINE.md)             | Engine integration API, content contracts, time and save semantics      |
 | [DESIGN.md](DESIGN.md)             | Far Wake setting, gameplay loop, pacing and internal threat             |
 | [HOLLOWMERE.md](HOLLOWMERE.md)     | Fantasy setting, party roles, curse and recovery                        |
+| [VARIETY.md](VARIETY.md)           | Versioned encounter variety, team roles and safe alternatives           |
 | [PLANNING.md](PLANNING.md)         | Expedition preparation, next steps and contract-linked routes           |
 | [PROJECTS.md](PROJECTS.md)         | Implemented faction projects linked to settled discovery choices        |
 | [CREW.md](CREW.md)                 | Crew proficiency, lasting opportunities and migration contract          |
@@ -24,4 +25,4 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 
 Requirements describe what was requested. Decisions describe the implementation chosen to satisfy it. Roadmap entries describe future possibilities unless explicitly marked implemented. Keep these distinctions when updating the documents.
 
-Documentation baseline: v0.10.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
+Documentation baseline: v0.11.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.

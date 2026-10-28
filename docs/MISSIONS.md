@@ -53,3 +53,7 @@ Generation 6 adds optional commissions beyond the original one-per-explored-site
 ## Preparation and next-step guidance (v0.10)
 
 Existing bound contracts now show resource and assignment gaps, outbound/work/return estimates and the current next step. Accepted work is first in Operations/Company, including completed receipts waiting to be filed. Route buttons open previews without spending resources; every leg still needs an explicit order. Generation-3 onward contracts gain the same UI without changing their catalog identity or save schema. See [PLANNING.md](PLANNING.md).
+
+## Varied team commissions (v0.11)
+
+Generation-7 discovery responses add source-bound commissions with different dispatch resources, patrons, teams and role combinations. Four use Support; three primary jobs require a second specialty assigned to Support. Work stays optional, shares existing acceptance limits, pays only on filing and cannot become combat credit. Briefs and accepted activity cards label team requirements. See [VARIETY.md](VARIETY.md).

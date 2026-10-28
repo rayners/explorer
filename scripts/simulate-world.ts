@@ -48,14 +48,26 @@ export function simulateWorld(seed: number, factory: DefinitionFactory = createG
     const discovery = pendingDiscovery(game, state);
     if (discovery) {
       const def = game.discoveryEvents!.entries.find((entry) => entry.id === discovery.id)!;
-      if (def.kind === 'choice')
+      if (def.kind === 'choice') {
+        const choice =
+          def.choices.find((choice) => ['archive', 'resettle', 'release'].includes(choice.id)) ??
+          def.choices.find(
+            (choice) =>
+              !choice.recruit &&
+              !choice.training &&
+              Object.values(choice.reputation).every((value) => value >= 0),
+          ) ??
+          def.choices.find(
+            (choice) =>
+              !dispatch(game, state, { type: 'discovery', id: def.id, choice: choice.id }).error,
+          );
+        if (!choice) throw Error(`No available discovery response for ${def.id}.`);
         order({
           type: 'discovery',
           id: discovery.id,
-          choice: def.choices.find((choice) =>
-            ['archive', 'resettle', 'release'].includes(choice.id),
-          )!.id,
+          choice: choice.id,
         });
+      }
     }
     const reserves: Record<string, number> = {};
     reserves[game.rules.travelResource] = 45;
