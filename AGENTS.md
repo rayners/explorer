@@ -18,7 +18,7 @@ Read [requirements](docs/REQUIREMENTS.md), [decisions](docs/DECISIONS.md), [arch
 1. `src/engine/` must remain independent of game definitions, theme-specific UI, browser globals, network, wall-clock reads and ambient randomness. Supply elapsed time and seeded randomness explicitly. Public transitions preserve their inputs and return serializable state.
 2. Content, names, art, skill IDs, resource IDs and narrative belong in each game. Generalize a mechanism through the content contract rather than branching on a game ID in the engine. Hollowmere and the Victorian test fixture demonstrate portability.
 3. Keep one primary order and one support job. Pay costs on dispatch; resolve rewards once at completion. Offline catch-up is capped at 24 hours and stops at consequential choices. Never cause permanent casualties through absence.
-4. Permanent crew loss belongs to explicit responses to an optional, warned internal threat. Retain memorial records. Preserve recovery: guaranteed purge, encounter surrender, recovery transport and emergency recruitment.
+4. Permanent crew loss belongs to explicit responses to an internal threat, with casualty risk explained before responding. Surprise onset is allowed by the new design direction; it does not permit offline casualties. Retain memorial records. Preserve recovery: guaranteed purge, encounter surrender, recovery transport and emergency recruitment.
 5. Preserve already committed jobs when a casualty changes the roster. Enforce staffing for new orders without invalidating a paid journey already in progress.
 6. Saves are a compatibility contract. Envelope format 1, state schema 2 and definition generation version 1 are separate versions. Saved-shape changes require validation and migration tests. Generator changes must preserve old seeds/catalog identities or explicitly migrate them. Keep existing storage namespaces and manifest identity stable.
 7. Imports/resets must back up and write the replacement before swapping the active simulation. Storage errors leave the current expedition usable with a persistent warning and export available. Check ownership before commands and saves.
@@ -63,6 +63,8 @@ Add behavior tests for mechanics, regressions, save migrations and lifecycle cha
 `npm run icons` regenerates icons. `npm run screenshots` captures the library and both games; inspect `scripts/screenshots.ts` for server expectations. Development-only `?speed=60`, `window.__farWake` and `window.__hollowmere` helpers must remain absent in production.
 
 ## Adding a game or changing behavior
+
+[Discovery events](docs/EVENTS.md) records the newer surprise-incident direction and proposed lasting effects. It is a design proposal; the shipped game still uses explicit specimen exposure. Keep onset surprises separate from explicit casualty-risk decisions.
 
 Write its goal and design first. Reuse generic mechanisms, create a stable definition ID and distinct browser namespace, add a themed mount and HTML entry, configure its manifest and Vite build input, then add the implemented game to the picker. Cover save isolation, its introductory journey, library return, mobile layout and offline access. See [architecture](docs/ARCHITECTURE.md).
 

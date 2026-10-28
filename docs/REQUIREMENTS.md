@@ -47,3 +47,7 @@ The user eventually wants roguelite and procedural systems/missions, and explici
 A player should be able to select a game, understand the first goal, prepare and travel, discover and exploit a location, return to a service hub, turn in work and prepare for farther travel. Crew composition must affect real available actions or outcomes. The optional internal threat must be resolvable without permanently stranding the save. Each game needs independent progress, mobile usability and reliable resume after absence.
 
 Offline PWA support, 24-hour catch-up and the detailed recovery/save protections were chosen to support this experience. See [ACCEPTANCE.md](ACCEPTANCE.md) for concrete verification and physical-device checks still pending.
+
+## Surprise events direction (2026-10-27)
+
+The user clarified that a creature getting loose should sometimes be a surprise, and raised other random events with long-term effects as a step toward procedural play. The onset need not require the explicitly labelled specimen mission. Keep this distinct from the chosen safeguard that permanent casualties require explicit responses. [EVENTS.md](EVENTS.md) records the proposed mechanism and candidate effects; these are not implemented yet. This does not specify a complete procedural galaxy or roguelite reset system.

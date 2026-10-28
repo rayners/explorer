@@ -10,6 +10,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [ENGINE.md](ENGINE.md)             | Engine integration API, content contracts, time and save semantics     |
 | [DESIGN.md](DESIGN.md)             | Far Wake setting, gameplay loop, pacing and internal threat            |
 | [HOLLOWMERE.md](HOLLOWMERE.md)     | Fantasy setting, party roles, curse and recovery                       |
+| [EVENTS.md](EVENTS.md)             | Proposed surprise discovery events and lasting consequences            |
 | [ROADMAP.md](ROADMAP.md)           | Implemented milestones, deferred scope and unresolved design questions |
 | [ACCEPTANCE.md](ACCEPTANCE.md)     | Automated checks and pending physical iPhone acceptance                |
 | [SOURCES.md](SOURCES.md)           | Requirements provenance, inspirations, reference code and evidence     |

@@ -22,6 +22,12 @@ The v0.2.1 baseline passed 67 unit tests, 60 browser cases and 6 production offl
 
 Run [ACCEPTANCE.md](ACCEPTANCE.md) on the physical iPhone 15 Pro Max, especially suspension/force-close, Add to Home Screen, separate game installation and upgrade of an existing root-launch Far Wake icon. Emulated WebKit coverage does not close these items.
 
+## New design direction: surprise and lasting events
+
+The user wants surprise shipboard intrusions sometimes and is interested in random events with long-term consequences. [EVENTS.md](EVENTS.md) records a proposed first step: occasional discovery-triggered incidents over the authored world, saved outcomes and follow-up consequences. Exact odds and the first event set remain design choices. No random-exposure/event-ledger implementation has shipped.
+
+This can precede a procedural galaxy; full procedural campaigns and roguelite progression remain deferred.
+
 ## Deferred at the user's request
 
 - Procedural systems, celestial bodies, routes and missions beyond seeded detail variation.

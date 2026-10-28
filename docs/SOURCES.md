@@ -56,3 +56,7 @@ Use primary documentation when changing platform behavior:
 - [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) — static artifact publication.
 
 The latter links are maintenance references, not claims that each was consulted for every earlier implementation. Dependency versions are defined by `package-lock.json`; current code and configuration take precedence over examples from newer documentation.
+
+## Later direction: surprise incidents (2026-10-27)
+
+The user said a creature getting loose aboard ship should sometimes be a surprise and suggested random events with long-term effects, noting the connection to procedural generation. [EVENTS.md](EVENTS.md) records that direction. The example events, event-ledger architecture, balancing safeguards and implementation order there are proposals, not further user-specified requirements.

@@ -30,6 +30,8 @@ These are extension points rather than promises about reset or reward rules. Exi
 
 ## The optional stowaway incident
 
+This describes the shipped implementation. The newer direction is to allow surprise onset through ordinary exploration as well; the proposed discovery-event system is in [EVENTS.md](EVENTS.md). It has not changed gameplay yet.
+
 Morrow offers a clearly warned specimen-recovery activity. Completing it starts a hidden threat. Two subsequent completed activities or journeys reveal the intrusion. It may evade searches, be contained, be confronted after it is located, or be removed by venting cargo. Containment permits other operations to resume without claiming the creature has been killed. Failed explicit responses increase pressure; every second failure provokes an attack. Support medical expertise can turn a casualty into an injury. The first prototype includes one incident per expedition, with a distinct mission reward.
 
 All randomness is seeded and saved. Revealing a threat during catch-up pauses further consequential time, and never attacks crew. If an external encounter and internal alert coincide, the player can resolve the external encounter first. A purge always works, even with no resources or survivors; it loses a fifth of physical cargo. The captain can request recovery, and emergency recruitment prevents a roster-loss deadlock.

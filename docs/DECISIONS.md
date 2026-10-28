@@ -34,3 +34,7 @@ The original Far Wake implementation used direct route endpoints, then exposed d
 Hollowmere reuses generic mechanisms but has a separate themed UI, rather than a complete skin/configuration language. It currently imports shared UI styles. A data-only game authoring system is not implemented or required.
 
 No roguelite loss/reset economy has been selected. Permanent unlocks, procedural mission construction, generator persistence and alternative ships need designs before implementation. See [ROADMAP.md](ROADMAP.md).
+
+## Later direction: surprise onset
+
+The user clarified on 2026-10-27 that a creature should sometimes be a surprise. The table above describes the shipped explicit specimen trigger, not a requirement that all future exposure be announced. Surprise onset is now a design goal; explicit response warnings, no offline casualties and guaranteed recovery remain. [EVENTS.md](EVENTS.md) proposes discovery-triggered selection and lasting consequences; no such event system is implemented yet.
