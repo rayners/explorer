@@ -18,6 +18,8 @@ The galaxy has an authored topology so every route and introductory contract can
 
 ## Later versions
 
+Status and unresolved design choices are tracked in [ROADMAP.md](ROADMAP.md). These ideas are deferred, not committed releases.
+
 - Generator modules for variable system graphs, celestial bodies, sites, and mission instances with stable instance IDs.
 - Generator-version compatibility and saved generated catalogs when worlds grow dynamically.
 - Explicit run boundaries, loss/recovery rules, optional persistent unlocks, and roguelite balancing.
@@ -34,4 +36,4 @@ All randomness is seeded and saved. Revealing a threat during catch-up pauses fu
 
 ## Shared fantasy implementation
 
-Hollowmere has a separately themed interface, content catalogs and procedural details, with its own save namespace. It uses the same engine, recruitment and threat mechanics, save migration, transaction-safe imports, offline timing, and browser lifecycle. Its fighter/mage/cleric/scout composition is enforced by generic activity requirements, rather than hard-coded fantasy branches in the engine. See HOLLOWMERE.md.
+Hollowmere has a separately themed interface, content catalogs and procedural details, with its own save namespace. It uses the same engine, recruitment and threat mechanics, save migration, transaction-safe imports, offline timing, and browser lifecycle. Its fighter/mage/cleric/scout composition is enforced by generic activity requirements, rather than hard-coded fantasy branches in the engine. See [HOLLOWMERE.md](HOLLOWMERE.md).

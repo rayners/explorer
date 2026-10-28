@@ -80,3 +80,7 @@ The JSON envelope format and generation version remain **1**; the saved state sc
 Browser storage keys are `far-wake.save.v1`, `far-wake.backup.v1` (before import/reset), and `far-wake.corrupt.v1` (unreadable original). Hollowmere uses the equivalent `hollowmere.*` namespace. Cross-game imports are rejected and both games can hold independent command locks. Saves are plain JSON with a checksum for accidental corruption, not an anti-cheat mechanism. Imports and resets keep the current expedition active until both its backup and replacement have been written; a storage failure leaves the current expedition intact and displays a persistent warning. Keep downloaded backups: browser storage can be cleared by the user or operating system. Settings can import a backup JSON copied from these keys.
 
 HTTPS and localhost use atomic Web Locks for command ownership. HTTP LAN previews fall back to a renewable storage lease, checked before commands and saves. That fallback is best-effort coordination rather than an atomic browser lock; use one tab when testing over LAN HTTP. If coordination or storage is unavailable, save export remains accessible.
+
+## Project documentation
+
+Start with [AGENTS.md](AGENTS.md) for contributor and coding-agent guidance. The [documentation index](docs/README.md) links user goals, decision records, architecture, game designs, sources, implementation status and device acceptance. Future ideas are explicitly separated from implemented behavior.
