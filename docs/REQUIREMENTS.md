@@ -34,6 +34,8 @@ The optional trigger, casualty safeguards, exact roles, capacity limits, setting
 
 ## Site and delivery
 
+Later request (2026-10-28), still unimplemented: add PostHog usage tracking and error capture to the games, following `../clicker`, without personally identifiable data. Exact event schema, project identity and SDK/privacy configuration are not yet verified. [TELEMETRY.md](TELEMETRY.md) records the pending work; [STATUS.md](STATUS.md) records the user's paused roadmap and restart prerequisite.
+
 Push code to `rayners/explorer` and publish its GitHub Pages site, like clicker. The main page should select among implemented games. Each game must remain accessible on its own page. Preserve existing progress when changing entry points.
 
 The user also requested an independent agent usability/QA review. A review and corrective work occurred during development; surviving regression evidence and commits are listed in [SOURCES.md](SOURCES.md). Do not infer that every future change requires delegation.

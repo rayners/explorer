@@ -1,6 +1,6 @@
 # Explorer — working guide
 
-This repository contains two browser exploration games sharing a deterministic engine. Read this file first, then [the documentation index](docs/README.md). Keep decisions and status in the repository; do not rely on prior conversations.
+This repository contains two browser exploration games sharing a deterministic engine. Read this file first, then [the development handoff](docs/STATUS.md) and [the documentation index](docs/README.md). Keep decisions and status in the repository; do not rely on prior conversations.
 
 ## Product and scope
 

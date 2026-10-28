@@ -2,9 +2,13 @@
 
 Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md](../README.md) for running and playing the games.
 
+Restarting development: read [STATUS.md](STATUS.md) first. It records the shipped release, paused roadmap, pending PostHog request and connection prerequisite. Tracking is not implemented; [TELEMETRY.md](TELEMETRY.md) records the work still required.
+
 | Document                           | Purpose                                                                 |
 | ---------------------------------- | ----------------------------------------------------------------------- |
 | [REQUIREMENTS.md](REQUIREMENTS.md) | User goals, requested scope and acceptance intent                       |
+| [STATUS.md](STATUS.md) | Current development handoff, latest task and restart procedure |
+| [TELEMETRY.md](TELEMETRY.md) | Pending PostHog usage/error tracking and privacy review |
 | [DECISIONS.md](DECISIONS.md)       | Chosen behavior, rationale, tradeoffs and compatibility constraints     |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Module boundaries, execution flow, hosting and extension checklist      |
 | [ENGINE.md](ENGINE.md)             | Engine integration API, content contracts, time and save semantics      |

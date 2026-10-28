@@ -2,6 +2,10 @@
 
 Recorded 2026-10-27. This repository is the durable record of the design. The user conversation supplied the requirements below; it was not stored as a source file. These summaries preserve meaning without pretending to be a complete transcript or an original formal plan.
 
+## Restart handoff and pending analytics (2026-10-28)
+
+The user requested PostHog usage/error tracking following clicker, with no personally identifiable data. Clicker's local adapter, telemetry helpers and privacy documentation were inspected; no analytics code, dependency or project configuration was changed. The available PostHog skill required pausing until its app/tools were connected; repeated checks found no PostHog tools. Plugin discovery did not establish a usable connection. The user then paused the ongoing roadmap and requested that development state be written into the docs before a possible restart. [STATUS.md](STATUS.md) preserves that handoff; [TELEMETRY.md](TELEMETRY.md) distinguishes requested scope, inspected references, unverified privacy assumptions and pending implementation.
+
 ## Primary direction
 
 | User direction                                                                                                        | Repository record                                                                      |

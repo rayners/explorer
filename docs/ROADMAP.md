@@ -4,6 +4,8 @@ Baseline: v0.13.0, 2026-10-28. This is a status and design queue, not a release 
 
 ## Active implementation queue
 
+**Current handoff: roadmap paused by the user.** The latest explicit request is PostHog usage/error tracking following clicker, without personally identifiable data. Implementation has not started because the installed skill requires connected PostHog tools, which were not available. Read [STATUS.md](STATUS.md) and [TELEMETRY.md](TELEMETRY.md) after restart. Do not automatically resume this roadmap from the historical ongoing-work instruction below; the later pause takes precedence. Destination bundles remain prepared, not implemented.
+
 **Delivered after the reviews: readability and action hierarchy (v0.12).** [READABILITY.md](READABILITY.md) records early overview directives, scannable accepted-work cards, readable stock/decision text and short-height landscape layouts. Pages deployment and live checks passed. This uses the ongoing roadmap authorization; it does not adopt every review proposal.
 
 **Following evidence item completed: expedition value/session cadence.** [EXPEDITION-AUDIT.md](EXPEDITION-AUDIT.md) and its retained report compare eight-seed return commissions, same-destination bundles, nearby hubs and actual single-shift catch-up. It is a reproducible optimistic benchmark, not player research or a reward rebalance.
