@@ -1,5 +1,11 @@
 /** Theme-independent exploration contracts. All simulation state is serializable. */
 export type Amounts = Record<string, number>;
+/** Theme-supplied vocabularies, composed with a separator into a display name. */
+export interface NamePattern {
+  parts: readonly (readonly string[])[];
+  separator?: string;
+}
+export type DefinitionFactory = (seed: number, generationVersion?: number) => GameDefinition;
 export interface ResourceDef {
   id: string;
   name: string;
@@ -122,6 +128,7 @@ export interface RecruitDef {
   skill: string;
   cost: Amounts;
   names: string[];
+  nameSource?: { namespace: string; pattern: NamePattern; offset: number; prefix?: string };
   emergency?: boolean;
 }
 export interface ThreatDef {

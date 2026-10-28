@@ -2,13 +2,13 @@ import { writeReplacement } from './storage';
 import { createLease } from './lease';
 import { advance, createState, dispatch } from '../engine/simulation';
 import { decodeSave, encodeSave, reconcile } from '../engine/save';
-import type { Command, GameDefinition, GameState } from '../engine/types';
+import type { Command, GameDefinition, GameState, DefinitionFactory } from '../engine/types';
 import type { AppController, GameApp } from './controller';
 /** Shared browser lifecycle: independent saves, preferences and command locks per game. */
 export function startBrowserGame(options: {
   namespace: string;
   debugName: string;
-  createDefinition: (seed: number) => GameDefinition;
+  createDefinition: DefinitionFactory;
   mount: (root: HTMLElement, controller: AppController) => GameApp;
 }) {
   const createGame = options.createDefinition;
@@ -39,7 +39,7 @@ export function startBrowserGame(options: {
     const raw = localStorage.getItem(KEY);
     if (raw) {
       const loaded = decodeSave(raw, createGame);
-      game = createGame(loaded.state.seed);
+      game = createGame(loaded.state.seed, loaded.state.generationVersion);
       state = loaded.state;
       savedAt = loaded.savedAt;
     }
@@ -55,7 +55,7 @@ export function startBrowserGame(options: {
       const backup = localStorage.getItem(BACKUP);
       if (backup) {
         const loaded = decodeSave(backup, createGame);
-        game = createGame(loaded.state.seed);
+        game = createGame(loaded.state.seed, loaded.state.generationVersion);
         state = loaded.state;
         savedAt = loaded.savedAt;
         initialMessage =
@@ -191,7 +191,7 @@ export function startBrowserGame(options: {
     importSave: (text) => {
       if (!ownsCommand()) throw Error('Only the active tab can import saves.');
       const loaded = decodeSave(text, createGame);
-      const nextGame = createGame(loaded.state.seed);
+      const nextGame = createGame(loaded.state.seed, loaded.state.generationVersion);
       replaceExpedition(nextGame, reconcile(nextGame, loaded, Date.now()));
     },
     reset: (seed) => {
@@ -268,7 +268,7 @@ export function startBrowserGame(options: {
                 const raw = localStorage.getItem(KEY);
                 if (raw) {
                   const loaded = decodeSave(raw, createGame);
-                  game = createGame(loaded.state.seed);
+                  game = createGame(loaded.state.seed, loaded.state.generationVersion);
                   state = loaded.state;
                   savedAt = loaded.savedAt;
                 }
@@ -310,7 +310,7 @@ export function startBrowserGame(options: {
       try {
         const loaded = decodeSave(e.newValue, createGame);
         state = loaded.state;
-        game = createGame(state.seed);
+        game = createGame(state.seed, state.generationVersion);
         savedAt = loaded.savedAt;
         app.update(state, game);
       } catch {

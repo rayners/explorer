@@ -50,3 +50,9 @@ No physical-device result is claimed until this checklist is run on the actual p
 Automated coverage checks ordinary exploration triggering a silent passenger, delayed threat revelation, safe unattended holds, guaranteed purging, settlement-claim docking requirements, confirmation, persistent standing/history and production offline settlement. Unit tests cover quiet outcomes, weights, introductory protection, uniqueness, cooldown, portable definitions, frame/offline equivalence and schema-2 migration with existing jobs/threats.
 
 Physical iPhone checks remain pending: encounter the new discovery card, verify readable choice effects and visible docking reasons, return to a station, confirm a recipient and reload offline. Verify a surprise passenger stays hidden through reload, then reveals and waits safely when the phone is locked. Export/import existing schema-2 progress into v0.3 and confirm its jobs and crew survive.
+
+## v0.4 generated-name checks
+
+Automated coverage checks seeded variation, distinct roster/catalog names, preview/hire agreement, stable IDs/geography, unchanged outcome RNG, released generation-1 fixtures, generation-2 name snapshots and narrative references. Browser coverage uses generated labels for journeys, crew assignments and faction choices, and verifies legacy imports, read-only-tab updates and reloads retain original names.
+
+Physical iPhone checks remain pending: read longer generated names in the roster, chart, faction headers and choice cards; start another seed through the existing backup/confirmation flow; reload and export/import it offline; restore an old expedition and confirm its names and directions stay consistent.

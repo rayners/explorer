@@ -1,0 +1,242 @@
+{
+  "far-wake": {
+    "crew": [
+      {
+        "id": "mara",
+        "name": "Hana Reed"
+      },
+      {
+        "id": "ishaan",
+        "name": "Noel Holt"
+      },
+      {
+        "id": "ada",
+        "name": "Alex Cole"
+      }
+    ],
+    "recruits": [
+      {
+        "id": "engineer",
+        "names": ["Sora Ibarra", "Imani Vale", "Sami Mercer", "Amir Okonkwo"]
+      },
+      {
+        "id": "medic",
+        "names": ["Dr. Sora Ibarra", "Dr. Imani Vale", "Dr. Sami Mercer", "Dr. Amir Okonkwo"]
+      },
+      {
+        "id": "security-officer",
+        "names": ["Sora Ibarra", "Imani Vale", "Sami Mercer", "Amir Okonkwo"]
+      },
+      {
+        "id": "surveyor",
+        "names": ["Sora Ibarra", "Imani Vale", "Sami Mercer", "Amir Okonkwo"]
+      },
+      {
+        "id": "relief-hand",
+        "names": ["Sora Ibarra", "Imani Vale", "Sami Mercer", "Amir Okonkwo"]
+      }
+    ],
+    "regions": [
+      {
+        "id": "vesper",
+        "name": "Aster Deep"
+      },
+      {
+        "id": "pale",
+        "name": "Ravel Corridor"
+      },
+      {
+        "id": "meridian",
+        "name": "Vanta Expanse"
+      },
+      {
+        "id": "hollow",
+        "name": "Aster Corridor"
+      }
+    ],
+    "factions": [
+      {
+        "id": "combine",
+        "name": "Cynosure Combine"
+      },
+      {
+        "id": "independent",
+        "name": "Mutual Habitats"
+      },
+      {
+        "id": "pirates",
+        "name": "The Empty Berths"
+      }
+    ],
+    "locations": [
+      {
+        "id": "anchor",
+        "name": "Hush Depot"
+      },
+      {
+        "id": "cinder",
+        "name": "Argent Major"
+      },
+      {
+        "id": "morrow",
+        "name": "Serein Satellite"
+      },
+      {
+        "id": "rubble",
+        "name": "Lacuna Cluster"
+      },
+      {
+        "id": "pale-0",
+        "name": "Argent Anchorage"
+      },
+      {
+        "id": "pale-1",
+        "name": "Argent Secundus"
+      },
+      {
+        "id": "pale-2",
+        "name": "Aubade C"
+      },
+      {
+        "id": "pale-3",
+        "name": "Cinder Belt"
+      },
+      {
+        "id": "meridian-0",
+        "name": "Kepler Depot"
+      },
+      {
+        "id": "meridian-1",
+        "name": "Nacre Prime"
+      },
+      {
+        "id": "meridian-2",
+        "name": "Tern Satellite"
+      },
+      {
+        "id": "meridian-3",
+        "name": "Ilex Belt"
+      },
+      {
+        "id": "hollow-0",
+        "name": "Orison Depot"
+      },
+      {
+        "id": "hollow-1",
+        "name": "Vigil Major"
+      },
+      {
+        "id": "hollow-2",
+        "name": "Kestrel C"
+      },
+      {
+        "id": "hollow-3",
+        "name": "Vesper Debris"
+      }
+    ]
+  },
+  "hollowmere": {
+    "crew": [
+      {
+        "id": "bran",
+        "name": "Sable Yew"
+      },
+      {
+        "id": "ves",
+        "name": "Morwen Holt"
+      },
+      {
+        "id": "elin",
+        "name": "Edda Blackthorn"
+      }
+    ],
+    "recruits": [
+      {
+        "id": "fighter",
+        "names": ["Orrin Stone", "Liora Grey", "Ronan Hollow", "Hester Drake"]
+      },
+      {
+        "id": "mage",
+        "names": ["Orrin Stone", "Liora Grey", "Ronan Hollow", "Hester Drake"]
+      },
+      {
+        "id": "cleric",
+        "names": ["Orrin Stone", "Liora Grey", "Ronan Hollow", "Hester Drake"]
+      },
+      {
+        "id": "scout",
+        "names": ["Orrin Stone", "Liora Grey", "Ronan Hollow", "Hester Drake"]
+      },
+      {
+        "id": "volunteer",
+        "names": ["Orrin Stone", "Liora Grey", "Ronan Hollow", "Hester Drake"]
+      }
+    ],
+    "regions": [
+      {
+        "id": "hearth",
+        "name": "Wraith March"
+      },
+      {
+        "id": "wood",
+        "name": "Hollow Depths"
+      },
+      {
+        "id": "below",
+        "name": "Gallows Hollows"
+      }
+    ],
+    "factions": [
+      {
+        "id": "wardens",
+        "name": "The Hollow Wardens"
+      },
+      {
+        "id": "covenant",
+        "name": "The Waning Brotherhood"
+      },
+      {
+        "id": "court",
+        "name": "The Iron Crown"
+      }
+    ],
+    "locations": [
+      {
+        "id": "mournwatch",
+        "name": "Mourn Gate"
+      },
+      {
+        "id": "old-road",
+        "name": "Gallows Wood"
+      },
+      {
+        "id": "briar",
+        "name": "Ashen Stead"
+      },
+      {
+        "id": "ash-camp",
+        "name": "Dusk Rest"
+      },
+      {
+        "id": "gallows",
+        "name": "Wraith Trail"
+      },
+      {
+        "id": "stone-circle",
+        "name": "Rootbound Sanctum"
+      },
+      {
+        "id": "ossuary",
+        "name": "Shrouded Chapel"
+      },
+      {
+        "id": "crypt",
+        "name": "Wraith Tomb"
+      },
+      {
+        "id": "abbey",
+        "name": "Iron Catacombs"
+      }
+    ]
+  }
+}

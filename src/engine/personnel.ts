@@ -1,4 +1,5 @@
 import type { GameDefinition, GameState, Member, RecruitDef } from './types';
+import { generateName } from './names';
 /** Living members supply skills and occupy accommodation. Casualties stay in the roster. */
 export function living(state: GameState): Member[] {
   return state.crew.filter((member) => member.life !== 'dead');
@@ -14,5 +15,12 @@ export function crewCapacity(game: GameDefinition, state: GameState): number {
 }
 /** A reproducible name from a setting's cast, independent of outcome randomness. */
 export function recruitName(offer: RecruitDef, seed: number, serial: number): string {
+  if (offer.nameSource) {
+    const source = offer.nameSource;
+    return (
+      (source.prefix ?? '') +
+      generateName(seed, source.namespace, source.pattern, source.offset + serial)
+    );
+  }
   return offer.names[(seed + serial) % offer.names.length] ?? offer.name;
 }

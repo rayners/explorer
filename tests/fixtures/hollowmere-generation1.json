@@ -1,0 +1,102 @@
+{
+  "format": "exploration-save",
+  "version": 1,
+  "savedAt": 1700000000000,
+  "state": {
+    "version": 3,
+    "definition": "hollowmere",
+    "generationVersion": 1,
+    "seed": 44,
+    "rng": 44,
+    "elapsed": 0,
+    "calendarDays": 0,
+    "location": "mournwatch",
+    "inventory": {
+      "gold": 170,
+      "rations": 30,
+      "wood": 12,
+      "bolts": 12,
+      "incense": 14,
+      "herbs": 4,
+      "relics": 0
+    },
+    "integrity": 100,
+    "wear": 8,
+    "capacity": 120,
+    "debt": 0,
+    "crew": [
+      {
+        "id": "bran",
+        "name": "Bran Ash",
+        "skill": "fighter",
+        "assignment": "primary",
+        "injury": 0,
+        "life": "dead"
+      },
+      {
+        "id": "ves",
+        "name": "Ves Rook",
+        "skill": "mage",
+        "assignment": "primary",
+        "injury": 0,
+        "life": "alive"
+      },
+      {
+        "id": "elin",
+        "name": "Sister Elin",
+        "skill": "cleric",
+        "assignment": "support",
+        "injury": 0,
+        "life": "alive"
+      },
+      {
+        "id": "cleric-0",
+        "name": "Hester Crow",
+        "skill": "cleric",
+        "assignment": "rest",
+        "injury": 0,
+        "life": "alive",
+        "recruit": "cleric"
+      }
+    ],
+    "recruitSerial": 1,
+    "threat": null,
+    "threatHistory": [],
+    "incidents": [],
+    "discoveryCooldown": 0,
+    "known": ["mournwatch", "old-road"],
+    "discoveries": {
+      "mournwatch": { "surveyed": true, "sites": [], "dataSold": false },
+      "old-road": { "surveyed": false, "sites": [], "dataSold": false }
+    },
+    "reputation": { "wardens": 0, "covenant": 0, "court": 0 },
+    "primary": {
+      "id": "j2",
+      "kind": "activity",
+      "definition": "work",
+      "target": "mournwatch",
+      "remaining": 45,
+      "total": 45,
+      "days": 0,
+      "reward": { "gold": 65 },
+      "risk": 0
+    },
+    "support": null,
+    "encounter": null,
+    "missions": [],
+    "upgrades": [],
+    "events": [
+      { "id": 0, "at": 0, "key": "welcome", "params": {} },
+      {
+        "id": 1,
+        "at": 0,
+        "key": "memberHired",
+        "params": { "member": "Hester Crow", "skill": "cleric" }
+      },
+      { "id": 2, "at": 0, "key": "activityStarted", "params": { "activity": "work" } }
+    ],
+    "nextEvent": 3,
+    "milestones": []
+  },
+  "checksum": "a8f8e45"
+}

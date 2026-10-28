@@ -1,6 +1,6 @@
 # Roadmap and status
 
-Baseline: v0.3.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.4.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Implemented
 
@@ -17,6 +17,10 @@ Baseline: v0.3.0, 2026-10-28. This is a status and design queue, not a release s
 | Multi-game library        | Root Play/Resume cards, separate game URLs, return links, stable old saves and Far Wake installation identity. v0.2.1, `f6f375b`.                                            |
 
 The v0.2.1 baseline passed 67 unit tests, 60 browser cases and 6 production offline cases. Published library navigation, both games, resume labels and offline navigation were also checked with iPhone WebKit emulation. This is historical evidence, not a claim that later changes are verified automatically.
+
+## Implemented in v0.4: generated names
+
+Both settings generate initial/recruit crew, factions, regions and location names from larger themed vocabularies. Identity-based narrative references keep briefs and choices consistent. Generation-1 saves retain original names and future recruit selection; new expeditions use generation 2. Naming streams do not affect events or combat. [NAMES.md](NAMES.md) records the versioning contract, fixtures and later conditional-generation possibilities. Full procedural geography and missions remain deferred. Validation: 90 unit tests, 69 browser cases, 8 production offline cases, and unchanged frontier outcomes across eight seeds. Physical iPhone checks remain pending.
 
 ## Required manual validation still pending
 

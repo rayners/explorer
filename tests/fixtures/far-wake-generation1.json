@@ -1,0 +1,102 @@
+{
+  "format": "exploration-save",
+  "version": 1,
+  "savedAt": 1700000000000,
+  "state": {
+    "version": 3,
+    "definition": "far-wake",
+    "generationVersion": 1,
+    "seed": 44,
+    "rng": 44,
+    "elapsed": 0,
+    "calendarDays": 0,
+    "location": "anchor",
+    "inventory": {
+      "credits": 160,
+      "fuel": 32,
+      "parts": 12,
+      "ammo": 8,
+      "provisions": 18,
+      "ore": 0,
+      "ice": 0
+    },
+    "integrity": 100,
+    "wear": 8,
+    "capacity": 120,
+    "debt": 0,
+    "crew": [
+      {
+        "id": "mara",
+        "name": "Mara Venn",
+        "skill": "survey",
+        "assignment": "primary",
+        "injury": 0,
+        "life": "dead"
+      },
+      {
+        "id": "ishaan",
+        "name": "Ishaan Rao",
+        "skill": "engineering",
+        "assignment": "support",
+        "injury": 0,
+        "life": "alive"
+      },
+      {
+        "id": "ada",
+        "name": "Ada Okonkwo",
+        "skill": "security",
+        "assignment": "primary",
+        "injury": 0,
+        "life": "alive"
+      },
+      {
+        "id": "medic-0",
+        "name": "Dr. Selene Ibarra",
+        "skill": "medical",
+        "assignment": "rest",
+        "injury": 0,
+        "life": "alive",
+        "recruit": "medic"
+      }
+    ],
+    "recruitSerial": 1,
+    "threat": null,
+    "threatHistory": [],
+    "incidents": [],
+    "discoveryCooldown": 0,
+    "known": ["anchor", "cinder"],
+    "discoveries": {
+      "anchor": { "surveyed": true, "sites": [], "dataSold": false },
+      "cinder": { "surveyed": false, "sites": [], "dataSold": false }
+    },
+    "reputation": { "combine": 0, "independent": 0, "pirates": 0 },
+    "primary": {
+      "id": "j2",
+      "kind": "activity",
+      "definition": "work",
+      "target": "anchor",
+      "remaining": 45,
+      "total": 45,
+      "days": 0,
+      "reward": { "credits": 65 },
+      "risk": 0
+    },
+    "support": null,
+    "encounter": null,
+    "missions": [],
+    "upgrades": [],
+    "events": [
+      { "id": 0, "at": 0, "key": "welcome", "params": {} },
+      {
+        "id": 1,
+        "at": 0,
+        "key": "memberHired",
+        "params": { "member": "Dr. Selene Ibarra", "skill": "medical" }
+      },
+      { "id": 2, "at": 0, "key": "activityStarted", "params": { "activity": "work" } }
+    ],
+    "nextEvent": 3,
+    "milestones": []
+  },
+  "checksum": "3b53c3a8"
+}

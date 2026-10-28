@@ -67,7 +67,7 @@ The Pages workflow builds with `PAGES_BASE_PATH=/explorer/`. Do not hardcode roo
 
 ## Future procedural generation
 
-Current factories reconstruct immutable authored catalogs from a saved seed and generation version. Dynamically discovered worlds will need stable instance IDs and either persisted catalogs or retained compatible generator implementations. Do not change factory output for existing generation versions casually: a saved location/job must still resolve to the same content.
+Current factories reconstruct authored geography and versioned display names from a saved seed and generation version. Dynamically discovered worlds will need stable instance IDs and either persisted catalogs or retained compatible generator implementations. Do not change factory output for existing generation versions casually: a saved location/job must still resolve to the same content.
 
 Roguelite run state versus persistent profile state has not been designed. Avoid introducing reset, metaprogression or death semantics by implication while extending the generator. These questions are tracked in [ROADMAP.md](ROADMAP.md).
 
@@ -78,3 +78,7 @@ Roguelite run state versus persistent profile state has not been designed. Avoid
 Exposure entries create a hidden threat and share `threatHistory` with authored exposure. No onset event or UI card reveals them. Choice entries log a discovery and remain visible as nonurgent follow-ups; their catalog may require a service hub. The `discovery` command validates location/choice, marks the ledger resolved, applies rewards and standing once, and records a structured event. Pending follow-ups do not stop time but prevent more random discoveries until settled. Active threats also prevent selection.
 
 Schema 3 initializes an empty ledger and cooldown when loading schema 2, after checksum validation; the existing schema-1 migration runs first. World generation remains version 1 because existing world IDs, deposits, sites and committed jobs remain intact. Hollowmere receives the schema migration and generic mechanism but has no random discovery catalog yet.
+
+## Name generation (v0.4)
+
+`src/engine/names.ts` supplies deterministic domain-separated sampling and collision-checked allocation. Each theme owns its vocabulary; `src/content/names.ts` builds display names and resolves stable-ID references in authored text. Generation 1 keeps the original names/pools; generation 2 uses the new sampler. `decodeSave` and all browser restoration paths pass the saved generation version to the factory, including secondary-tab updates. A new/reset game uses the current default. State schema 3 and envelope 1 remain unchanged; see [NAMES.md](NAMES.md) for the compatibility contract and frozen fixtures.

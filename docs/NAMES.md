@@ -1,0 +1,41 @@
+# Seeded names and content generation
+
+Implemented in v0.4, 2026-10-28; requested by the user as the next procedural-content step. Start with functions sampling larger themed vocabularies for crew, factions and locations. Bayesian or other conditional generation is a future possibility, not a dependency for this slice.
+
+## Behavior
+
+New expeditions in both games use generation version 2. They generate initial crew and recruits, faction names, region names and location names. Gameplay identities, geography, resource deposits, missions and event behavior retain their stable IDs and current mechanics. Text referring to places or factions must resolve their display names rather than silently retaining the old names.
+
+Generation-version-1 saves continue using their original names and recruit pools. Factories accept an optional generation version, and all browser restore/import/backup/secondary-tab paths must rebuild that saved version. A fresh expedition or reset uses the latest version. Save envelope 1 and state schema 3 are unchanged: the existing saved seed and generation version identify the vocabulary/algorithm, and crew names are already stored.
+
+## Mechanism
+
+A shared pure name function composes parts sampled from theme-owned vocabularies. Each naming domain has a seed-derived stream independent of gameplay randomness. Its indexed sequence traverses the combinations without repeats before exhaustion, so initial members and later recruits can reserve distinct ordinals across roles, including memorials. World names use deterministic allocation in stable ID order with collision checking.
+
+The initial vocabulary and algorithm for generation version 2 become a compatibility contract. Changing either requires a new supported generation version or a migration/persisted name catalog. Adding names must not silently rename old saves. No ambient randomness, network or per-frame generation is allowed.
+
+Theme data supplies people, faction styles and location-kind patterns separately from the shared function. This is an extension point for contextual grammars or conditional/Bayesian models later; those must keep deterministic inputs, compatibility and stable identity. No statistical generation model is implemented in the first slice.
+
+## Validation goals
+
+- Same seed/version returns identical names across factory calls, reload, import and offline play.
+- Different seeds vary all requested categories; output is readable, unique within relevant catalogs and setting-appropriate.
+- Initial crew and the supported recruit sequence avoid duplicate names without consuming outcome RNG.
+- Old checked-in save fixtures retain crew, recruitment behavior, factions, locations, jobs and progress.
+- Missions, guidance, faction choices and other narrative references match generated display names.
+- Unknown generation versions fail safely; both games and secondary-tab restoration honor the requested version.
+- Browser flows work with generated labels and actual mobile layouts, rather than depending on old fixed names.
+
+## Authoring and extension contract
+
+`src/engine/names.ts` exports `generateName`, `allocateNames` and `nameCapacity`. `NamePattern` supplies ordered word arrays and an optional separator; the sampler visits their combinations with a seed-derived offset and coprime stride. `allocateNames` sorts stable IDs and checks actual output collisions.
+
+Both themes supply 32 given names and 32 surnames (1,024 combinations). Initial crew reserve ordinals 0–2 and all recruit roles share the subsequent serial sequence, including lost members. This covers the 1,000-entry roster archive. Science-fiction medical recruits add a title. Regions, locations and factions use distinct domain keys and setting/kind-specific patterns. `RecruitDef.nameSource` describes the generic indexed source; legacy `names` arrays remain supported. Preview, hire and validation call the same function.
+
+`src/content/names.ts` assembles themed definitions. Names are display values; `mara`, `cinder`, `combine` and other historical IDs do not change or acquire meaning from the generated spelling. Author narrative with `{location:id}`, `{region:id}` and `{faction:id}` references, resolved after naming. The UI also resolves names in directions, headings, logs and political options. Mission titles and individual site titles remain authored in this slice.
+
+`DefinitionFactory(seed, generationVersion?)` defaults to the newest version only for fresh/reset games. Restore must pass `loaded.state.generationVersion` both to save validation and to the rendered game's factory. This applies to corrupt-save backup restoration, import, command-lease acquisition, secondary-tab storage events and ordinary reload. External engine hosts must do the same.
+
+Fixtures captured from v0.3 before the naming change are `tests/fixtures/*-generation1.json`. A generation-2 name snapshot guards the initial algorithm and vocabularies. Changing sampler behavior, word ordering, prefixes or vocabulary sizes must retain a version-2 implementation for existing saves rather than updating that fixture to hide a compatibility break.
+
+The default seed remains 1701, so first-time players share its generated names. To see another cast and set of names, start an expedition/company with a different seed in Settings. Loading or resetting with the same seed and version intentionally reproduces its names. Existing expeditions keep generation 1 and do not need a reset to remain playable; starting a fresh expedition is optional and uses the existing backup/confirmation flow.

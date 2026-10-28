@@ -1,3 +1,6 @@
+import { createGame } from '../src/game/definition';
+const defaultGame = createGame(1701);
+const locationName = (id: string) => defaultGame.locations.find((l) => l.id === id)!.name;
 import { test, expect, type Page } from '@playwright/test';
 const next = async (page: Page, seconds: number) =>
   page.evaluate((dt) => (window as any).__farWake.advance(dt), seconds);
@@ -22,10 +25,10 @@ test('captain accepts a contract, travels, surveys, and files the findings', asy
   await nav(page, 'navigation');
   await page
     .locator('.route-card')
-    .filter({ has: page.getByRole('heading', { name: 'Cinder', exact: true }) })
+    .filter({ has: page.getByRole('heading', { name: locationName('cinder'), exact: true }) })
     .getByRole('button', { name: 'Set course' })
     .click();
-  await expect(page.locator('.active-job')).toContainText('En route to Cinder');
+  await expect(page.locator('.active-job')).toContainText(`En route to ${locationName('cinder')}`);
   await next(page, 65);
   if ((await state(page)).encounter)
     await page.getByRole('button', { name: 'Surrender cargo', exact: true }).click();
@@ -45,7 +48,7 @@ test('captain accepts a contract, travels, surveys, and files the findings', asy
   await nav(page, 'navigation');
   await page
     .locator('.route-card')
-    .filter({ has: page.getByRole('heading', { name: 'Anchor Station', exact: true }) })
+    .filter({ has: page.getByRole('heading', { name: locationName('anchor'), exact: true }) })
     .getByRole('button', { name: 'Set course' })
     .click();
   await next(page, 65);
@@ -156,7 +159,7 @@ test('a charted interstellar destination can be reached directly from a station'
   await nav(page, 'navigation');
   await page
     .locator('.route-card')
-    .filter({ has: page.getByRole('heading', { name: 'Cinder', exact: true }) })
+    .filter({ has: page.getByRole('heading', { name: locationName('cinder'), exact: true }) })
     .getByRole('button', { name: 'Set course' })
     .click();
   await next(page, 65);
@@ -174,7 +177,7 @@ test('a charted interstellar destination can be reached directly from a station'
   await nav(page, 'navigation');
   await page
     .locator('.route-card')
-    .filter({ has: page.getByRole('heading', { name: 'Anchor Station', exact: true }) })
+    .filter({ has: page.getByRole('heading', { name: locationName('anchor'), exact: true }) })
     .getByRole('button', { name: 'Set course' })
     .click();
   await next(page, 65);
@@ -187,13 +190,20 @@ test('a charted interstellar destination can be reached directly from a station'
     .getByRole('button', { name: 'Buy 5', exact: true })
     .click();
   await nav(page, 'navigation');
-  await page.getByRole('button', { name: 'Pale Reach system', exact: true }).click();
+  await page
+    .getByRole('button', {
+      name: `${defaultGame.regions.find((r) => r.id === 'pale')!.name} system`,
+      exact: true,
+    })
+    .click();
   const destination = page
     .locator('.route-card')
-    .filter({ has: page.getByRole('heading', { name: 'Wayfarer Exchange', exact: true }) });
+    .filter({ has: page.getByRole('heading', { name: locationName('pale-0'), exact: true }) });
   await expect(destination).toContainText('15m 0s REAL');
   await expect(destination.getByRole('button', { name: 'Set course' })).toBeEnabled();
-  await expect(destination.getByRole('button', { name: 'Travel to Cinder' })).toHaveCount(0);
+  await expect(
+    destination.getByRole('button', { name: `Travel to ${locationName('cinder')}` }),
+  ).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await destination.getByRole('button', { name: 'Set course' }).click();
   await expect(page.locator('#confirm-dialog')).toContainText('cryosleep');
@@ -287,7 +297,9 @@ test('a resting engineer can join idle support while an expedition team is worki
   page,
 }) => {
   await nav(page, 'operations');
-  const engineer = page.getByRole('combobox', { name: 'Ishaan Rao assignment' });
+  const engineer = page.getByRole('combobox', {
+    name: `${defaultGame.initial.crew.find((c) => c.id === 'ishaan')!.name} assignment`,
+  });
   await engineer.selectOption('rest');
   await page
     .locator('.activity-card')

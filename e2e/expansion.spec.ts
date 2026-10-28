@@ -1,8 +1,12 @@
+import { readFileSync } from 'node:fs';
 import { test, expect, type Page } from '@playwright/test';
 import { createGame } from '../src/game/definition';
 import { createHollowmere } from '../src/fantasy/definition';
 import { createState } from '../src/engine/simulation';
 import { encodeSave } from '../src/engine/save';
+const defaultGame = createGame(1701);
+const defaultFantasy = createHollowmere(1701);
+const claimChoice = `Release to ${defaultGame.factions.find((f) => f.id === 'independent')!.name}`;
 const nav = async (page: Page, name: string) =>
   page
     .getByRole('navigation')
@@ -135,7 +139,12 @@ test('Hollowmere completes its first oath through shared journey and exploration
   await nav(page, 'journey');
   await page
     .locator('.route-card')
-    .filter({ has: page.getByRole('heading', { name: 'The Old Road', exact: true }) })
+    .filter({
+      has: page.getByRole('heading', {
+        name: defaultFantasy.locations.find((l) => l.id === 'old-road')!.name,
+        exact: true,
+      }),
+    })
     .getByRole('button', { name: 'Travel', exact: true })
     .click();
   await next(page, 50, true);
@@ -152,7 +161,12 @@ test('Hollowmere completes its first oath through shared journey and exploration
   await nav(page, 'journey');
   await page
     .locator('.route-card')
-    .filter({ has: page.getByRole('heading', { name: 'Mournwatch', exact: true }) })
+    .filter({
+      has: page.getByRole('heading', {
+        name: defaultFantasy.locations.find((l) => l.id === 'mournwatch')!.name,
+        exact: true,
+      }),
+    })
     .getByRole('button', { name: 'Travel', exact: true })
     .click();
   await next(page, 50, true);
@@ -180,21 +194,37 @@ test('fantasy class composition gates magic, holy rites and dangerous expedition
   start.discoveries['old-road'].surveyed = true;
   await importState(page, encodeSave(start, Date.now()));
   await nav(page, 'company');
-  await page.getByRole('combobox', { name: 'Ves Rook assignment' }).selectOption('rest');
+  await page
+    .getByRole('combobox', {
+      name: `${defaultFantasy.initial.crew.find((c) => c.id === 'ves')!.name} assignment`,
+    })
+    .selectOption('rest');
   const ward = page
     .locator('.activity-card')
     .filter({ has: page.getByRole('heading', { name: 'Unravel the ward', exact: true }) });
   await expect(ward.getByRole('button', { name: 'Begin activity' })).toBeDisabled();
   await expect(ward).toContainText('mage specialist');
-  await page.getByRole('combobox', { name: 'Ves Rook assignment' }).selectOption('primary');
+  await page
+    .getByRole('combobox', {
+      name: `${defaultFantasy.initial.crew.find((c) => c.id === 'ves')!.name} assignment`,
+    })
+    .selectOption('primary');
   await expect(ward.getByRole('button', { name: 'Begin activity' })).toBeEnabled();
   const shrine = page
     .locator('.activity-card')
     .filter({ has: page.getByRole('heading', { name: 'Consecrate the shrine', exact: true }) });
   await expect(shrine.getByRole('button', { name: 'Begin activity' })).toBeDisabled();
-  await page.getByRole('combobox', { name: 'Sister Elin assignment' }).selectOption('primary');
+  await page
+    .getByRole('combobox', {
+      name: `${defaultFantasy.initial.crew.find((c) => c.id === 'elin')!.name} assignment`,
+    })
+    .selectOption('primary');
   await expect(shrine.getByRole('button', { name: 'Begin activity' })).toBeEnabled();
-  await page.getByRole('combobox', { name: 'Bran Ash assignment' }).selectOption('rest');
+  await page
+    .getByRole('combobox', {
+      name: `${defaultFantasy.initial.crew.find((c) => c.id === 'bran')!.name} assignment`,
+    })
+    .selectOption('rest');
   await expect(
     page
       .locator('.activity-card')
@@ -293,15 +323,13 @@ test('a discovery becomes a station follow-up with a persistent, explicit factio
   await expect(
     panel.getByRole('heading', { name: 'A claim without an owner', exact: true }),
   ).toBeVisible();
-  await expect(
-    panel.getByRole('button', { name: 'Release to the Free Habitats', exact: true }),
-  ).toHaveCount(0);
+  await expect(panel.getByRole('button', { name: claimChoice, exact: true })).toHaveCount(0);
   await panel.getByRole('button', { name: 'Review discovery', exact: true }).click();
   await expect(panel).toContainText('Visit a service hub');
-  await expect(
-    panel.getByRole('button', { name: 'Release to the Free Habitats', exact: true }),
-  ).toBeDisabled();
-  await expect(panel).toContainText('+14 Free Habitats');
+  await expect(panel.getByRole('button', { name: claimChoice, exact: true })).toBeDisabled();
+  await expect(panel).toContainText(
+    `+14 ${defaultGame.factions.find((f) => f.id === 'independent')!.name}`,
+  );
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.reload();
   await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
@@ -309,14 +337,18 @@ test('a discovery becomes a station follow-up with a persistent, explicit factio
   await nav(page, 'navigation');
   await page
     .locator('.route-card')
-    .filter({ has: page.getByRole('heading', { name: /Anchor Station/ }) })
+    .filter({
+      has: page.getByRole('heading', {
+        name: defaultGame.locations.find((l) => l.id === 'anchor')!.name,
+      }),
+    })
     .getByRole('button', { name: 'Set course', exact: true })
     .click();
   await next(page, 100);
   await escape(page);
   const before = await state(page);
   await panel.getByRole('button', { name: 'Review discovery', exact: true }).click();
-  await panel.getByRole('button', { name: 'Release to the Free Habitats', exact: true }).click();
+  await panel.getByRole('button', { name: claimChoice, exact: true }).click();
   await expect(page.locator('#confirm-dialog')).toContainText('final for this expedition');
   await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
   await expect(panel).toHaveCount(0);
@@ -327,8 +359,62 @@ test('a discovery becomes a station follow-up with a persistent, explicit factio
   await page.reload();
   await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
   await nav(page, 'contacts');
-  await expect(page.locator('.discovery-history')).toContainText('Release to the Free Habitats');
+  await expect(page.locator('.discovery-history')).toContainText(claimChoice);
   expect((await state(page)).incidents[0].choice).toBe('commons');
   expect((await state(page)).inventory.credits).toBe(after.inventory.credits);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('released worlds retain their original names across import, secondary-tab updates and reload', async ({
+  page,
+  context,
+}) => {
+  await open(page);
+  const legacy = readFileSync('tests/fixtures/far-wake-generation1.json', 'utf8');
+  await importState(page, legacy);
+  await expect(page.locator('#breadcrumb')).toContainText('ANCHOR STATION');
+  await expect(page.locator('.topbar-location .eyebrow')).toContainText('ORISON COMBINE');
+  expect((await state(page)).crew[1].name).toBe('Ishaan Rao');
+  expect((await state(page)).generationVersion).toBe(1);
+  const observer = await context.newPage();
+  await observer.goto('/far-wake/');
+  await expect(observer.locator('#save-status')).toHaveText('READ-ONLY TAB');
+  await expect(observer.locator('#breadcrumb')).toContainText('ANCHOR STATION');
+  await nav(page, 'contacts');
+  await page.getByRole('button', { name: 'Recruit Engineer', exact: true }).click();
+  await expect.poll(async () => (await state(observer)).crew.length).toBe(5);
+  await expect(observer.locator('.topbar-location .eyebrow')).toContainText('ORISON COMBINE');
+  await observer.close();
+  await page.reload();
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  await expect(page.locator('#breadcrumb')).toContainText('ANCHOR STATION');
+  expect((await state(page)).crew[1].name).toBe('Ishaan Rao');
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await page.locator('#new-seed').fill('91');
+  await page.getByRole('button', { name: 'Start a new expedition', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+  const fresh = createGame(91);
+  expect((await state(page)).generationVersion).toBe(2);
+  expect((await state(page)).crew.map((member: any) => member.name)).toEqual(
+    fresh.initial.crew.map((member) => member.name),
+  );
+  await expect(page.locator('#breadcrumb')).toContainText(fresh.locations[0].name.toUpperCase());
+  expect(
+    await page.evaluate(
+      () => JSON.parse(localStorage.getItem('far-wake.backup.v1')!).state.generationVersion,
+    ),
+  ).toBe(1);
+  await page.reload();
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  await expect(page.locator('#breadcrumb')).toContainText(fresh.locations[0].name.toUpperCase());
+  const fantasy = readFileSync('tests/fixtures/hollowmere-generation1.json', 'utf8');
+  await page.goto('/hollowmere/');
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  await importState(page, fantasy);
+  await expect(page.locator('#breadcrumb')).toContainText('Mournwatch');
+  expect((await state(page, true)).crew[1].name).toBe('Ves Rook');
+  await page.reload();
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  expect((await state(page, true)).generationVersion).toBe(1);
+  await expect(page.locator('#breadcrumb')).toContainText('Mournwatch');
 });

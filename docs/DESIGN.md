@@ -1,4 +1,6 @@
-# Far Wake v0.3 design
+# Far Wake v0.4 design
+
+Generation-1 names below describe the authored setting. Fresh generation-2 expeditions use seeded names for people, factions, regions and locations while keeping the same roles, routes and mechanics; see [NAMES.md](NAMES.md).
 
 The player is the captain of the survey vessel Kestrel, operating under an Orison Combine charter in 2186. The tone is industrial, dryly bureaucratic, and occasionally unsettling. Exploration and logistics lead; supernatural explanations and franchise characters are absent.
 

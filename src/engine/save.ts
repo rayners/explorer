@@ -1,5 +1,5 @@
 import { crewCapacity, living, recruitName } from './personnel';
-import type { GameDefinition, GameState, Job } from './types';
+import type { DefinitionFactory, GameDefinition, GameState, Job } from './types';
 import { advance, OFFLINE_CAP } from './simulation';
 export interface SaveEnvelope {
   format: 'exploration-save';
@@ -132,7 +132,8 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
     !Array.isArray(s.crew) ||
     s.crew.length > 1000 ||
     !s.crew.every((member) => object(member)) ||
-    !Number.isInteger(s.recruitSerial) ||
+    !Number.isSafeInteger(s.recruitSerial) ||
+    s.recruitSerial > 1000 ||
     s.recruitSerial < 0 ||
     !g.initial.crew.every((member) => s.crew.some((candidate) => candidate?.id === member.id)) ||
     living(s).length > crewCapacity(g, s) ||
@@ -268,7 +269,7 @@ export function encodeSave(state: GameState, savedAt: number): string {
   const payload = { format: 'exploration-save' as const, version: 1 as const, savedAt, state };
   return JSON.stringify({ ...payload, checksum: checksum(JSON.stringify(payload)) });
 }
-export function decodeSave(text: string, definition: (seed: number) => GameDefinition): LoadedSave {
+export function decodeSave(text: string, definition: DefinitionFactory): LoadedSave {
   if (text.length > 1_000_000) throw Error('Save exceeds the supported size.');
   let v: unknown;
   try {
@@ -282,13 +283,14 @@ export function decodeSave(text: string, definition: (seed: number) => GameDefin
     v.version !== 1 ||
     !finite(v.savedAt) ||
     !object(v.state) ||
-    !Number.isInteger(v.state.seed)
+    !Number.isInteger(v.state.seed) ||
+    !Number.isInteger(v.state.generationVersion)
   )
     throw Error('Unsupported save format or version.');
   const payload = { format: v.format, version: v.version, savedAt: v.savedAt, state: v.state };
   if (checksum(JSON.stringify(payload)) !== v.checksum)
     throw Error('Save checksum failed. Keep the original export and try again.');
-  const g = definition(v.state.seed as number);
+  const g = definition(v.state.seed as number, v.state.generationVersion as number);
   // Verify the original checksum above before migrating legacy checkpoint fields.
   if (v.state.version === 1) {
     v.state = {

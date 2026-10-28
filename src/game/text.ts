@@ -1,3 +1,4 @@
+import { nameReferences } from '../content/names';
 import type { GameDefinition, GameEvent, GameState } from '../engine/types';
 export function describeEvent(g: GameDefinition, e: GameEvent): string {
   const p = e.params,
@@ -49,11 +50,11 @@ export function describeEvent(g: GameDefinition, e: GameEvent): string {
       'Unregistered contact closing. All consequential operations paused pending your orders.',
     hazard: 'Field incident. Hull damage sustained; one crew member needs treatment.',
     combatWon:
-      'Hostile contact neutralized. Salvage recovered. The Free Habitats recognize the clearance.',
+      'Hostile contact neutralized. Salvage recovered. {faction:independent} recognize the clearance.',
     combatDamage: 'Incoming fire. Hull damage sustained. Your next order is required.',
     escapedDamaged: 'Contact broken. Hull damage logged for the next maintenance window.',
     escaped: 'Contact evaded. Resuming operations.',
-    bargained: 'Safe passage purchased. The Unregistered remember who pays.',
+    bargained: 'Safe passage purchased. {faction:pirates} remember who pays.',
     surrendered: 'Cargo surrendered. Crew and vessel are safe.',
     dataSold: `${p.count} survey records licensed exclusively to ${g.factions.find((f) => f.id === p.faction)?.name ?? 'the station'}. Rival claims have been weakened.`,
     upgraded: `Installed: ${g.upgrades.find((u) => u.id === p.upgrade)?.name ?? p.upgrade}.`,
@@ -62,9 +63,9 @@ export function describeEvent(g: GameDefinition, e: GameEvent): string {
         ? 'First interstellar crossing recorded. While you slept, the frontier grew older.'
         : 'Frontier charter fulfilled: ten bodies surveyed. There is still more to find.',
   };
-  return messages[e.key] ?? e.key;
+  return nameReferences(g, messages[e.key] ?? e.key);
 }
-export function guidance(s: GameState): { title: string; text: string; tab: string } {
+function baseGuidance(s: GameState): { title: string; text: string; tab: string } {
   if (s.threat && s.threat.stage !== 'hidden')
     return {
       title: 'Something is aboard.',
@@ -92,16 +93,19 @@ export function guidance(s: GameState): { title: string; text: string; tab: stri
   if (!s.missions.some((m) => m.id === 'first-light'))
     return {
       title: 'Every chart starts somewhere.',
-      text: 'Accept “First light” from the station board. Then plot a course to Cinder, the rust-colored world below.',
+      text: 'Accept “First light” from the station board. Then plot a course to {location:cinder}, the rust-colored world below.',
       tab: 'contacts',
     };
   if (!s.discoveries.cinder?.surveyed)
     return {
-      title: s.location === 'cinder' ? 'Look before you land.' : 'Your first heading: Cinder.',
+      title:
+        s.location === 'cinder'
+          ? 'Look before you land.'
+          : 'Your first heading: {location:cinder}.',
       text:
         s.location === 'cinder'
           ? 'Run an orbital survey. It will resolve surface sites and new navigation contacts.'
-          : 'Open Navigation and select Cinder. Check the fuel cost, then commit the course.',
+          : 'Open Navigation and select {location:cinder}. Check the fuel cost, then commit the course.',
       tab: s.location === 'cinder' ? 'operations' : 'navigation',
     };
   if (!s.missions.some((m) => m.id === 'first-light' && m.claimed))
@@ -113,7 +117,7 @@ export function guidance(s: GameState): { title: string; text: string; tab: stri
   if (!s.milestones.includes('interstellar'))
     return {
       title: 'The edge is a direction.',
-      text: 'Explore local sites, build reserves, and follow a resolved interstellar route. Once charted, the Pale Reach can be reached from anywhere in Vesper.',
+      text: 'Explore local sites, build reserves, and follow a resolved interstellar route. Once charted, {region:pale} can be reached from anywhere in {region:vesper}.',
       tab: 'navigation',
     };
   return {
@@ -121,4 +125,12 @@ export function guidance(s: GameState): { title: string; text: string; tab: stri
     text: 'Survey ten bodies to fulfill the frontier charter. Decide who gets the data, and keep enough propellant to get home.',
     tab: 'navigation',
   };
+}
+
+export function guidance(
+  g: GameDefinition,
+  s: GameState,
+): { title: string; text: string; tab: string } {
+  const guide = baseGuidance(s);
+  return { ...guide, title: nameReferences(g, guide.title), text: nameReferences(g, guide.text) };
 }

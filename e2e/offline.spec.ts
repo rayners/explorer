@@ -21,7 +21,9 @@ test('production app catches up a saved voyage and reloads offline', async ({
   }, data);
   await page.goto(new URL('far-wake/', baseURL).href);
   await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
-  await expect(page.getByText('Cinder', { exact: true }).first()).toBeVisible();
+  await expect(
+    page.getByText(game.locations.find((l) => l.id === 'cinder')!.name, { exact: true }).first(),
+  ).toBeVisible();
   const registration = await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.ready;
     const manifestURL = document.querySelector<HTMLLinkElement>('link[rel="manifest"]')!.href;
@@ -149,7 +151,12 @@ test('a recovered claim survives offline launch and applies its faction conseque
   const panel = page.locator('.discovery-panel');
   await expect(panel).toContainText('A claim without an owner');
   await panel.getByRole('button', { name: 'Review discovery', exact: true }).click();
-  await panel.getByRole('button', { name: 'Release to the Free Habitats', exact: true }).click();
+  await panel
+    .getByRole('button', {
+      name: `Release to ${game.factions.find((f) => f.id === 'independent')!.name}`,
+      exact: true,
+    })
+    .click();
   await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
   await expect(panel).toHaveCount(0);
   await page.reload();

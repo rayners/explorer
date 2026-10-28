@@ -1,7 +1,9 @@
+import { finishNamedDefinition } from '../content/names';
+import { scienceFictionNames } from './names';
 import type { GameDefinition, LocationDef, MissionDef, RouteDef } from '../engine/types';
 import { generator } from '../engine/random';
-/** Stable v1 frontier generation. Authored definitions never contain mutable discovery state. */
-export function createGame(seed = 1701): GameDefinition {
+/** Stable frontier geography; generation v1 retains authored names, v2 generates display names. */
+export function createGame(seed = 1701, generationVersion = 2): GameDefinition {
   const rng = generator(seed);
   const regions = [
     {
@@ -176,7 +178,7 @@ export function createGame(seed = 1701): GameDefinition {
       id: 'first-light',
       name: 'First light',
       description:
-        'Take the survey launch to Cinder. Complete an orbital survey, then return to any station to file your findings.',
+        'Take the survey launch to {location:cinder}. Complete an orbital survey, then return to any station to file your findings.',
       faction: 'combine',
       objective: { kind: 'survey', target: 'cinder', count: 1 },
       reward: { credits: 180, fuel: 8 },
@@ -186,7 +188,7 @@ export function createGame(seed = 1701): GameDefinition {
       id: 'boots',
       name: 'Boots on basalt',
       description:
-        'Explore one site on Cinder. Leave the company equipment where you found it. Probably.',
+        'Explore one site on {location:cinder}. Leave the company equipment where you found it. Probably.',
       faction: 'combine',
       objective: { kind: 'explore', target: 'cinder', count: 1 },
       reward: { credits: 140, parts: 5 },
@@ -197,7 +199,7 @@ export function createGame(seed = 1701): GameDefinition {
       id: 'cold-store',
       name: 'Cold storage',
       description:
-        'Extract resources from Morrow twice. The independent habitats need a reliable source of water.',
+        'Extract resources from {location:morrow} twice. The independent habitats need a reliable source of water.',
       faction: 'independent',
       objective: { kind: 'gather', target: 'morrow', count: 2 },
       reward: { credits: 190, provisions: 6 },
@@ -208,7 +210,7 @@ export function createGame(seed = 1701): GameDefinition {
       id: 'belt',
       name: 'Loose ends',
       description:
-        'Explore two sites in the Shingle. Photograph any salvage identification plates.',
+        'Explore two sites in {location:rubble}. Photograph any salvage identification plates.',
       faction: 'combine',
       objective: { kind: 'explore', target: 'rubble', count: 2 },
       reward: { credits: 260, ammo: 6 },
@@ -218,7 +220,7 @@ export function createGame(seed = 1701): GameDefinition {
       id: 'reach',
       name: 'Beyond the ledger',
       description:
-        'Reach Wayfarer Exchange in the Pale Reach. Cryosleep expenses are reimbursable upon arrival.',
+        'Reach {location:pale-0} in {region:pale}. Cryosleep expenses are reimbursable upon arrival.',
       faction: 'combine',
       objective: { kind: 'travel', target: 'pale-0', count: 1 },
       reward: { credits: 400, fuel: 12 },
@@ -228,7 +230,7 @@ export function createGame(seed = 1701): GameDefinition {
     {
       id: 'free-port',
       name: 'Independent verification',
-      description: 'Establish contact with Union Anchorage in Meridian.',
+      description: 'Establish contact with {location:meridian-0} in {region:meridian}.',
       faction: 'independent',
       objective: { kind: 'travel', target: 'meridian-0', count: 1 },
       reward: { credits: 420, parts: 8 },
@@ -238,7 +240,7 @@ export function createGame(seed = 1701): GameDefinition {
       id: 'nacre',
       name: 'Fine print',
       description:
-        'Survey Nacre. The company claims mineral rights based on a telescope image taken seventy years ago.',
+        'Survey {location:pale-1}. The company claims mineral rights based on a telescope image taken seventy years ago.',
       faction: 'combine',
       objective: { kind: 'survey', target: 'pale-1', count: 1 },
       reward: { credits: 220, parts: 6 },
@@ -278,7 +280,7 @@ export function createGame(seed = 1701): GameDefinition {
       id: 'hollow',
       name: 'A light at the edge',
       description:
-        'Reach Last Light Depot in the Hollow. The last authenticated message from there is eleven years old.',
+        'Reach {location:hollow-0} in {region:hollow}. The last authenticated message from there is eleven years old.',
       faction: 'pirates',
       objective: { kind: 'travel', target: 'hollow-0', count: 1 },
       reward: { credits: 500, fuel: 15 },
@@ -294,7 +296,7 @@ export function createGame(seed = 1701): GameDefinition {
       reputation: 5,
     },
   ];
-  return {
+  const definition: GameDefinition = {
     id: 'far-wake',
     discoveryEvents: {
       chance: 0.35,
@@ -314,7 +316,7 @@ export function createGame(seed = 1701): GameDefinition {
           id: 'settlement-claim',
           title: 'A claim without an owner',
           description:
-            'The expedition recovered a settlement charter and the coordinates of an abandoned supply reserve. The Combine calls it company property; the Free Habitats call it an inheritance. Carry the records to a station and decide whose claim to recognize.',
+            'The expedition recovered a settlement charter and the coordinates of an abandoned supply reserve. {faction:combine} calls it company property; {faction:independent} call it an inheritance. Carry the records to a station and decide whose claim to recognize.',
           kind: 'choice',
           at: 'station',
           minimumSites: 4,
@@ -323,17 +325,17 @@ export function createGame(seed = 1701): GameDefinition {
           choices: [
             {
               id: 'company',
-              name: 'License to the Combine',
+              name: 'License to {faction:combine}',
               description:
-                'Sign an exclusive company claim. A larger payment now, and better standing at Combine ports; independent settlements will remember the exclusion.',
+                'Sign an exclusive company claim. A larger payment now, and better standing at {faction:combine} ports; independent settlements will remember the exclusion.',
               reward: { credits: 180 },
               reputation: { combine: 14, independent: -8 },
             },
             {
               id: 'commons',
-              name: 'Release to the Free Habitats',
+              name: 'Release to {faction:independent}',
               description:
-                'File an open settlement charter. The Habitats pay a smaller recovery fee and recognize the Kestrel as a friend. The Combine disputes your authority.',
+                'File an open settlement charter. {faction:independent} pay a smaller recovery fee and recognize the Kestrel as a friend. {faction:combine} disputes your authority.',
               reward: { credits: 90 },
               reputation: { independent: 14, combine: -8 },
             },
@@ -432,7 +434,7 @@ export function createGame(seed = 1701): GameDefinition {
         id: 'unmanifested',
         name: 'Unmanifested cargo',
         description:
-          'Stop an unmanifested shipboard lifeform. The sealed specimen at Morrow offers one lead; an ordinary expedition may also bring something back. Failed responses can lead to permanent crew losses.',
+          'Stop an unmanifested shipboard lifeform. The sealed specimen at {location:morrow} offers one lead; an ordinary expedition may also bring something back. Failed responses can lead to permanent crew losses.',
         faction: 'combine',
         objective: { kind: 'threatStopped', target: 'stowaway', count: 1 },
         reward: { credits: 450, parts: 8 },
@@ -502,7 +504,7 @@ export function createGame(seed = 1701): GameDefinition {
         id: 'specimen',
         name: 'Recover sealed specimen',
         description:
-          'Optional containment investigation at Morrow. An unidentified organism may come aboard. Once alerted, failed responses can permanently kill crew. Purging cargo is a safe escape.',
+          'Optional containment investigation at {location:morrow}. An unidentified organism may come aboard. Once alerted, failed responses can permanently kill crew. Purging cargo is a safe escape.',
         seconds: 90,
         slot: 'primary',
         cost: { provisions: 2 },
@@ -794,4 +796,5 @@ export function createGame(seed = 1701): GameDefinition {
       },
     ],
   };
+  return finishNamedDefinition(definition, seed, generationVersion, scienceFictionNames);
 }

@@ -6,6 +6,8 @@ Direction recorded 2026-10-27; first slice approved and implemented in v0.3 on 2
 
 The user wants a creature getting loose aboard ship to sometimes be a surprise, and is interested in other random events with long-term effects. An expedition should acquire a history through discoveries and their consequences. Events should change what the player prepares for or chooses next, rather than only granting or removing supplies.
 
+In generation-2 expeditions (v0.4), place/faction names are generated and references resolve to those names. Cinder here means the protected tutorial planet with stable ID `cinder`; the Combine and Free Habitats describe faction roles whose display names now vary.
+
 ## Implemented selection rules
 
 An opportunity occurs only when a surface expedition successfully explores a new site. The first three explored sites and every Cinder site are protected. Later qualifying site completions have a 35% chance of an event. Eligible entries have equal weight in the initial catalog: when both qualify, each has a 17.5% unconditional chance, and quiet returns remain most likely. When only one qualifies it receives the full 35% chance. There is no guarantee or mercy counter.

@@ -18,7 +18,7 @@ state = advance(definition, state, 30); // real elapsed seconds
 const screen = view(definition, state);
 ```
 
-`GameDefinition` is the content contract. A definition factory `(seed: number) => GameDefinition` may use authored data, seeded generation, or a mixture. Keep the same generation version and factory behavior for existing saves. Generated instances belong in saved state when future generation becomes dynamic; immutable authored catalogs remain definitions.
+`GameDefinition` is the content contract. A definition factory `DefinitionFactory = (seed: number, generationVersion?: number) => GameDefinition` may use authored data, seeded generation, or a mixture. Keep the same generation version and factory behavior for existing saves. Generated instances belong in saved state when future generation becomes dynamic; immutable authored catalogs remain definitions.
 
 `GameState` contains the seed, PRNG state, timers, location, inventory, discoveries, team assignments, condition, reputation, mission progress, upgrades, capped events, and milestones. Inputs are not mutated by public operations. State is JSON-serializable; definitions may also supply deterministic code hooks.
 
@@ -88,3 +88,9 @@ Far Wake’s historical manifest URL is retained at the site root. `farWakeManif
 `discoverAtSite` runs only when the configured exploration activity completes a new site. A selected exposure starts hidden with zero signs; existing threats have already developed for that completion. No narrative onset event is emitted. `pendingDiscovery` returns a nonurgent choice record. `dispatch(..., { type: "discovery", id, choice })` resolves it once, requiring docking if configured, and applies rewards/standing. It never consumes random numbers. Encounter/threat holds still take priority over resolving a discovery.
 
 `GameState.incidents` stores `{ id, location, site, at, choice }` records. Exposure choices remain null; threat resolution is tracked by existing threat state/history. Choice outcomes persist even after narrative log truncation. `discoveryCooldown` skips the next N new-site completions after any selection. An unresolved choice or any active threat suppresses additional selection; ordinary work and travel do not roll or decrement cooldown. No world catalogs are regenerated during migration.
+
+## Versioned name generation
+
+Factories for Far Wake and Hollowmere default to generation 2 and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
+
+`generateName(seed, namespace, pattern, ordinal)` returns an indexed name; `allocateNames` fills a catalog of stable IDs without duplicate display names. Theme-owned `NamePattern` data supplies parts and a separator. A `RecruitDef.nameSource` supplies the pattern, namespace, ordinal offset and optional title; when absent, legacy `names` selection is unchanged. Recruitment previews and save validation use `recruitName` consistently. These functions do not touch `GameState.rng`. See [NAMES.md](NAMES.md) for frozen vocabulary and future extension rules.

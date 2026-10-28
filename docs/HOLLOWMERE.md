@@ -4,6 +4,8 @@ Play: https://rayners.github.io/explorer/hollowmere/ · [All games](https://rayn
 
 A dark fantasy exploration game about a company of the living, crossing a forest that keeps its own accounts. It is a separate game built on Far Wake's engine. Its saves, preferences and tab ownership are independent.
 
+Names below describe generation-1 companies. New generation-2 companies generate people, faction, region and place names from the seed; use the destination named in the first oath. Existing companies retain their original names. See [NAMES.md](NAMES.md).
+
 Begin at **Mournwatch**. Accept **Beyond the last lantern**, take the Old Road, and **Read the signs**. Return to a refuge and report the completed oath. Mapping opens more places and paths: the settlements of the Last Hearth, Ashenwood, and the underground sanctuaries and tombs of the Saints Below.
 
 ## Party composition

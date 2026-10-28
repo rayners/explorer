@@ -10,6 +10,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [ENGINE.md](ENGINE.md)             | Engine integration API, content contracts, time and save semantics     |
 | [DESIGN.md](DESIGN.md)             | Far Wake setting, gameplay loop, pacing and internal threat            |
 | [HOLLOWMERE.md](HOLLOWMERE.md)     | Fantasy setting, party roles, curse and recovery                       |
+| [NAMES.md](NAMES.md)               | Seeded name generation, compatibility and future generator extension   |
 | [EVENTS.md](EVENTS.md)             | Discovery events, implemented consequences and future candidates       |
 | [ROADMAP.md](ROADMAP.md)           | Implemented milestones, deferred scope and unresolved design questions |
 | [ACCEPTANCE.md](ACCEPTANCE.md)     | Automated checks and pending physical iPhone acceptance                |
@@ -17,4 +18,4 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 
 Requirements describe what was requested. Decisions describe the implementation chosen to satisfy it. Roadmap entries describe future possibilities unless explicitly marked implemented. Keep these distinctions when updating the documents.
 
-Documentation baseline: v0.3.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
+Documentation baseline: v0.4.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.

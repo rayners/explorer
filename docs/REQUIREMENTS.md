@@ -51,3 +51,7 @@ Offline PWA support, 24-hour catch-up and the detailed recovery/save protections
 ## Surprise events direction (2026-10-27)
 
 The user clarified that a creature getting loose should sometimes be a surprise, and raised other random events with long-term effects as a step toward procedural play. The onset need not require the explicitly labelled specimen mission. Keep this distinct from the chosen safeguard that permanent casualties require explicit responses. [EVENTS.md](EVENTS.md) records the implemented first slice (approved 2026-10-28) and separately marks deferred candidate effects. This does not specify a complete procedural galaxy or roguelite reset system.
+
+## Name generation direction (2026-10-28)
+
+The user requested function-based content generation, beginning with crew, faction and location names. A random selection from larger option lists is an acceptable starting point, with Bayesian or other procedural mechanisms a possible later extension. [NAMES.md](NAMES.md) documents the seeded, versioned implementation and its boundaries. This request does not expand scope to generated geography, mission structure or roguelite rules.

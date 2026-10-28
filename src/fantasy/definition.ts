@@ -1,13 +1,15 @@
+import { finishNamedDefinition } from '../content/names';
+import { fantasyNames } from './names';
 import type { GameDefinition, LocationDef, RouteDef } from '../engine/types';
 import { generator } from '../engine/random';
 /** An independent dark-fantasy game using the same exploration and party engine. */
-export function createHollowmere(seed = 1701): GameDefinition {
+export function createHollowmere(seed = 1701, generationVersion = 2): GameDefinition {
   const rng = generator(seed);
   const regions = [
     {
       id: 'hearth',
       name: 'The Last Hearth',
-      subtitle: 'Mournwatch and the old road',
+      subtitle: '{location:mournwatch} and {location:old-road}',
       x: 20,
       y: 55,
       color: '#bea367',
@@ -213,7 +215,7 @@ export function createHollowmere(seed = 1701): GameDefinition {
     'Sable Fen',
     'Merren Ash',
   ];
-  return {
+  const definition: GameDefinition = {
     id: 'hollowmere',
     generationVersion: 1,
     title: 'Hollowmere',
@@ -440,7 +442,7 @@ export function createHollowmere(seed = 1701): GameDefinition {
         id: 'curse',
         name: 'Open the profaned reliquary',
         description:
-          'Optional investigation in the Unshriven Crypt. A hidden curse can join the company and later kill companions during explicit responses. Burning affected stores always provides a safe escape.',
+          'Optional investigation in {location:crypt}. A hidden curse can join the company and later kill companions during explicit responses. Burning affected stores always provides a safe escape.',
         seconds: 90,
         slot: 'primary',
         cost: { incense: 2 },
@@ -561,7 +563,7 @@ export function createHollowmere(seed = 1701): GameDefinition {
       {
         id: 'first-road',
         name: 'Beyond the last lantern',
-        description: 'Read the signs on the Old Road, then return to a refuge to report.',
+        description: 'Read the signs on {location:old-road}, then return to a refuge to report.',
         faction: 'wardens',
         objective: { kind: 'survey', target: 'old-road', count: 1 },
         reward: { gold: 180, rations: 6 },
@@ -570,7 +572,7 @@ export function createHollowmere(seed = 1701): GameDefinition {
       {
         id: 'briar-records',
         name: 'The empty village',
-        description: 'Explore two sites in Blackbriar. Bring back the names from the well.',
+        description: 'Explore two sites in {location:briar}. Bring back the names from the well.',
         faction: 'covenant',
         objective: { kind: 'explore', target: 'briar', count: 2 },
         reward: { gold: 200, incense: 5 },
@@ -598,7 +600,7 @@ export function createHollowmere(seed = 1701): GameDefinition {
         id: 'guest',
         name: 'The unwelcome companion',
         description:
-          'Stop the curse from the Unshriven Crypt. Companions can die during this optional investigation.',
+          'Stop the curse from {location:crypt}. Companions can die during this optional investigation.',
         faction: 'covenant',
         objective: { kind: 'threatStopped', target: 'white-guest', count: 1 },
         reward: { gold: 400, incense: 8 },
@@ -619,7 +621,7 @@ export function createHollowmere(seed = 1701): GameDefinition {
         id: 'wardens',
         name: 'The Lantern Wardens',
         description:
-          'The last watchmen on the old roads. Their light is borrowed, and almost spent.',
+          'The last watchmen on {location:old-road}s. Their light is borrowed, and almost spent.',
         color: '#bea367',
       },
       {
@@ -705,4 +707,5 @@ export function createHollowmere(seed = 1701): GameDefinition {
       },
     ],
   };
+  return finishNamedDefinition(definition, seed, generationVersion, fantasyNames);
 }

@@ -13,7 +13,7 @@ Open the printed localhost URL on the desktop, or the printed LAN URL on a phone
 
 Choose a game on the main page. Each card offers Play or Resume based on this device’s saved expedition; the library does not start or advance either game. Both games provide an **All games** link.
 
-In Far Wake, accept **First light** on Overview, plot a course to **Cinder** in Navigation, and run an orbital survey in Operations. Return to a station and file the contract in Contacts. Surveys reveal routes and sites. Gather ice and ore, process them into supplies, and prepare for an interstellar crossing.
+In Far Wake, accept **First light** on Overview, plot a course to the planet named in its brief in Navigation (**Cinder** in legacy expeditions), and run an orbital survey in Operations. Return to a station and file the contract in Contacts. Surveys reveal routes and sites. Gather ice and ore, process them into supplies, and prepare for an interstellar crossing.
 
 Once a neighboring system is charted, you can depart from **any planet, moon, asteroid field, or station** in your current system. Select the destination system in Navigation and set course for a known location there. The displayed interstellar time and supply cost include local departure and arrival transfers. Journeys through intermediate systems still require separate orders.
 
@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.4
+
+Crew, faction, region and location names now come from seeded generation functions in both games. Themed vocabularies compose people and place names; recruits draw from 1,024 personal-name combinations instead of a handful of repeated cast names. Mission briefs, guidance, logs and faction choices use each expedition's names.
+
+Existing saves keep their original names. Fresh expeditions use generation 2; change the seed in Settings to see another cast and world labels. The same seed/version reproduces the same names, without changing combat or discovery randomness. Geography and mission structure remain authored. See [name generation](docs/NAMES.md).
+
 ## New in v0.3
 
 Ordinary surface expeditions can now bring back a hidden passenger, without choosing the specimen mission. Cinder and the first three explored sites are protected; later sites can produce occasional once-only discoveries. Hidden intrusions reveal after later work, then wait for your response. Time away never kills crew.
@@ -37,7 +43,7 @@ A recovered settlement claim creates a station follow-up: choose the Combine, th
 
 **Far Wake:** recruit engineers, medical officers, security officers, and survey specialists from Contacts. The Kestrel has four berths; accommodation modules expand this to six and eight. New hires start resting, so assign them in Operations. Support medics unlock field triage and can prevent a fatal attack during the optional internal-threat scenario.
 
-To investigate **Unmanifested cargo**, accept its contract at a station, survey Morrow, and choose **Recover sealed specimen**. After the hidden incident develops, search, contain, confront, or vent the affected compartment. Failed explicit responses can permanently kill crew; ordinary offline catch-up never kills anyone. Venting is guaranteed to clear the organism at the cost of 20% of physical cargo. Casualties remain in a memorial and their berths can be filled by replacements. If everyone dies, a free relief hand is available at a station.
+To investigate **Unmanifested cargo**, accept its contract at a station, survey the moon named in its brief (Morrow in legacy expeditions), and choose **Recover sealed specimen**. After the hidden incident develops, search, contain, confront, or vent the affected compartment. Failed explicit responses can permanently kill crew; ordinary offline catch-up never kills anyone. Venting is guaranteed to clear the organism at the cost of 20% of physical cargo. Casualties remain in a memorial and their berths can be filled by replacements. If everyone dies, a free relief hand is available at a station.
 
 **Hollowmere** is a separate dark fantasy game with nine places across a threatened settlement, haunted forest, and underground ruins; six contracts; original pixel landscapes; and its own saves. Fighters lead expeditions, mages open wards and bolster combat, clerics heal and consecrate, and scouts improve gathering. An optional reliquary investigation introduces the White Guest, a curse using the same internal-threat engine. Read [the Hollowmere guide](docs/HOLLOWMERE.md).
 
@@ -81,7 +87,7 @@ Seeds currently vary frontier deposits and site identities within an authored fo
 
 ## Saves and compatibility
 
-The JSON envelope format and generation version remain **1**; the saved state schema is now **3**. Version-one and version-two states migrate automatically, preserving inventory, discoveries, contracts, upgrades, crew, and active job timers. Schema 2 initializes recruitment history and a clear internal-threat state; schema 3 initializes an empty incident ledger and discovery cooldown. Existing threats and committed jobs remain intact, and old sites are never rerolled. Unsupported future versions are rejected instead of silently regenerated.
+The JSON envelope format remains **1**; generation **1** preserves released authored names and generation **2** generates names for fresh expeditions; the saved state schema is now **3**. Version-one and version-two states migrate automatically, preserving inventory, discoveries, contracts, upgrades, crew, and active job timers. Schema 2 initializes recruitment history and a clear internal-threat state; schema 3 initializes an empty incident ledger and discovery cooldown. Existing threats and committed jobs remain intact, and old sites are never rerolled. Unsupported future versions are rejected instead of silently regenerated.
 
 Browser storage keys are `far-wake.save.v1`, `far-wake.backup.v1` (before import/reset), and `far-wake.corrupt.v1` (unreadable original). Hollowmere uses the equivalent `hollowmere.*` namespace. Cross-game imports are rejected and both games can hold independent command locks. Saves are plain JSON with a checksum for accidental corruption, not an anti-cheat mechanism. Imports and resets keep the current expedition active until both its backup and replacement have been written; a storage failure leaves the current expedition intact and displays a persistent warning. Keep downloaded backups: browser storage can be cleared by the user or operating system. Settings can import a backup JSON copied from these keys.
 
