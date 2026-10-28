@@ -53,3 +53,7 @@ The world simulator retains its legacy response preferences, then chooses an ava
 ## Local verification
 
 Passed: 150 unit tests, 96 browser cases, 28 production offline cases, typecheck, Pages-base build, both campaign simulators, local documentation links and `git diff --check`. New browser cases exercise all six discovery interfaces and both themes’ support commissions alongside primary work, reload, real return travel and single filing. Production offline cases verify recruitment/training/faction receipts, parallel job catch-up and filing. Inspected phone screenshots show readable team requirements and standing tradeoffs; physical iPhone acceptance remains pending.
+
+## Delivery evidence
+
+Released in `245124a` through successful [Pages workflow 40722555654](https://github.com/rayners/explorer/actions/runs/40722555654). Published iPhone WebKit checks verified both fresh generation-7 defaults, all six new discovery interfaces and durable offline effects, both themes’ parallel primary/support completion and one-time filing, captured generation-6 paid-project outcomes and library routes. Physical Safari/Home Screen checks remain pending.
