@@ -110,3 +110,7 @@ The engine commits activity participants and grants bounded practice only at com
 ## Discovery-driven projects (v0.9)
 
 Assembly ends with `finishProjects` for generation 6. Pure `engine/project-generation.ts` creates a bounded potential catalog from themed `projects.ts` recipes; `content/projects.ts` appends it. Missions carry an exact incident/choice prerequisite and existing source-site reference. Shared eligibility checks read the durable incident ledger, and existing mission/job state tracks acceptance, work and filing. Discovery cards preview the optional branch; shared work briefs show preparation and patron. Previous generations skip assembly, preserving full definitions. See [PROJECTS.md](PROJECTS.md).
+
+## Read-only expedition planning (v0.10)
+
+`ui/expedition-planning.ts` derives preparation/receipt phases, aggregate supply gaps, assignment gaps and known return-hub routes. It uses existing pure navigation/dispatch without changing the simulation or definition factory. `ui/planning-panels.ts` supplies both mounts' summaries, prioritized project offers, preparation and focused route previews. Mounts own temporary map targets and page/focus changes; only explicit command buttons dispatch. The work view retains completed receipts until filing. No save, namespace, manifest or generation changes. See [PLANNING.md](PLANNING.md).

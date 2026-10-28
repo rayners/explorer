@@ -1,6 +1,6 @@
 # Roadmap and status
 
-Baseline: v0.9.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.10.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Active implementation queue
 
@@ -12,7 +12,7 @@ User direction (2026-10-28): keep working through the roadmap, recording decisio
 4. **Delivered v0.8: broaden lasting events and crew development.** Design: [CREW.md](CREW.md). Begin with bounded specialty proficiency, rescued-specialist opportunities and knowledge choices; preserve committed work, accommodation and safe absence. Schema-4 migration, participant accounting, roster progress and generation-5 opportunities are implemented in both themes. Release checks, Pages deployment and live offline checks passed.
 
 5. **Delivered v0.9: faction projects shaped by settled discoveries.** Exact incident/choice/source prerequisites unlock one optional branch per settled incident. Both themes have distinct patrons, field supplies and specialists; existing accepted-work receipts and neutral recovery remain intact. Generation 6 adds catalogs, preserving generations 1–5 and state schema 4. Design: [PROJECTS.md](PROJECTS.md). Pages deployment and live offline/compatibility checks passed; evidence is recorded below.
-6. **Next design candidate: expedition planning and project readability.** Review how players find unlocked work, compare preparation needs and plan multi-leg journeys to source sites. Start with a usability audit against actual play, then record a bounded design before changing behavior. Avoid automatic dispatch, new mandatory chores or expanding faction simulation without a separate design.
+6. **Implemented v0.10: expedition planning and project readability.** Review how players find unlocked work, compare preparation needs and plan multi-leg journeys to source sites. Shared preparation guidance, visible discovery-work summaries, completed receipts and explicit contract-linked route previews are implemented; validation/publication status follows below. Design: [PLANNING.md](PLANNING.md). Avoid automatic dispatch, new mandatory chores or expanding faction simulation without a separate design.
 
 Full procedural campaigns are a staged direction now; this queue supersedes the earlier blanket deferral for these specific steps. Roguelite resets/metaprogression remain deferred. Physical iPhone checks still require the real device and remain explicitly pending; they do not block independent implementation.
 
@@ -88,6 +88,12 @@ Living matching specialists earn bounded practice through completed work; Practi
 
 ## Implemented in v0.9: discovery-driven faction projects
 
-Eleven themed response branches generate optional commissions at actual discovery sources. A matching settled choice is required for visibility, acceptance and save validation. Work requires the displayed specialist/supplies, retains paid terms, completes once and pays only at hub filing. New generation-6 expeditions reuse frozen geography/names/sites; older catalogs remain intact. Discovery previews explain the resulting patron/project, and briefs show origin and preparation. See [PROJECTS.md](PROJECTS.md). Local validation passed 138 unit tests, 84 browser cases, 22 production offline cases, typecheck/Pages build and both campaign simulators. Mobile project briefs were visually inspected. physical iPhone acceptance remains pending.
+Eleven themed response branches generate optional commissions at actual discovery sources. A matching settled choice is required for visibility, acceptance and save validation. Work requires the displayed specialist/supplies, retains paid terms, completes once and pays only at hub filing. New generation-6 expeditions reuse frozen geography/names/sites; older catalogs remain intact. Discovery previews explain the resulting patron/project, and briefs show origin and preparation. See [PROJECTS.md](PROJECTS.md). Local validation passed 138 unit tests, 84 browser cases, 22 production offline cases, typecheck/Pages build and both campaign simulators. Mobile project briefs were visually inspected. Physical iPhone acceptance remains pending.
 
 Project delivery: commit `89306ad`; [Pages workflow](https://github.com/rayners/explorer/actions/runs/40695337794) succeeded (84 browser cases and 22 production offline cases). Live iPhone WebKit checks passed for fresh generation-6 defaults, project completion and one-time filing offline in both themes, released generation-5 settled-choice/paid-work compatibility, and the library routes. The local suite passed all 138 unit tests and both campaign simulators. These checks do not replace pending physical iPhone acceptance.
+
+## Implemented in v0.10: expedition planning
+
+Both games surface unlocked faction projects before ordinary board offers and expose active discovery work/receipts through a shared summary. Preparation compares stock, travel/work/return supplies and living assigned specialists, while committed work retains its paid terms. Contract route actions open the correct region with focused multi-leg previews and explicit next-leg orders. Completed receipts guide return to a known hub and filing. This is a shared UI improvement for existing saves; all generations 1–6, state schema 4 and envelope 1 remain unchanged. Design and checks: [PLANNING.md](PLANNING.md). Local checks passed: 143 unit tests, 90 browser cases, 24 production offline cases, typecheck and Pages-base build. Deployment/live verification follows publication; physical iPhone acceptance remains pending.
+
+Next candidate, not an approved content specification: broaden discovery and mission variety using existing site, incident and project mechanisms. Define a small set of mechanically distinct opportunities and preserve generation compatibility before implementation. Full procedural campaigns, roguelite resets and autonomous factions remain deferred.

@@ -1,3 +1,4 @@
+import { preparationPanel } from './planning-panels';
 import type { GameDefinition, GameState } from '../engine/types';
 import { activityDuration } from '../engine/simulation';
 const esc = (value: unknown) =>
@@ -6,23 +7,30 @@ const esc = (value: unknown) =>
     (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
   );
 /** Show the actual work requirements before the player accepts a generated contract. */
-export function followUpBrief(g: GameDefinition, s: GameState, id: string): string {
+export function followUpBrief(
+  g: GameDefinition,
+  s: GameState,
+  id: string,
+  context: 'board' | 'work' = 'board',
+): string {
   const activity = g.activities.find((activity) => activity.mission === id);
   if (!activity) return '';
   const progress = s.missions.find((mission) => mission.id === id);
   const mission = g.missions.find((mission) => mission.id === id)!;
+  const preparation = preparationPanel(g, s, id, context);
+  const committed = [s.primary, s.support].find((job) => job?.definition === activity.id);
   const patron = mission.discoveryChoice
     ? `<br>Patron standing on filing: +${mission.reputation} ${esc(g.factions.find((faction) => faction.id === mission.faction)?.name)}`
     : '';
   if (progress && progress.progress >= mission.objective.count)
-    return `<p class="cost">Field work complete. ${progress.claimed ? 'Payment filed.' : 'Return to a service hub with the work receipt.'}</p>`;
+    return `<p class="cost">Field work complete. ${progress.claimed ? 'Payment filed.' : 'Return to a service hub with the work receipt.'}</p>${preparation}`;
   const cost = Object.entries(activity.cost)
     .map(
       ([id, amount]) =>
         `${amount} ${esc(g.resources.find((resource) => resource.id === id)?.name ?? id)}`,
     )
     .join(' · ');
-  return `<p class="cost">Field work: ${activityDuration(g, s, activity.id)}s real<br>Work supplies: ${cost || 'None'}${patron}${activity.requirements?.length ? `<br>Expedition requirements: ${activity.requirements.map((r) => `${r.count} ${esc(r.skill)}`).join(' · ')}` : ''}</p>`;
+  return `<p class="cost">Field work: ${committed?.total ?? activityDuration(g, s, activity.id)}s real<br>Work supplies: ${cost || 'None'}${patron}${activity.requirements?.length ? `<br>Expedition requirements: ${activity.requirements.map((r) => `${r.count} ${esc(r.skill)}`).join(' · ')}` : ''}</p>${preparation}`;
 }
 /** Accepted work remains visible with its destination even while preparing at a hub. */
 export function followUpWork(
@@ -33,14 +41,17 @@ export function followUpWork(
   const work = g.activities.filter(
     (activity) =>
       activity.mission &&
-      s.missions.some(
-        (mission) =>
-          mission.id === activity.mission &&
-          !mission.claimed &&
-          mission.progress < g.missions.find((def) => def.id === mission.id)!.objective.count,
-      ),
+      s.missions.some((mission) => mission.id === activity.mission && !mission.claimed),
   );
   return work.length
-    ? `<div class="section-label">Discovery follow-up work / ACCEPTED CONTRACTS</div><div class="activity-grid follow-up-work">${work.map((activity) => render(activity.id)).join('')}</div>`
+    ? `<div class="section-label">Discovery follow-up work / ACCEPTED CONTRACTS</div><div class="activity-grid follow-up-work">${work
+        .map((activity) => {
+          const mission = s.missions.find((mission) => mission.id === activity.mission)!;
+          const definition = g.missions.find((definition) => definition.id === mission.id)!;
+          return mission.progress >= definition.objective.count
+            ? `<article class="activity-card"><h3>${esc(definition.name)}</h3>${followUpBrief(g, s, mission.id, 'work')}</article>`
+            : render(activity.id);
+        })
+        .join('')}</div>`
     : '';
 }

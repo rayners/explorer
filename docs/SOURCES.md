@@ -90,3 +90,7 @@ After implementing the queued personnel/events milestone, the ongoing instructio
 ## Discovery-driven projects, v0.9 (2026-10-28)
 
 The user endorsed the prepared next-step design (“Sounds great”, then “Make it so”). [PROJECTS.md](PROJECTS.md) records the bounded implementation of the ongoing roadmap and earlier indirect-faction interest. Exact patrons, branch economics and generation-6 catalog assembly are implementation decisions. Released v0.8 commit `c538a6f` supplied immutable generation-5 settled-response/job fixtures; new tests check all 11 branches without replacing those fixtures. No territory, autonomous diplomacy or roguelite specification is inferred.
+
+## Planning/readability, v0.10 (2026-10-28)
+
+The user approved the proposal to improve discovery-project visibility, preparation gaps, contract-linked route actions and clear next steps (“Makes sense. Do it”). [PLANNING.md](PLANNING.md) records the inspected UI gaps and bounded design. Choosing fastest known-time routes, estimating a known return hub, retaining completed receipts in the work view and keeping route selection temporary are implementation choices. No automatic dispatch or new procedural content is inferred.

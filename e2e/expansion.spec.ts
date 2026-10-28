@@ -848,3 +848,181 @@ test('settled discoveries unlock distinct faction projects with source work and 
     );
   }
 });
+
+test('planning surfaces unlocked projects, supply and assignment gaps, and read-only source routes', async ({
+  page,
+}, testInfo) => {
+  const { opportunityFixture } = await import('./opportunity-fixture');
+  const { dispatch } = await import('../src/engine/simulation');
+  for (const fantasy of [false, true]) {
+    const fixture = opportunityFixture(fantasy, 'stranded-specialist', true, 6),
+      { game } = fixture;
+    const settled = dispatch(game, fixture.state, {
+      type: 'discovery',
+      id: 'stranded-specialist',
+      choice: 'join',
+    }).state;
+    const mission = game.missions.find(
+      (mission) =>
+        mission.sourceSite === settled.incidents[0].site &&
+        mission.discoveryChoice?.incident === 'stranded-specialist' &&
+        mission.discoveryChoice.choice === 'join',
+    )!;
+    const work = game.activities.find((activity) => activity.mission === mission.id)!;
+    for (const member of settled.crew) if (member.skill === work.skill) member.assignment = 'rest';
+    for (const resource of Object.keys(work.cost)) settled.inventory[resource] = 0;
+    await open(page, `/${game.id}/`);
+    await importState(page, encodeSave(settled, Date.now()));
+    await expect(page.locator('.planning-summary')).toContainText('1 unlocked faction project');
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review contract board', exact: true })
+      .click();
+    const card = page
+      .locator('.project-offers .activity-card')
+      .filter({ has: page.getByRole('heading', { name: mission.name, exact: true }) });
+    await expect(card).toContainText('Missing supplies:');
+    await expect(card).toContainText(`Assign 1 ${work.skill}`);
+    await card
+      .getByRole('button', { name: fantasy ? 'Accept oath' : 'Accept contract', exact: true })
+      .click();
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    const task = page.locator('.follow-up-work .activity-card');
+    await expect(task).toContainText('Prepare supplies and team');
+    await task.getByRole('button', { name: 'Review team', exact: true }).click();
+    await expect(page.locator('.crew-row').first()).toBeFocused();
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    const before = await state(page, fantasy);
+    await task.getByRole('button', { name: 'Plot route to source', exact: true }).click();
+    await expect(page.locator('#route-plan-title')).toHaveText(`Route to ${fixture.source.name}`);
+    await expect(page.locator('#route-plan-title')).toBeFocused();
+    await expect(page.locator('.star-button.selected')).toHaveAttribute(
+      'data-region',
+      fixture.source.region,
+    );
+    const after = await state(page, fantasy);
+    expect(after.primary).toBeNull();
+    expect(after.inventory).toEqual(before.inventory);
+    expect(after.crew).toEqual(before.crew);
+    expect(after.missions).toEqual(before.missions);
+    expect(after.rng).toBe(before.rng);
+    await expect(page.locator('.route-plan')).toContainText('Plotting spends nothing');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    if (testInfo.project.name === 'iphone')
+      await page.locator('.route-plan').screenshot({ path: `/tmp/${game.id}-planning-route.png` });
+    await page.setViewportSize({ width: 932, height: 430 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await state(page, fantasy)).inventory).toEqual(before.inventory);
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    await expect(task).toContainText('Missing supplies:');
+  }
+});
+
+test('legacy discovery work plans explicit multi-leg journeys and guides completed receipts home', async ({
+  page,
+}, testInfo) => {
+  const { planRoute } = await import('../src/engine/navigation');
+  const { dispatch } = await import('../src/engine/simulation');
+  for (const fantasy of [false, true]) {
+    const game = (fantasy ? createHollowmere : createGame)(1701, 3),
+      fresh = createState(game, 1701);
+    fresh.known = game.locations.map((location) => location.id);
+    fresh.discoveries = Object.fromEntries(
+      game.locations.map((location) => [
+        location.id,
+        { surveyed: true, sites: [], dataSold: false },
+      ]),
+    );
+    if (!fantasy) fresh.inventory.fuel = 70;
+    const source = game.locations.find(
+      (location) => !location.station && planRoute(game, fresh, location.id).length >= 2,
+    )!;
+    expect(source).toBeTruthy();
+    fresh.discoveries[source.id] = { surveyed: true, sites: [source.sites[0]], dataSold: false };
+    const mission = game.missions.find((mission) => mission.sourceSite === source.sites[0])!,
+      work = game.activities.find((activity) => activity.mission === mission.id)!;
+    if (!fresh.crew.some((member) => member.skill === work.skill)) {
+      const offer = game.recruitment!.offers.find((offer) => offer.skill === work.skill)!;
+      const hired = dispatch(game, fresh, { type: 'hire', id: offer.id });
+      expect(hired.error).toBeUndefined();
+      Object.assign(fresh, hired.state);
+    }
+    for (const member of fresh.crew) if (member.skill === work.skill) member.assignment = 'primary';
+    const accepted = dispatch(game, fresh, { type: 'accept', id: mission.id });
+    expect(accepted.error).toBeUndefined();
+    await open(page, `/${game.id}/`);
+    await importState(page, encodeSave(accepted.state, Date.now()));
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    let steps = 0;
+    await page
+      .locator('.follow-up-work')
+      .getByRole('button', { name: 'Plot route to source', exact: true })
+      .click();
+    while ((await state(page, fantasy)).location !== source.id) {
+      const current = await state(page, fantasy),
+        nextLeg = planRoute(game, current, source.id)[0];
+      expect(nextLeg).toBeTruthy();
+      await page
+        .locator('.route-plan')
+        .getByRole('button', {
+          name: `Travel to ${game.locations.find((location) => location.id === nextLeg.to)!.name}`,
+          exact: true,
+        })
+        .click();
+      if (!fantasy && nextLeg.interregional)
+        await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+      expect((await state(page, fantasy)).primary.target).toBe(nextLeg.to);
+      await next(page, nextLeg.seconds + 5, fantasy);
+      await escape(page, fantasy);
+      expect((await state(page, fantasy)).primary).toBeNull();
+      steps++;
+    }
+    expect(steps).toBeGreaterThanOrEqual(2);
+    await page
+      .locator('.route-plan')
+      .getByRole('button', { name: 'Review field work', exact: true })
+      .click();
+    const task = page.locator('.follow-up-work .activity-card');
+    await expect(task).toContainText('Perform the accepted field work here');
+    if (testInfo.project.name === 'iphone')
+      await task.screenshot({ path: `/tmp/${game.id}-planning-work.png` });
+    await task.getByRole('button', { name: 'Begin activity', exact: true }).click();
+    await expect(task).toContainText('Supplies and participants are already committed');
+    await next(page, 150, fantasy);
+    await escape(page, fantasy);
+    await expect(page.locator('.follow-up-work')).toContainText('Return to a known service hub');
+    await expect(page.locator('.planning-summary')).toContainText('1 ready to file');
+    const before = await state(page, fantasy);
+    await page
+      .locator('.follow-up-work')
+      .getByRole('button', { name: 'Plot route to hub', exact: true })
+      .click();
+    await expect(page.locator('.route-plan')).toBeVisible();
+    expect((await state(page, fantasy)).inventory).toEqual(before.inventory);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    await expect(page.locator('.follow-up-work')).toContainText('Field work complete');
+  }
+});

@@ -1355,3 +1355,44 @@ body.reduce-motion * {
   line-height: 1.6;
   color: var(--accent);
 }
+
+.planning-summary,
+.route-plan,
+.project-offers {
+  margin-bottom: 24px;
+  min-width: 0;
+}
+.project-offers > h2 {
+  margin-bottom: 10px;
+}
+.preparation {
+  margin: 16px 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.preparation p,
+.route-plan p {
+  line-height: 1.7;
+}
+.next-step strong {
+  color: var(--accent);
+}
+.planning-gap {
+  color: var(--red);
+}
+.preparation summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--accent);
+}
+.route-plan {
+  overflow-wrap: anywhere;
+}
+#route-plan-title,
+.crew-row,
+.trade-row {
+  scroll-margin-top: 90px;
+}

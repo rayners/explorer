@@ -230,8 +230,8 @@ test('selected generated-site expeditions finish exactly once across production 
   await context.setOffline(false);
 });
 
-function preparedFollowUp(fantasy: boolean, readyToFile: boolean) {
-  const game = fantasy ? createHollowmere(1701) : createGame(1701);
+function preparedFollowUp(fantasy: boolean, readyToFile: boolean, generation = 6) {
+  const game = fantasy ? createHollowmere(1701, generation) : createGame(1701, generation);
   const location = fantasy ? 'old-road' : 'cinder';
   let state = createState(game, 1701);
   state.location = location;
@@ -582,3 +582,78 @@ for (const readyToFile of [false, true])
     }
     await context.setOffline(false);
   });
+
+test('existing and current expeditions plan receipt return routes offline without automatic departure', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  for (const fantasy of [false, true])
+    for (const generation of [3, 6]) {
+      const fixture = preparedFollowUp(fantasy, false, generation),
+        { game, mission } = fixture;
+      let state = advance(game, fixture.state, 200);
+      if (state.encounter)
+        state = dispatch(game, state, { type: 'encounter', choice: 'surrender' }).state;
+      const key = `${game.id}.save.v1`,
+        marker = `planning-${game.id}-${generation}`;
+      await page.addInitScript(
+        ({ key, raw, marker }) => {
+          if (!sessionStorage.getItem(marker)) {
+            localStorage.setItem(key, raw);
+            sessionStorage.setItem(marker, 'yes');
+          }
+        },
+        { key, raw: encodeSave(state, Date.now()), marker },
+      );
+      await context.setOffline(false);
+      await page.goto(new URL(`${game.id}/?planning=${generation}`, baseURL).href);
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      await page.evaluate(async () => await navigator.serviceWorker.ready);
+      await page.reload();
+      await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+      await context.setOffline(true);
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      await page
+        .locator('.planning-summary')
+        .getByRole('button', { name: 'Review accepted work', exact: true })
+        .click();
+      await expect(page.locator('.follow-up-work')).toContainText('Return to a known service hub');
+      await page
+        .locator('.follow-up-work')
+        .getByRole('button', { name: 'Plot route to hub', exact: true })
+        .click();
+      await expect(page.locator('#route-plan-title')).toBeFocused();
+      await expect(page.locator('.route-plan')).toContainText('Plotting spends nothing');
+      const read = () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+      const plotted = await read();
+      expect(plotted.inventory).toEqual(state.inventory);
+      expect(plotted.primary).toBeNull();
+      expect(plotted.generationVersion).toBe(generation);
+      expect(plotted.missions.find((saved: any) => saved.id === mission.id)).toMatchObject({
+        progress: 1,
+        claimed: false,
+      });
+      await page
+        .locator('.route-plan')
+        .getByRole('button', { name: /^Travel to / })
+        .click();
+      const departed = await read();
+      expect(departed.primary.kind).toBe('travel');
+      expect(departed.inventory).not.toEqual(plotted.inventory);
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      const saved = await read();
+      expect(saved.inventory).toEqual(departed.inventory);
+      expect(saved.primary.target).toBe(departed.primary.target);
+      expect(saved.missions).toEqual(plotted.missions);
+      expect(
+        await page.evaluate(() => !('__farWake' in window) && !('__hollowmere' in window)),
+      ).toBe(true);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
+      );
+    }
+  await context.setOffline(false);
+});

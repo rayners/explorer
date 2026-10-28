@@ -80,6 +80,8 @@ Add behavior tests for mechanics, regressions, save migrations and lifecycle cha
 
 [Generated layouts](docs/WORLDS.md) defines frozen generation-4 recipes and world assembly before naming/sites/contracts. Generations 1–3 retain their exact geography and catalogs. Keep protected first routes, connected local/region graphs and a service hub per region. Use actual definition graphs/counts in charts; run `node --import tsx scripts/simulate-world.ts` when changing layouts or logistics.
 
+[Expedition planning](docs/PLANNING.md) is a read-only shared UI layer for existing bound contracts. Keep estimates based on known routes and current stock/assignments, preserve paid jobs/receipts, and never dispatch from route selection. Map targets are temporary view state; all generations 1–6 remain frozen.
+
 [Faction projects](docs/PROJECTS.md) adds generation-6 commissions requiring an exact settled incident, choice and source. Keep generations 1–5 frozen; visibility, acceptance and save validation must use the same prerequisite. Projects reuse paid activity jobs and one-time hub filing without a new state schema. Theme recipes own all patrons, costs and roles.
 
 [Discovery missions](docs/MISSIONS.md) documents the additive generation-3 contract catalog. Keep source discoveries, mission/activity IDs and accepted work compatible. Bound work requires an accepted unfinished contract; completed work is retained until filed and cannot be abandoned/replayed. No payment occurs at work completion. Existing generations 1/2 stay unchanged.

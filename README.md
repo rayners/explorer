@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.10
+
+Both games now connect discovery contracts to expedition planning. A discovery-work summary highlights unlocked projects, accepted work and receipts ready to file. Briefs compare supplies and assigned specialists, including estimated travel to the source and back to a known hub.
+
+Use **Plot route to source** or **Plot route to hub** to open the right map and preview the next leg. Plotting spends nothing; departures remain explicit. Completed work stays visible with return-and-file guidance. These improvements work with existing expeditions, including older discovery contracts—no reset is needed. See [expedition planning](docs/PLANNING.md).
+
 ## New in v0.9
 
 Discovery decisions now unlock optional faction projects in both games. Your response determines the patron, supplies and specialist needed: company beacons, communal reserves, rescue routes, consecrated shelters and elder wards. Accept at a hub, return to the original site for work, then file the receipt once for payment and standing. Briefs explain the original decision and preparation.

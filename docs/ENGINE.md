@@ -126,3 +126,7 @@ Generation-5 `DiscoveryChoice` supports `recruit` offer IDs and `training: {skil
 ## Exact discovery-choice projects (v0.9)
 
 `MissionDef.discoveryChoice?: { incident: string; choice: string }` combined with `sourceSite` requires an actual matching settled incident at that site's location and actual explored source. `missionDiscovered` serves UI visibility, acceptance and accepted/claimed save validation. Surveying alone never qualifies. `generateProjects` takes theme-owned `ProjectBranch` data and builds stable `project:<site>:<incident>:<choice>` mission IDs and bound primary activities. Costs are paid on dispatch, surviving participants gain practice at completion, immediate reward is empty and hub filing alone pays. Existing limits, standing refusal, release/replay protection and casualty preservation apply. Generation 6 appends after opportunities; no new state fields/schema. See [PROJECTS.md](PROJECTS.md).
+
+## Planning host integration (v0.10)
+
+The browser host derives expedition preparation in `ui/expedition-planning.ts` using existing mission definitions, living assignments, inventory, `planRoute` and `dispatch`. These are read-only views; no new engine command/state/catalog is introduced. Estimates use fastest known-time itineraries and a reachable known return hub, excluding uncertain hazards and future resupply. Accepted committed work must not be treated as requiring payment/staffing again; completed receipts require only return/filing. Never dispatch merely to open a route preview. See [PLANNING.md](PLANNING.md).

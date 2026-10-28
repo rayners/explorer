@@ -65,3 +65,7 @@ Discovery response cards preview the optional project and patron. Contract brief
 ## Delivery evidence
 
 Released in `89306ad` through successful [Pages workflow 40695337794](https://github.com/rayners/explorer/actions/runs/40695337794). Validation: 138 unit tests, 84 browser cases, 22 production offline cases, Pages-base build and both campaign simulators. Published iPhone WebKit checks verified fresh generation-6 defaults, both games’ offline completion/filing receipts, released generation-5 paid-work/choice compatibility and library routes. Physical iPhone Safari/Home Screen checks remain pending.
+
+## Finding and preparing projects (v0.10)
+
+A shared discovery-work summary exposes unlocked projects, active field work and receipts. Eligible unaccepted faction projects appear before ordinary board offers in both games. Their briefs show stock/assignment gaps and known outbound/work/return supply estimates, plus source/hub route actions. This UI applies to existing generation-6 projects without changing definitions, choices or payment. Older discovery contracts get the same preparation/receipt guidance. See [PLANNING.md](PLANNING.md).

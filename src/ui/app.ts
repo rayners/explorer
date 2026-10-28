@@ -1,3 +1,9 @@
+import {
+  planningSummary,
+  projectOffers,
+  routePlanPanel,
+  preparationPanel,
+} from './planning-panels';
 import { proficiencyLabel, proficiencyHelp } from './proficiency';
 import { chartLines } from './world-map';
 import { missionDiscovered } from '../engine/missions';
@@ -50,12 +56,13 @@ export function mountApp(root: HTMLElement, controller: AppController) {
     s: GameState,
     tab = 'overview',
     selectedRegion = 'vesper',
+    plannedTarget: string | null = null,
     signature = '',
     observedRegion = '',
     noticeTimer: ReturnType<typeof setTimeout>,
     confirmAction: (() => void) | null = null,
     returnFocus: HTMLElement | null = null;
-  root.innerHTML = `<a class="skip-link" href="#main-content">Skip to ship console</a><div class="app-shell"><aside class="sidebar"><div class="wordmark">${icon('logo')}<div class="brand">FAR<br>WAKE<small>FRONTIER SURVEY</small></div></div><div class="charter">EXPLORATION CHARTER / 017</div><nav class="navigation" aria-label="Ship console">${['overview', 'navigation', 'operations', 'contacts'].map((t, i) => `<button class="nav-button" data-tab="${t}" aria-current="${i === 0 ? 'page' : 'false'}">${icon(t)}<span>${t[0].toUpperCase() + t.slice(1)}</span><span class="nav-number">0${i + 1}</span></button>`).join('')}</nav><div class="sidebar-bottom"><div class="eyebrow">A LITTLE FURTHER OUT.</div><p style="font-size:10px;margin-top:8px">The frontier is patient.<br>Your creditors aren't.</p><div class="ship-id"><div class="flex">${icon('signal')}<strong>SV KESTREL</strong></div><small>LIGHT SURVEY VESSEL<br>CHARTERED SURVEY · CLASS III</small></div><button class="quiet" data-action="settings" style="width:100%;margin-top:20px">Ship settings</button></div></aside><div class="main-wrap"><header class="topbar"><div class="mobile-brand">FAR WAKE<span class="accent"> /</span></div><div class="topbar-location"><div class="eyebrow">CHARTER / DEEP FIELD OPERATIONS</div><small id="breadcrumb">ESTABLISHING CHART</small></div><div class="topbar-right"><a class="library-link" href="../?games=1">All games</a><span class="eyebrow storage-label" id="save-status"><span class="save-dot"></span>LOCAL SAVE</span><span class="badge" id="year-badge">SHIP YEAR 2186</span><button class="quiet flex" data-action="settings" aria-label="Settings">${icon('settings')}</button></div></header><div id="save-warning" class="save-warning" role="alert" hidden><span></span><button data-action="settings">Save settings</button></div><main class="page" id="main-content" tabindex="-1"></main></div></div><div class="notice" role="status" aria-live="polite"></div><dialog id="settings-dialog" aria-labelledby="settings-title"><div class="flex between"><h2 id="settings-title">Ship settings</h2><button data-action="close-settings" aria-label="Close settings">×</button></div><p>Your expedition lives on this device. Export a save to keep a backup or move between browsers.</p><label><input id="sound-setting" type="checkbox"> Enable quiet ship sounds</label><label><input id="motion-setting" type="checkbox"> Reduce motion</label><div class="line"></div><h3>Save & transfer</h3><div class="settings-actions"><button data-action="export">Export to text</button><button data-action="download">Download save</button><button data-action="copy">Copy save</button><button data-action="backup">Load local backup</button></div><textarea id="save-text" aria-label="Save JSON" placeholder="Export a save, or paste one here to import."></textarea><div class="settings-actions"><button data-action="import">Import pasted save</button><label style="margin:0"><span class="eyebrow">Or choose a save file</span><input id="save-file" type="file" accept=".json,application/json" style="display:block;width:100%"></label></div><p id="settings-error" class="dialog-error" role="status"></p><div class="line"></div><h3>How time works</h3><p>Jobs run while you are away, up to 24 hours. Arrivals and encounters stop safely. There is no automatic chain of expeditions. Cryosleep compresses fictional years into real minutes.</p><p>At stations, work shifts earn credits without supplies. If stranded elsewhere, request a recovery tow. Crew and ship survive, with a debt repaid through station work.</p><p id="save-details"></p><div class="line"></div><p>New expeditions generate crew, faction and place names from the seed. Use a different seed for different names. Your current names stay with this save.</p><label for="new-seed">New expedition seed</label><input id="new-seed" type="number" min="0" max="4294967295" step="1" value="1701"><div class="settings-actions"><button class="danger quiet" data-action="reset">Start a new expedition</button></div><p><a href="../hollowmere/">Play Hollowmere — a dark fantasy expedition</a></p><small>Original code and pixel artwork. No accounts, trackers, or server required. Version 0.2 · FAR WAKE</small></dialog><dialog id="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Confirm order</h2><p id="confirm-description"></p><div class="row-actions"><button data-action="confirm" class="primary">Confirm order</button><button data-action="cancel">Keep current orders</button></div></dialog>`;
+  root.innerHTML = `<a class="skip-link" href="#main-content">Skip to ship console</a><div class="app-shell"><aside class="sidebar"><div class="wordmark">${icon('logo')}<div class="brand">FAR<br>WAKE<small>FRONTIER SURVEY</small></div></div><div class="charter">EXPLORATION CHARTER / 017</div><nav class="navigation" aria-label="Ship console">${['overview', 'navigation', 'operations', 'contacts'].map((t, i) => `<button class="nav-button" data-tab="${t}" aria-current="${i === 0 ? 'page' : 'false'}">${icon(t)}<span>${t[0].toUpperCase() + t.slice(1)}</span><span class="nav-number">0${i + 1}</span></button>`).join('')}</nav><div class="sidebar-bottom"><div class="eyebrow">A LITTLE FURTHER OUT.</div><p style="font-size:10px;margin-top:8px">The frontier is patient.<br>Your creditors aren't.</p><div class="ship-id"><div class="flex">${icon('signal')}<strong>SV KESTREL</strong></div><small>LIGHT SURVEY VESSEL<br>CHARTERED SURVEY · CLASS III</small></div><button class="quiet" data-action="settings" style="width:100%;margin-top:20px">Ship settings</button></div></aside><div class="main-wrap"><header class="topbar"><div class="mobile-brand">FAR WAKE<span class="accent"> /</span></div><div class="topbar-location"><div class="eyebrow">CHARTER / DEEP FIELD OPERATIONS</div><small id="breadcrumb">ESTABLISHING CHART</small></div><div class="topbar-right"><a class="library-link" href="../?games=1">All games</a><span class="eyebrow storage-label" id="save-status"><span class="save-dot"></span>LOCAL SAVE</span><span class="badge" id="year-badge">SHIP YEAR 2186</span><button class="quiet flex" data-action="settings" aria-label="Settings">${icon('settings')}</button></div></header><div id="save-warning" class="save-warning" role="alert" hidden><span></span><button data-action="settings">Save settings</button></div><main class="page" id="main-content" tabindex="-1"></main></div></div><div class="notice" role="status" aria-live="polite"></div><dialog id="settings-dialog" aria-labelledby="settings-title"><div class="flex between"><h2 id="settings-title">Ship settings</h2><button data-action="close-settings" aria-label="Close settings">×</button></div><p>Your expedition lives on this device. Export a save to keep a backup or move between browsers.</p><label><input id="sound-setting" type="checkbox"> Enable quiet ship sounds</label><label><input id="motion-setting" type="checkbox"> Reduce motion</label><div class="line"></div><h3>Save & transfer</h3><div class="settings-actions"><button data-action="export">Export to text</button><button data-action="download">Download save</button><button data-action="copy">Copy save</button><button data-action="backup">Load local backup</button></div><textarea id="save-text" aria-label="Save JSON" placeholder="Export a save, or paste one here to import."></textarea><div class="settings-actions"><button data-action="import">Import pasted save</button><label style="margin:0"><span class="eyebrow">Or choose a save file</span><input id="save-file" type="file" accept=".json,application/json" style="display:block;width:100%"></label></div><p id="settings-error" class="dialog-error" role="status"></p><div class="line"></div><h3>How time works</h3><p>Jobs run while you are away, up to 24 hours. Arrivals and encounters stop safely. There is no automatic chain of expeditions. Cryosleep compresses fictional years into real minutes.</p><p>At stations, work shifts earn credits without supplies. If stranded elsewhere, request a recovery tow. Crew and ship survive, with a debt repaid through station work.</p><p id="save-details"></p><div class="line"></div><p>New expeditions generate crew, faction and place names from the seed. Use a different seed for different names. Your current names stay with this save.</p><label for="new-seed">New expedition seed</label><input id="new-seed" type="number" min="0" max="4294967295" step="1" value="1701"><div class="settings-actions"><button class="danger quiet" data-action="reset">Start a new expedition</button></div><p><a href="../hollowmere/">Play Hollowmere — a dark fantasy expedition</a></p><small>Original code and pixel artwork. No accounts, trackers, or server required. Version 0.10 · FAR WAKE</small></dialog><dialog id="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Confirm order</h2><p id="confirm-description"></p><div class="row-actions"><button data-action="confirm" class="primary">Confirm order</button><button data-action="cancel">Keep current orders</button></div></dialog>`;
   const main = root.querySelector<HTMLElement>('main')!,
     settings = root.querySelector<HTMLDialogElement>('#settings-dialog')!,
     confirmDialog = root.querySelector<HTMLDialogElement>('#confirm-dialog')!;
@@ -217,19 +224,19 @@ export function mountApp(root: HTMLElement, controller: AppController) {
           })
           .join('')
       : '<div class="empty-note">This system is an unresolved signal. Survey worlds along the frontier to establish a route.</div>';
-    return `<div class="dashboard"><div class="stack"><section class="panel"><div class="panel-head"><h2>Frontier navigation chart</h2><span class="eyebrow">${g.regions.length} SYSTEMS / LOCAL ARRAY</span></div>${map}<div class="panel-footer">SELECT A SYSTEM · DASHED LINES INDICATE POTENTIAL INTERSTELLAR CORRIDORS</div></section><section class="panel"><div class="panel-head"><h2>${esc(region.name)} system</h2><span class="eyebrow">${locations.length} CONTACTS</span></div><div class="panel-body"><div class="system-summary"><p>${esc(region.subtitle)}</p><small>All times are real unless marked ship time.</small></div><div class="route-list">${bodyList}</div></div></section></div><div class="stack">${panel('Flight planning', `<p>Survey a body to resolve the rest of its system and any outbound signals. Arrival at a new station resolves nearby bodies.</p><div class="line"></div><p>Once a neighboring system is charted, you can depart from any world or station in your current system. Local departure and arrival transfers are included in the interstellar estimate. More distant systems may require a stop in an intermediate system.</p><div class="line"></div><p>Interstellar crossings spend years in cryosleep. Your crew stays safe while you are away. Route costs include departure and arrival burns.</p><div class="line"></div><p>Support jobs may run in transit. Finish existing support work before departure.</p>`, 'READ BEFORE DEPARTURE')}${panel('Recovery service', `<p>Stranded? A tug can bring the Kestrel to the nearest station with at least 40% hull integrity. The 150 credit fee becomes debt, repaid through work shifts.</p><div class="row-actions">${button('Request recovery tow', { type: 'rescue' })}</div>`, 'NO CREW LEFT BEHIND')}</div></div>`;
+    return `${plannedTarget ? routePlanPanel(g, s, plannedTarget, button) : ''}<div class="dashboard"><div class="stack"><section class="panel"><div class="panel-head"><h2>Frontier navigation chart</h2><span class="eyebrow">${g.regions.length} SYSTEMS / LOCAL ARRAY</span></div>${map}<div class="panel-footer">SELECT A SYSTEM · DASHED LINES INDICATE POTENTIAL INTERSTELLAR CORRIDORS</div></section><section class="panel"><div class="panel-head"><h2>${esc(region.name)} system</h2><span class="eyebrow">${locations.length} CONTACTS</span></div><div class="panel-body"><div class="system-summary"><p>${esc(region.subtitle)}</p><small>All times are real unless marked ship time.</small></div><div class="route-list">${bodyList}</div></div></section></div><div class="stack">${panel('Flight planning', `<p>Survey a body to resolve the rest of its system and any outbound signals. Arrival at a new station resolves nearby bodies.</p><div class="line"></div><p>Once a neighboring system is charted, you can depart from any world or station in your current system. Local departure and arrival transfers are included in the interstellar estimate. More distant systems may require a stop in an intermediate system.</p><div class="line"></div><p>Interstellar crossings spend years in cryosleep. Your crew stays safe while you are away. Route costs include departure and arrival burns.</p><div class="line"></div><p>Support jobs may run in transit. Finish existing support work before departure.</p>`, 'READ BEFORE DEPARTURE')}${panel('Recovery service', `<p>Stranded? A tug can bring the Kestrel to the nearest station with at least 40% hull integrity. The 150 credit fee becomes debt, repaid through work shifts.</p><div class="row-actions">${button('Request recovery tow', { type: 'rescue' })}</div>`, 'NO CREW LEFT BEHIND')}</div></div>`;
   }
   function activityCard(id: string) {
     const a = g.activities.find((a) => a.id === id)!,
       command: Command = { type: 'activity', id },
       error = dispatch(g, s, command).error,
       preview = activityPreview(g, s, id);
-    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${duration(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><div class="cost">${esc(amountText(preview.cost))}</div>${preview.note ? `<small>${esc(preview.note)}</small>` : ''}${a.id === 'gather' ? `<small>Deposit return: ${esc(amountText(view(g, s).location.yields))}, plus crew bonuses.</small>` : Object.keys(preview.reward).length ? `<small>Return: ${esc(amountText(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Start support job' : 'Begin activity', command, !error)}${error ? `<div class="reason">${esc(error)}</div>` : ''}</article>`;
+    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${duration(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><div class="cost">${esc(amountText(preview.cost))}</div>${preview.note ? `<small>${esc(preview.note)}</small>` : ''}${a.id === 'gather' ? `<small>Deposit return: ${esc(amountText(view(g, s).location.yields))}, plus crew bonuses.</small>` : Object.keys(preview.reward).length ? `<small>Return: ${esc(amountText(preview.reward))}</small>` : ''}${a.mission ? preparationPanel(g, s, a.mission, 'work') : ''}${button(a.slot === 'support' ? 'Start support job' : 'Begin activity', command, !error)}${error ? `<div class="reason">${esc(error)}</div>` : ''}</article>`;
   }
   function operations() {
     const loc = view(g, s).location,
       d = s.discoveries[loc.id];
-    return `<div class="dashboard"><div><div class="section-label">${loc.station ? 'Dockside operations' : 'Survey & field operations'}</div><div class="activity-grid">${(loc.station ? ['work', 'aid'] : ['survey', 'explore', 'gather', 'raid', ...g.activities.filter((a) => a.effect === 'expose' && a.locations?.includes(loc.id)).map((a) => a.id)]).map(activityCard).join('')}</div>${g.sites ? sitePanel(g, s, button) : !loc.station ? `<div class="section-label">Site registry / ${d?.sites.length ?? 0} OF ${loc.sites.length} INVESTIGATED</div>${panel('Surface contacts', loc.sites.map((site, i) => `<div class="log-row"><span class="${d?.sites.includes(site) ? 'green' : 'muted'}">${d?.sites.includes(site) ? '✓' : '◇'} ${String(i + 1).padStart(2, '0')}</span><span>${d?.surveyed ? esc(site) : 'Awaiting orbital survey'} ${d?.sites.includes(site) ? '· RECORD SECURED' : ''}</span></div>`).join(''))}` : ''}${followUpWork(g, s, activityCard)}<div class="section-label">Engineering / independent support team</div><div class="activity-grid">${['repair', 'service', 'refine', 'fabricate', 'arm', 'triage', ...(loc.station ? ['heal'] : [])].map(activityCard).join('')}</div></div><div class="stack">${panel(
+    return `${followUpWork(g, s, activityCard)}<div class="dashboard"><div><div class="section-label">${loc.station ? 'Dockside operations' : 'Survey & field operations'}</div><div class="activity-grid">${(loc.station ? ['work', 'aid'] : ['survey', 'explore', 'gather', 'raid', ...g.activities.filter((a) => a.effect === 'expose' && a.locations?.includes(loc.id)).map((a) => a.id)]).map(activityCard).join('')}</div>${g.sites ? sitePanel(g, s, button) : !loc.station ? `<div class="section-label">Site registry / ${d?.sites.length ?? 0} OF ${loc.sites.length} INVESTIGATED</div>${panel('Surface contacts', loc.sites.map((site, i) => `<div class="log-row"><span class="${d?.sites.includes(site) ? 'green' : 'muted'}">${d?.sites.includes(site) ? '✓' : '◇'} ${String(i + 1).padStart(2, '0')}</span><span>${d?.surveyed ? esc(site) : 'Awaiting orbital survey'} ${d?.sites.includes(site) ? '· RECORD SECURED' : ''}</span></div>`).join(''))}` : ''}<div class="section-label">Engineering / independent support team</div><div class="activity-grid">${['repair', 'service', 'refine', 'fabricate', 'arm', 'triage', ...(loc.station ? ['heal'] : [])].map(activityCard).join('')}</div></div><div class="stack">${panel(
       'Crew assignments',
       `${crewControls()}${
         s.crew.some((m) => m.life === 'dead')
@@ -246,7 +253,10 @@ export function mountApp(root: HTMLElement, controller: AppController) {
     const loc = view(g, s).location,
       active = s.missions.filter((m) => !m.claimed),
       offered = g.missions.filter(
-        (m) => !s.missions.some((x) => x.id === m.id) && missionDiscovered(g, s, m),
+        (m) =>
+          !m.discoveryChoice &&
+          !s.missions.some((x) => x.id === m.id) &&
+          missionDiscovered(g, s, m),
       );
     const missionCard = (id: string) => {
       const m = g.missions.find((m) => m.id === id)!,
@@ -255,7 +265,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
         acceptError = state ? undefined : dispatch(g, s, { type: 'accept', id: m.id }).error;
       return `<article class="activity-card"><div class="flex between"><h3>${esc(m.name)}</h3><span class="eyebrow">${esc(g.factions.find((f) => f.id === m.faction)!.name)}</span></div><p>${esc(m.description)}</p>${followUpBrief(g, s, m.id)}<div class="cost">${esc(amountText(m.reward))} · +${m.reputation} standing</div>${state ? `<div class="mission-status">${ready ? 'OBJECTIVES COMPLETE — FILE AT ANY STATION' : `${state.progress} / ${m.objective.count} OBJECTIVES COMPLETE`}</div>${button('File contract', { type: 'claim', id: m.id }, !!ready)}${button('Release contract', { type: 'abandon', id: m.id })}` : button('Accept contract', { type: 'accept', id: m.id }, m.id === 'first-light')}${state && m.sourceSite && dispatch(g, s, { type: 'abandon', id: m.id }).error ? `<small>${esc(dispatch(g, s, { type: 'abandon', id: m.id }).error)}</small>` : ''}${acceptError ? `<small class="reason">${esc(acceptError)}</small>` : ''}${!state && m.requires && !s.missions.some((x) => x.id === m.requires && x.claimed) ? `<small>Requires: ${esc(g.missions.find((x) => x.id === m.requires)!.name)}</small>` : ''}</article>`;
     };
-    return `<div class="section-label">Faction relations</div><div class="faction-grid">${g.factions.map((f) => `<article class="faction-card" style="--faction:${f.color}"><h3>${esc(f.name)}</h3><p>${esc(f.description)}</p><div class="flex between"><span class="faction-score">${s.reputation[f.id] > 0 ? '+' : ''}${s.reputation[f.id]}</span><span class="eyebrow">${s.reputation[f.id] > 15 ? 'FAVORED' : s.reputation[f.id] < -15 ? 'DISTRUSTED' : 'NEUTRAL'}</span></div></article>`).join('')}</div><div class="section-label">Station exchange / ${loc.station ? esc(loc.name) : 'DOCKING REQUIRED'}</div><div class="dashboard"><div class="stack">${panel(
+    return `${projectOffers(g, s, missionCard)}<div class="section-label">Faction relations</div><div class="faction-grid">${g.factions.map((f) => `<article class="faction-card" style="--faction:${f.color}"><h3>${esc(f.name)}</h3><p>${esc(f.description)}</p><div class="flex between"><span class="faction-score">${s.reputation[f.id] > 0 ? '+' : ''}${s.reputation[f.id]}</span><span class="eyebrow">${s.reputation[f.id] > 15 ? 'FAVORED' : s.reputation[f.id] < -15 ? 'DISTRUSTED' : 'NEUTRAL'}</span></div></article>`).join('')}</div><div class="section-label">Station exchange / ${loc.station ? esc(loc.name) : 'DOCKING REQUIRED'}</div><div class="dashboard"><div class="stack">${panel(
       'Provisions & resupply',
       `<div class="resupply-cargo">${metric('Cargo hold', cargo(g, s), s.capacity)}<small>${Math.max(0, s.capacity - cargo(g, s))} cargo space free. Sell cargo to make room for supplies.</small></div>` +
         g.resources
@@ -309,7 +319,10 @@ export function mountApp(root: HTMLElement, controller: AppController) {
     const v = view(g, s);
     if (observedRegion !== v.region.id) {
       observedRegion = v.region.id;
-      selectedRegion = v.region.id;
+      selectedRegion =
+        plannedTarget && tab === 'navigation'
+          ? (g.locations.find((location) => location.id === plannedTarget)?.region ?? v.region.id)
+          : v.region.id;
     }
     root.querySelector('.topbar-location .eyebrow')!.textContent =
       `${g.factions.find((f) => f.id === 'combine')!.name.toUpperCase()} / DEEP FIELD OPERATIONS`;
@@ -322,6 +335,13 @@ export function mountApp(root: HTMLElement, controller: AppController) {
     if (saveWarning.querySelector('span')!.textContent !== saveError)
       saveWarning.querySelector('span')!.textContent = saveError;
     saveWarning.hidden = !saveError;
+    if (
+      plannedTarget &&
+      !g.locations.some(
+        (location) => location.id === plannedTarget && s.known.includes(location.id),
+      )
+    )
+      plannedTarget = null;
     const nextSignature = JSON.stringify([
       s.location,
       s.inventory,
@@ -379,7 +399,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.9<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${planningSummary(g, s)}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.10<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
       root.classList.toggle('readonly', !controller.isOwner());
       for (const b of root.querySelectorAll<HTMLElement>('.nav-button'))
         b.setAttribute('aria-current', b.dataset.tab === tab ? 'page' : 'false');
@@ -421,6 +441,34 @@ export function mountApp(root: HTMLElement, controller: AppController) {
   root.addEventListener('click', async (e) => {
     const target = (e.target as Element).closest<HTMLElement>('button');
     if (!target) return;
+    if (target.dataset.routeTarget) {
+      const destination = g.locations.find(
+        (location) => location.id === target.dataset.routeTarget && s.known.includes(location.id),
+      );
+      if (!destination) return;
+      plannedTarget = destination.id;
+      selectedRegion = destination.region;
+      tab = 'navigation';
+      update(s, g, true);
+      main.querySelector<HTMLElement>('#route-plan-title')?.focus();
+      main.querySelector('#route-plan-title')?.scrollIntoView({ block: 'start' });
+      return;
+    }
+    if (target.dataset.planningView) {
+      const view = target.dataset.planningView;
+      tab = view === 'board' || view === 'supplies' ? 'contacts' : 'operations';
+      update(s, g, true);
+      const focus =
+        view === 'crew'
+          ? main.querySelector<HTMLElement>('.crew-row')
+          : view === 'supplies'
+            ? main.querySelector<HTMLElement>('.trade-row')
+            : main;
+      focus?.setAttribute('tabindex', '-1');
+      focus?.focus();
+      focus?.scrollIntoView({ block: 'start' });
+      return;
+    }
     if (target.dataset.tab) {
       tab = target.dataset.tab;
       update(s, g, true);
@@ -428,6 +476,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
       return;
     }
     if (target.dataset.region) {
+      plannedTarget = null;
       selectedRegion = target.dataset.region;
       update(s, g, true);
       return;

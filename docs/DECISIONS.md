@@ -1,6 +1,6 @@
 # Decisions and rationale
 
-Recorded against v0.2.1 on 2026-10-27; updated for v0.9.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
+Recorded against v0.2.1 on 2026-10-27; updated for v0.10.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
 
 | Decision                                                                   | Reason and consequence                                                                                                                                                                                                                                                                  |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -66,3 +66,7 @@ Schema 4 migrates old personnel/jobs with zero historical experience, preserving
 ## Discovery-driven faction projects (v0.9)
 
 Generate a bounded potential catalog at generation 6, exposing only exact settled ledger branches. Reuse mission/activity state and receipts rather than adding a parallel project lifecycle; schema 4 and envelope 1 remain unchanged. New projects differ in actual supplies, specialist, patron and work. Neutral verification and all recovery remain optional and safe. Preview consequences before the response and show original choice/source in briefs. Generations 1–5 retain catalogs, including frozen released v0.8 response/job fixtures. Full diplomacy, territory and roguelite progression remain deferred. See [PROJECTS.md](PROJECTS.md).
+
+## Expedition planning (v0.10)
+
+Use read-only shared UI selectors to connect discovery work with current resources, living team assignments and known travel routes. Keep dispatch authoritative and retain explicit orders and cryosleep confirmation. Surface optional projects first and keep completed receipts in the work view. Do not add saved unread markers, automatic resupply/assignment/travel or another generation version for a view-only improvement. Existing expeditions gain guidance without resetting or changing catalogs. See [PLANNING.md](PLANNING.md).

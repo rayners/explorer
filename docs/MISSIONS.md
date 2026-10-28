@@ -49,3 +49,7 @@ Validation includes behavior tests for eligibility, hub/role/location checks, co
 ## Projects from settled choices (v0.9)
 
 Generation 6 adds optional commissions beyond the original one-per-explored-site follow-ups. They require `discoveryChoice` plus the exact `sourceSite`, and are hidden until the actual incident is settled with the matching response there. The existing accepted-work/payment/anti-replay contract applies unchanged. See [PROJECTS.md](PROJECTS.md) for branches, compatibility and validation.
+
+## Preparation and next-step guidance (v0.10)
+
+Existing bound contracts now show resource and assignment gaps, outbound/work/return estimates and the current next step. Accepted work is first in Operations/Company, including completed receipts waiting to be filed. Route buttons open previews without spending resources; every leg still needs an explicit order. Generation-3 onward contracts gain the same UI without changing their catalog identity or save schema. See [PLANNING.md](PLANNING.md).

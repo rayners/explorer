@@ -1,3 +1,9 @@
+import {
+  planningSummary,
+  projectOffers,
+  routePlanPanel,
+  preparationPanel,
+} from '../ui/planning-panels';
 import { proficiencyLabel, proficiencyHelp } from '../ui/proficiency';
 import { chartLines } from '../ui/world-map';
 import { missionDiscovered } from '../engine/missions';
@@ -33,6 +39,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
     tab = 'chronicle',
     region = 'hearth',
     lastRegion = '',
+    plannedTarget: string | null = null,
     signature = '',
     toast: ReturnType<typeof setTimeout>,
     confirmAction: (() => void) | null = null,
@@ -147,7 +154,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   function actionCard(id: string) {
     const a = g.activities.find((a) => a.id === id)!,
       preview = activityPreview(g, s, id);
-    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}</article>`;
+    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${a.mission ? preparationPanel(g, s, a.mission, 'work') : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}</article>`;
   }
   function chronicle() {
     const v = view(g, s),
@@ -160,7 +167,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       knownRegions = new Set(
         g.locations.filter((l) => s.known.includes(l.id)).map((l) => l.region),
       );
-    return `${panel('The roads beyond', `<div class="map fantasy-map">${chartLines(g)}${g.regions.map((r) => `<button class="star-button ${r.id === region ? 'selected' : ''}" data-region="${r.id}" style="left:${r.x}%;top:${r.y}%;--star:${r.color}" aria-label="${knownRegions.has(r.id) ? r.name : 'Uncharted realm'}"><span class="star" aria-hidden="true">♜</span><small>${knownRegions.has(r.id) ? esc(r.name) : 'UNCHARTED'}</small></button>`).join('')}</div><p>Roads connect particular places: passes, sanctuaries, and woodland paths. Every leg is ordered separately.</p>`)}<div class="section-label">${esc(selected.name)} / ${esc(selected.subtitle)}</div><div class="route-list">${
+    return `${plannedTarget ? routePlanPanel(g, s, plannedTarget, button) : ''}${panel('The roads beyond', `<div class="map fantasy-map">${chartLines(g)}${g.regions.map((r) => `<button class="star-button ${r.id === region ? 'selected' : ''}" data-region="${r.id}" style="left:${r.x}%;top:${r.y}%;--star:${r.color}" aria-label="${knownRegions.has(r.id) ? r.name : 'Uncharted realm'}"><span class="star" aria-hidden="true">♜</span><small>${knownRegions.has(r.id) ? esc(r.name) : 'UNCHARTED'}</small></button>`).join('')}</div><p>Roads connect particular places: passes, sanctuaries, and woodland paths. Every leg is ordered separately.</p>`)}<div class="section-label">${esc(selected.name)} / ${esc(selected.subtitle)}</div><div class="route-list">${
       g.locations
         .filter((l) => l.region === region && s.known.includes(l.id))
         .map((l) => {
@@ -207,7 +214,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   }
   function company() {
     const loc = view(g, s).location;
-    return `${members()}<p class="proficiency-help">${proficiencyHelp}</p><div class="section-label">${loc.station ? 'Refuge duties' : 'Expedition work'} / ${esc(loc.name)}</div><div class="activity-grid">${g.activities
+    return `${followUpWork(g, s, actionCard)}${members()}<p class="proficiency-help">${proficiencyHelp}</p><div class="section-label">${loc.station ? 'Refuge duties' : 'Expedition work'} / ${esc(loc.name)}</div><div class="activity-grid">${g.activities
       .filter(
         (a) =>
           a.slot === 'primary' &&
@@ -218,7 +225,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       .map((a) => actionCard(a.id))
       .join(
         '',
-      )}</div>${sitePanel(g, s, (label, command, primary) => button(label, command, primary, false))}${followUpWork(g, s, actionCard)}<div class="section-label">Support duties</div><div class="activity-grid">${g.activities
+      )}</div>${sitePanel(g, s, (label, command, primary) => button(label, command, primary, false))}<div class="section-label">Support duties</div><div class="activity-grid">${g.activities
       .filter((a) => a.slot === 'support' && (a.at === 'any' || loc.station))
       .map((a) => actionCard(a.id))
       .join(
@@ -226,7 +233,12 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       )}</div><div class="section-label">Charters & equipment / INSTALL AT A REFUGE</div><div class="activity-grid">${g.upgrades.map((u) => `<article class="activity-card"><h3>${esc(u.name)}</h3><p>${esc(u.description)}</p><small>${esc(amounts(u.cost))}</small>${s.upgrades.includes(u.id) ? '<span class="badge green">ACQUIRED</span>' : button('Acquire ' + u.name, { type: 'upgrade', id: u.id })}</article>`).join('')}</div>`;
   }
   function refuge() {
-    return `<div class="faction-grid">${g.factions.map((f) => `<article class="faction-card" style="--faction:${f.color}"><h3>${esc(f.name)}</h3><p>${esc(f.description)}</p><span class="faction-score">${s.reputation[f.id]}</span></article>`).join('')}</div><div class="section-label">The provisioner / ${cargo(g, s)} OF ${s.capacity} PACK SPACE</div>${panel(
+    const missionCard = (id: string) => {
+      const m = g.missions.find((mission) => mission.id === id)!;
+      const state = s.missions.find((x) => x.id === m.id);
+      return `<article class="activity-card"><h3>${esc(m.name)}</h3><p>${esc(m.description)}</p>${followUpBrief(g, s, m.id)}<small>${esc(amounts(m.reward))}</small>${state?.claimed ? '<span class="badge green">FULFILLED</span>' : state ? `<span class="mission-status">${state.progress} / ${m.objective.count}</span>${button('Report completed oath', { type: 'claim', id: m.id }, true)}${button('Release oath', { type: 'abandon', id: m.id })}` : button('Accept oath', { type: 'accept', id: m.id }, true)}</article>`;
+    };
+    return `${projectOffers(g, s, missionCard)}<div class="faction-grid">${g.factions.map((f) => `<article class="faction-card" style="--faction:${f.color}"><h3>${esc(f.name)}</h3><p>${esc(f.description)}</p><span class="faction-score">${s.reputation[f.id]}</span></article>`).join('')}</div><div class="section-label">The provisioner / ${cargo(g, s)} OF ${s.capacity} PACK SPACE</div>${panel(
       'Provisions',
       g.resources
         .filter((r) => r.id !== 'gold')
@@ -236,11 +248,12 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         )
         .join(''),
     )}<div class="section-label">Company recruitment</div>${discoveryHistory(g, s)}${recruitmentPanel(g, s, button)}<div class="section-label">Oaths & contracts / UP TO THREE ACTIVE</div><div class="activity-grid">${g.missions
-      .filter((m) => missionDiscovered(g, s, m))
-      .map((m) => {
-        const state = s.missions.find((x) => x.id === m.id);
-        return `<article class="activity-card"><h3>${esc(m.name)}</h3><p>${esc(m.description)}</p>${followUpBrief(g, s, m.id)}<small>${esc(amounts(m.reward))}</small>${state?.claimed ? '<span class="badge green">FULFILLED</span>' : state ? `<span class="mission-status">${state.progress} / ${m.objective.count}</span>${button('Report completed oath', { type: 'claim', id: m.id }, true)}${button('Release oath', { type: 'abandon', id: m.id })}` : button('Accept oath', { type: 'accept', id: m.id }, true)}</article>`;
-      })
+      .filter(
+        (m) =>
+          missionDiscovered(g, s, m) &&
+          (!m.discoveryChoice || s.missions.some((saved) => saved.id === m.id)),
+      )
+      .map((m) => missionCard(m.id))
       .join(
         '',
       )}</div><div style="margin-top:20px">${panel('The chroniclers', `<p>Sell unpublished field chronicles for 90 crowns per place. The buyer gains an exclusive claim: local standing rises and a rival loses standing.</p><div class="row-actions">${button('Sell field chronicles', { type: 'sellData' })}</div>`)}</div>`;
@@ -249,9 +262,19 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
     s = state;
     g = definition;
     const v = view(g, s);
+    if (
+      plannedTarget &&
+      !g.locations.some(
+        (location) => location.id === plannedTarget && s.known.includes(location.id),
+      )
+    )
+      plannedTarget = null;
     if (lastRegion !== v.region.id) {
       lastRegion = v.region.id;
-      region = v.region.id;
+      region =
+        plannedTarget && tab === 'journey'
+          ? g.locations.find((location) => location.id === plannedTarget)!.region
+          : v.region.id;
     }
     root.querySelector('#breadcrumb')!.textContent = `${v.region.name} · ${v.location.name}`;
     root.querySelector('#save-status')!.textContent = controller.storageStatus();
@@ -306,7 +329,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.9<br><a href="../?games=1">All games</a></span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${planningSummary(g, s)}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.10<br><a href="../?games=1">All games</a></span></footer>`;
       for (const el of root.querySelectorAll<HTMLElement>('[data-tab]'))
         el.setAttribute('aria-current', el.dataset.tab === tab ? 'page' : 'false');
       const canvas = main.querySelector<HTMLCanvasElement>('#fantasy-scene');
@@ -341,6 +364,34 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   root.addEventListener('click', async (event) => {
     const target = (event.target as Element).closest<HTMLElement>('button');
     if (!target) return;
+    if (target.dataset.routeTarget) {
+      const destination = g.locations.find(
+        (location) => location.id === target.dataset.routeTarget && s.known.includes(location.id),
+      );
+      if (!destination) return;
+      plannedTarget = destination.id;
+      region = destination.region;
+      tab = 'journey';
+      update(s, g, true);
+      main.querySelector<HTMLElement>('#route-plan-title')?.focus();
+      main.querySelector('#route-plan-title')?.scrollIntoView({ block: 'start' });
+      return;
+    }
+    if (target.dataset.planningView) {
+      const view = target.dataset.planningView;
+      tab = view === 'board' || view === 'supplies' ? 'refuge' : 'company';
+      update(s, g, true);
+      const focus =
+        view === 'crew'
+          ? main.querySelector<HTMLElement>('.crew-row')
+          : view === 'supplies'
+            ? main.querySelector<HTMLElement>('.trade-row')
+            : main;
+      focus?.setAttribute('tabindex', '-1');
+      focus?.focus();
+      focus?.scrollIntoView({ block: 'start' });
+      return;
+    }
     if (target.dataset.tab) {
       tab = target.dataset.tab;
       update(s, g, true);
@@ -348,6 +399,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       return;
     }
     if (target.dataset.region) {
+      plannedTarget = null;
       region = target.dataset.region;
       update(s, g, true);
       return;

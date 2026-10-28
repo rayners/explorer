@@ -95,3 +95,12 @@ Live v0.8 checks passed in iPhone WebKit for both themes: offline rescue joining
 - Check portrait/landscape scrolling, touch controls and long generated names on the project card. Confirm old expeditions retain their catalogs and exports.
 
 Automated browser tests cover desktop Chromium and iPhone/tablet WebKit flows; production offline cases cover completion and filing in both themes. Emulation is not a physical-device pass.
+
+## Expedition planning (v0.10) — physical checks pending
+
+- On the physical iPhone 15 Pro Max, open both a current expedition and an older save with bound discovery work. Use the discovery-work summary to find the board and accepted work. Confirm optional faction projects appear before ordinary offers.
+- Review simultaneous missing supplies and specialist assignment gaps. Verify a resting/support specialist is distinguished from an absent/dead specialist and Review team/supplies takes you to usable controls.
+- Plot a source route: the correct system/realm and route preview must open, with no supplies spent. Order each leg explicitly, including Far Wake cryosleep confirmation; the remaining route updates after arrival. Check keyboard focus and portrait/landscape scrolling.
+- Suspend Safari during paid work. On resume it must not demand the same supplies/staff again; completed receipts must show return-to-hub and filing guidance. Check offline route plotting/explicit travel, reload, and Home Screen launches. Existing saves need no reset.
+
+Automated WebKit emulation does not close these physical-device steps.
