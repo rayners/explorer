@@ -26,3 +26,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 Requirements describe what was requested. Decisions describe the implementation chosen to satisfy it. Roadmap entries describe future possibilities unless explicitly marked implemented. Keep these distinctions when updating the documents.
 
 Documentation baseline: v0.11.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
+
+Independent reviews:
+
+- [Game design review, 2026-10-28](reviews/DESIGN-REVIEW-2026-10-28.md): exploration, pacing, rewards, crew choices and theme identity in both games. Recommendations are proposals, not approved specifications.

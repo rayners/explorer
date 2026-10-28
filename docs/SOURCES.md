@@ -98,3 +98,7 @@ The user approved the proposal to improve discovery-project visibility, preparat
 ## Discovery variety, v0.11 (2026-10-28)
 
 The user approved proceeding with the next roadmap candidate: more discoveries/missions with different supplies, specialists, rewards and follow-up work (“Go ahead”). [VARIETY.md](VARIETY.md) records the chosen six encounters, twelve branches, team profiles and safe alternatives. These numerical terms and catalog generation 7 are implementation decisions. No unbounded procedural campaign, autonomous faction system or roguelite progression is inferred. Released v0.10 commit `c2723f8` supplies captured generation-6 paid-project fixtures.
+
+## Independent game design review (2026-10-28)
+
+The user requested a separate agent's design review of both games. The [retained review](reviews/DESIGN-REVIEW-2026-10-28.md) records its evidence, limitations and prioritized recommendations against v0.11. This request authorizes review; the recommendations are proposals rather than new user requirements or approved gameplay changes.
