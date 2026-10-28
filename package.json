@@ -15,7 +15,8 @@
     "test:offline": "playwright test --config playwright.offline.config.ts",
     "screenshots": "tsx scripts/screenshots.ts",
     "format": "prettier --write .",
-    "simulate:world": "tsx scripts/simulate-world.ts"
+    "simulate:world": "tsx scripts/simulate-world.ts",
+    "audit:expeditions": "tsx scripts/audit-expeditions.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

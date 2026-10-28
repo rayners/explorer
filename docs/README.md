@@ -13,6 +13,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [VARIETY.md](VARIETY.md)           | Versioned encounter variety, team roles and safe alternatives           |
 | [PLANNING.md](PLANNING.md)         | Expedition preparation, next steps and contract-linked routes           |
 | [READABILITY.md](READABILITY.md)   | Current directives, accepted-work hierarchy and responsive readability   |
+| [EXPEDITION-AUDIT.md](EXPEDITION-AUDIT.md) | Reproducible return-commission economics and single-order check-in behavior |
 | [PROJECTS.md](PROJECTS.md)         | Implemented faction projects linked to settled discovery choices        |
 | [CREW.md](CREW.md)                 | Crew proficiency, lasting opportunities and migration contract          |
 | [WORLDS.md](WORLDS.md)             | Generated layouts, reachability guarantees and version compatibility    |

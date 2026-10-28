@@ -67,6 +67,7 @@ PAGES_BASE_PATH=/explorer/ npm run build
 PAGES_BASE_PATH=/explorer/ npm run test:offline
 npm run simulate
 npm run simulate:world
+npm run audit:expeditions
 ```
 
 Playwright requires Chromium and WebKit (`npx playwright install chromium webkit`) and their platform libraries. The browser suite uses desktop Chromium and actual WebKit with iPhone/iPad settings. Offline tests serve an existing production build on port 5200; ordinary browser tests use Vite on 5199. Match the build and offline test base paths.

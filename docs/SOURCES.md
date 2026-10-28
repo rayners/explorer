@@ -108,3 +108,5 @@ The user subsequently requested a visual design review as well. A separate agent
 ## Readability implementation (v0.12)
 
 The ongoing roadmap instruction authorizes selecting the next bounded improvement after the reviews. [READABILITY.md](READABILITY.md) records that selection: current directives, readable operational text, scannable accepted-work cards and short landscape framing. These are implementation choices informed by review evidence, not a claim that every review recommendation was independently approved. Changes to expedition rewards, longer safe orders, world consequences and contextual generation remain later candidates.
+
+The following [expedition audit](EXPEDITION-AUDIT.md) implements the next evidence-gathering item under the same ongoing instruction. Its eight-seed catalog benchmarks and actual shift catch-up probes are reproducible local measurements, with optimistic staffing/route assumptions and unpriced discovery/faction value explicitly documented. They are not player-retention research or independent approval of a new economy.

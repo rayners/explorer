@@ -4,7 +4,11 @@ Baseline: v0.12.0, 2026-10-28. This is a status and design queue, not a release 
 
 ## Active implementation queue
 
-**Implemented locally after the reviews: readability and action hierarchy (v0.12).** [READABILITY.md](READABILITY.md) selects a shared presentation slice: early overview directives, scannable accepted-work cards, readable stock/decision text and short-height landscape layouts. This uses the ongoing roadmap authorization; it does not adopt every review proposal. After delivery, design the expedition-value/session-cadence audit before expanding the content catalog.
+**Delivered after the reviews: readability and action hierarchy (v0.12).** [READABILITY.md](READABILITY.md) records early overview directives, scannable accepted-work cards, readable stock/decision text and short-height landscape layouts. Pages deployment and live checks passed. This uses the ongoing roadmap authorization; it does not adopt every review proposal.
+
+**Following evidence item completed: expedition value/session cadence.** [EXPEDITION-AUDIT.md](EXPEDITION-AUDIT.md) and its retained report compare eight-seed return commissions, same-destination bundles, nearby hubs and actual single-shift catch-up. It is a reproducible optimistic benchmark, not player research or a reward rebalance.
+
+**Next design work: explicitly chosen longer safe orders.** Specify eligibility, bounded duration/returns, practice and save/catalog compatibility before implementation. Keep short active play, recovery wages, explicit journeys and safe absence. Destination bundles, one changed-place consequence per theme and contextual discovery selection follow as separately scoped candidates; no automatic queue, passive upkeep or roguelite reset is implied.
 
 User direction (2026-10-28): keep working through the roadmap, recording decisions and moving to the next item after each verified delivery.
 
@@ -104,7 +108,7 @@ Both games surface unlocked faction projects before ordinary board offers and ex
 
 New generation 7 retains previous geography/names/sites and adds three discoveries per theme with material, personnel, knowledge and faction consequences. Twelve distinct source-bound commissions include four support field jobs and three mixed-team preparations. Original defaults/paid jobs remain frozen; state schema 4/envelope 1 stay unchanged. Captured generation-6 paid-project saves and generation-7 full-definition fixtures guard compatibility. Both campaign simulators pass. Design: [VARIETY.md](VARIETY.md). Local checks passed: 150 unit tests, 96 browser cases, 28 production offline cases, typecheck/Pages build and both campaign simulators. Published live verification passed; physical iPhone acceptance remains pending.
 
-Next design candidate, not an approved specification: contextual discovery selection, using site traits and expedition history to vary the mix of event families and useful clues. Define bounded weights, onboarding protection and version compatibility before changing the generator. Full procedural campaigns, roguelite progression and autonomous factions remain deferred.
+Later design candidate, not an approved specification: contextual discovery selection, using site traits and expedition history to vary the mix of event families and useful clues. Define bounded weights, onboarding protection and version compatibility before changing the generator. Full procedural campaigns, roguelite progression and autonomous factions remain deferred.
 
 The user-requested [independent design review](reviews/DESIGN-REVIEW-2026-10-28.md) recommends auditing expedition value and session cadence before further content expansion, then prototyping one visible changed-place consequence per theme. These are review proposals; this note does not approve them or replace the implementation queue. The review includes evidence, limitations and theme-specific findings.
 
