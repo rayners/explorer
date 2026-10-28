@@ -1,7 +1,7 @@
 import { it, expect } from 'vitest';
 import { simulate } from '../scripts/simulate';
 import { iconPixels } from '../scripts/make-icons';
-it('sustains an expedition through all systems across eight deterministic seeds', () => {
+it('sustains a released generation-3 expedition through all systems across eight deterministic seeds', () => {
   for (const seed of [1701, 1, 7, 44, 91, 812, 2026, 4294967295]) {
     const result = simulate(seed);
     expect(result.surveyed).toBe(12);

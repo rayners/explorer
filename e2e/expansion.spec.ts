@@ -394,7 +394,7 @@ test('released worlds retain their original names across import, secondary-tab u
   await page.getByRole('button', { name: 'Start a new expedition', exact: true }).click();
   await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
   const fresh = createGame(91);
-  expect((await state(page)).generationVersion).toBe(3);
+  expect((await state(page)).generationVersion).toBe(4);
   expect((await state(page)).crew.map((member: any) => member.name)).toEqual(
     fresh.initial.crew.map((member) => member.name),
   );
@@ -555,6 +555,85 @@ test('an explored site creates a follow-up with accepted field work and one-time
     expect(
       (await state(page, fantasy)).missions.find((entry: any) => entry.id === mission.id).claimed,
     ).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+  }
+});
+
+test('generated worlds show actual connections and preserve journeys to optional places through import and reload', async ({
+  page,
+}, testInfo) => {
+  const initialViewport = page.viewportSize()!;
+  for (const fantasy of [false, true]) {
+    await page.setViewportSize(initialViewport);
+    const seed = fantasy ? 2026 : 44;
+    const game = fantasy ? createHollowmere(seed) : createGame(seed);
+    const added = game.locations.find((l) => l.id.includes('generated') && !l.station)!;
+    const edge = game.routes.find(
+      (r) => !r.interregional && (r.from === added.id || r.to === added.id),
+    )!;
+    const start = createState(game, seed);
+    start.location = edge.from === added.id ? edge.to : edge.from;
+    start.known = game.locations.map((l) => l.id);
+    start.discoveries = Object.fromEntries(
+      game.locations.map((l) => [l.id, { surveyed: l.station, sites: [], dataSold: false }]),
+    );
+    await open(page, `/${game.id}/`);
+    await importState(page, encodeSave(start, Date.now()));
+    await nav(page, fantasy ? 'journey' : 'navigation');
+    await expect(page.locator('.star-button')).toHaveCount(game.regions.length);
+    await expect(page.locator('.map-lines path')).toHaveCount(
+      game.routes.filter((r) => r.interregional).length,
+    );
+    const buttons = await page.locator('.star-button').all();
+    for (let i = 0; i < buttons.length; i++) {
+      const a = (await buttons[i].boundingBox())!;
+      expect(a.height).toBeGreaterThanOrEqual(44);
+      expect(a.width).toBeGreaterThanOrEqual(44);
+      for (let j = i + 1; j < buttons.length; j++) {
+        const b = (await buttons[j].boundingBox())!;
+        expect(
+          a.x + a.width <= b.x ||
+            b.x + b.width <= a.x ||
+            a.y + a.height <= b.y ||
+            b.y + b.height <= a.y,
+        ).toBe(true);
+      }
+    }
+    const region = game.regions.find((r) => r.id === added.region)!;
+    await page.locator(`[data-region="${region.id}"]`).click();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    if (testInfo.project.name === 'iphone')
+      await page.screenshot({ path: `/tmp/${game.id}-generated-world.png`, fullPage: true });
+    const card = page
+      .locator('.route-card')
+      .filter({ has: page.getByRole('heading', { name: added.name, exact: true }) });
+    await expect(card).toContainText(/real/i);
+    await card
+      .getByRole('button', { name: fantasy ? 'Travel' : 'Set course', exact: true })
+      .click();
+    expect((await state(page, fantasy)).primary.target).toBe(added.id);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await state(page, fantasy)).generationVersion).toBe(4);
+    expect((await state(page, fantasy)).primary.target).toBe(added.id);
+    await next(page, 120, fantasy);
+    await escape(page, fantasy);
+    expect((await state(page, fantasy)).location).toBe(added.id);
+    await nav(page, fantasy ? 'company' : 'operations');
+    await beginActivity(page, fantasy ? 'Read the signs' : 'Orbital survey');
+    await next(page, 120, fantasy);
+    await escape(page, fantasy);
+    await expect(page.locator('.site-card')).toHaveCount(3);
+    const saved = await state(page, fantasy);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await state(page, fantasy)).discoveries[added.id]).toEqual(saved.discoveries[added.id]);
+    await page.setViewportSize({ width: 932, height: 430 });
+    await nav(page, fantasy ? 'journey' : 'navigation');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );

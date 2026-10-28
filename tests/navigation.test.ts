@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { createGame } from '../src/game/definition';
 import { createState, dispatch, routesFrom } from '../src/engine/simulation';
 import { planRoute } from '../src/engine/navigation';
-const game = createGame(1701);
+const game = createGame(1701, 3);
 describe('planning journeys between systems', () => {
   it('allows departure from every location in a system without a planetary stopover', () => {
     for (const origin of game.locations.filter((l) => l.region === 'vesper')) {

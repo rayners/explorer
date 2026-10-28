@@ -213,7 +213,7 @@ test('selected generated-site expeditions finish exactly once across production 
       (key) => JSON.parse(localStorage.getItem(key)!).state,
       `${game.id}.save.v1`,
     );
-    expect(saved.generationVersion).toBe(3);
+    expect(saved.generationVersion).toBe(game.generationVersion);
     expect(saved.discoveries[location].sites).toEqual([site.id]);
     expect(saved.inventory).toEqual(expected.inventory);
     expect(saved.primary).toBeNull();
@@ -355,6 +355,63 @@ test('discovery follow-ups can be filed offline with one durable payment in both
       state.inventory[game.rules.currency] + mission.reward[game.rules.currency],
     );
     expect(saved.missions.find((entry: any) => entry.id === mission.id).claimed).toBe(true);
+  }
+  await context.setOffline(false);
+});
+
+test('generated-world journeys catch up once and query-string game URLs keep their theme offline', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  for (const factory of [createGame, createHollowmere]) {
+    const game = factory(1),
+      added = game.locations.find((l) => l.id.includes('generated') && !l.station)!;
+    const edge = game.routes.find(
+      (r) => !r.interregional && (r.from === added.id || r.to === added.id),
+    )!;
+    const state = createState(game, 1);
+    state.location = edge.from === added.id ? edge.to : edge.from;
+    state.known = game.locations.map((l) => l.id);
+    state.discoveries = Object.fromEntries(
+      game.locations.map((l) => [l.id, { surveyed: l.station, sites: [], dataSold: false }]),
+    );
+    const started = dispatch(game, state, { type: 'travel', target: added.id });
+    expect(started.error).toBeUndefined();
+    await page.addInitScript(
+      ({ key, raw }) => {
+        if (!sessionStorage.getItem(key)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(key, 'yes');
+        }
+      },
+      { key: `${game.id}.save.v1`, raw: encodeSave(started.state, Date.now() - 120000) },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${game.id}/?expedition=1`, baseURL).href);
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const read = () =>
+      page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, `${game.id}.save.v1`);
+    const arrived = await read();
+    expect(arrived.location).toBe(added.id);
+    expect(arrived.generationVersion).toBe(4);
+    expect(arrived.primary).toBeNull();
+    expect(arrived.inventory).toEqual(started.state.inventory);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const again = await read();
+    expect(again.location).toBe(added.id);
+    expect(again.calendarDays).toBe(arrived.calendarDays);
+    expect(again.inventory).toEqual(arrived.inventory);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
   }
   await context.setOffline(false);
 });

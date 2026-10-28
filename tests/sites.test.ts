@@ -35,11 +35,11 @@ function order(
 it('generates meaningful, deterministic, bounded site catalogs in both themes without altering old names or geography', () => {
   for (const factory of [createGame, createHollowmere])
     for (const seed of [1, 7, 44, 1701, 4294967295]) {
-      const game = factory(seed),
+      const game = factory(seed, 3),
         old = factory(seed, 2);
       expect(game.generationVersion).toBe(3);
-      expect(game).toEqual(factory(seed));
-      expect(game.sites).not.toEqual(factory(seed + (seed < 4294967295 ? 1 : -1)).sites);
+      expect(game).toEqual(factory(seed, 3));
+      expect(game.sites).not.toEqual(factory(seed + (seed < 4294967295 ? 1 : -1), 3).sites);
       expect(game.locations.map((location) => location.name)).toEqual(
         old.locations.map((location) => location.name),
       );

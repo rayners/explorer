@@ -68,3 +68,11 @@ Physical iPhone checks remain pending: survey a location, expand an approach car
 Automated checks cover contextual catalogs, valid references, hidden offers before exploration, source eligibility, acceptance/field-role/location/cost checks, active limits, standing, committed work, retained completed receipts, release/reaccept behavior, exact-once filing, offline work/filing, and invalid import references. Fixtures from released v0.5 preserve paid orders and discoveries. Full browser journeys run in both games across all device projects.
 
 Physical iPhone checks remain pending: discover a site, find its follow-up at a hub, read the work supplies and required roles, accept it, navigate back and perform the work, lock/close during the timer, then return to file. Check long generated headings and visible unavailable-action reasons in portrait/landscape.
+
+## v0.7 generated-world checks
+
+Local validation: 120 unit tests, 78 browser cases and 16 production offline cases passed.
+
+Automated coverage freezes complete old/new catalogs, checks 100 layouts per theme for connected graphs/hubs/valid content, preserves intro routes, saves optional-place travel and explores full campaigns across eight seeds per theme. Browser checks cover real chart edges, 44px non-overlapping targets, imported generated maps, optional destinations, reloads and portrait/landscape overflow. Production cases verify generated travel catches up once and query-string game URLs retain the correct theme offline.
+
+Physical iPhone checks remain pending: export current progress before trying a fresh seed; verify different charts and optional places, first-goal completion, intermediate routes with visible time/cost, recovery from a new place, suspension during travel, and offline reload of a bookmarked URL with a query string. Check names and chart targets in both orientations. Restore an older backup and confirm its map is unchanged.

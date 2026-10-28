@@ -1,4 +1,4 @@
-# Far Wake v0.6 design
+# Far Wake v0.7 design
 
 Generation-1 names below describe the authored setting. Generation-2 and generation-3 expeditions use seeded names for people, factions, regions and locations while keeping the same roles, routes and mechanics; see [NAMES.md](NAMES.md).
 
@@ -16,7 +16,7 @@ Faction politics begins with exclusive data licensing, relief deliveries, missio
 
 Recruitment offers four specialist roles. Four starting berths can become eight through accommodation upgrades. Living members occupy capacity and contribute skills; casualties remain in the roster as memorial records but occupy no berths. An emergency relief hand is free only if no crew survive, preserving recovery from a total loss.
 
-The galaxy has an authored topology so every route and introductory contract can be tested. Seeded frontier yields and site identifiers demonstrate the generation seam. Full procedural campaigns and roguelite rules are deferred.
+Fresh generation-4 galaxies retain authored story anchors and the first local/outbound journey, then generate connected local/regional graphs and optional places/systems. Every system has a station. Generations 1–3 retain their authored topology. See [WORLDS.md](WORLDS.md). Roguelite rules remain deferred.
 
 ## Later versions
 
@@ -49,3 +49,5 @@ Fresh generation-3 expeditions generate site origins, conditions, opportunities 
 ## Discovery follow-ups
 
 Explored generation-3 sites unlock station contracts for restored access, archive recovery, replacement stores, traffic assessment or extended studies. Their type comes from site traits; the source owner receives the report and standing. Accept at a hub, prepare resources/roles, perform the named field work from Operations and return to file. Costs are paid on order and payment follows filing once. Existing generation-3 discoveries gain these optional goals without a reset; generations 1/2 remain unchanged. See [MISSIONS.md](MISSIONS.md).
+
+Generation 4 applies the same naming, site and discovery-contract mechanisms to its additional worlds; all base mission targets and the optional specimen investigation remain available.

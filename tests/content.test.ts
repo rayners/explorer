@@ -10,16 +10,16 @@ describe('content and isolation', () => {
   });
   it('has connected routes, unique identities, valid resources and reachable missions', () => {
     const ids = g.locations.map((l) => l.id);
-    expect(new Set(ids).size).toBe(16);
+    expect(new Set(ids).size).toBe(ids.length);
     const visited = new Set([ids[0]]);
-    for (let i = 0; i < 16; i++)
+    for (let i = 0; i < ids.length; i++)
       for (const r of g.routes) {
         expect(ids).toContain(r.from);
         expect(ids).toContain(r.to);
         if (visited.has(r.from)) visited.add(r.to);
         if (visited.has(r.to)) visited.add(r.from);
       }
-    expect(visited.size).toBe(16);
+    expect(visited.size).toBe(ids.length);
     expect(g.missions.filter((mission) => !mission.sourceSite).length).toBe(13);
     for (const m of g.missions) {
       if (m.requires) expect(g.missions.some((x) => x.id === m.requires)).toBe(true);

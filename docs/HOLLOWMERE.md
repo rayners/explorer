@@ -40,3 +40,7 @@ Fresh generation-3 companies discover generated shelters, shrines, ruins, encamp
 ## Follow-up oaths (v0.6)
 
 Explored generation-3 sites unlock a follow-up oath at refuges. Its source, patron, required supplies and any class requirement are shown before acceptance. Return to the named place and use Company’s accepted field-work section, then report at any refuge for payment and standing. Renew rites, restore paths, recover lore, replenish stores, keep watch or trace older routes according to the discovery. Completed work is retained until reported and cannot be repeated for more payment. Earlier generation-3 discoveries gain these offers without a reset.
+
+## Generated realms (v0.7)
+
+Fresh generation-4 companies explore three to five connected realms with optional places and service refuges. The first road and first outbound connection keep their pacing; other paths vary by seed. Authored story anchors, including the optional crypt investigation, remain. Charts draw actual road connections, and multi-leg routes show total/next-leg effort and costs. Earlier saves retain their maps. See [WORLDS.md](WORLDS.md).

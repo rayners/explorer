@@ -12,7 +12,7 @@ it('is an independent seeded game with a connected realm and valid content refer
       if (visited.has(r.from)) visited.add(r.to);
       if (visited.has(r.to)) visited.add(r.from);
     }
-  expect(visited.size).toBe(9);
+  expect(visited.size).toBe(game.locations.length);
   for (const a of game.activities) {
     for (const id of Object.keys({ ...a.cost, ...a.reward }))
       expect(game.resources.some((r) => r.id === id)).toBe(true);

@@ -98,3 +98,7 @@ Schema 3 initializes an empty ledger and cooldown when loading schema 2, after c
 `MissionDef.sourceSite` gates offer visibility and acceptance through `missionDiscovered`. `ActivityDef.mission` binds work to an accepted unfinished contract. Ordinary activity jobs pay costs and resolve an activity-ID objective once; their immediate reward is empty. Mission claiming is the sole payment. Bound work cannot be abandoned underway, and completed work remains in the mission ledger until claimed. This reuses state schema 3 rather than introducing a parallel receipt store.
 
 `src/ui/mission-panels.ts` supplies actual work-cost/role previews and accepted-work sections to both themes. Save validation checks source discoveries and rejects dangling/already-completed bound jobs. Released v0.5 fixtures preserve old paid orders; the new follow-up catalog has its own frozen fixture. See [MISSIONS.md](MISSIONS.md).
+
+## Generated worlds (v0.7)
+
+Factories assemble authored story anchors, then generation-4 layouts (`engine/world-generation.ts`, `content/worlds.ts`, themed `world.ts` recipes), then names, sites and contextual missions. Pure graph/population algorithms remain inside the engine; theme vocabulary/resource IDs remain outside it. Versions 1–3 skip layout assembly entirely. Both charts draw actual interregional links through `ui/world-map.ts`; campaign simulation navigates known routes rather than fixed destination lists. See [WORLDS.md](WORLDS.md) for frozen catalog identities and guarantees.

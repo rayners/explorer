@@ -1,6 +1,6 @@
 {
   "name": "far-wake",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -14,7 +14,8 @@
     "icons": "tsx scripts/make-icons.ts",
     "test:offline": "playwright test --config playwright.offline.config.ts",
     "screenshots": "tsx scripts/screenshots.ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "simulate:world": "tsx scripts/simulate-world.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

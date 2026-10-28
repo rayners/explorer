@@ -1,3 +1,5 @@
+import { finishWorld } from '../content/worlds';
+import { scienceFictionWorld } from './world';
 import { finishFollowUps } from '../content/missions';
 import { scienceFictionFollowUps } from './missions';
 import { finishSites } from '../content/sites';
@@ -6,8 +8,8 @@ import { finishNamedDefinition } from '../content/names';
 import { scienceFictionNames } from './names';
 import type { GameDefinition, LocationDef, MissionDef, RouteDef } from '../engine/types';
 import { generator } from '../engine/random';
-/** Stable frontier geography; generation v1 retains authored names, v2 generates display names. */
-export function createGame(seed = 1701, generationVersion = 3): GameDefinition {
+/** Rebuild the saved content generation; fresh expeditions use generated layouts. */
+export function createGame(seed = 1701, generationVersion = 4): GameDefinition {
   const rng = generator(seed);
   const regions = [
     {
@@ -802,7 +804,12 @@ export function createGame(seed = 1701, generationVersion = 3): GameDefinition {
   };
   return finishFollowUps(
     finishSites(
-      finishNamedDefinition(definition, seed, generationVersion, scienceFictionNames),
+      finishNamedDefinition(
+        finishWorld(definition, seed, generationVersion, scienceFictionWorld),
+        seed,
+        generationVersion,
+        scienceFictionNames,
+      ),
       seed,
       scienceFictionSites,
     ),

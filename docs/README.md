@@ -10,6 +10,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [ENGINE.md](ENGINE.md)             | Engine integration API, content contracts, time and save semantics      |
 | [DESIGN.md](DESIGN.md)             | Far Wake setting, gameplay loop, pacing and internal threat             |
 | [HOLLOWMERE.md](HOLLOWMERE.md)     | Fantasy setting, party roles, curse and recovery                        |
+| [WORLDS.md](WORLDS.md)             | Generated layouts, reachability guarantees and version compatibility    |
 | [MISSIONS.md](MISSIONS.md)         | Discovery-derived contracts, accepted field work and payment accounting |
 | [SITES.md](SITES.md)               | Generated site traits, approaches, compatibility and follow-up work     |
 | [NAMES.md](NAMES.md)               | Seeded name generation, compatibility and future generator extension    |
@@ -20,4 +21,4 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 
 Requirements describe what was requested. Decisions describe the implementation chosen to satisfy it. Roadmap entries describe future possibilities unless explicitly marked implemented. Keep these distinctions when updating the documents.
 
-Documentation baseline: v0.6.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
+Documentation baseline: v0.7.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.

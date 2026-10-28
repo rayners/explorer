@@ -3,8 +3,9 @@ import { advance, createState, dispatch, price, cargo } from '../src/engine/simu
 import type { Command, GameState } from '../src/engine/types';
 import { threatAlert } from '../src/engine/threats';
 import { pendingDiscovery } from '../src/engine/discoveries';
+/** Frozen generation-3 pacing guard; simulate-world.ts exercises fresh generated maps. */
 export function simulate(seed: number) {
-  const g = createGame(seed);
+  const g = createGame(seed, 3);
   let s = createState(g, seed),
     orders = 0;
   const doOrder = (c: Command) => {

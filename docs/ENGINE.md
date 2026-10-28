@@ -91,7 +91,7 @@ Far Wake’s historical manifest URL is retained at the site root. `farWakeManif
 
 ## Versioned name generation
 
-Factories for Far Wake and Hollowmere default to generation 3, retain 2 for generated-name/authored-site saves, and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
+Factories for Far Wake and Hollowmere default to generation 4, retain 3 for generated-site/authored-map saves and 2 for generated-name/authored-site saves, and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
 
 `generateName(seed, namespace, pattern, ordinal)` returns an indexed name; `allocateNames` fills a catalog of stable IDs without duplicate display names. Theme-owned `NamePattern` data supplies parts and a separator. A `RecruitDef.nameSource` supplies the pattern, namespace, ordinal offset and optional title; when absent, legacy `names` selection is unchanged. Recruitment previews and save validation use `recruitName` consistently. These functions do not touch `GameState.rng`. See [NAMES.md](NAMES.md) for frozen vocabulary and future extension rules.
 
@@ -112,3 +112,7 @@ The chosen profile supplies cost/reward/risk/effort and additional skill require
 `generateFollowUps(game,recipe)` derives missions and associated activities from site traits using theme-owned templates. Generated objectives reference the work activity ID and source location. Ordinary completion progresses them; it grants no combat-win credit. Work activities have empty immediate rewards, and filing pays their mission once. Existing active-contract limits, hub requirements and faction restrictions still apply.
 
 Abandonment is rejected while associated work is committed, and completed bound work is retained until filed. Unstarted contracts may be released/reaccepted. Claimed IDs remain in state and cannot be accepted again. Import validation checks source discoveries and accepted unfinished work references, avoiding a second saved completion ledger. Preserve the generated catalog for already accepted IDs when updating templates. See [MISSIONS.md](MISSIONS.md).
+
+## Generation-4 world assembly
+
+`generateWorld(seed, namespace, {regions, locations, routes}, recipe)` returns independent catalogs; `connectedGraph` builds connected seeded undirected graphs with optional required links. World recipes own kinds, yields, descriptions, factions, costs and time scales. Theme factories apply world assembly before names, sites and derived missions. Generation 4 is the new-expedition default; generations 1–3 reconstruct their frozen definitions. No state/envelope shape changes. Keep story-anchor IDs, protected routes, a connected local graph and hub per region, and a connected regional graph. Charts and route planning must use the returned catalogs. Full contract and acceptance: [WORLDS.md](WORLDS.md).

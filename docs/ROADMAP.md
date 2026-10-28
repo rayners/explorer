@@ -1,14 +1,14 @@
 # Roadmap and status
 
-Baseline: v0.6.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.7.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Active implementation queue
 
 User direction (2026-10-28): keep working through the roadmap, recording decisions and moving to the next item after each verified delivery.
 
 1. **Delivered v0.5: generated exploration sites.** Origin, condition, opportunity and complication affect available approaches, costs, rewards and risks in both games. Preserve old generations; design/acceptance: [SITES.md](SITES.md).
-2. **Implemented; validating delivery: missions derived from discoveries.** Create follow-up work from actual explored sites, factions and consequences, with saved identity, clear goals and hub completion. Design and acceptance: [MISSIONS.md](MISSIONS.md).
-3. **Next: generated system/realm layouts.** Vary topology and bodies/places while guaranteeing reachable service hubs, introductory goals and recovery. Version/persist generated references.
+2. **Delivered v0.6: missions derived from discoveries.** Create follow-up work from actual explored sites, factions and consequences, with saved identity, clear goals and hub completion. Design and acceptance: [MISSIONS.md](MISSIONS.md).
+3. **Implemented; validating delivery: generated system/realm layouts.** Vary topology and bodies/places while guaranteeing reachable service hubs, introductory goals and recovery. Version/persist generated references. Design and acceptance: [WORLDS.md](WORLDS.md). Generation-4 factories, connected graphs, optional regions/places, dynamic charts and actual-graph campaign simulation are implemented.
 4. **Queued: broaden lasting events and crew development.** Build on the earlier event candidates; prioritize opportunities and lasting decisions over repeated penalties.
 
 Full procedural campaigns are a staged direction now; this queue supersedes the earlier blanket deferral for these specific steps. Roguelite resets/metaprogression remain deferred. Physical iPhone checks still require the real device and remain explicitly pending; they do not block independent implementation.
@@ -59,7 +59,7 @@ This can precede a procedural galaxy; full procedural campaigns and roguelite pr
 
 ## Deferred at the user's request
 
-- Roguelite-scale procedural campaigns beyond the active staged queue; site generation is implemented, missions/layouts are next.
+- Roguelite-scale procedural campaigns beyond the active staged queue; sites and discovery-derived missions are delivered; layouts are being validated.
 - Roguelite run boundaries, loss/recovery policy and any persistent progression.
 
 Before implementation, settle generation-version compatibility, stable instance identity, saved generated content, guaranteed reachability and recoverability. Define how a new run differs from import/reset and what survives. No reset currency, unlock ladder or permadeath campaign has been approved.
@@ -72,3 +72,9 @@ Before implementation, settle generation-version compatibility, stable instance 
 - Additional settings built on the engine.
 
 These are possibilities from the design notes. Do not import clicker's Boardroom, act pacing, prestige, telemetry or game queue as explorer requirements. Design requested changes in writing before implementing them, keeping the game casual and the engine setting-independent.
+
+Mission delivery: commit `4e1ba25`; [Pages workflow](https://github.com/rayners/explorer/actions/runs/40640654891) succeeded. Canonical live game URLs passed iPhone WebKit checks for offline work receipts and one-time filing/payment in both themes. Query-string offline navigation exposed a separate service-worker issue addressed in v0.7.
+
+## Implemented in v0.7: generated layouts
+
+Fresh generation-4 expeditions vary region/place counts and travel graphs while protecting first journeys, all authored mission targets, local hubs and recovery. Both charts draw actual links and dynamic counts; Hollowmere explains multi-leg time/cost. Generations 1–3 retain exact full-definition fixtures. Query-string game URLs keep their theme offline. See [WORLDS.md](WORLDS.md); validation passed 120 unit tests, 78 browser cases and 16 production offline cases, plus both campaign simulators. Publication/live checks are in progress.

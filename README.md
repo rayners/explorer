@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.7
+
+Fresh expeditions generate connected maps with optional systems/realms and new places, each feeding into sites and discovery contracts. Far Wake has four to six systems; Hollowmere has three to five realms. First journeys, service hubs and recovery remain reliable. Existing saves keep their original maps; a different seed through Settings creates a new world using the existing backup/confirmation flow. Both charts show actual links, and multi-leg fantasy journeys explain time and supplies.
+
+Query-string game URLs also reload into the correct game offline. See [world generation](docs/WORLDS.md).
+
 ## New in v0.6
 
 Explored generated sites now unlock follow-up contracts in both games. Accept at a hub, bring the displayed supplies and crew, return to the source for field work, then file the result for payment and faction standing. Site traits determine whether the work involves restoration, archives/lore, replacement stores, reconnaissance or a fuller investigation.
@@ -37,7 +43,7 @@ Current generation-3 expeditions gain these offers from existing discoveries. Co
 
 New expeditions in both games generate exploration sites with origins, conditions, opportunities and complications that affect play. After surveying, choose any unfinished site and a direct, cautious or optional specialist approach. Costs, returns, duration, incident risk and staffing requirements are shown before ordering. Choices remain committed across reloads and offline play; completed sites cannot be farmed.
 
-Generation 3 keeps the generated names from v0.4. Existing expeditions retain their old sites and outcomes. Geography is still authored; discovery-derived missions are implemented next, with generated layouts following on the roadmap. See [generated sites](docs/SITES.md).
+Generation 3 keeps the generated names from v0.4. Existing expeditions retain their old sites and outcomes. That release retained authored geography; v0.6 added discovery-derived missions and v0.7 adds generated layouts. See [generated sites](docs/SITES.md).
 
 ## New in v0.4
 
@@ -63,7 +69,7 @@ To investigate **Unmanifested cargo**, accept its contract at a station, survey 
 
 ## What is playable
 
-- Four connected systems, sixteen locations, twelve exploration bodies, thirty-six sites, thirteen authored contracts, and thirty-six discovery follow-ups for generation-3 expeditions.
+- Far Wake: four to six connected systems, with planets, moons and asteroid fields, three sites per field location and one optional follow-up per site. Generation-3 saves retain four systems, sixteen locations and thirty-six sites/follow-ups.
 - Local journeys, sublight interstellar travel, cryosleep, and a fictional ship calendar. A four-year voyage can take fifteen real minutes.
 - Surveys, surface expeditions, mining, processing, repairs, machinery servicing, equipment upgrades, and four recruitable specialist roles.
 - Station markets, paid work, faction relief, exclusive survey-data licensing, and reputation-dependent prices and contracts. Long voyages also change market conditions.
@@ -108,3 +114,5 @@ HTTPS and localhost use atomic Web Locks for command ownership. HTTP LAN preview
 ## Project documentation
 
 Start with [AGENTS.md](AGENTS.md) for contributor and coding-agent guidance. The [documentation index](docs/README.md) links user goals, decision records, architecture, game designs, sources, implementation status and device acceptance. Future ideas are explicitly separated from implemented behavior.
+
+Fresh expeditions use generated maps (generation 4): optional systems/realms and places, connected routes and service hubs, while preserving the introductory journey. Existing saves keep their original maps. [World generation](docs/WORLDS.md) records compatibility and validation. Run `node --import tsx scripts/simulate-world.ts` for generated campaigns in both themes.

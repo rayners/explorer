@@ -72,3 +72,7 @@ After discussing generated sites followed by discovery-derived missions and gene
 ## Discovery-derived missions (2026-10-28)
 
 Continuing the active roadmap goal, the next item implements follow-up work from explored generated sites in both themes. [MISSIONS.md](MISSIONS.md) distinguishes the requested direction from chosen templates, costs, recipient selection, additive compatibility and anti-replay accounting. Paid-site-order fixtures were captured from released v0.5 source before modifying mission catalogs.
+
+## Generated geography (2026-10-28)
+
+The ongoing roadmap goal authorizes the next queued item: varied system/realm layouts. [WORLDS.md](WORLDS.md) records chosen bounded population, protected story anchors, connected-graph construction, version 4, domain separation and pacing budgets. These exact algorithms/numbers are implementation choices, not additional user specifications. Complete generation-1/2/3 definition hashes were captured from the unchanged released v0.6 factories before layout integration. Live mission checks also exposed query-string offline page fallback; v0.7 adds a targeted production regression and static-page cache matching fix.
