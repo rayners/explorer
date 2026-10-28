@@ -42,7 +42,7 @@ A job stores committed duration, costs already spent, rewards, destination and f
 | Preferences            | `far-wake.preferences` | `hollowmere.preferences` |
 | Runtime namespace      | `far-wake`             | `hollowmere`             |
 
-Command-lock and lease names are derived from the same namespace. Do not infer a save schema from the key suffix: it remains `.v1` while the contained state has migrated to schema 2. Browser local storage is not a cross-device service or guaranteed permanent storage. The checksum is not authentication.
+Command-lock and lease names are derived from the same namespace. Do not infer a save schema from the key suffix: it remains `.v1` while the contained state has migrated to schema 3. Browser local storage is not a cross-device service or guaranteed permanent storage. The checksum is not authentication.
 
 ## Library, manifests and build
 
@@ -70,3 +70,11 @@ The Pages workflow builds with `PAGES_BASE_PATH=/explorer/`. Do not hardcode roo
 Current factories reconstruct immutable authored catalogs from a saved seed and generation version. Dynamically discovered worlds will need stable instance IDs and either persisted catalogs or retained compatible generator implementations. Do not change factory output for existing generation versions casually: a saved location/job must still resolve to the same content.
 
 Roguelite run state versus persistent profile state has not been designed. Avoid introducing reset, metaprogression or death semantics by implication while extending the generator. These questions are tracked in [ROADMAP.md](ROADMAP.md).
+
+## Discovery events (v0.3)
+
+`src/engine/discoveries.ts` selects from an optional `GameDefinition.discoveryEvents` catalog after a new site completes and existing threats develop. `incidents` is a durable, once-only ledger separate from the 100-entry narrative log; `discoveryCooldown` counts subsequent newly explored sites. Locations, minimum total sites and weights filter selection. No eligible entry consumes no randomness; an eligible opportunity rolls for an event, then its weighted type. There are no per-frame or retroactive site rolls.
+
+Exposure entries create a hidden threat and share `threatHistory` with authored exposure. No onset event or UI card reveals them. Choice entries log a discovery and remain visible as nonurgent follow-ups; their catalog may require a service hub. The `discovery` command validates location/choice, marks the ledger resolved, applies rewards and standing once, and records a structured event. Pending follow-ups do not stop time but prevent more random discoveries until settled. Active threats also prevent selection.
+
+Schema 3 initializes an empty ledger and cooldown when loading schema 2, after checksum validation; the existing schema-1 migration runs first. World generation remains version 1 because existing world IDs, deposits, sites and committed jobs remain intact. Hollowmere receives the schema migration and generic mechanism but has no random discovery catalog yet.

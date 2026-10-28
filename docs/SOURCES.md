@@ -59,4 +59,4 @@ The latter links are maintenance references, not claims that each was consulted 
 
 ## Later direction: surprise incidents (2026-10-27)
 
-The user said a creature getting loose aboard ship should sometimes be a surprise and suggested random events with long-term effects, noting the connection to procedural generation. [EVENTS.md](EVENTS.md) records that direction. The example events, event-ledger architecture, balancing safeguards and implementation order there are proposals, not further user-specified requirements.
+The user said a creature getting loose aboard ship should sometimes be a surprise and suggested random events with long-term effects, noting the connection to procedural generation. [EVENTS.md](EVENTS.md) records that direction. On 2026-10-28 the user approved the recommended first slice: surprise stowaways and one beneficial/political event. v0.3 implements those as hidden exposure and a settlement-claim follow-up. Exact odds, ledger architecture, balancing safeguards and claim effects are implementation decisions; other candidate events remain deferred.

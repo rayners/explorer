@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.3
+
+Ordinary surface expeditions can now bring back a hidden passenger, without choosing the specimen mission. Cinder and the first three explored sites are protected; later sites can produce occasional once-only discoveries. Hidden intrusions reveal after later work, then wait for your response. Time away never kills crew.
+
+A recovered settlement claim creates a station follow-up: choose the Combine, the Free Habitats, or neutral archiving. Payments and faction standing are shown before confirmation; your decision persists and affects future dealings. Discoveries and their choices survive reloads, imports and offline play. Hollowmere retains its existing authored events. See [discovery event rules](docs/EVENTS.md).
+
 ## New in v0.2
 
 **Far Wake:** recruit engineers, medical officers, security officers, and survey specialists from Contacts. The Kestrel has four berths; accommodation modules expand this to six and eight. New hires start resting, so assign them in Operations. Support medics unlock field triage and can prevent a fatal attack during the optional internal-threat scenario.
@@ -75,7 +81,7 @@ Seeds currently vary frontier deposits and site identities within an authored fo
 
 ## Saves and compatibility
 
-The JSON envelope format and generation version remain **1**; the saved state schema is now **2**. Version-one states migrate automatically, preserving inventory, discoveries, contracts, upgrades, crew, and active job timers. New fields initialize recruitment history and a clear internal-threat state. Unsupported future versions are rejected instead of silently regenerated.
+The JSON envelope format and generation version remain **1**; the saved state schema is now **3**. Version-one and version-two states migrate automatically, preserving inventory, discoveries, contracts, upgrades, crew, and active job timers. Schema 2 initializes recruitment history and a clear internal-threat state; schema 3 initializes an empty incident ledger and discovery cooldown. Existing threats and committed jobs remain intact, and old sites are never rerolled. Unsupported future versions are rejected instead of silently regenerated.
 
 Browser storage keys are `far-wake.save.v1`, `far-wake.backup.v1` (before import/reset), and `far-wake.corrupt.v1` (unreadable original). Hollowmere uses the equivalent `hollowmere.*` namespace. Cross-game imports are rejected and both games can hold independent command locks. Saves are plain JSON with a checksum for accidental corruption, not an anti-cheat mechanism. Imports and resets keep the current expedition active until both its backup and replacement have been written; a storage failure leaves the current expedition intact and displays a persistent warning. Keep downloaded backups: browser storage can be cleared by the user or operating system. Settings can import a backup JSON copied from these keys.
 

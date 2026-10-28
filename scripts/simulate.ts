@@ -1,6 +1,8 @@
 import { createGame } from '../src/game/definition';
 import { advance, createState, dispatch, price, cargo } from '../src/engine/simulation';
 import type { Command, GameState } from '../src/engine/types';
+import { threatAlert } from '../src/engine/threats';
+import { pendingDiscovery } from '../src/engine/discoveries';
 export function simulate(seed: number) {
   const g = createGame(seed);
   let s = createState(g, seed),
@@ -14,9 +16,10 @@ export function simulate(seed: number) {
   };
   const finish = () => {
     let loops = 0;
-    while (s.primary || s.support || s.encounter) {
+    while (s.primary || s.support || s.encounter || threatAlert(s)) {
       if (++loops > 20) throw Error('Unresolved jobs');
       if (s.encounter) doOrder({ type: 'encounter', choice: 'surrender' });
+      else if (threatAlert(s)) doOrder({ type: 'threat', action: 'purge' });
       else s = advance(g, s, Math.max(s.primary?.remaining ?? 0, s.support?.remaining ?? 0) + 1);
     }
   };
@@ -40,6 +43,8 @@ export function simulate(seed: number) {
     }
   };
   const prepare = () => {
+    const discovery = pendingDiscovery(g, s);
+    if (discovery) doOrder({ type: 'discovery', id: discovery.id, choice: 'archive' });
     for (const id of ['ore', 'ice'])
       if (s.inventory[id])
         doOrder({ type: 'trade', resource: id, amount: s.inventory[id], direction: 'sell' });

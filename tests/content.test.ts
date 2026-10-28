@@ -52,3 +52,33 @@ describe('content and isolation', () => {
     expect(Object.values(s.inventory).every((n) => n >= 0)).toBe(true);
   });
 });
+
+it('discovery catalogs have valid probabilities, identities, sources and consequence references', () => {
+  const policy = g.discoveryEvents!;
+  expect(policy.chance).toBeGreaterThan(0);
+  expect(policy.chance).toBeLessThan(1);
+  expect(Number.isInteger(policy.cooldown) && policy.cooldown >= 0).toBe(true);
+  expect(new Set(policy.entries.map((entry) => entry.id)).size).toBe(policy.entries.length);
+  for (const entry of policy.entries) {
+    expect(entry.weight).toBeGreaterThan(0);
+    expect(Number.isInteger(entry.minimumSites) && entry.minimumSites > 0).toBe(true);
+    for (const id of entry.locations ?? [])
+      expect(g.locations.some((l) => l.id === id && !l.station)).toBe(true);
+    expect(entry.locations).not.toContain('cinder');
+    if (entry.kind === 'exposure') expect(g.threats!.some((t) => t.id === entry.threat)).toBe(true);
+    else {
+      expect(entry.choices.length).toBeGreaterThan(0);
+      expect(new Set(entry.choices.map((choice) => choice.id)).size).toBe(entry.choices.length);
+      for (const choice of entry.choices) {
+        for (const [id, amount] of Object.entries(choice.reward)) {
+          expect(g.resources.some((r) => r.id === id)).toBe(true);
+          expect(Number.isFinite(amount) && amount >= 0).toBe(true);
+        }
+        for (const [id, amount] of Object.entries(choice.reputation)) {
+          expect(g.factions.some((f) => f.id === id)).toBe(true);
+          expect(Number.isFinite(amount)).toBe(true);
+        }
+      }
+    }
+  }
+});

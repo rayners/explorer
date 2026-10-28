@@ -146,6 +146,33 @@ export interface ThreatState {
   pressure: number;
   signs: number;
 }
+export interface DiscoveryChoice {
+  id: string;
+  name: string;
+  description: string;
+  reward: Amounts;
+  reputation: Amounts;
+}
+/** Once-only discoveries selected at a new site; presentation stays in the catalog. */
+export type DiscoveryEventDef = {
+  id: string;
+  title: string;
+  description: string;
+  locations?: string[];
+  minimumSites: number;
+  weight: number;
+} & (
+  | { kind: 'exposure'; threat: string }
+  | { kind: 'choice'; at: 'station' | 'any'; choices: DiscoveryChoice[] }
+);
+/** Durable history, independent of the capped narrative log. IDs are unique per expedition. */
+export interface IncidentRecord {
+  id: string;
+  location: string;
+  site: string;
+  at: number;
+  choice: string | null;
+}
 export interface GameState {
   version: number;
   definition: string;
@@ -164,6 +191,8 @@ export interface GameState {
   recruitSerial: number;
   threat: ThreatState | null;
   threatHistory: string[];
+  incidents: IncidentRecord[];
+  discoveryCooldown: number;
   known: string[];
   discoveries: Record<string, Discovery>;
   reputation: Amounts;
@@ -177,6 +206,7 @@ export interface GameState {
   milestones: string[];
 }
 export interface GameDefinition {
+  discoveryEvents?: { chance: number; cooldown: number; entries: DiscoveryEventDef[] };
   recruitment?: { capacity: number; offers: RecruitDef[] };
   threats?: ThreatDef[];
   milestones?: { id: string; measure: 'journeyDays' | 'surveyedLocations'; threshold: number }[];
@@ -226,6 +256,7 @@ export interface GameDefinition {
   }[];
 }
 export type Command =
+  | { type: 'discovery'; id: string; choice: string }
   | { type: 'travel'; target: string }
   | { type: 'activity'; id: string }
   | { type: 'hire'; id: string }

@@ -1,6 +1,11 @@
 import { threatAlert } from '../engine/threats';
 import { living, crewCapacity } from '../engine/personnel';
-import { recruitmentPanel, threatPanel } from './expedition-panels';
+import {
+  recruitmentPanel,
+  threatPanel,
+  discoveryPanel,
+  discoveryHistory,
+} from './expedition-panels';
 import type { Amounts, Command, GameDefinition, GameState, Job } from '../engine/types';
 import { planRoute } from '../engine/navigation';
 import { activityDuration, cargo, dispatch, price, routesFrom, view } from '../engine/simulation';
@@ -285,7 +290,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
           })
           .join(''),
       'LOCAL PRICES',
-    )}${panel('Active contracts', active.length ? `<div class="activity-grid">${active.map((m) => missionCard(m.id)).join('')}</div>` : '<p>No active contracts. Accept a job below before you head out.</p>', `${active.length} / 3 ACTIVE`)}</div><div class="stack">${panel('Survey data exchange', `<p>License your unpublished surveys to the station owner. Each record earns 90 credits and +3 standing with the buyer. A rival faction loses 2 standing per record.</p><div class="line"></div><div class="status-lines"><div><span>Unpublished surveys</span><b>${Object.entries(s.discoveries).filter(([id, d]) => d.surveyed && !d.dataSold && !g.locations.find((l) => l.id === id)!.station).length}</b></div><div><span>Buyer</span><b>${esc(g.factions.find((f) => f.id === loc.faction)?.name ?? 'No station')}</b></div></div><div class="row-actions">${button('License survey data', { type: 'sellData' })}</div>`, 'EXCLUSIVE RIGHTS')}${panel('The political cost', `<p>Station prices improve with local standing. Giving relief supplies builds local trust but weakens a rival's claim. Unpopular captains lose access to faction contracts below −40 standing.</p><p style="margin-top:12px">Trade conditions change as fictional years pass during long voyages. Existing accepted contracts remain valid.</p>`, 'READ THE FINE PRINT')}</div></div>${recruitmentPanel(g, s, button)}<div class="section-label">Mission board / ${offered.length} CONTRACTS AVAILABLE</div><div class="activity-grid">${offered.map((m) => missionCard(m.id)).join('')}</div>${
+    )}${panel('Active contracts', active.length ? `<div class="activity-grid">${active.map((m) => missionCard(m.id)).join('')}</div>` : '<p>No active contracts. Accept a job below before you head out.</p>', `${active.length} / 3 ACTIVE`)}</div><div class="stack">${panel('Survey data exchange', `<p>License your unpublished surveys to the station owner. Each record earns 90 credits and +3 standing with the buyer. A rival faction loses 2 standing per record.</p><div class="line"></div><div class="status-lines"><div><span>Unpublished surveys</span><b>${Object.entries(s.discoveries).filter(([id, d]) => d.surveyed && !d.dataSold && !g.locations.find((l) => l.id === id)!.station).length}</b></div><div><span>Buyer</span><b>${esc(g.factions.find((f) => f.id === loc.faction)?.name ?? 'No station')}</b></div></div><div class="row-actions">${button('License survey data', { type: 'sellData' })}</div>`, 'EXCLUSIVE RIGHTS')}${panel('The political cost', `<p>Station prices improve with local standing. Giving relief supplies builds local trust but weakens a rival's claim. Unpopular captains lose access to faction contracts below −40 standing.</p><p style="margin-top:12px">Trade conditions change as fictional years pass during long voyages. Existing accepted contracts remain valid.</p>`, 'READ THE FINE PRINT')}</div></div>${discoveryHistory(g, s)}${recruitmentPanel(g, s, button)}<div class="section-label">Mission board / ${offered.length} CONTRACTS AVAILABLE</div><div class="activity-grid">${offered.map((m) => missionCard(m.id)).join('')}</div>${
       s.missions.some((m) => m.claimed)
         ? `<div class="section-label">Filed contracts</div><p>${s.missions
             .filter((m) => m.claimed)
@@ -374,7 +379,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.2<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.3<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
       root.classList.toggle('readonly', !controller.isOwner());
       for (const b of root.querySelectorAll<HTMLElement>('.nav-button'))
         b.setAttribute('aria-current', b.dataset.tab === tab ? 'page' : 'false');
@@ -456,6 +461,17 @@ export function mountApp(root: HTMLElement, controller: AppController) {
           );
           return;
         }
+      }
+      if (command.type === 'discovery') {
+        const def = g.discoveryEvents!.entries.find((entry) => entry.id === command.id)!;
+        if (def.kind === 'choice') {
+          const choice = def.choices.find((option) => option.id === command.choice)!;
+          openConfirm(
+            `${choice.name}? ${choice.description} This decision is final for this expedition.`,
+            () => controller.command(command),
+          );
+        }
+        return;
       }
       if (command.type === 'abandon') {
         openConfirm(

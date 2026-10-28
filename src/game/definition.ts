@@ -296,6 +296,59 @@ export function createGame(seed = 1701): GameDefinition {
   ];
   return {
     id: 'far-wake',
+    discoveryEvents: {
+      chance: 0.35,
+      cooldown: 2,
+      entries: [
+        {
+          id: 'unseen-passenger',
+          title: 'Unseen passenger',
+          description: 'An unnoticed return from a surface expedition.',
+          kind: 'exposure',
+          threat: 'stowaway',
+          minimumSites: 4,
+          weight: 1,
+          locations: locations.filter((l) => !l.station && l.id !== 'cinder').map((l) => l.id),
+        },
+        {
+          id: 'settlement-claim',
+          title: 'A claim without an owner',
+          description:
+            'The expedition recovered a settlement charter and the coordinates of an abandoned supply reserve. The Combine calls it company property; the Free Habitats call it an inheritance. Carry the records to a station and decide whose claim to recognize.',
+          kind: 'choice',
+          at: 'station',
+          minimumSites: 4,
+          weight: 1,
+          locations: locations.filter((l) => !l.station && l.id !== 'cinder').map((l) => l.id),
+          choices: [
+            {
+              id: 'company',
+              name: 'License to the Combine',
+              description:
+                'Sign an exclusive company claim. A larger payment now, and better standing at Combine ports; independent settlements will remember the exclusion.',
+              reward: { credits: 180 },
+              reputation: { combine: 14, independent: -8 },
+            },
+            {
+              id: 'commons',
+              name: 'Release to the Free Habitats',
+              description:
+                'File an open settlement charter. The Habitats pay a smaller recovery fee and recognize the Kestrel as a friend. The Combine disputes your authority.',
+              reward: { credits: 90 },
+              reputation: { independent: 14, combine: -8 },
+            },
+            {
+              id: 'archive',
+              name: 'Archive without a claim',
+              description:
+                'Deposit the records without endorsing either owner. No payment or change in faction standing. This closes the matter for this expedition.',
+              reward: {},
+              reputation: {},
+            },
+          ],
+        },
+      ],
+    },
     recruitment: {
       capacity: 4,
       offers: [
@@ -350,7 +403,7 @@ export function createGame(seed = 1701): GameDefinition {
         id: 'stowaway',
         name: 'The unmanifested',
         description:
-          'Something brought back from Morrow is moving through the maintenance ducts. It hides from security and attacks when repeated searches fail. Losses are permanent; responses wait for your orders.',
+          'Something brought back by an expedition is moving through the maintenance ducts. It hides from security and attacks when repeated searches fail. Losses are permanent; responses wait for your orders.',
         searchSkill: 'security',
         supportSkill: 'engineering',
         combatSkill: 'security',
@@ -379,7 +432,7 @@ export function createGame(seed = 1701): GameDefinition {
         id: 'unmanifested',
         name: 'Unmanifested cargo',
         description:
-          'Investigate the sealed specimen at Morrow, then stop any resulting shipboard threat. This optional investigation can lead to permanent crew losses.',
+          'Stop an unmanifested shipboard lifeform. The sealed specimen at Morrow offers one lead; an ordinary expedition may also bring something back. Failed responses can lead to permanent crew losses.',
         faction: 'combine',
         objective: { kind: 'threatStopped', target: 'stowaway', count: 1 },
         reward: { credits: 450, parts: 8 },

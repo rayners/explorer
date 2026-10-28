@@ -1276,3 +1276,15 @@ body.reduce-motion * {
   white-space: nowrap;
   text-underline-offset: 4px;
 }
+
+.discovery-panel {
+  margin-bottom: 24px;
+  border-color: var(--accent);
+}
+.discovery-panel .panel-head {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.discovery-panel .activity-grid {
+  margin: 16px 0;
+}

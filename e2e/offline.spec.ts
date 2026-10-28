@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { createGame } from '../src/game/definition';
-import { createState, dispatch } from '../src/engine/simulation';
+import { createState, dispatch, advance } from '../src/engine/simulation';
 import { encodeSave } from '../src/engine/save';
 test('production app catches up a saved voyage and reloads offline', async ({
   page,
@@ -106,5 +106,60 @@ test('the picker caches both games and can open either game offline', async ({
   await page.getByRole('link', { name: 'All games', exact: true }).click();
   await page.getByRole('link', { name: 'Play Hollowmere', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Beyond the last lantern.' })).toBeVisible();
+  await context.setOffline(false);
+});
+
+test('a recovered claim survives offline launch and applies its faction consequence once', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  const game = createGame(1701);
+  let state = createState(game, 1701);
+  state.rng = 1;
+  state.location = 'morrow';
+  state.known.push('morrow');
+  state.discoveries.morrow = { surveyed: true, sites: [], dataSold: false };
+  state.discoveries.cinder = {
+    surveyed: true,
+    sites: [...game.locations.find((l) => l.id === 'cinder')!.sites],
+    dataSold: false,
+  };
+  state = advance(game, dispatch(game, state, { type: 'activity', id: 'explore' }).state, 100);
+  state = advance(game, dispatch(game, state, { type: 'travel', target: 'anchor' }).state, 100);
+  if (state.encounter)
+    state = dispatch(game, state, { type: 'encounter', choice: 'surrender' }).state;
+  const credits = state.inventory.credits;
+  await page.addInitScript(
+    (raw) => {
+      if (!sessionStorage.getItem('test-initialized')) {
+        localStorage.setItem('far-wake.save.v1', raw);
+        sessionStorage.setItem('test-initialized', 'true');
+      }
+    },
+    encodeSave(state, Date.now()),
+  );
+  await page.goto(new URL('far-wake/', baseURL).href);
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  await page.evaluate(async () => await navigator.serviceWorker.ready);
+  await page.reload();
+  await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+  await context.setOffline(true);
+  await page.reload();
+  const panel = page.locator('.discovery-panel');
+  await expect(panel).toContainText('A claim without an owner');
+  await panel.getByRole('button', { name: 'Review discovery', exact: true }).click();
+  await panel.getByRole('button', { name: 'Release to the Free Habitats', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+  await expect(panel).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  const saved = await page.evaluate(
+    () => JSON.parse(localStorage.getItem('far-wake.save.v1')!).state,
+  );
+  expect(saved.incidents[0].choice).toBe('commons');
+  expect(saved.reputation).toMatchObject({ independent: 14, combine: -8 });
+  expect(saved.inventory.credits).toBe(credits + 90);
+  expect(await page.evaluate(() => typeof (window as any).__farWake)).toBe('undefined');
   await context.setOffline(false);
 });

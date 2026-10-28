@@ -51,7 +51,7 @@ The host supplies elapsed time to the engine and owns storage. `encodeSave(state
 
 Keep browser timestamps monotonic when the system clock moves backward. Save on commands, periodic checkpoints, `visibilitychange`, and `pagehide`. Background browser timers are not a reliable simulation clock. The host may use Web Locks to ensure exactly one writing tab; other tabs only display saved updates. HTTP LAN previews use a checked, renewable storage lease as a best-effort fallback; HTTPS Web Locks provide the atomic guarantee.
 
-Storage format and definition generation version are independent. State schema 2 migrates legacy version-one states after verifying their original checksum. The envelope format remains 1. Before changing either, retain old generator behavior or migrate generated content and provide explicit save migrations with old-save fixtures. Rejection is safer than silently regenerating a different universe for an old seed.
+Storage format and definition generation version are independent. State schema 3 migrates legacy version-one and version-two states after verifying their original checksum. Schema 2 adds personnel/threat fields; schema 3 adds the incident ledger and discovery cooldown. The envelope format remains 1. Before changing either, retain old generator behavior or migrate generated content and provide explicit save migrations with old-save fixtures. Rejection is safer than silently regenerating a different universe for an old seed.
 
 ## Verification contract
 
@@ -80,3 +80,11 @@ Optional `ThreatDef` catalogs configure skills, response costs, evasion, detecti
 `src/picker/catalog.ts` contains the implemented game cards and their save-key metadata. The library reads recognizable checkpoints only to select Play/Resume labels; it imports neither game definitions nor simulations and never changes a save. Each game has an independent HTML entry page, build input, manifest and namespaced runtime.
 
 Far Wake’s historical manifest URL is retained at the site root. `farWakeManifest` emits an ID matching its former root start URL for the configured deployment base, with its new start and scope at `far-wake/`. Legacy standalone root launches redirect to that page unless `?games=1` explicitly requests the library. Root service-worker registration precaches the selector and both game pages for offline navigation.
+
+## Site discovery catalogs
+
+`GameDefinition.discoveryEvents` is optional: `{ chance, cooldown, entries }`. Entries have stable unique IDs, positive weights, `minimumSites` (including the site just completed), optional location restrictions and either `kind: "exposure"` with a threat ID, or `kind: "choice"` with choices and `at: "station" | "any"`. Choice definitions supply resource rewards and faction-standing deltas. Each entry can be selected once per expedition. Keep IDs and recorded choices compatible with existing saves.
+
+`discoverAtSite` runs only when the configured exploration activity completes a new site. A selected exposure starts hidden with zero signs; existing threats have already developed for that completion. No narrative onset event is emitted. `pendingDiscovery` returns a nonurgent choice record. `dispatch(..., { type: "discovery", id, choice })` resolves it once, requiring docking if configured, and applies rewards/standing. It never consumes random numbers. Encounter/threat holds still take priority over resolving a discovery.
+
+`GameState.incidents` stores `{ id, location, site, at, choice }` records. Exposure choices remain null; threat resolution is tracked by existing threat state/history. Choice outcomes persist even after narrative log truncation. `discoveryCooldown` skips the next N new-site completions after any selection. An unresolved choice or any active threat suppresses additional selection; ordinary work and travel do not roll or decrement cooldown. No world catalogs are regenerated during migration.

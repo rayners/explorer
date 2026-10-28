@@ -1,6 +1,7 @@
 import { living, crewCapacity, recruitName } from './personnel';
 import { threatAlert, developThreat, respondToThreat } from './threats';
 import { routesAt } from './navigation';
+import { discoverAtSite, discoveryChoice } from './discoveries';
 import type {
   Amounts,
   Command,
@@ -59,7 +60,7 @@ function roll(s: GameState) {
 export function createState(g: GameDefinition, seed: number): GameState {
   const known = g.locations.filter((l) => l.initiallyKnown).map((l) => l.id);
   return {
-    version: 2,
+    version: 3,
     definition: g.id,
     generationVersion: g.generationVersion,
     seed: seed >>> 0,
@@ -76,6 +77,8 @@ export function createState(g: GameDefinition, seed: number): GameState {
     recruitSerial: 0,
     threat: null,
     threatHistory: [],
+    incidents: [],
+    discoveryCooldown: 0,
     known,
     discoveries: Object.fromEntries(
       known.map((id) => [
@@ -155,7 +158,14 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
   const threatContext = { event, progress, roll, spend, affordable, bonus: skillBonus };
   if (threatAlert(s) && !['threat', 'assign', 'hire', 'encounter'].includes(command.type))
     return fail('Resolve or contain the threat before resuming operations.');
-  if (command.type === 'threat') {
+  if (command.type === 'discovery') {
+    const choice = discoveryChoice(g, s, command.id, command.choice);
+    if (typeof choice === 'string') return fail(choice);
+    s.incidents.find((record) => record.id === command.id)!.choice = choice.id;
+    gain(g, s, choice.reward);
+    for (const [id, amount] of Object.entries(choice.reputation)) rep(s, id, amount);
+    event(s, 'discoverySettled', { discovery: command.id, choice: choice.id });
+  } else if (command.type === 'threat') {
     const error = respondToThreat(g, s, command.action, threatContext);
     if (error) return fail(error);
   } else if (command.type === 'hire') {
@@ -465,6 +475,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
   return { state: s };
 }
 function complete(g: GameDefinition, s: GameState, job: Job) {
+  let exploredSite: string | undefined;
   if (job.kind === 'travel' || job.kind === 'rescue') {
     s.location = job.target;
     s.calendarDays += job.days;
@@ -521,6 +532,7 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
     if (a.id === g.rules.exploreActivity) {
       const site = loc.sites.find((id) => !d.sites.includes(id));
       if (site) d.sites.push(site);
+      exploredSite = site;
       gain(g, s, { [g.rules.currency]: 25 });
       event(s, 'siteExplored', { target: loc.id, site: site ?? '' });
     }
@@ -565,6 +577,7 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
     }
   }
   developThreat(g, s, job, { event, progress, roll, spend, affordable, bonus: skillBonus });
+  if (exploredSite) discoverAtSite(g, s, job.target, exploredSite, { event, roll });
   const surveyed = Object.entries(s.discoveries).filter(
     ([id, d]) => d.surveyed && !g.locations.find((l) => l.id === id)!.station,
   ).length;

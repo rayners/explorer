@@ -1,6 +1,7 @@
 import type { Command, GameDefinition, GameState } from '../engine/types';
 import { living, crewCapacity, recruitName } from '../engine/personnel';
 import { dispatch } from '../engine/simulation';
+import { pendingDiscovery } from '../engine/discoveries';
 export type CommandButton = (label: string, command: Command, primary?: boolean) => string;
 const esc = (v: unknown) =>
   String(v ?? '').replace(
@@ -53,4 +54,48 @@ export function threatPanel(
         }</small></div>`,
     )
     .join('')}</div></section>`;
+}
+
+/** A nonurgent discovery stays visible until it is settled; hidden exposures never render. */
+export function discoveryPanel(
+  g: GameDefinition,
+  s: GameState,
+  button: CommandButton,
+  reviewButton?: string,
+): string {
+  const record = pendingDiscovery(g, s);
+  const def = g.discoveryEvents?.entries.find((entry) => entry.id === record?.id);
+  if (!record || def?.kind !== 'choice') return '';
+  if (reviewButton)
+    return `<section class="panel discovery-panel" aria-labelledby="discovery-title"><div class="panel-head"><h2 id="discovery-title">${esc(def.title)}</h2><span class="eyebrow">DISCOVERY / FOLLOW-UP</span></div><div class="panel-body"><p>Records recovered at ${esc(g.locations.find((l) => l.id === record.location)?.name)}. A decision is waiting; work and travel can continue.</p><div class="row-actions">${reviewButton}</div></div></section>`;
+  const effects = (amounts: Record<string, number>, names: { id: string; name: string }[]) =>
+    Object.entries(amounts)
+      .map(
+        ([id, value]) =>
+          `${value > 0 ? '+' : ''}${value} ${esc(names.find((n) => n.id === id)?.name ?? id)}`,
+      )
+      .join(' · ');
+  return `<section class="panel discovery-panel" aria-labelledby="discovery-title"><div class="panel-head"><h2 id="discovery-title">${esc(def.title)}</h2><span class="eyebrow">DISCOVERY / FOLLOW-UP</span></div><div class="panel-body"><p>${esc(def.description)}</p><p>Recovered at ${esc(g.locations.find((l) => l.id === record.location)?.name)}: ${esc(record.site)}. You can continue exploring; this choice will wait.</p><div class="activity-grid">${def.choices
+    .map((choice) => {
+      const command: Command = { type: 'discovery', id: def.id, choice: choice.id };
+      const error = dispatch(g, s, command).error;
+      return `<article class="activity-card"><h3>${esc(choice.name)}</h3><p>${esc(choice.description)}</p><p class="cost">${effects(choice.reward, g.resources) || 'No payment'}<br>${effects(choice.reputation, g.factions) || 'No standing change'}</p>${button(choice.name, command)}${error ? `<small>${esc(error)}</small>` : ''}</article>`;
+    })
+    .join(
+      '',
+    )}</div><small>Faction standing persists and affects port prices and access to work. Each claim can be settled once.</small></div></section>`;
+}
+
+export function discoveryHistory(g: GameDefinition, s: GameState): string {
+  const records = s.incidents.flatMap((record) => {
+    const def = g.discoveryEvents?.entries.find((entry) => entry.id === record.id);
+    if (def?.kind !== 'choice' || !record.choice) return [];
+    const choice = def.choices.find((entry) => entry.id === record.choice)!;
+    return [
+      `<p><strong>${esc(def.title)}</strong> · ${esc(choice.name)}<br><small>${esc(g.locations.find((l) => l.id === record.location)?.name)} · ${esc(record.site)}</small></p>`,
+    ];
+  });
+  return records.length
+    ? `<section class="panel discovery-history"><div class="panel-head"><h2>Discovery record</h2></div><div class="panel-body">${records.join('')}</div></section>`
+    : '';
 }

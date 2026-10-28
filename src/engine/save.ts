@@ -34,7 +34,7 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
     activities = new Set(g.activities.map((a) => a.id)),
     resources = new Set(g.resources.map((r) => r.id));
   if (
-    s.version !== 2 ||
+    s.version !== 3 ||
     s.definition !== g.id ||
     s.generationVersion !== g.generationVersion ||
     !Number.isInteger(s.seed) ||
@@ -184,6 +184,40 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
   )
     return false;
   if (
+    !Number.isSafeInteger(s.discoveryCooldown) ||
+    s.discoveryCooldown < 0 ||
+    s.discoveryCooldown > (g.discoveryEvents?.cooldown ?? 0) ||
+    !Array.isArray(s.incidents) ||
+    s.incidents.length > (g.discoveryEvents?.entries.length ?? 0) ||
+    new Set(s.incidents.map((record) => record?.id)).size !== s.incidents.length ||
+    new Set(s.incidents.map((record) => JSON.stringify([record?.location, record?.site]))).size !==
+      s.incidents.length ||
+    !s.incidents.every((record) => {
+      if (!object(record)) return false;
+      const def = g.discoveryEvents?.entries.find((entry) => entry.id === record.id);
+      return (
+        !!def &&
+        typeof record.location === 'string' &&
+        locations.has(record.location) &&
+        s.known.includes(record.location) &&
+        typeof record.site === 'string' &&
+        s.discoveries[record.location]?.sites.includes(record.site) &&
+        (!def.locations || def.locations.includes(record.location)) &&
+        finite(record.at) &&
+        record.at <= s.elapsed &&
+        (def.kind === 'exposure'
+          ? record.choice === null && s.threatHistory.includes(def.threat)
+          : record.choice === null || def.choices.some((choice) => choice.id === record.choice))
+      );
+    }) ||
+    s.incidents.filter(
+      (record) =>
+        record.choice === null &&
+        g.discoveryEvents?.entries.some((def) => def.id === record.id && def.kind === 'choice'),
+    ).length > 1
+  )
+    return false;
+  if (
     !Array.isArray(s.missions) ||
     new Set(s.missions.map((m) => m?.id)).size !== s.missions.length ||
     !s.missions.every(
@@ -267,6 +301,9 @@ export function decodeSave(text: string, definition: (seed: number) => GameDefin
         ? v.state.crew.map((member) => (object(member) ? { ...member, life: 'alive' } : member))
         : v.state.crew,
     };
+  }
+  if (object(v.state) && v.state.version === 2) {
+    v.state = { ...v.state, version: 3, incidents: [], discoveryCooldown: 0 };
   }
   if (!validateState(v.state, g))
     throw Error('Save state is invalid or its content generation version is unsupported.');

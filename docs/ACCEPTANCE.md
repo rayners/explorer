@@ -44,3 +44,9 @@ No physical-device result is claimed until this checklist is run on the actual p
 - Load the selector online once, then open both games and reload their pages offline.
 - Existing Far Wake installations retain their manifest identity and receive the new start URL. A standalone root launch redirects to Far Wake, while an explicit All games link opens the selector.
 - On the physical iPhone, verify that an existing home-screen icon opens Far Wake after update and that both games can return to the selector. This physical install-upgrade check remains pending.
+
+## v0.3 discovery additions
+
+Automated coverage checks ordinary exploration triggering a silent passenger, delayed threat revelation, safe unattended holds, guaranteed purging, settlement-claim docking requirements, confirmation, persistent standing/history and production offline settlement. Unit tests cover quiet outcomes, weights, introductory protection, uniqueness, cooldown, portable definitions, frame/offline equivalence and schema-2 migration with existing jobs/threats.
+
+Physical iPhone checks remain pending: encounter the new discovery card, verify readable choice effects and visible docking reasons, return to a station, confirm a recipient and reload offline. Verify a surprise passenger stays hidden through reload, then reveals and waits safely when the phone is locked. Export/import existing schema-2 progress into v0.3 and confirm its jobs and crew survive.

@@ -5,6 +5,13 @@ export function describeEvent(g: GameDefinition, e: GameEvent): string {
     activity = g.activities.find((a) => a.id === p.activity)?.name ?? p.activity,
     mission = g.missions.find((m) => m.id === p.mission)?.name ?? p.mission;
   const messages: Record<string, string> = {
+    discoveryFound: `At ${location(p.target)}, the expedition recovered a disputed settlement charter. Bring it to a station to choose its future. Operations can continue.`,
+    discoverySettled: (() => {
+      const def = g.discoveryEvents?.entries.find((entry) => entry.id === p.discovery);
+      const choice =
+        def?.kind === 'choice' ? def.choices.find((entry) => entry.id === p.choice) : undefined;
+      return `${def?.title ?? 'Discovery'}: ${choice?.name ?? p.choice}. The decision is recorded; faction standing and payment have been applied.`;
+    })(),
     memberHired: `${p.member} joined the crew as ${p.skill}. Assign them to a team in Operations.`,
     memberLost: `${p.member} was killed by the shipboard threat. Their place in the manifest is now a memorial.`,
     threatAnomaly:
@@ -75,6 +82,12 @@ export function guidance(s: GameState): { title: string; text: string; tab: stri
       title: s.primary.days >= 365 ? 'The long dark.' : 'A little further out.',
       text: 'Your course is committed. The ship will arrive while this tab is closed. Support work can run during the crossing.',
       tab: 'operations',
+    };
+  if (s.incidents.some((record) => record.id === 'settlement-claim' && record.choice === null))
+    return {
+      title: 'A discovery with a future.',
+      text: 'Carry the recovered settlement claim to a station. Choose who receives it in the discovery panel; you can continue exploring meanwhile.',
+      tab: 'contacts',
     };
   if (!s.missions.some((m) => m.id === 'first-light'))
     return {

@@ -1,6 +1,6 @@
 # Roadmap and status
 
-Baseline: v0.2.1, 2026-10-27. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.3.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Implemented
 
@@ -22,9 +22,11 @@ The v0.2.1 baseline passed 67 unit tests, 60 browser cases and 6 production offl
 
 Run [ACCEPTANCE.md](ACCEPTANCE.md) on the physical iPhone 15 Pro Max, especially suspension/force-close, Add to Home Screen, separate game installation and upgrade of an existing root-launch Far Wake icon. Emulated WebKit coverage does not close these items.
 
-## New design direction: surprise and lasting events
+## Implemented in v0.3: surprise and lasting events
 
-The user wants surprise shipboard intrusions sometimes and is interested in random events with long-term consequences. [EVENTS.md](EVENTS.md) records a proposed first step: occasional discovery-triggered incidents over the authored world, saved outcomes and follow-up consequences. Exact odds and the first event set remain design choices. No random-exposure/event-ledger implementation has shipped.
+The user wants surprise shipboard intrusions sometimes and is interested in random events with long-term consequences. [EVENTS.md](EVENTS.md) records the approved first slice: silent stowaways from ordinary exploration and a recovered settlement claim with a station-based faction choice. The shared selector uses seeded RNG, introductory protection, cooldown and a durable once-only ledger. Schema 3 migrates existing saves without rerolling past sites. Additional event types remain candidates.
+
+Validation for v0.3: 82 unit tests, 66 browser cases and 8 production offline cases; frontier simulation completes all eight baseline seeds. The final compact reminder flow also has targeted browser coverage. Physical-device checks remain pending.
 
 This can precede a procedural galaxy; full procedural campaigns and roguelite progression remain deferred.
 

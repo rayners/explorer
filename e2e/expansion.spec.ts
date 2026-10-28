@@ -112,13 +112,15 @@ test('a legacy Far Wake save migrates without losing resources or the original c
   await open(page);
   const legacy: any = createState(createGame(7), 7);
   legacy.version = 1;
+  delete legacy.incidents;
+  delete legacy.discoveryCooldown;
   delete legacy.recruitSerial;
   delete legacy.threat;
   delete legacy.threatHistory;
   legacy.crew.forEach((m: any) => delete m.life);
   legacy.inventory.credits = 777;
   await importState(page, encodeSave(legacy, Date.now()));
-  expect((await state(page)).version).toBe(2);
+  expect((await state(page)).version).toBe(3);
   expect((await state(page)).inventory.credits).toBe(777);
   expect((await state(page)).crew).toHaveLength(3);
   await page.reload();
@@ -220,4 +222,113 @@ test('both games keep independent saves and command locks, and reject cross-game
   await expect(fantasy.locator('#settings-error')).toContainText('invalid');
   expect((await state(fantasy, true)).crew).toHaveLength(4);
   await fantasy.close();
+});
+
+function discoveryStart(rng: number) {
+  const game = createGame(1701);
+  const start = createState(game, 1701);
+  start.rng = rng;
+  start.location = 'morrow';
+  start.known.push('morrow');
+  start.discoveries.morrow = { surveyed: true, sites: [], dataSold: false };
+  start.discoveries.cinder = {
+    surveyed: true,
+    sites: [...game.locations.find((location) => location.id === 'cinder')!.sites],
+    dataSold: false,
+  };
+  return start;
+}
+async function beginActivity(page: Page, name: string) {
+  await page
+    .locator('.activity-card')
+    .filter({ has: page.getByRole('heading', { name, exact: true }) })
+    .getByRole('button', { name: 'Begin activity', exact: true })
+    .click();
+}
+test('an ordinary expedition can bring back a surprise passenger without an exposure warning', async ({
+  page,
+}) => {
+  await open(page);
+  // This saved RNG state selects a passenger from the real shipped event catalog.
+  await importState(page, encodeSave(discoveryStart(2), Date.now()));
+  await nav(page, 'operations');
+  await beginActivity(page, 'Surface expedition');
+  await expect(page.locator('#confirm-dialog')).not.toBeVisible();
+  await next(page, 100);
+  expect((await state(page)).threat.stage).toBe('hidden');
+  await expect(page.locator('.threat-panel')).toHaveCount(0);
+  await expect(page.locator('.discovery-panel')).toHaveCount(0);
+  await expect(page.getByText('Unseen passenger', { exact: true })).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  expect((await state(page)).threat.stage).toBe('hidden');
+  for (let i = 0; i < 2; i++) {
+    await nav(page, 'operations');
+    await beginActivity(page, 'Resource extraction');
+    await next(page, 100);
+    await escape(page);
+  }
+  await expect(page.locator('.threat-panel')).toContainText(
+    'Responses can cause permanent casualties',
+  );
+  const before = await state(page);
+  await next(page, 86400);
+  expect((await state(page)).crew).toEqual(before.crew);
+  await page.getByRole('button', { name: 'Vent contaminated compartment', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirm order' }).click();
+  expect((await state(page)).threat).toBeNull();
+  await page.reload();
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  expect((await state(page)).incidents[0].id).toBe('unseen-passenger');
+});
+test('a discovery becomes a station follow-up with a persistent, explicit faction choice', async ({
+  page,
+}) => {
+  await open(page);
+  await importState(page, encodeSave(discoveryStart(1), Date.now()));
+  await nav(page, 'operations');
+  await beginActivity(page, 'Surface expedition');
+  await next(page, 100);
+  const panel = page.locator('.discovery-panel');
+  await expect(
+    panel.getByRole('heading', { name: 'A claim without an owner', exact: true }),
+  ).toBeVisible();
+  await expect(
+    panel.getByRole('button', { name: 'Release to the Free Habitats', exact: true }),
+  ).toHaveCount(0);
+  await panel.getByRole('button', { name: 'Review discovery', exact: true }).click();
+  await expect(panel).toContainText('Visit a service hub');
+  await expect(
+    panel.getByRole('button', { name: 'Release to the Free Habitats', exact: true }),
+  ).toBeDisabled();
+  await expect(panel).toContainText('+14 Free Habitats');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.reload();
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  await expect(panel).toBeVisible();
+  await nav(page, 'navigation');
+  await page
+    .locator('.route-card')
+    .filter({ has: page.getByRole('heading', { name: /Anchor Station/ }) })
+    .getByRole('button', { name: 'Set course', exact: true })
+    .click();
+  await next(page, 100);
+  await escape(page);
+  const before = await state(page);
+  await panel.getByRole('button', { name: 'Review discovery', exact: true }).click();
+  await panel.getByRole('button', { name: 'Release to the Free Habitats', exact: true }).click();
+  await expect(page.locator('#confirm-dialog')).toContainText('final for this expedition');
+  await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+  await expect(panel).toHaveCount(0);
+  const after = await state(page);
+  expect(after.inventory.credits).toBe(before.inventory.credits + 90);
+  expect(after.reputation.independent).toBe(before.reputation.independent + 14);
+  expect(after.reputation.combine).toBe(before.reputation.combine - 8);
+  await page.reload();
+  await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+  await nav(page, 'contacts');
+  await expect(page.locator('.discovery-history')).toContainText('Release to the Free Habitats');
+  expect((await state(page)).incidents[0].choice).toBe('commons');
+  expect((await state(page)).inventory.credits).toBe(after.inventory.credits);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
