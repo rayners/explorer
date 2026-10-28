@@ -37,7 +37,10 @@ export default defineConfig({
     VitePWA({
       registerType: 'prompt',
       manifest: false,
-      workbox: { globPatterns: ['**/*.{js,css,html,svg,png,woff2,webmanifest}'] },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,png,woff2,webmanifest}'],
+        ignoreURLParametersMatching: [/.*/],
+      },
     }),
   ],
   test: { include: ['tests/**/*.test.ts'] },
