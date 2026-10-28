@@ -1,3 +1,5 @@
+import { duration } from './time';
+export { duration } from './time';
 import { planningSummary, projectOffers, routePlanPanel } from './planning-panels';
 import { proficiencyLabel, proficiencyHelp } from './proficiency';
 import { chartLines } from './world-map';
@@ -25,14 +27,6 @@ const esc = (v: unknown) =>
     /[&<>"']/g,
     (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
   );
-export function duration(seconds: number) {
-  const n = Math.ceil(seconds);
-  return n >= 3600
-    ? `${Math.floor(n / 3600)}h ${Math.floor((n % 3600) / 60)}m`
-    : n >= 60
-      ? `${Math.floor(n / 60)}m ${n % 60}s`
-      : `${n}s`;
-}
 const icons: Record<string, string> = {
   overview: 'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',
   navigation: 'M12 2v3 M12 19v3 M2 12h3 M19 12h3 M8 16l3-7 5-1-3 7z',

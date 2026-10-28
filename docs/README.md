@@ -15,6 +15,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [READABILITY.md](READABILITY.md)   | Current directives, accepted-work hierarchy and responsive readability   |
 | [EXPEDITION-AUDIT.md](EXPEDITION-AUDIT.md) | Reproducible return-commission economics and single-order check-in behavior |
 | [WATCHES.md](WATCHES.md) | Explicit longer hub work, committed payment/debt and cancellation |
+| [BUNDLES.md](BUNDLES.md) | Next design: compare actual work and staging hubs by destination |
 | [PROJECTS.md](PROJECTS.md)         | Implemented faction projects linked to settled discovery choices        |
 | [CREW.md](CREW.md)                 | Crew proficiency, lasting opportunities and migration contract          |
 | [WORLDS.md](WORLDS.md)             | Generated layouts, reachability guarantees and version compatibility    |

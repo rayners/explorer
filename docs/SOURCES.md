@@ -114,3 +114,5 @@ The following [expedition audit](EXPEDITION-AUDIT.md) implements the next eviden
 ## Longer safe orders (v0.13)
 
 Continuing the recorded roadmap, [WATCHES.md](WATCHES.md) selects an explicitly chosen extended hub-work experiment. Duration/payment ratios, specialty-based pay, cancellation, single practice credit and schema-5 watch metadata are implementation choices under the ongoing authorization. Ten actual schema-4 saves/outcomes were captured from released `d69e8e0` before engine changes. No approval of an automatic queue, roguelite reset, passive upkeep or a new generation catalog is inferred.
+
+The following [destination-bundle design](BUNDLES.md) focuses the next ongoing-roadmap item, informed by the audit's local-staging and shared-travel findings. It is an unimplemented planning/UI design, not a claim of new content or batch commands. Its selected boundaries keep actual offers, accepted work, paid terms and receipts distinct.

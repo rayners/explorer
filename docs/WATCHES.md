@@ -1,6 +1,6 @@
 # Explicit longer hub work
 
-Implemented locally for v0.13, 2026-10-28, under the ongoing roadmap instruction. The [expedition audit](EXPEDITION-AUDIT.md) found that a single short shift produces the same return after five minutes or overnight. This slice gives intermittent players a useful explicitly chosen commitment without a repeat queue. The exact terms below are implementation choices, not quoted user requirements. Deployment verification is recorded separately when complete.
+Implemented and published for v0.13, 2026-10-28, under the ongoing roadmap instruction. The [expedition audit](EXPEDITION-AUDIT.md) found that a single short shift produces the same return after five minutes or overnight. This slice gives intermittent players a useful explicitly chosen commitment without a repeat queue. The exact terms below are implementation choices, not quoted user requirements. Deployment verification follows below.
 
 ## Orders and tradeoffs
 
@@ -38,6 +38,12 @@ Test previews/rejections without mutation or RNG draws; every duration/payment/d
 
 ## Local evidence
 
-163 unit tests, 111 browser cases and 34 production offline cases pass, with typecheck and Pages-base build. The ten new released-save scenarios retain every old field/outcome except the validated schema version; earlier fixtures/catalog hashes remain unchanged. The Victorian consulting fixture also exercises a different currency, lower wage and repayment limited to that job's pay. Both logistics simulators pass with their unchanged short-work policy (legacy Far Wake 192–196 minutes across eight seeds; generated campaigns remain recoverable).
+164 unit tests, 111 browser cases and 34 production offline cases pass, with typecheck and Pages-base build. The ten new released-save scenarios retain every old field/outcome except the validated schema version; earlier fixtures/catalog hashes remain unchanged. The Victorian consulting fixture also exercises a different currency, lower wage and repayment limited to that job's pay. Both logistics simulators pass with their unchanged short-work policy (legacy Far Wake 192–196 minutes across eight seeds; generated campaigns remain recoverable).
 
 Chromium/iPhone/iPad WebKit checks cover real previews/orders, cancellation confirmation, retained support jobs, a read-only second tab, single payment/practice and older/current catalogs. Production offline checks finish all three durations in both themes and verify cancellation without partial credit. Phone choice panels were visually inspected and landscape overflow checked. These results are emulation, not physical-device acceptance. No new dependency, asset service, manifest or browser namespace was added.
+
+## Delivery evidence
+
+Feature `7eed06e` passed [Pages workflow 40749394417](https://github.com/rayners/explorer/actions/runs/40749394417) and deployed successfully. Live iPhone WebKit checked both canonical game routes and the library: explicit eight-hour dispatch and committed terms, offline reload/cancellation preserving support, actual offline import/catch-up for all three durations with one payment/practice credit, released generation-3/schema-4 short-work outcomes after migration, independent saves and no production development helpers. Active watch screens were visually inspected. Physical Safari/Home Screen acceptance remains pending.
+
+The final visual pass exposed Hollowmere's old minute-only countdown (`479m 60s` near eight hours). Both mounts now share whole-remainder rounding and hour-aware formatting, with fractional boundary regressions; no job timing or pay changed.

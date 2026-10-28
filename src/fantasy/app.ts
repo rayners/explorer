@@ -1,3 +1,4 @@
+import { duration as time } from '../ui/time';
 import { planningSummary, projectOffers, routePlanPanel } from '../ui/planning-panels';
 import { proficiencyLabel, proficiencyHelp } from '../ui/proficiency';
 import { chartLines } from '../ui/world-map';
@@ -24,10 +25,6 @@ const esc = (value: unknown) =>
     /[&<>"']/g,
     (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
   );
-const time = (seconds: number) =>
-  seconds >= 60
-    ? `${Math.floor(seconds / 60)}m ${Math.ceil(seconds % 60)}s`
-    : `${Math.ceil(seconds)}s`;
 const panel = (title: string, body: string) =>
   `<section class="panel"><div class="panel-head"><h2>${title}</h2></div><div class="panel-body">${body}</div></section>`;
 export function mountFantasy(root: HTMLElement, controller: AppController) {
