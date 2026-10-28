@@ -27,29 +27,30 @@ Read [requirements](docs/REQUIREMENTS.md), [decisions](docs/DECISIONS.md), [arch
 
 ## Code map
 
-| Path                                                         | Responsibility                                                          |
-| ------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| `src/engine/types.ts`                                        | Definitions, serializable state and commands                            |
-| `src/engine/simulation.ts`                                   | Commands, time boundaries, economy, encounters, objectives              |
-| `src/engine/names.ts`, `src/content/names.ts`                | Pure seeded sampling and themed name/reference assembly                 |
-| `src/engine/missions.ts`, `src/engine/mission-generation.ts` | Discovery eligibility, bound work and contextual contract generation    |
-| `src/content/missions.ts`, `src/ui/mission-panels.ts`        | Additive catalog assembly and shared field-work previews                |
-| `src/engine/sites.ts`, `src/engine/site-generation.ts`       | Site choices and deterministic profile generation                       |
-| `src/content/sites.ts`, `src/ui/site-panels.ts`              | Themed catalog assembly and shared site controls                        |
-| `src/engine/discoveries.ts`                                  | Once-only site events, silent exposure and persistent follow-up choices |
-| `src/engine/topology.ts`, `world-generation.ts`              | Connected seeded graphs and bounded world assembly                      |
-| `src/content/worlds.ts`, themed `world.ts`                   | Versioned layout recipes and assembly before names/sites/contracts      |
-| `src/engine/navigation.ts`                                   | Effective routes and itinerary planning                                 |
-| `src/engine/proficiency.ts`, `src/ui/proficiency.ts`         | Committed participant credit, bounded practice and roster writing       |
-| `src/content/opportunities.ts`, themed `opportunities.ts`    | Versioned rescue/knowledge choices and stable survivor identity         |
-| `src/engine/personnel.ts`, `threats.ts`                      | Recruitment, skills, casualties, internal incidents                     |
-| `src/engine/save.ts`, `random.ts`                            | Save validation/migration/reconciliation and seeded RNG                 |
-| `src/browser/`                                               | Lifecycle, controller, persistence and tab coordination                 |
-| `src/game/`, `src/ui/`                                       | Far Wake definitions/writing and DOM/pixel artwork                      |
-| `src/fantasy/`                                               | Hollowmere definitions, UI, art and entry point                         |
-| `src/picker/`                                                | Library catalog, UI and Far Wake manifest compatibility                 |
-| `tests/`, `e2e/`                                             | Behavior, content, portability, browser and offline checks              |
-| `scripts/`                                                   | Frontier simulation, icons and screenshots                              |
+| Path                                                          | Responsibility                                                          |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `src/engine/types.ts`                                         | Definitions, serializable state and commands                            |
+| `src/engine/simulation.ts`                                    | Commands, time boundaries, economy, encounters, objectives              |
+| `src/engine/names.ts`, `src/content/names.ts`                 | Pure seeded sampling and themed name/reference assembly                 |
+| `src/engine/missions.ts`, `src/engine/mission-generation.ts`  | Discovery eligibility, bound work and contextual contract generation    |
+| `src/engine/project-generation.ts`, `src/content/projects.ts` | Exact discovery-choice projects and versioned thematic assembly         |
+| `src/content/missions.ts`, `src/ui/mission-panels.ts`         | Additive catalog assembly and shared field-work previews                |
+| `src/engine/sites.ts`, `src/engine/site-generation.ts`        | Site choices and deterministic profile generation                       |
+| `src/content/sites.ts`, `src/ui/site-panels.ts`               | Themed catalog assembly and shared site controls                        |
+| `src/engine/discoveries.ts`                                   | Once-only site events, silent exposure and persistent follow-up choices |
+| `src/engine/topology.ts`, `world-generation.ts`               | Connected seeded graphs and bounded world assembly                      |
+| `src/content/worlds.ts`, themed `world.ts`                    | Versioned layout recipes and assembly before names/sites/contracts      |
+| `src/engine/navigation.ts`                                    | Effective routes and itinerary planning                                 |
+| `src/engine/proficiency.ts`, `src/ui/proficiency.ts`          | Committed participant credit, bounded practice and roster writing       |
+| `src/content/opportunities.ts`, themed `opportunities.ts`     | Versioned rescue/knowledge choices and stable survivor identity         |
+| `src/engine/personnel.ts`, `threats.ts`                       | Recruitment, skills, casualties, internal incidents                     |
+| `src/engine/save.ts`, `random.ts`                             | Save validation/migration/reconciliation and seeded RNG                 |
+| `src/browser/`                                                | Lifecycle, controller, persistence and tab coordination                 |
+| `src/game/`, `src/ui/`                                        | Far Wake definitions/writing and DOM/pixel artwork                      |
+| `src/fantasy/`                                                | Hollowmere definitions, UI, art and entry point                         |
+| `src/picker/`                                                 | Library catalog, UI and Far Wake manifest compatibility                 |
+| `tests/`, `e2e/`                                              | Behavior, content, portability, browser and offline checks              |
+| `scripts/`                                                    | Frontier simulation, icons and screenshots                              |
 
 Vite + TypeScript, hand-written DOM/CSS, Vitest and Playwright. Match surrounding style; avoid adding a framework or dependency without a concrete need. Artwork is currently code-native pixel art; no external fonts or image services are needed.
 
