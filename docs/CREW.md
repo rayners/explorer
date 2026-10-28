@@ -8,6 +8,8 @@ Give an expedition a lasting personnel history through useful work and occasiona
 
 ## Proficiency
 
+v0.13 longer hub orders preserve the same participant rules: one point to surviving matching contributors at completion, regardless of chosen duration; none after cancellation. Schema 5 retains schema-4 practice/participant fields unchanged. See [WATCHES.md](WATCHES.md).
+
 A member earns one practice point when completing an activity that uses their specialty on their assigned team. Primary and support work count; resting members, unrelated specialties and dead members do not. Travel, rescue, idle time and rendering award nothing. Injury does not erase points. Memorials retain them.
 
 Activity dispatch records eligible participant IDs, including the activity specialty and explicit role requirements on that team for the chosen site approach. Completion credits only surviving committed participants once. A casualty does not invalidate a paid order, and a later hire receives no credit for it. All paid activities, as well as journeys, now survive losing a team's last member. New orders still require living staff. Progress or training never recomputes another order's committed time, reward, risk or destination.

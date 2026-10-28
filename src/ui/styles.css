@@ -380,6 +380,51 @@ small {
 .preparation-details {
   min-width: 0;
 }
+.watch-options {
+  border-top: 1px solid var(--line);
+  margin-top: 12px;
+  padding-top: 8px;
+  min-width: 0;
+}
+.watch-options summary {
+  min-height: 44px;
+  padding: 10px 0;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.watch-options summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.watch-choices {
+  display: grid;
+  gap: 12px;
+  margin: 14px 0;
+}
+.watch-choice {
+  border: 1px solid var(--line);
+  padding: 12px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.watch-choice p {
+  margin: 8px 0;
+}
+.watch-commitment {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.watch-commitment small {
+  display: block;
+  margin-top: 6px;
+}
+.watch-commitment .action-reason {
+  color: var(--red);
+}
 .work-details summary,
 .preparation-details summary {
   cursor: pointer;

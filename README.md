@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.13
+
+At stations and refuges, expand **Longer station shifts** or **Longer refuge duties** on the ordinary work card. Choose one 15-minute, one-hour or eight-hour order, with its pay, debt repayment and take-home amount shown before starting. Skills improve pay; duration stays fixed. Short active shifts remain more profitable per minute.
+
+Each order pays and grants matching participants one practice point only when it finishes, including after offline absence. Cancel from its active-job panel to leave early, forfeiting the whole payout and practice. Support work remains independent; there is no repeat queue. Existing expeditions gain these options without a reset, with a validated schema-5 save upgrade that preserves old jobs. See [longer hub work](docs/WATCHES.md).
+
 ## New in v0.12
 
 Both overviews put the current directive before the pixel scene. Hollowmere follows the first oath through travel, survey and reporting; Far Wake keeps its existing state-aware guidance. Larger decision text and stock labels, wrapping phone resources and a compact landscape layout make preparation easier to read.
@@ -131,11 +137,13 @@ Development only: `?speed=60` accelerates visible play. `window.__farWake.advanc
 
 See [the engine guide](docs/ENGINE.md), [design and future work](docs/DESIGN.md), and [device acceptance checklist](docs/ACCEPTANCE.md). The Victorian detective fixture in `tests/victorian.test.ts` uses the same engine with districts, carriage fares, investigators, evidence, and societies.
 
-Seeds currently vary frontier deposits and site identities within an authored four-system topology. Full procedural systems and missions, roguelite resets, and persistent unlocks are deliberately deferred.
+Current seeds vary names, sites and connected system/realm layouts, with discovery-derived contracts and bounded events/projects. Full procedural campaigns, roguelite resets and persistent unlocks remain deferred.
 
 ## Saves and compatibility
 
-The JSON envelope format remains **1**; generation **1** preserves released authored names and generation **2** preserves generated names with authored sites, and generation **3** adds generated sites for fresh expeditions; the saved state schema is now **3**. Version-one and version-two states migrate automatically, preserving inventory, discoveries, contracts, upgrades, crew, and active job timers. Schema 2 initializes recruitment history and a clear internal-threat state; schema 3 initializes an empty incident ledger and discovery cooldown. Existing threats and committed jobs remain intact, and old sites are never rerolled. Unsupported future versions are rejected instead of silently regenerated.
+The JSON envelope format remains **1**, state schema is **5**, and content generation is independently versioned. Generations 1–7 preserve their original names, geography, sites, events and work catalogs. New expeditions use generation 7; restores keep the saved version.
+
+Schemas 1–4 migrate after their original checksum and applicable legacy state are validated. Schema 4 adds practice/participants; schema 5 preserves those fields and all old jobs while permitting optional committed watch terms. No sites, names or paid jobs are rerolled, and no past practice is awarded retroactively. Unsupported future versions are rejected instead of silently regenerated. Export a backup before moving between application versions.
 
 Browser storage keys are `far-wake.save.v1`, `far-wake.backup.v1` (before import/reset), and `far-wake.corrupt.v1` (unreadable original). Hollowmere uses the equivalent `hollowmere.*` namespace. Cross-game imports are rejected and both games can hold independent command locks. Saves are plain JSON with a checksum for accidental corruption, not an anti-cheat mechanism. Imports and resets keep the current expedition active until both its backup and replacement have been written; a storage failure leaves the current expedition intact and displays a persistent warning. Keep downloaded backups: browser storage can be cleared by the user or operating system. Settings can import a backup JSON copied from these keys.
 

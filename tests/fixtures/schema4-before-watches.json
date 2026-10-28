@@ -1,0 +1,1627 @@
+{
+  "source": "d69e8e0",
+  "schema": 4,
+  "fixtures": [
+    {
+      "game": "far-wake",
+      "generation": 1,
+      "kind": "short-work-with-debt",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"far-wake\",\"generationVersion\":1,\"seed\":1701,\"rng\":1701,\"elapsed\":0,\"calendarDays\":0,\"location\":\"anchor\",\"inventory\":{\"credits\":320,\"fuel\":32,\"parts\":12,\"ammo\":8,\"provisions\":18,\"ore\":0,\"ice\":0},\"integrity\":100,\"wear\":8,\"capacity\":120,\"debt\":150,\"crew\":[{\"id\":\"mara\",\"name\":\"Mara Venn\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ishaan\",\"name\":\"Ishaan Rao\",\"skill\":\"engineering\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ada\",\"name\":\"Ada Okonkwo\",\"skill\":\"security\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"anchor\",\"cinder\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":0,\"pirates\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"participants\":[\"ishaan\"],\"definition\":\"work\",\"target\":\"anchor\",\"remaining\":38,\"total\":38,\"days\":0,\"reward\":{\"credits\":65},\"risk\":0},\"support\":null,\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work\"}}],\"nextEvent\":2,\"milestones\":[]},\"checksum\":\"c6a94c2c\"}",
+      "seconds": 86400,
+      "completed": {
+        "version": 4,
+        "definition": "far-wake",
+        "generationVersion": 1,
+        "seed": 1701,
+        "rng": 1701,
+        "elapsed": 86400,
+        "calendarDays": 0,
+        "location": "anchor",
+        "inventory": {
+          "credits": 365,
+          "fuel": 32,
+          "parts": 12,
+          "ammo": 8,
+          "provisions": 18,
+          "ore": 0,
+          "ice": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 130,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Mara Venn",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "ishaan",
+            "name": "Ishaan Rao",
+            "skill": "engineering",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ada",
+            "name": "Ada Okonkwo",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "anchor",
+          "cinder"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work"
+            }
+          },
+          {
+            "id": 2,
+            "at": 38,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work",
+              "target": "anchor"
+            }
+          }
+        ],
+        "nextEvent": 3,
+        "milestones": []
+      }
+    },
+    {
+      "game": "far-wake",
+      "generation": 3,
+      "kind": "short-work-with-debt",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"far-wake\",\"generationVersion\":3,\"seed\":1701,\"rng\":1701,\"elapsed\":0,\"calendarDays\":0,\"location\":\"anchor\",\"inventory\":{\"credits\":320,\"fuel\":32,\"parts\":12,\"ammo\":8,\"provisions\":18,\"ore\":0,\"ice\":0},\"integrity\":100,\"wear\":8,\"capacity\":120,\"debt\":150,\"crew\":[{\"id\":\"mara\",\"name\":\"Hana Reed\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ishaan\",\"name\":\"Noel Holt\",\"skill\":\"engineering\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ada\",\"name\":\"Alex Cole\",\"skill\":\"security\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"anchor\",\"cinder\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":0,\"pirates\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"participants\":[\"ishaan\"],\"definition\":\"work\",\"target\":\"anchor\",\"remaining\":38,\"total\":38,\"days\":0,\"reward\":{\"credits\":65},\"risk\":0},\"support\":null,\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work\"}}],\"nextEvent\":2,\"milestones\":[]},\"checksum\":\"25c9b644\"}",
+      "seconds": 86400,
+      "completed": {
+        "version": 4,
+        "definition": "far-wake",
+        "generationVersion": 3,
+        "seed": 1701,
+        "rng": 1701,
+        "elapsed": 86400,
+        "calendarDays": 0,
+        "location": "anchor",
+        "inventory": {
+          "credits": 365,
+          "fuel": 32,
+          "parts": 12,
+          "ammo": 8,
+          "provisions": 18,
+          "ore": 0,
+          "ice": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 130,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Hana Reed",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "ishaan",
+            "name": "Noel Holt",
+            "skill": "engineering",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ada",
+            "name": "Alex Cole",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "anchor",
+          "cinder"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work"
+            }
+          },
+          {
+            "id": 2,
+            "at": 38,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work",
+              "target": "anchor"
+            }
+          }
+        ],
+        "nextEvent": 3,
+        "milestones": []
+      }
+    },
+    {
+      "game": "far-wake",
+      "generation": 7,
+      "kind": "short-work-with-debt",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"far-wake\",\"generationVersion\":7,\"seed\":1701,\"rng\":1701,\"elapsed\":0,\"calendarDays\":0,\"location\":\"anchor\",\"inventory\":{\"credits\":320,\"fuel\":32,\"parts\":12,\"ammo\":8,\"provisions\":18,\"ore\":0,\"ice\":0},\"integrity\":100,\"wear\":8,\"capacity\":120,\"debt\":150,\"crew\":[{\"id\":\"mara\",\"name\":\"Hana Reed\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ishaan\",\"name\":\"Noel Holt\",\"skill\":\"engineering\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ada\",\"name\":\"Alex Cole\",\"skill\":\"security\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"anchor\",\"cinder\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":0,\"pirates\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"participants\":[\"ishaan\"],\"definition\":\"work\",\"target\":\"anchor\",\"remaining\":38,\"total\":38,\"days\":0,\"reward\":{\"credits\":65},\"risk\":0},\"support\":null,\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work\"}}],\"nextEvent\":2,\"milestones\":[]},\"checksum\":\"3bb1cc88\"}",
+      "seconds": 86400,
+      "completed": {
+        "version": 4,
+        "definition": "far-wake",
+        "generationVersion": 7,
+        "seed": 1701,
+        "rng": 1701,
+        "elapsed": 86400,
+        "calendarDays": 0,
+        "location": "anchor",
+        "inventory": {
+          "credits": 365,
+          "fuel": 32,
+          "parts": 12,
+          "ammo": 8,
+          "provisions": 18,
+          "ore": 0,
+          "ice": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 130,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Hana Reed",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "ishaan",
+            "name": "Noel Holt",
+            "skill": "engineering",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ada",
+            "name": "Alex Cole",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "anchor",
+          "cinder"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work"
+            }
+          },
+          {
+            "id": 2,
+            "at": 38,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work",
+              "target": "anchor"
+            }
+          }
+        ],
+        "nextEvent": 3,
+        "milestones": []
+      }
+    },
+    {
+      "game": "far-wake",
+      "generation": 7,
+      "kind": "travel-with-support",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"far-wake\",\"generationVersion\":7,\"seed\":1701,\"rng\":1701,\"elapsed\":0,\"calendarDays\":0,\"location\":\"anchor\",\"inventory\":{\"credits\":320,\"fuel\":28,\"parts\":10,\"ammo\":8,\"provisions\":17,\"ore\":0,\"ice\":0},\"integrity\":100,\"wear\":11,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"mara\",\"name\":\"Hana Reed\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ishaan\",\"name\":\"Noel Holt\",\"skill\":\"engineering\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ada\",\"name\":\"Alex Cole\",\"skill\":\"security\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"anchor\",\"cinder\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":0,\"pirates\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"travel\",\"definition\":\"travel\",\"target\":\"cinder\",\"remaining\":60,\"total\":60,\"days\":4,\"reward\":{},\"risk\":0.028},\"support\":{\"id\":\"j2\",\"kind\":\"activity\",\"participants\":[\"ishaan\"],\"definition\":\"service\",\"target\":\"anchor\",\"remaining\":42,\"total\":42,\"days\":0,\"reward\":{},\"risk\":0},\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"departed\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":2,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"service\"}}],\"nextEvent\":3,\"milestones\":[]},\"checksum\":\"92e96b30\"}",
+      "seconds": 300,
+      "completed": {
+        "version": 4,
+        "definition": "far-wake",
+        "generationVersion": 7,
+        "seed": 1701,
+        "rng": 1831567514,
+        "elapsed": 300,
+        "calendarDays": 4,
+        "location": "cinder",
+        "inventory": {
+          "credits": 320,
+          "fuel": 28,
+          "parts": 10,
+          "ammo": 8,
+          "provisions": 17,
+          "ore": 0,
+          "ice": 0
+        },
+        "integrity": 100,
+        "wear": 0,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Hana Reed",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "ishaan",
+            "name": "Noel Holt",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ada",
+            "name": "Alex Cole",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "anchor",
+          "cinder"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "departed",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 2,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "service"
+            }
+          },
+          {
+            "id": 3,
+            "at": 42,
+            "key": "activityComplete",
+            "params": {
+              "activity": "service",
+              "target": "anchor"
+            }
+          },
+          {
+            "id": 4,
+            "at": 60,
+            "key": "arrived",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          }
+        ],
+        "nextEvent": 5,
+        "milestones": []
+      }
+    },
+    {
+      "game": "far-wake",
+      "generation": 7,
+      "kind": "parallel-bound-support",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"far-wake\",\"generationVersion\":7,\"seed\":1701,\"rng\":1,\"elapsed\":200,\"calendarDays\":0,\"location\":\"morrow\",\"inventory\":{\"credits\":345,\"fuel\":34,\"parts\":14,\"ammo\":8,\"provisions\":11,\"ore\":3,\"ice\":0},\"integrity\":92,\"wear\":8,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"mara\",\"name\":\"Hana Reed\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":1,\"life\":\"alive\",\"experience\":1},{\"id\":\"ishaan\",\"name\":\"Noel Holt\",\"skill\":\"engineering\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ada\",\"name\":\"Alex Cole\",\"skill\":\"security\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"medic-0\",\"name\":\"Dr. Sora Ibarra\",\"skill\":\"medical\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"recruit\":\"medic\",\"experience\":0}],\"recruitSerial\":1,\"threat\":null,\"threatHistory\":[],\"incidents\":[{\"id\":\"distress-beacon\",\"location\":\"morrow\",\"site\":\"site:morrow:0\",\"at\":102,\"choice\":\"berth\",\"recruitSerial\":0}],\"discoveryCooldown\":2,\"known\":[\"anchor\",\"cinder\",\"morrow\",\"rubble\",\"pale-0\",\"pale-1\",\"pale-2\",\"pale-3\",\"meridian-0\",\"meridian-1\",\"meridian-2\",\"meridian-3\",\"hollow-0\",\"hollow-1\",\"hollow-2\",\"hollow-3\",\"pale-generated-0\",\"meridian-generated-0\",\"hollow-generated-0\",\"generated-region-0-hub\",\"generated-region-0-generated-0\",\"generated-region-0-generated-1\",\"generated-region-0-generated-2\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":true,\"sites\":[\"site:cinder:0\",\"site:cinder:1\",\"site:cinder:2\"],\"dataSold\":false},\"morrow\":{\"surveyed\":true,\"sites\":[\"site:morrow:1\",\"site:morrow:2\",\"site:morrow:0\"],\"dataSold\":false},\"rubble\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-1\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-2\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-3\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-1\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-2\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-3\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-1\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-2\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-3\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"pale-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"hollow-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"generated-region-0-hub\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"generated-region-0-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"generated-region-0-generated-1\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"generated-region-0-generated-2\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":0,\"pirates\":0},\"primary\":{\"id\":\"j10\",\"kind\":\"activity\",\"participants\":[],\"definition\":\"gather\",\"target\":\"morrow\",\"remaining\":75,\"total\":75,\"days\":0,\"reward\":{\"ice\":10,\"ore\":3},\"risk\":0.12},\"support\":{\"id\":\"j11\",\"kind\":\"activity\",\"participants\":[\"medic-0\"],\"definition\":\"work:project:site:morrow:0:distress-beacon:berth\",\"target\":\"morrow\",\"remaining\":85,\"total\":85,\"days\":0,\"reward\":{},\"risk\":0},\"encounter\":null,\"missions\":[{\"id\":\"project:site:morrow:0:distress-beacon:berth\",\"progress\":0,\"claimed\":false}],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"explore\",\"site\":\"site:morrow:0\",\"approach\":\"direct\"}},{\"id\":2,\"at\":102,\"key\":\"siteExplored\",\"params\":{\"target\":\"morrow\",\"site\":\"site:morrow:0\"}},{\"id\":3,\"at\":102,\"key\":\"activityComplete\",\"params\":{\"activity\":\"explore\",\"target\":\"morrow\"}},{\"id\":4,\"at\":102,\"key\":\"hazard\",\"params\":{}},{\"id\":5,\"at\":102,\"key\":\"discoveryFound\",\"params\":{\"discovery\":\"distress-beacon\",\"target\":\"morrow\"}},{\"id\":6,\"at\":102,\"key\":\"milestone\",\"params\":{\"milestone\":\"frontier\"}},{\"id\":7,\"at\":200,\"key\":\"memberHired\",\"params\":{\"member\":\"Dr. Sora Ibarra\",\"skill\":\"medical\"}},{\"id\":8,\"at\":200,\"key\":\"discoverySettled\",\"params\":{\"discovery\":\"distress-beacon\",\"choice\":\"berth\"}},{\"id\":9,\"at\":200,\"key\":\"missionAccepted\",\"params\":{\"mission\":\"project:site:morrow:0:distress-beacon:berth\"}},{\"id\":10,\"at\":200,\"key\":\"activityStarted\",\"params\":{\"activity\":\"gather\"}},{\"id\":11,\"at\":200,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work:project:site:morrow:0:distress-beacon:berth\"}}],\"nextEvent\":12,\"milestones\":[\"frontier\"]},\"checksum\":\"9f037b72\"}",
+      "seconds": 200,
+      "completed": {
+        "version": 4,
+        "definition": "far-wake",
+        "generationVersion": 7,
+        "seed": 1701,
+        "rng": 1831565814,
+        "elapsed": 400,
+        "calendarDays": 0,
+        "location": "morrow",
+        "inventory": {
+          "credits": 345,
+          "fuel": 34,
+          "parts": 14,
+          "ammo": 8,
+          "provisions": 11,
+          "ore": 6,
+          "ice": 10
+        },
+        "integrity": 92,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Hana Reed",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 1,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ishaan",
+            "name": "Noel Holt",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "ada",
+            "name": "Alex Cole",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "medic-0",
+            "name": "Dr. Sora Ibarra",
+            "skill": "medical",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "recruit": "medic",
+            "experience": 1
+          }
+        ],
+        "recruitSerial": 1,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [
+          {
+            "id": "distress-beacon",
+            "location": "morrow",
+            "site": "site:morrow:0",
+            "at": 102,
+            "choice": "berth",
+            "recruitSerial": 0
+          }
+        ],
+        "discoveryCooldown": 2,
+        "known": [
+          "anchor",
+          "cinder",
+          "morrow",
+          "rubble",
+          "pale-0",
+          "pale-1",
+          "pale-2",
+          "pale-3",
+          "meridian-0",
+          "meridian-1",
+          "meridian-2",
+          "meridian-3",
+          "hollow-0",
+          "hollow-1",
+          "hollow-2",
+          "hollow-3",
+          "pale-generated-0",
+          "meridian-generated-0",
+          "hollow-generated-0",
+          "generated-region-0-hub",
+          "generated-region-0-generated-0",
+          "generated-region-0-generated-1",
+          "generated-region-0-generated-2"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": true,
+            "sites": [
+              "site:cinder:0",
+              "site:cinder:1",
+              "site:cinder:2"
+            ],
+            "dataSold": false
+          },
+          "morrow": {
+            "surveyed": true,
+            "sites": [
+              "site:morrow:1",
+              "site:morrow:2",
+              "site:morrow:0"
+            ],
+            "dataSold": false
+          },
+          "rubble": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-1": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-2": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-3": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-1": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-2": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-3": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-1": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-2": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-3": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-hub": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-generated-1": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-generated-2": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [
+          {
+            "id": "project:site:morrow:0:distress-beacon:berth",
+            "progress": 1,
+            "claimed": false
+          }
+        ],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:morrow:0",
+              "approach": "direct"
+            }
+          },
+          {
+            "id": 2,
+            "at": 102,
+            "key": "siteExplored",
+            "params": {
+              "target": "morrow",
+              "site": "site:morrow:0"
+            }
+          },
+          {
+            "id": 3,
+            "at": 102,
+            "key": "activityComplete",
+            "params": {
+              "activity": "explore",
+              "target": "morrow"
+            }
+          },
+          {
+            "id": 4,
+            "at": 102,
+            "key": "hazard",
+            "params": {}
+          },
+          {
+            "id": 5,
+            "at": 102,
+            "key": "discoveryFound",
+            "params": {
+              "discovery": "distress-beacon",
+              "target": "morrow"
+            }
+          },
+          {
+            "id": 6,
+            "at": 102,
+            "key": "milestone",
+            "params": {
+              "milestone": "frontier"
+            }
+          },
+          {
+            "id": 7,
+            "at": 200,
+            "key": "memberHired",
+            "params": {
+              "member": "Dr. Sora Ibarra",
+              "skill": "medical"
+            }
+          },
+          {
+            "id": 8,
+            "at": 200,
+            "key": "discoverySettled",
+            "params": {
+              "discovery": "distress-beacon",
+              "choice": "berth"
+            }
+          },
+          {
+            "id": 9,
+            "at": 200,
+            "key": "missionAccepted",
+            "params": {
+              "mission": "project:site:morrow:0:distress-beacon:berth"
+            }
+          },
+          {
+            "id": 10,
+            "at": 200,
+            "key": "activityStarted",
+            "params": {
+              "activity": "gather"
+            }
+          },
+          {
+            "id": 11,
+            "at": 200,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work:project:site:morrow:0:distress-beacon:berth"
+            }
+          },
+          {
+            "id": 12,
+            "at": 275,
+            "key": "activityComplete",
+            "params": {
+              "activity": "gather",
+              "target": "morrow"
+            }
+          },
+          {
+            "id": 13,
+            "at": 285,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work:project:site:morrow:0:distress-beacon:berth",
+              "target": "morrow"
+            }
+          }
+        ],
+        "nextEvent": 14,
+        "milestones": [
+          "frontier"
+        ]
+      }
+    },
+    {
+      "game": "hollowmere",
+      "generation": 1,
+      "kind": "short-work-with-debt",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"hollowmere\",\"generationVersion\":1,\"seed\":1701,\"rng\":1701,\"elapsed\":0,\"calendarDays\":0,\"location\":\"mournwatch\",\"inventory\":{\"gold\":320,\"rations\":30,\"wood\":12,\"bolts\":12,\"incense\":14,\"herbs\":4,\"relics\":0},\"integrity\":100,\"wear\":8,\"capacity\":120,\"debt\":100,\"crew\":[{\"id\":\"bran\",\"name\":\"Bran Ash\",\"skill\":\"fighter\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ves\",\"name\":\"Ves Rook\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"elin\",\"name\":\"Sister Elin\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"mournwatch\",\"old-road\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":0,\"covenant\":0,\"court\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"participants\":[\"bran\"],\"definition\":\"work\",\"target\":\"mournwatch\",\"remaining\":38,\"total\":38,\"days\":0,\"reward\":{\"gold\":65},\"risk\":0},\"support\":null,\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work\"}}],\"nextEvent\":2,\"milestones\":[]},\"checksum\":\"fa98653f\"}",
+      "seconds": 86400,
+      "completed": {
+        "version": 4,
+        "definition": "hollowmere",
+        "generationVersion": 1,
+        "seed": 1701,
+        "rng": 1701,
+        "elapsed": 86400,
+        "calendarDays": 0,
+        "location": "mournwatch",
+        "inventory": {
+          "gold": 365,
+          "rations": 30,
+          "wood": 12,
+          "bolts": 12,
+          "incense": 14,
+          "herbs": 4,
+          "relics": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 80,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Bran Ash",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ves",
+            "name": "Ves Rook",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "elin",
+            "name": "Sister Elin",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "mournwatch",
+          "old-road"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work"
+            }
+          },
+          {
+            "id": 2,
+            "at": 38,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work",
+              "target": "mournwatch"
+            }
+          }
+        ],
+        "nextEvent": 3,
+        "milestones": []
+      }
+    },
+    {
+      "game": "hollowmere",
+      "generation": 3,
+      "kind": "short-work-with-debt",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"hollowmere\",\"generationVersion\":3,\"seed\":1701,\"rng\":1701,\"elapsed\":0,\"calendarDays\":0,\"location\":\"mournwatch\",\"inventory\":{\"gold\":320,\"rations\":30,\"wood\":12,\"bolts\":12,\"incense\":14,\"herbs\":4,\"relics\":0},\"integrity\":100,\"wear\":8,\"capacity\":120,\"debt\":100,\"crew\":[{\"id\":\"bran\",\"name\":\"Sable Yew\",\"skill\":\"fighter\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ves\",\"name\":\"Morwen Holt\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"elin\",\"name\":\"Edda Blackthorn\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"mournwatch\",\"old-road\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":0,\"covenant\":0,\"court\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"participants\":[\"bran\"],\"definition\":\"work\",\"target\":\"mournwatch\",\"remaining\":38,\"total\":38,\"days\":0,\"reward\":{\"gold\":65},\"risk\":0},\"support\":null,\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work\"}}],\"nextEvent\":2,\"milestones\":[]},\"checksum\":\"9f671d62\"}",
+      "seconds": 86400,
+      "completed": {
+        "version": 4,
+        "definition": "hollowmere",
+        "generationVersion": 3,
+        "seed": 1701,
+        "rng": 1701,
+        "elapsed": 86400,
+        "calendarDays": 0,
+        "location": "mournwatch",
+        "inventory": {
+          "gold": 365,
+          "rations": 30,
+          "wood": 12,
+          "bolts": 12,
+          "incense": 14,
+          "herbs": 4,
+          "relics": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 80,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Sable Yew",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ves",
+            "name": "Morwen Holt",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "elin",
+            "name": "Edda Blackthorn",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "mournwatch",
+          "old-road"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work"
+            }
+          },
+          {
+            "id": 2,
+            "at": 38,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work",
+              "target": "mournwatch"
+            }
+          }
+        ],
+        "nextEvent": 3,
+        "milestones": []
+      }
+    },
+    {
+      "game": "hollowmere",
+      "generation": 7,
+      "kind": "short-work-with-debt",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"hollowmere\",\"generationVersion\":7,\"seed\":1701,\"rng\":1701,\"elapsed\":0,\"calendarDays\":0,\"location\":\"mournwatch\",\"inventory\":{\"gold\":320,\"rations\":30,\"wood\":12,\"bolts\":12,\"incense\":14,\"herbs\":4,\"relics\":0},\"integrity\":100,\"wear\":8,\"capacity\":120,\"debt\":100,\"crew\":[{\"id\":\"bran\",\"name\":\"Sable Yew\",\"skill\":\"fighter\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ves\",\"name\":\"Morwen Holt\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"elin\",\"name\":\"Edda Blackthorn\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"mournwatch\",\"old-road\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":0,\"covenant\":0,\"court\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"participants\":[\"bran\"],\"definition\":\"work\",\"target\":\"mournwatch\",\"remaining\":38,\"total\":38,\"days\":0,\"reward\":{\"gold\":65},\"risk\":0},\"support\":null,\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work\"}}],\"nextEvent\":2,\"milestones\":[]},\"checksum\":\"67bfbe76\"}",
+      "seconds": 86400,
+      "completed": {
+        "version": 4,
+        "definition": "hollowmere",
+        "generationVersion": 7,
+        "seed": 1701,
+        "rng": 1701,
+        "elapsed": 86400,
+        "calendarDays": 0,
+        "location": "mournwatch",
+        "inventory": {
+          "gold": 365,
+          "rations": 30,
+          "wood": 12,
+          "bolts": 12,
+          "incense": 14,
+          "herbs": 4,
+          "relics": 0
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 80,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Sable Yew",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ves",
+            "name": "Morwen Holt",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "elin",
+            "name": "Edda Blackthorn",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "mournwatch",
+          "old-road"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work"
+            }
+          },
+          {
+            "id": 2,
+            "at": 38,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work",
+              "target": "mournwatch"
+            }
+          }
+        ],
+        "nextEvent": 3,
+        "milestones": []
+      }
+    },
+    {
+      "game": "hollowmere",
+      "generation": 7,
+      "kind": "travel-with-support",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"hollowmere\",\"generationVersion\":7,\"seed\":1701,\"rng\":1701,\"elapsed\":0,\"calendarDays\":0,\"location\":\"mournwatch\",\"inventory\":{\"gold\":320,\"rations\":29,\"wood\":10,\"bolts\":12,\"incense\":14,\"herbs\":4,\"relics\":0},\"integrity\":100,\"wear\":11,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"bran\",\"name\":\"Sable Yew\",\"skill\":\"fighter\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"ves\",\"name\":\"Morwen Holt\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"elin\",\"name\":\"Edda Blackthorn\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":0}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"mournwatch\",\"old-road\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":0,\"covenant\":0,\"court\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"travel\",\"definition\":\"travel\",\"target\":\"old-road\",\"remaining\":45,\"total\":45,\"days\":0.2,\"reward\":{},\"risk\":0.03},\"support\":{\"id\":\"j2\",\"kind\":\"activity\",\"participants\":[],\"definition\":\"service\",\"target\":\"mournwatch\",\"remaining\":50,\"total\":50,\"days\":0,\"reward\":{},\"risk\":0},\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"departed\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":2,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"service\"}}],\"nextEvent\":3,\"milestones\":[]},\"checksum\":\"c430c72e\"}",
+      "seconds": 300,
+      "completed": {
+        "version": 4,
+        "definition": "hollowmere",
+        "generationVersion": 7,
+        "seed": 1701,
+        "rng": 1831567514,
+        "elapsed": 300,
+        "calendarDays": 0.2,
+        "location": "old-road",
+        "inventory": {
+          "gold": 320,
+          "rations": 29,
+          "wood": 10,
+          "bolts": 12,
+          "incense": 14,
+          "herbs": 4,
+          "relics": 0
+        },
+        "integrity": 99,
+        "wear": 0,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Sable Yew",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "ves",
+            "name": "Morwen Holt",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "elin",
+            "name": "Edda Blackthorn",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "mournwatch",
+          "old-road"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "departed",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 2,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "service"
+            }
+          },
+          {
+            "id": 3,
+            "at": 45,
+            "key": "arrived",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 4,
+            "at": 50,
+            "key": "activityComplete",
+            "params": {
+              "activity": "service",
+              "target": "mournwatch"
+            }
+          }
+        ],
+        "nextEvent": 5,
+        "milestones": []
+      }
+    },
+    {
+      "game": "hollowmere",
+      "generation": 7,
+      "kind": "parallel-bound-support",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":4,\"definition\":\"hollowmere\",\"generationVersion\":7,\"seed\":1701,\"rng\":1,\"elapsed\":200,\"calendarDays\":0,\"location\":\"briar\",\"inventory\":{\"gold\":368,\"rations\":28,\"wood\":14,\"bolts\":12,\"incense\":11,\"herbs\":2,\"relics\":1},\"integrity\":100,\"wear\":8,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"bran\",\"name\":\"Sable Yew\",\"skill\":\"fighter\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":1},{\"id\":\"ves\",\"name\":\"Morwen Holt\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\",\"experience\":0},{\"id\":\"elin\",\"name\":\"Edda Blackthorn\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\",\"experience\":4}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[{\"id\":\"haunted-shrine\",\"location\":\"briar\",\"site\":\"site:briar:0\",\"at\":68,\"choice\":\"consecrate\"}],\"discoveryCooldown\":2,\"known\":[\"mournwatch\",\"old-road\",\"briar\",\"ash-camp\",\"gallows\",\"stone-circle\",\"ossuary\",\"crypt\",\"abbey\",\"below-generated-0\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":true,\"sites\":[\"site:old-road:0\",\"site:old-road:1\",\"site:old-road:2\"],\"dataSold\":false},\"briar\":{\"surveyed\":true,\"sites\":[\"site:briar:1\",\"site:briar:2\",\"site:briar:0\"],\"dataSold\":false},\"ash-camp\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"gallows\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"stone-circle\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"ossuary\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"crypt\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"abbey\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"below-generated-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":0,\"covenant\":6,\"court\":0},\"primary\":{\"id\":\"j9\",\"kind\":\"activity\",\"participants\":[],\"definition\":\"gather\",\"target\":\"briar\",\"remaining\":65,\"total\":65,\"days\":0,\"reward\":{\"wood\":10,\"relics\":2},\"risk\":0.12},\"support\":{\"id\":\"j10\",\"kind\":\"activity\",\"participants\":[\"elin\"],\"definition\":\"work:project:site:briar:0:haunted-shrine:consecrate\",\"target\":\"briar\",\"remaining\":91,\"total\":91,\"days\":0,\"reward\":{},\"risk\":0},\"encounter\":null,\"missions\":[{\"id\":\"project:site:briar:0:haunted-shrine:consecrate\",\"progress\":0,\"claimed\":false}],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"explore\",\"site\":\"site:briar:0\",\"approach\":\"direct\"}},{\"id\":2,\"at\":68,\"key\":\"siteExplored\",\"params\":{\"target\":\"briar\",\"site\":\"site:briar:0\"}},{\"id\":3,\"at\":68,\"key\":\"activityComplete\",\"params\":{\"activity\":\"explore\",\"target\":\"briar\"}},{\"id\":4,\"at\":68,\"key\":\"discoveryFound\",\"params\":{\"discovery\":\"haunted-shrine\",\"target\":\"briar\"}},{\"id\":5,\"at\":68,\"key\":\"milestone\",\"params\":{\"milestone\":\"woodland\"}},{\"id\":6,\"at\":68,\"key\":\"milestone\",\"params\":{\"milestone\":\"charter\"}},{\"id\":7,\"at\":200,\"key\":\"discoverySettled\",\"params\":{\"discovery\":\"haunted-shrine\",\"choice\":\"consecrate\"}},{\"id\":8,\"at\":200,\"key\":\"missionAccepted\",\"params\":{\"mission\":\"project:site:briar:0:haunted-shrine:consecrate\"}},{\"id\":9,\"at\":200,\"key\":\"activityStarted\",\"params\":{\"activity\":\"gather\"}},{\"id\":10,\"at\":200,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work:project:site:briar:0:haunted-shrine:consecrate\"}}],\"nextEvent\":11,\"milestones\":[\"woodland\",\"charter\"]},\"checksum\":\"e9cff51\"}",
+      "seconds": 200,
+      "completed": {
+        "version": 4,
+        "definition": "hollowmere",
+        "generationVersion": 7,
+        "seed": 1701,
+        "rng": 1831565814,
+        "elapsed": 400,
+        "calendarDays": 0,
+        "location": "briar",
+        "inventory": {
+          "gold": 368,
+          "rations": 28,
+          "wood": 24,
+          "bolts": 12,
+          "incense": 11,
+          "herbs": 2,
+          "relics": 3
+        },
+        "integrity": 100,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Sable Yew",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 1
+          },
+          {
+            "id": "ves",
+            "name": "Morwen Holt",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive",
+            "experience": 0
+          },
+          {
+            "id": "elin",
+            "name": "Edda Blackthorn",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive",
+            "experience": 5
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [
+          {
+            "id": "haunted-shrine",
+            "location": "briar",
+            "site": "site:briar:0",
+            "at": 68,
+            "choice": "consecrate"
+          }
+        ],
+        "discoveryCooldown": 2,
+        "known": [
+          "mournwatch",
+          "old-road",
+          "briar",
+          "ash-camp",
+          "gallows",
+          "stone-circle",
+          "ossuary",
+          "crypt",
+          "abbey",
+          "below-generated-0"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": true,
+            "sites": [
+              "site:old-road:0",
+              "site:old-road:1",
+              "site:old-road:2"
+            ],
+            "dataSold": false
+          },
+          "briar": {
+            "surveyed": true,
+            "sites": [
+              "site:briar:1",
+              "site:briar:2",
+              "site:briar:0"
+            ],
+            "dataSold": false
+          },
+          "ash-camp": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "gallows": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "stone-circle": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "ossuary": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "crypt": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "abbey": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "below-generated-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 6,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [
+          {
+            "id": "project:site:briar:0:haunted-shrine:consecrate",
+            "progress": 1,
+            "claimed": false
+          }
+        ],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:briar:0",
+              "approach": "direct"
+            }
+          },
+          {
+            "id": 2,
+            "at": 68,
+            "key": "siteExplored",
+            "params": {
+              "target": "briar",
+              "site": "site:briar:0"
+            }
+          },
+          {
+            "id": 3,
+            "at": 68,
+            "key": "activityComplete",
+            "params": {
+              "activity": "explore",
+              "target": "briar"
+            }
+          },
+          {
+            "id": 4,
+            "at": 68,
+            "key": "discoveryFound",
+            "params": {
+              "discovery": "haunted-shrine",
+              "target": "briar"
+            }
+          },
+          {
+            "id": 5,
+            "at": 68,
+            "key": "milestone",
+            "params": {
+              "milestone": "woodland"
+            }
+          },
+          {
+            "id": 6,
+            "at": 68,
+            "key": "milestone",
+            "params": {
+              "milestone": "charter"
+            }
+          },
+          {
+            "id": 7,
+            "at": 200,
+            "key": "discoverySettled",
+            "params": {
+              "discovery": "haunted-shrine",
+              "choice": "consecrate"
+            }
+          },
+          {
+            "id": 8,
+            "at": 200,
+            "key": "missionAccepted",
+            "params": {
+              "mission": "project:site:briar:0:haunted-shrine:consecrate"
+            }
+          },
+          {
+            "id": 9,
+            "at": 200,
+            "key": "activityStarted",
+            "params": {
+              "activity": "gather"
+            }
+          },
+          {
+            "id": 10,
+            "at": 200,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work:project:site:briar:0:haunted-shrine:consecrate"
+            }
+          },
+          {
+            "id": 11,
+            "at": 265,
+            "key": "activityComplete",
+            "params": {
+              "activity": "gather",
+              "target": "briar"
+            }
+          },
+          {
+            "id": 12,
+            "at": 291,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work:project:site:briar:0:haunted-shrine:consecrate",
+              "target": "briar"
+            }
+          }
+        ],
+        "nextEvent": 13,
+        "milestones": [
+          "woodland",
+          "charter"
+        ]
+      }
+    }
+  ]
+}

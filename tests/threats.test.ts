@@ -82,7 +82,7 @@ it('migrates a real version-one envelope without losing progress or crew', () =>
   delete legacy.threatHistory;
   legacy.crew.forEach((m: any) => delete m.life);
   const loaded = decodeSave(encodeSave(legacy, 1000), createGame);
-  expect(loaded.state.version).toBe(4);
+  expect(loaded.state.version).toBe(5);
   expect(loaded.state.inventory).toEqual(state.inventory);
   expect(loaded.state.crew).toEqual(state.crew);
 });

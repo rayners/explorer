@@ -332,7 +332,7 @@ it('preserves released generation-6 project decisions and exact paid outcomes', 
     const factory = fixture.game === 'far-wake' ? createGame : createHollowmere,
       loaded = decodeSave(fixture.raw, factory),
       game = factory(loaded.state.seed, 6);
-    expect(advance(game, loaded.state, fixture.seconds)).toEqual(fixture.completed);
+    expect(advance(game, loaded.state, fixture.seconds)).toEqual({ ...fixture.completed, version: 5 });
   }
   const game = createGame(1701, 6),
     portable = { ...game, id: 'another-theme' };

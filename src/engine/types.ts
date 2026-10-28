@@ -122,6 +122,7 @@ export interface MissionDef {
   discoveryChoice?: { incident: string; choice: string };
 }
 export interface Job {
+  watch?: { id: WorkWatch; debtPayment: number };
   participants?: string[];
   id: string;
   kind: 'travel' | 'activity' | 'rescue';
@@ -134,6 +135,7 @@ export interface Job {
   risk: number;
   site?: string;
 }
+export type WorkWatch = '15m' | '1h' | '8h';
 export interface Encounter {
   id: string;
   source: string;
@@ -308,7 +310,8 @@ export type Command =
   | { type: 'activity'; id: string; site?: string; approach?: string }
   | { type: 'hire'; id: string }
   | { type: 'threat'; action: 'search' | 'contain' | 'confront' | 'purge' }
-  | { type: 'work' }
+  | { type: 'work'; watch?: WorkWatch }
+  | { type: 'cancelWorkWatch'; id: string }
   | { type: 'rescue' }
   | { type: 'accept' | 'claim' | 'abandon'; id: string }
   | { type: 'trade'; resource: string; amount: number; direction: 'buy' | 'sell' }

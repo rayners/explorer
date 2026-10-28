@@ -125,3 +125,42 @@ it('runs a different genre through the documented public engine interface', () =
   s = dispatch(definition, s, { type: 'claim', id: 'warehouse' }).state;
   expect(s.inventory.shillings).toBe(15);
 });
+it('extends safe consulting work with fixed watches without knowing either implemented theme', () => {
+  const game: GameDefinition = {
+    ...definition,
+    activities: [
+      ...definition.activities,
+      {
+        id: 'consult',
+        name: 'Consulting',
+        description: 'Assist the office.',
+        seconds: 45,
+        slot: 'primary',
+        at: 'station',
+        repeatable: true,
+        skill: 'deduction',
+        cost: {},
+        reward: { shillings: 2 },
+      },
+    ],
+  };
+  const state = createState(game, 9);
+  state.debt = 10;
+  const started = dispatch(game, state, { type: 'work', watch: '15m' });
+  expect(started.error).toBeUndefined();
+  expect(started.state.primary!.total).toBe(900);
+  // Repayment comes from this job's pay, never the player's existing wallet.
+  expect(started.state.primary!.watch!.debtPayment).toBe(5);
+  const loaded = decodeSave(encodeSave(started.state, 1000), () => game).state;
+  const completed = advance(game, loaded, 900);
+  expect(completed.inventory.shillings).toBe(10);
+  expect(completed.debt).toBe(5);
+  expect(completed.crew[0].experience).toBe(1);
+  const fractionalWage = structuredClone(game);
+  fractionalWage.activities.find((a) => a.id === 'consult')!.reward.shillings = 0.1;
+  const small = dispatch(fractionalWage, state, { type: 'work', watch: '15m' });
+  expect(small.state.primary!.reward.shillings).toBe(1);
+  expect(decodeSave(encodeSave(small.state, 1000), () => fractionalWage).state).toEqual(
+    small.state,
+  );
+});

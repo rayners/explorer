@@ -3,6 +3,135 @@ import { test, expect } from '@playwright/test';
 import { createGame } from '../src/game/definition';
 import { createState, dispatch, advance } from '../src/engine/simulation';
 import { encodeSave } from '../src/engine/save';
+test('extended watches catch up offline once with their committed pay, debt and one practice credit', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  test.setTimeout(60000);
+  const { WORK_WATCHES, workWatchPlan } = await import('../src/engine/work-watches');
+  for (const fantasy of [false, true])
+    for (const policy of WORK_WATCHES) {
+      const game = (fantasy ? createHollowmere : createGame)(1701, fantasy ? 7 : 1);
+      let state = createState(game, 1701);
+      state.debt = 150;
+      const worker = state.crew.find(
+        (m) => m.skill === game.activities.find((a) => a.id === game.rules.workActivity)!.skill,
+      )!;
+      state = dispatch(game, state, {
+        type: 'assign',
+        member: worker.id,
+        assignment: 'primary',
+      }).state;
+      const plan = workWatchPlan(game, state, policy.id)!;
+      const started = dispatch(game, state, { type: 'work', watch: policy.id });
+      expect(started.error).toBeUndefined();
+      const key = `${game.id}.save.v1`,
+        marker = `watch-${game.id}-${policy.id}`;
+      await page.addInitScript(
+        ({ key, marker, raw }) => {
+          if (!sessionStorage.getItem(marker)) {
+            localStorage.setItem(key, raw);
+            sessionStorage.setItem(marker, 'yes');
+          }
+        },
+        { key, marker, raw: encodeSave(started.state, Date.now()) },
+      );
+      await context.setOffline(false);
+      await page.goto(new URL(`${game.id}/?watch=${policy.id}`, baseURL).href);
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      await page.evaluate(async () => await navigator.serviceWorker.ready);
+      await page.reload();
+      await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+      expect(
+        await page.evaluate(
+          (key) => JSON.parse(localStorage.getItem(key)!).state.primary.watch.id,
+          key,
+        ),
+      ).toBe(policy.id);
+      // Install an aged, checksummed checkpoint only on the next (offline) document.
+      // Init runs after the old page's lifecycle save, before the simulation starts.
+      await page.addInitScript(
+        ({ key, marker, raw }) => {
+          if (!sessionStorage.getItem(marker)) {
+            localStorage.setItem(key, raw);
+            sessionStorage.setItem(marker, 'yes');
+          }
+        },
+        {
+          key,
+          marker: `${marker}-aged`,
+          raw: encodeSave(started.state, Date.now() - (policy.seconds + 1) * 1000),
+        },
+      );
+      await context.setOffline(true);
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      const read = () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+      const completed = await read();
+      expect(completed.version).toBe(5);
+      expect(completed.primary).toBeNull();
+      expect(completed.inventory[game.rules.currency]).toBe(
+        state.inventory[game.rules.currency] + plan.net,
+      );
+      expect(completed.debt).toBe(150 - plan.debtPayment);
+      expect(completed.crew.find((m: any) => m.id === worker.id).experience).toBe(1);
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      expect((await read()).inventory).toEqual(completed.inventory);
+      expect((await read()).crew).toEqual(completed.crew);
+      expect(
+        await page.evaluate(() => !('__farWake' in window) && !('__hollowmere' in window)),
+      ).toBe(true);
+    }
+  await context.setOffline(false);
+});
+test('an offline cancellation ends only the extended job without partial earnings or practice', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  for (const fantasy of [false, true]) {
+    const game = (fantasy ? createHollowmere : createGame)(1701);
+    const state = createState(game, 1701);
+    state.debt = 150;
+    const started = dispatch(game, state, { type: 'work', watch: '8h' });
+    expect(started.error).toBeUndefined();
+    const key = `${game.id}.save.v1`,
+      marker = `cancel-watch-${game.id}`;
+    await page.addInitScript(
+      ({ key, marker, raw }) => {
+        if (!sessionStorage.getItem(marker)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(marker, 'yes');
+        }
+      },
+      { key, marker, raw: encodeSave(started.state, Date.now()) },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${game.id}/?watch=cancel`, baseURL).href);
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page.locator('.watch-commitment button').click();
+    await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const cancelled = await page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key)!).state,
+      key,
+    );
+    expect(cancelled.primary).toBeNull();
+    expect(cancelled.inventory).toEqual(state.inventory);
+    expect(cancelled.debt).toBe(150);
+    expect(cancelled.crew).toEqual(state.crew);
+  }
+  await context.setOffline(false);
+});
 test('compact work briefs expand offline without spending and explicit orders retain paid terms', async ({
   page,
   context,
@@ -523,7 +652,7 @@ test('reserved specialists and knowledge choices settle once offline in both the
       await page.reload();
       await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
       const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
-      expect(saved.version).toBe(4);
+      expect(saved.version).toBe(5);
       expect(saved.incidents.find((record: any) => record.id === id).choice).toBe(choice.id);
       if (choice.recruit) {
         expect(saved.crew.length).toBe(state.crew.length + 1);

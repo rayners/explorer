@@ -1,0 +1,482 @@
+[
+  {
+    "game": "far-wake",
+    "seeds": [1701, 1, 7, 44, 91, 812, 2026, 4294967295],
+    "generation": 7,
+    "wagePerMinute": 102.63157894736842,
+    "summaries": {
+      "ordinaryHome": {
+        "cases": 393,
+        "cashPerMinute": {
+          "min": -5.805383936451898,
+          "median": -2.398720682302772,
+          "max": 44.04255319148936
+        },
+        "optimisticSalePerMinute": {
+          "min": -5.778905560458958,
+          "median": -2.2707889125799574,
+          "max": 44.04255319148936
+        },
+        "minutes": {
+          "min": 3.066666666666667,
+          "median": 31.266666666666666,
+          "max": 151.26666666666668
+        },
+        "commands": {
+          "min": 5,
+          "median": 5,
+          "max": 11
+        },
+        "recruitmentCost": {
+          "min": 0,
+          "median": 0,
+          "max": 0
+        }
+      },
+      "ordinaryNearest": {
+        "cases": 393,
+        "cashPerMinute": {
+          "min": -3.785488958990536,
+          "median": 31.956521739130437,
+          "max": 44.04255319148936
+        },
+        "optimisticSalePerMinute": {
+          "min": -3.785488958990536,
+          "median": 31.956521739130437,
+          "max": 44.04255319148936
+        },
+        "minutes": {
+          "min": 3.066666666666667,
+          "median": 4.066666666666666,
+          "max": 11.766666666666667
+        },
+        "commands": {
+          "min": 5,
+          "median": 5,
+          "max": 11
+        },
+        "recruitmentCost": {
+          "min": 0,
+          "median": 0,
+          "max": 0
+        }
+      },
+      "bundlesNearest": {
+        "cases": 131,
+        "cashPerMinute": {
+          "min": 22.248062015503876,
+          "median": 73.97058823529412,
+          "max": 91.26506024096386
+        },
+        "optimisticSalePerMinute": {
+          "min": 22.558139534883722,
+          "median": 74.23076923076923,
+          "max": 91.98795180722891
+        },
+        "minutes": {
+          "min": 5.2,
+          "median": 6.466666666666667,
+          "max": 14.1
+        },
+        "commands": {
+          "min": 11,
+          "median": 11,
+          "max": 17
+        },
+        "recruitmentCost": {
+          "min": 0,
+          "median": 0,
+          "max": 0
+        }
+      },
+      "projectsNearest": {
+        "cases": 4797,
+        "cashPerMinute": {
+          "min": -2.8213166144200628,
+          "median": 34.712643678160916,
+          "max": 56.056338028169016
+        },
+        "optimisticSalePerMinute": {
+          "min": -2.8213166144200628,
+          "median": 36.0919540229885,
+          "max": 58.028169014084504
+        },
+        "minutes": {
+          "min": 3.1333333333333333,
+          "median": 4.35,
+          "max": 12.266666666666667
+        },
+        "commands": {
+          "min": 5,
+          "median": 5,
+          "max": 11
+        },
+        "recruitmentCost": {
+          "min": 0,
+          "median": 0,
+          "max": 160
+        }
+      }
+    },
+    "samples": [
+      {
+        "seed": 1701,
+        "source": "cinder",
+        "hub": "anchor",
+        "missions": ["follow-up:site:cinder:0:study"],
+        "minutes": 3.066666666666667,
+        "supplyCost": 52,
+        "cash": 98,
+        "cashPerMinute": 31.956521739130437,
+        "optimisticSalePerMinute": 31.956521739130437,
+        "recruitmentCost": 0,
+        "dispatches": 3,
+        "commands": 5
+      }
+    ],
+    "sessions": [
+      {
+        "checkInMinutes": 5,
+        "committedSeconds": 38,
+        "currencyEarned": 65,
+        "pendingJob": false
+      },
+      {
+        "checkInMinutes": 60,
+        "committedSeconds": 38,
+        "currencyEarned": 65,
+        "pendingJob": false
+      },
+      {
+        "checkInMinutes": 480,
+        "committedSeconds": 38,
+        "currencyEarned": 65,
+        "pendingJob": false
+      }
+    ],
+    "watchSessions": [
+      {
+        "watch": "15m",
+        "checkInMinutes": 5,
+        "committedSeconds": 900,
+        "currencyEarned": 0,
+        "practiceEarned": 0,
+        "pendingJob": true
+      },
+      {
+        "watch": "15m",
+        "checkInMinutes": 60,
+        "committedSeconds": 900,
+        "currencyEarned": 153,
+        "practiceEarned": 1,
+        "pendingJob": false
+      },
+      {
+        "watch": "15m",
+        "checkInMinutes": 480,
+        "committedSeconds": 900,
+        "currencyEarned": 153,
+        "practiceEarned": 1,
+        "pendingJob": false
+      },
+      {
+        "watch": "1h",
+        "checkInMinutes": 5,
+        "committedSeconds": 3600,
+        "currencyEarned": 0,
+        "practiceEarned": 0,
+        "pendingJob": true
+      },
+      {
+        "watch": "1h",
+        "checkInMinutes": 60,
+        "committedSeconds": 3600,
+        "currencyEarned": 307,
+        "practiceEarned": 1,
+        "pendingJob": false
+      },
+      {
+        "watch": "1h",
+        "checkInMinutes": 480,
+        "committedSeconds": 3600,
+        "currencyEarned": 307,
+        "practiceEarned": 1,
+        "pendingJob": false
+      },
+      {
+        "watch": "8h",
+        "checkInMinutes": 5,
+        "committedSeconds": 28800,
+        "currencyEarned": 0,
+        "practiceEarned": 0,
+        "pendingJob": true
+      },
+      {
+        "watch": "8h",
+        "checkInMinutes": 60,
+        "committedSeconds": 28800,
+        "currencyEarned": 0,
+        "practiceEarned": 0,
+        "pendingJob": true
+      },
+      {
+        "watch": "8h",
+        "checkInMinutes": 480,
+        "committedSeconds": 28800,
+        "currencyEarned": 614,
+        "practiceEarned": 1,
+        "pendingJob": false
+      }
+    ],
+    "routeSeconds": {
+      "local": {
+        "min": 60,
+        "max": 90
+      },
+      "crossing": {
+        "min": 900,
+        "max": 1500
+      }
+    }
+  },
+  {
+    "game": "hollowmere",
+    "seeds": [1701, 1, 7, 44, 91, 812, 2026, 4294967295],
+    "generation": 7,
+    "wagePerMinute": 102.63157894736842,
+    "summaries": {
+      "ordinaryHome": {
+        "cases": 222,
+        "cashPerMinute": {
+          "min": 3.6713286713286717,
+          "median": 13.125,
+          "max": 63.79746835443037
+        },
+        "optimisticSalePerMinute": {
+          "min": 3.6713286713286717,
+          "median": 13.717105263157896,
+          "max": 68.35443037974684
+        },
+        "minutes": {
+          "min": 2.566666666666667,
+          "median": 10.066666666666666,
+          "max": 20.2
+        },
+        "commands": {
+          "min": 5,
+          "median": 7,
+          "max": 13
+        },
+        "recruitmentCost": {
+          "min": 0,
+          "median": 0,
+          "max": 120
+        }
+      },
+      "ordinaryNearest": {
+        "cases": 222,
+        "cashPerMinute": {
+          "min": 20.746268656716417,
+          "median": 44.31192660550459,
+          "max": 63.79746835443037
+        },
+        "optimisticSalePerMinute": {
+          "min": 21.044776119402986,
+          "median": 45.96330275229357,
+          "max": 68.35443037974684
+        },
+        "minutes": {
+          "min": 2.566666666666667,
+          "median": 3.6333333333333333,
+          "max": 6.7
+        },
+        "commands": {
+          "min": 5,
+          "median": 5,
+          "max": 9
+        },
+        "recruitmentCost": {
+          "min": 0,
+          "median": 0,
+          "max": 120
+        }
+      },
+      "bundlesNearest": {
+        "cases": 74,
+        "cashPerMinute": {
+          "min": 54.312267657992564,
+          "median": 85.08474576271186,
+          "max": 101.2751677852349
+        },
+        "optimisticSalePerMinute": {
+          "min": 57.21189591078067,
+          "median": 89.15254237288136,
+          "max": 106.10738255033557
+        },
+        "minutes": {
+          "min": 4.7,
+          "median": 5.9,
+          "max": 8.966666666666667
+        },
+        "commands": {
+          "min": 11,
+          "median": 11,
+          "max": 15
+        },
+        "recruitmentCost": {
+          "min": 0,
+          "median": 0,
+          "max": 120
+        }
+      },
+      "projectsNearest": {
+        "cases": 1980,
+        "cashPerMinute": {
+          "min": 22.686567164179106,
+          "median": 48.37837837837838,
+          "max": 76.8
+        },
+        "optimisticSalePerMinute": {
+          "min": 23.201970443349754,
+          "median": 48.37837837837838,
+          "max": 78.60000000000001
+        },
+        "minutes": {
+          "min": 2.7,
+          "median": 3.9833333333333334,
+          "max": 7.333333333333333
+        },
+        "commands": {
+          "min": 5,
+          "median": 5,
+          "max": 9
+        },
+        "recruitmentCost": {
+          "min": 0,
+          "median": 0,
+          "max": 120
+        }
+      }
+    },
+    "samples": [
+      {
+        "seed": 1701,
+        "source": "old-road",
+        "hub": "mournwatch",
+        "missions": ["follow-up:site:old-road:0:study"],
+        "minutes": 2.566666666666667,
+        "supplyCost": 12,
+        "cash": 138,
+        "cashPerMinute": 53.76623376623377,
+        "optimisticSalePerMinute": 53.76623376623377,
+        "recruitmentCost": 0,
+        "dispatches": 3,
+        "commands": 5
+      }
+    ],
+    "sessions": [
+      {
+        "checkInMinutes": 5,
+        "committedSeconds": 38,
+        "currencyEarned": 65,
+        "pendingJob": false
+      },
+      {
+        "checkInMinutes": 60,
+        "committedSeconds": 38,
+        "currencyEarned": 65,
+        "pendingJob": false
+      },
+      {
+        "checkInMinutes": 480,
+        "committedSeconds": 38,
+        "currencyEarned": 65,
+        "pendingJob": false
+      }
+    ],
+    "watchSessions": [
+      {
+        "watch": "15m",
+        "checkInMinutes": 5,
+        "committedSeconds": 900,
+        "currencyEarned": 0,
+        "practiceEarned": 0,
+        "pendingJob": true
+      },
+      {
+        "watch": "15m",
+        "checkInMinutes": 60,
+        "committedSeconds": 900,
+        "currencyEarned": 153,
+        "practiceEarned": 1,
+        "pendingJob": false
+      },
+      {
+        "watch": "15m",
+        "checkInMinutes": 480,
+        "committedSeconds": 900,
+        "currencyEarned": 153,
+        "practiceEarned": 1,
+        "pendingJob": false
+      },
+      {
+        "watch": "1h",
+        "checkInMinutes": 5,
+        "committedSeconds": 3600,
+        "currencyEarned": 0,
+        "practiceEarned": 0,
+        "pendingJob": true
+      },
+      {
+        "watch": "1h",
+        "checkInMinutes": 60,
+        "committedSeconds": 3600,
+        "currencyEarned": 307,
+        "practiceEarned": 1,
+        "pendingJob": false
+      },
+      {
+        "watch": "1h",
+        "checkInMinutes": 480,
+        "committedSeconds": 3600,
+        "currencyEarned": 307,
+        "practiceEarned": 1,
+        "pendingJob": false
+      },
+      {
+        "watch": "8h",
+        "checkInMinutes": 5,
+        "committedSeconds": 28800,
+        "currencyEarned": 0,
+        "practiceEarned": 0,
+        "pendingJob": true
+      },
+      {
+        "watch": "8h",
+        "checkInMinutes": 60,
+        "committedSeconds": 28800,
+        "currencyEarned": 0,
+        "practiceEarned": 0,
+        "pendingJob": true
+      },
+      {
+        "watch": "8h",
+        "checkInMinutes": 480,
+        "committedSeconds": 28800,
+        "currencyEarned": 614,
+        "practiceEarned": 1,
+        "pendingJob": false
+      }
+    ],
+    "routeSeconds": {
+      "local": {
+        "min": 45,
+        "max": 75
+      },
+      "crossing": {
+        "min": 180,
+        "max": 240
+      }
+    }
+  }
+]

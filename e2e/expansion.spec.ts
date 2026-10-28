@@ -124,7 +124,7 @@ test('a legacy Far Wake save migrates without losing resources or the original c
   legacy.crew.forEach((m: any) => delete m.life);
   legacy.inventory.credits = 777;
   await importState(page, encodeSave(legacy, Date.now()));
-  expect((await state(page)).version).toBe(4);
+  expect((await state(page)).version).toBe(5);
   expect((await state(page)).inventory.credits).toBe(777);
   expect((await state(page)).crew).toHaveLength(3);
   await page.reload();

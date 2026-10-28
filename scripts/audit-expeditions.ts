@@ -11,6 +11,7 @@ import type {
 import { createState, activityDuration, advance, dispatch, price } from '../src/engine/simulation';
 import { planRoute } from '../src/engine/navigation';
 import { crewCapacity } from '../src/engine/personnel';
+import { WORK_WATCHES } from '../src/engine/work-watches';
 
 const seeds = [1701, 1, 7, 44, 91, 812, 2026, 4294967295];
 const add = (target: Amounts, amounts: Amounts) => {
@@ -146,6 +147,7 @@ function audit(factory: typeof createGame) {
   const localTimers: number[] = [],
     crossingTimers: number[] = [];
   const sessions = [];
+  const watchSessions = [];
   for (const seed of seeds) {
     const game = factory(seed, 7),
       before = JSON.stringify(game),
@@ -188,7 +190,7 @@ function audit(factory: typeof createGame) {
       rows.bundlesNearest.push(trip(game, base, bundle, nearest.hub));
     }
     if (seed === 1701) {
-      const work = game.activities.find((work) => work.id === 'work')!;
+      const work = game.activities.find((work) => work.id === game.rules.workActivity)!;
       let state = createState(game, seed);
       const worker = state.crew.find((member) => member.skill === work.skill)!;
       state = dispatch(game, state, {
@@ -208,6 +210,24 @@ function audit(factory: typeof createGame) {
           pendingJob: !!finished.primary,
         });
       }
+      for (const watch of WORK_WATCHES) {
+        const extended = dispatch(game, state, { type: 'work', watch: watch.id });
+        assert(!extended.error);
+        for (const seconds of [300, 3600, 28800]) {
+          const finished = advance(game, extended.state, seconds);
+          watchSessions.push({
+            watch: watch.id,
+            checkInMinutes: seconds / 60,
+            committedSeconds: extended.state.primary!.total,
+            currencyEarned:
+              finished.inventory[game.rules.currency] - state.inventory[game.rules.currency],
+            practiceEarned:
+              (finished.crew.find((member) => member.id === worker.id)!.experience ?? 0) -
+              (worker.experience ?? 0),
+            pendingJob: !!finished.primary,
+          });
+        }
+      }
     }
     assert.equal(JSON.stringify(game), before, 'Audit mutated a definition');
   }
@@ -221,6 +241,7 @@ function audit(factory: typeof createGame) {
     ),
     samples,
     sessions,
+    watchSessions,
     routeSeconds: {
       local: { min: Math.min(...localTimers), max: Math.max(...localTimers) },
       crossing: { min: Math.min(...crossingTimers), max: Math.max(...crossingTimers) },
@@ -249,5 +270,6 @@ else {
       })),
     );
     console.table(result.sessions);
+    console.table(result.watchSessions);
   }
 }

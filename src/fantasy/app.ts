@@ -1,6 +1,7 @@
 import { planningSummary, projectOffers, routePlanPanel } from '../ui/planning-panels';
 import { proficiencyLabel, proficiencyHelp } from '../ui/proficiency';
 import { chartLines } from '../ui/world-map';
+import { workWatchPanel, watchCommitment, watchLabel } from '../ui/work-watches';
 import { missionDiscovered } from '../engine/missions';
 import { followUpBrief, followUpWork, boundWorkCard } from '../ui/mission-panels';
 import { activityPreview, sitePanel } from '../ui/site-panels';
@@ -52,7 +53,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
     )
     .join(
       '',
-    )}</nav><div class="sidebar-bottom"><p>The forest keeps its own accounts.</p><div class="ship-id"><small>KEEP THE LANTERNS LIT.<br>BRING SOMEONE HOME.</small></div><button data-action="settings" class="quiet" style="width:100%;margin-top:20px">Company settings</button><a class="other-game" href="../?games=1">All games</a></div></aside><div class="main-wrap"><header class="topbar"><div><div class="eyebrow">HOLLOWMERE / THE COMPANY LEDGER</div><small id="breadcrumb"></small></div><div class="topbar-right"><a class="library-link" href="../?games=1">All games</a><span id="save-status" class="eyebrow storage-label"></span><button class="quiet" data-action="settings" aria-label="Settings">☷</button></div></header><div id="save-warning" class="save-warning" role="alert" hidden><span></span><button data-action="settings">Save settings</button></div><main class="page" id="main-content" tabindex="-1"></main></div></div><div class="notice" role="status" aria-live="polite"></div><dialog id="settings-dialog" aria-labelledby="settings-title"><div class="flex between"><h2 id="settings-title">Company records</h2><button data-action="close" aria-label="Close settings">×</button></div><p>Hollowmere has its own save, separate from Far Wake. Export before changing devices.</p><label><input type="checkbox" id="sound"> Quiet sounds</label><label><input type="checkbox" id="motion"> Reduced motion</label><div class="settings-actions"><button data-action="export">Export to text</button><button data-action="download">Download save</button><button data-action="backup">Load local backup</button></div><textarea id="save-text" aria-label="Save JSON" placeholder="Paste an exported Hollowmere save."></textarea><button data-action="import">Import pasted save</button><p id="settings-error" class="dialog-error" role="status"></p><div class="line"></div><p>Activities continue while you are away, up to 24 hours. Encounters and revealed curses wait for your decisions. Only explicit threat responses can kill companions. Death is permanent; new companions can be recruited at refuges.</p><p>Fighters lead expeditions, mages unravel wards, clerics heal and consecrate, and scouts improve gathering. Assign classes to Expedition or Support according to the task.</p><p>New companies generate companion, faction and place names from the seed. Use a different seed for different names. Your current names stay with this save.</p><label for="new-seed">New company seed</label><input type="number" id="new-seed" value="1701" min="0" max="4294967295" step="1"><div class="settings-actions"><button data-action="reset" class="danger">Start a new company</button></div><p><a href="../far-wake/">Play Far Wake — a science fiction expedition</a></p></dialog><dialog id="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Commit the company?</h2><p id="confirm-description"></p><div class="row-actions"><button data-action="confirm" class="primary">Confirm order</button><button data-action="cancel">Keep current orders</button></div></dialog>`;
+    )}</nav><div class="sidebar-bottom"><p>The forest keeps its own accounts.</p><div class="ship-id"><small>KEEP THE LANTERNS LIT.<br>BRING SOMEONE HOME.</small></div><button data-action="settings" class="quiet" style="width:100%;margin-top:20px">Company settings</button><a class="other-game" href="../?games=1">All games</a></div></aside><div class="main-wrap"><header class="topbar"><div><div class="eyebrow">HOLLOWMERE / THE COMPANY LEDGER</div><small id="breadcrumb"></small></div><div class="topbar-right"><a class="library-link" href="../?games=1">All games</a><span id="save-status" class="eyebrow storage-label"></span><button class="quiet" data-action="settings" aria-label="Settings">☷</button></div></header><div id="save-warning" class="save-warning" role="alert" hidden><span></span><button data-action="settings">Save settings</button></div><main class="page" id="main-content" tabindex="-1"></main></div></div><div class="notice" role="status" aria-live="polite"></div><dialog id="settings-dialog" aria-labelledby="settings-title"><div class="flex between"><h2 id="settings-title">Company records</h2><button data-action="close" aria-label="Close settings">×</button></div><p>Hollowmere has its own save, separate from Far Wake. Export before changing devices.</p><label><input type="checkbox" id="sound"> Quiet sounds</label><label><input type="checkbox" id="motion"> Reduced motion</label><div class="settings-actions"><button data-action="export">Export to text</button><button data-action="download">Download save</button><button data-action="backup">Load local backup</button></div><textarea id="save-text" aria-label="Save JSON" placeholder="Paste an exported Hollowmere save."></textarea><button data-action="import">Import pasted save</button><p id="settings-error" class="dialog-error" role="status"></p><div class="line"></div><p>Activities continue while you are away, up to 24 hours. Encounters and revealed curses wait for your decisions. Only explicit threat responses can kill companions. Death is permanent; new companions can be recruited at refuges. Expand Longer refuge duties in Company for one 15-minute, one-hour or eight-hour order. Cancellation forfeits all its pay and practice; short work pays more per minute.</p><p>Fighters lead expeditions, mages unravel wards, clerics heal and consecrate, and scouts improve gathering. Assign classes to Expedition or Support according to the task.</p><p>New companies generate companion, faction and place names from the seed. Use a different seed for different names. Your current names stay with this save.</p><label for="new-seed">New company seed</label><input type="number" id="new-seed" value="1701" min="0" max="4294967295" step="1"><div class="settings-actions"><button data-action="reset" class="danger">Start a new company</button></div><p><a href="../far-wake/">Play Far Wake — a science fiction expedition</a></p></dialog><dialog id="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Commit the company?</h2><p id="confirm-description"></p><div class="row-actions"><button data-action="confirm" class="primary">Confirm order</button><button data-action="cancel">Keep current orders</button></div></dialog>`;
   const main = root.querySelector<HTMLElement>('main')!,
     settings = root.querySelector<HTMLDialogElement>('#settings-dialog')!,
     confirm = root.querySelector<HTMLDialogElement>('#confirm-dialog')!;
@@ -75,6 +76,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       : job.kind === 'rescue'
         ? 'Escort to refuge'
         : g.activities.find((a) => a.id === job.definition)!.name +
+          (job.watch ? ` · ${watchLabel(job.watch.id)}` : '') +
           (job.site ? ` · ${g.sites?.find((site) => site.id === job.site)?.name ?? job.site}` : '');
   }
   function jobs() {
@@ -82,7 +84,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       .map((slot) => {
         const job = s[slot];
         return job
-          ? `<section class="active-job"><div class="flex between"><h3>${esc(jobName(job))}</h3><span class="job-time" data-timer="${slot}">${time(job.remaining)}</span></div><div class="meter amber"><span data-progress="${slot}" style="width:${100 * (1 - job.remaining / job.total)}%"></span></div><small>${slot === 'primary' ? 'EXPEDITION' : 'SUPPORT'} · ${s.encounter || threatAlert(s) ? 'WAITING FOR YOUR ORDERS' : 'PROGRESS CONTINUES WHILE YOU ARE AWAY'}</small></section>`
+          ? `<section class="active-job"><div class="flex between"><h3>${esc(jobName(job))}</h3><span class="job-time" data-timer="${slot}">${time(job.remaining)}</span></div><div class="meter amber"><span data-progress="${slot}" style="width:${100 * (1 - job.remaining / job.total)}%"></span></div><small>${slot === 'primary' ? 'EXPEDITION' : 'SUPPORT'} · ${s.encounter || threatAlert(s) ? 'WAITING FOR YOUR ORDERS' : 'PROGRESS CONTINUES WHILE YOU ARE AWAY'}</small>${watchCommitment(g, s, job, (label, command, primary) => button(label, command, primary, false), 'End extended duty')}</section>`
           : '';
       })
       .join('');
@@ -96,8 +98,10 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       welcome: `The company gathered at ${g.locations.find((l) => l.id === 'mournwatch')!.name}. The lanterns are lit. The names have been entered.`,
       departed: `The road to ${location} is taken.`,
       arrived: `The company reached ${location}.`,
-      activityStarted: `${activity} begun.`,
-      activityComplete: `${activity} completed at ${location}.`,
+      activityStarted: `${activity}${p.watch ? ` · ${p.minutes}-minute extended duty` : ''} begun.`,
+      activityComplete: `${activity}${p.watch ? ` · ${p.minutes}-minute extended duty` : ''} completed at ${location}.`,
+      workWatchCancelled:
+        'Extended refuge duty ended early. No pay, debt repayment or practice was earned.',
       surveyed: `${location} charted. ${p.count} paths and places revealed.`,
       siteExplored: `At ${location}: ${g.sites?.find((site) => site.id === p.site)?.name ?? p.site}. Records and relics recovered.`,
       discoveryFound: `${location}: ${g.discoveryEvents?.entries.find((entry) => entry.id === p.discovery)?.title ?? 'a discovery'}. Bring the records to a refuge; ordinary work can continue.`,
@@ -151,7 +155,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
     const a = g.activities.find((a) => a.id === id)!,
       preview = activityPreview(g, s, id);
     if (a.mission) return boundWorkCard(g, s, id, button, 'Begin support work');
-    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}</article>`;
+    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}${a.id === g.rules.workActivity ? workWatchPanel(g, s, (label, command, primary) => button(label, command, primary, false), { title: 'Longer refuge duties', action: 'Begin refuge duty' }) : ''}</article>`;
   }
   function directive() {
     const guide = fantasyGuidance(g, s);
@@ -330,7 +334,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${planningSummary(g, s)}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.12<br><a href="../?games=1">All games</a></span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${planningSummary(g, s)}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.13<br><a href="../?games=1">All games</a></span></footer>`;
       for (const el of root.querySelectorAll<HTMLElement>('[data-tab]'))
         el.setAttribute('aria-current', el.dataset.tab === tab ? 'page' : 'false');
       const canvas = main.querySelector<HTMLCanvasElement>('#fantasy-scene');
@@ -407,6 +411,13 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
     }
     if (target.dataset.command) {
       const command = JSON.parse(target.dataset.command) as Command;
+      if (command.type === 'cancelWorkWatch') {
+        ask(
+          'End this extended work order early? You forfeit all its pay, debt repayment and practice. Support work stays committed.',
+          () => controller.command(command),
+        );
+        return;
+      }
       if (
         command.type === 'activity' &&
         g.activities.find((a) => a.id === command.id)?.effect === 'expose'

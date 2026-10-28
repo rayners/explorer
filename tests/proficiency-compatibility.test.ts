@@ -14,7 +14,7 @@ it('migrates released paid parallel jobs, injuries, memorials and receipts while
     const factory = fixture.game === 'far-wake' ? createGame : createHollowmere;
     const loaded = decodeSave(fixture.raw, factory);
     const game = factory(loaded.state.seed, loaded.state.generationVersion);
-    expect(loaded.state.version).toBe(4);
+    expect(loaded.state.version).toBe(5);
     expect(loaded.state.crew.every((member) => member.experience === 0)).toBe(true);
     if (fixture.kind === 'parallel-work') {
       expect(loaded.state.primary).not.toBeNull();

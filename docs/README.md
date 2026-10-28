@@ -14,6 +14,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [PLANNING.md](PLANNING.md)         | Expedition preparation, next steps and contract-linked routes           |
 | [READABILITY.md](READABILITY.md)   | Current directives, accepted-work hierarchy and responsive readability   |
 | [EXPEDITION-AUDIT.md](EXPEDITION-AUDIT.md) | Reproducible return-commission economics and single-order check-in behavior |
+| [WATCHES.md](WATCHES.md) | Explicit longer hub work, committed payment/debt and cancellation |
 | [PROJECTS.md](PROJECTS.md)         | Implemented faction projects linked to settled discovery choices        |
 | [CREW.md](CREW.md)                 | Crew proficiency, lasting opportunities and migration contract          |
 | [WORLDS.md](WORLDS.md)             | Generated layouts, reachability guarantees and version compatibility    |
@@ -27,7 +28,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 
 Requirements describe what was requested. Decisions describe the implementation chosen to satisfy it. Roadmap entries describe future possibilities unless explicitly marked implemented. Keep these distinctions when updating the documents.
 
-Documentation baseline: v0.12.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
+Documentation baseline: v0.13.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
 
 Independent reviews:
 

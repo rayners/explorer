@@ -44,7 +44,7 @@ A job stores committed duration, costs already spent, rewards, destination and f
 | Preferences            | `far-wake.preferences` | `hollowmere.preferences` |
 | Runtime namespace      | `far-wake`             | `hollowmere`             |
 
-Command-lock and lease names are derived from the same namespace. Do not infer a save schema from the key suffix: it remains `.v1` while the contained state has migrated to schema 4. Browser local storage is not a cross-device service or guaranteed permanent storage. The checksum is not authentication.
+Command-lock and lease names are derived from the same namespace. Do not infer a save schema from the key suffix: it remains `.v1` while the contained state has migrated to schema 5. Browser local storage is not a cross-device service or guaranteed permanent storage. The checksum is not authentication.
 
 ## Library, manifests and build
 
@@ -60,6 +60,8 @@ The Pages workflow builds with `PAGES_BASE_PATH=/explorer/`. Do not hardcode roo
 
 ## Adding another game
 
+Longer safe hub work is a generic extension of `rules.workActivity`, not a generated-content addition. `engine/work-watches.ts` selects qualifying recovery work and fixed terms, `ui/work-watches.ts` renders themed choices/commitments, and ordinary jobs commit rewards/participants plus optional watch metadata. Schema 5 upgrades validated schema-4 states without changing old jobs. See [WATCHES.md](WATCHES.md) before extending eligibility or policy IDs.
+
 1. Record its setting, core loop and class/resource mappings in a design document. Mark unimplemented ideas clearly.
 2. Implement a deterministic definition factory with stable IDs and generation version. Reuse generic requirements, recruitment and threat definitions; add a generic engine mechanism only when existing contracts cannot express the behavior.
 3. Add a themed UI mount and runtime entry with a new namespace/debug name. Keep game-specific narrative and artwork there.
@@ -69,7 +71,7 @@ The Pages workflow builds with `PAGES_BASE_PATH=/explorer/`. Do not hardcode roo
 
 ## Future procedural generation
 
-Current factories reconstruct authored geography and versioned display names from a saved seed and generation version. Dynamically discovered worlds will need stable instance IDs and either persisted catalogs or retained compatible generator implementations. Do not change factory output for existing generation versions casually: a saved location/job must still resolve to the same content.
+Current factories reconstruct versioned geography, names, sites and derived work from a saved seed and generation version. Dynamically discovered worlds will need stable instance IDs and either persisted catalogs or retained compatible generator implementations. Do not change factory output for existing generation versions casually: a saved location/job must still resolve to the same content.
 
 Roguelite run state versus persistent profile state has not been designed. Avoid introducing reset, metaprogression or death semantics by implication while extending the generator. These questions are tracked in [ROADMAP.md](ROADMAP.md).
 

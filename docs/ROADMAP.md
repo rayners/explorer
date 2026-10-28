@@ -1,6 +1,6 @@
 # Roadmap and status
 
-Baseline: v0.12.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.13.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Active implementation queue
 
@@ -8,7 +8,9 @@ Baseline: v0.12.0, 2026-10-28. This is a status and design queue, not a release 
 
 **Following evidence item completed: expedition value/session cadence.** [EXPEDITION-AUDIT.md](EXPEDITION-AUDIT.md) and its retained report compare eight-seed return commissions, same-destination bundles, nearby hubs and actual single-shift catch-up. It is a reproducible optimistic benchmark, not player research or a reward rebalance.
 
-**Next design work: explicitly chosen longer safe orders.** Specify eligibility, bounded duration/returns, practice and save/catalog compatibility before implementation. Keep short active play, recovery wages, explicit journeys and safe absence. Destination bundles, one changed-place consequence per theme and contextual discovery selection follow as separately scoped candidates; no automatic queue, passive upkeep or roguelite reset is implied.
+**Implemented locally: explicitly chosen longer safe orders (v0.13).** [WATCHES.md](WATCHES.md) records one 15-minute, one-hour or eight-hour hub job, bounded pay/debt terms, one completion/practice credit, cancellation without partial payout and schema-5 migration. Local suites, both simulators and cadence probes pass. Publication/live checks are pending. Keep short active play, recovery wages, explicit journeys and safe absence.
+
+**Next design work: destination bundles.** Help players compare actual discovered/accepted work at a destination and stage from a known nearby hub, using existing route/stock/role estimates. Design before implementing; no automatic acceptance, resupply or dispatch is implied. One changed-place consequence per theme and contextual discovery selection remain following candidates, without passive upkeep or roguelite resets.
 
 User direction (2026-10-28): keep working through the roadmap, recording decisions and moving to the next item after each verified delivery.
 

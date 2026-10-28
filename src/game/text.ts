@@ -35,8 +35,10 @@ export function describeEvent(g: GameDefinition, e: GameEvent): string {
       'Charter FW-017 activated. Welcome aboard the survey vessel Kestrel. There is a lot of sky left.',
     departed: `Course laid in for ${location(p.target)}. ${p.days} ship-calendar days to arrival.`,
     arrived: `Arrived at ${location(p.target)}. ${p.days} days have passed beyond the hull.`,
-    activityStarted: `${activity} underway.`,
-    activityComplete: `${activity} complete at ${location(p.target)}.`,
+    activityStarted: `${activity}${p.watch ? ` · ${p.minutes}-minute extended order` : ''} underway.`,
+    activityComplete: `${activity}${p.watch ? ` · ${p.minutes}-minute extended order` : ''} complete at ${location(p.target)}.`,
+    workWatchCancelled:
+      'Extended station shift cancelled. No pay, debt repayment or practice was earned.',
     surveyed: `Survey of ${location(p.target)} complete. ${p.count} new navigation contacts resolved.`,
     siteExplored: `At ${location(p.target)}: ${g.sites?.find((site) => site.id === p.site)?.name ?? p.site}. Records and salvage secured.`,
     missionAbandoned: `Contract released: ${mission}.`,

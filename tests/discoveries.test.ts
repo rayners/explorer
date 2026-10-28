@@ -247,7 +247,7 @@ it('migrates schema-two saves without rerolling past sites or changing threats a
     delete legacy.incidents;
     delete legacy.discoveryCooldown;
     const restored = decodeSave(encodeSave(legacy, 1000), () => game).state;
-    expect(restored).toEqual({ ...started, version: 4, incidents: [], discoveryCooldown: 0 });
+    expect(restored).toEqual({ ...started, version: 5, incidents: [], discoveryCooldown: 0 });
     expect(restored.rng).toBe(started.rng);
     expect(restored.discoveries).toEqual(started.discoveries);
   }
@@ -255,7 +255,7 @@ it('migrates schema-two saves without rerolling past sites or changing threats a
   fantasy.version = 2;
   delete fantasy.incidents;
   delete fantasy.discoveryCooldown;
-  expect(decodeSave(encodeSave(fantasy, 1000), createHollowmere).state.version).toBe(4);
+  expect(decodeSave(encodeSave(fantasy, 1000), createHollowmere).state.version).toBe(5);
 });
 it('rejects malformed or contradictory incident history before loading a save', () => {
   const { game, state } = setup('choice');

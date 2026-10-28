@@ -3,6 +3,7 @@ import { crewCapacity, living, recruitName } from './personnel';
 import type { DefinitionFactory, GameDefinition, GameState, Job } from './types';
 import { advance, OFFLINE_CAP } from './simulation';
 import { missionDiscovered } from './missions';
+import { watchActivity, watchPolicy } from './work-watches';
 export interface SaveEnvelope {
   format: 'exploration-save';
   version: 1;
@@ -29,7 +30,11 @@ function checksum(text: string) {
   return (h >>> 0).toString(16);
 }
 /** Validate external data before allowing it into a simulation. */
-function validateStateSchema(value: unknown, g: GameDefinition, schema: 3 | 4): value is GameState {
+function validateStateSchema(
+  value: unknown,
+  g: GameDefinition,
+  schema: 3 | 4 | 5,
+): value is GameState {
   if (!object(value)) return false;
   const s = value as unknown as GameState;
   const locations = new Set(g.locations.map((l) => l.id)),
@@ -135,6 +140,24 @@ function validateStateSchema(value: unknown, g: GameDefinition, schema: 3 | 4): 
       j.risk <= 1 &&
       object(j.reward) &&
       Object.entries(j.reward).every(([k, v]) => resources.has(k) && finite(v)) &&
+      (j.watch === undefined ||
+        (schema === 5 &&
+          object(j.watch) &&
+          !!watchPolicy(j.watch.id) &&
+          !!watchActivity(g) &&
+          j.kind === 'activity' &&
+          j.definition === g.rules.workActivity &&
+          j.total === watchPolicy(j.watch.id)!.seconds &&
+          j.target === s.location &&
+          !!g.locations.find((location) => location.id === j.target)?.station &&
+          j.site === undefined &&
+          j.days === 0 &&
+          j.risk === 0 &&
+          Object.keys(j.reward).length === 1 &&
+          j.reward[g.rules.currency] > 0 &&
+          finite(j.watch.debtPayment) &&
+          j.watch.debtPayment <= j.reward[g.rules.currency] &&
+          j.watch.debtPayment <= 20 * watchPolicy(j.watch.id)!.units)) &&
       (j.site === undefined ||
         (typeof j.site === 'string' &&
           j.kind === 'activity' &&
@@ -345,7 +368,7 @@ function validateStateSchema(value: unknown, g: GameDefinition, schema: 3 | 4): 
 }
 /** Only the current schema may enter a running simulation. */
 export function validateState(value: unknown, g: GameDefinition): value is GameState {
-  return validateStateSchema(value, g, 4);
+  return validateStateSchema(value, g, 5);
 }
 /** JSON saves are portable, inspectable, and guarded against accidental corruption. */
 export function encodeSave(state: GameState, savedAt: number): string {
@@ -417,6 +440,10 @@ export function decodeSave(text: string, definition: DefinitionFactory): LoadedS
           }
         : null,
     };
+  }
+  if (object(v.state) && v.state.version === 4) {
+    if (!validateStateSchema(v.state, g, 4)) throw Error('Legacy save state is invalid.');
+    v.state = { ...v.state, version: 5 };
   }
   if (!validateState(v.state, g))
     throw Error('Save state is invalid or its content generation version is unsupported.');

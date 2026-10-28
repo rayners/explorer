@@ -18,6 +18,6 @@ it('preserves every released generation-5 discovery response, source identity an
     const incident = loaded.state.incidents.find((record) => record.id === fixture.incident)!;
     expect(incident.choice).toBe(fixture.choice);
     expect(game.sites!.find((site) => site.id === incident.site)!.location).toBe(incident.location);
-    expect(advance(game, loaded.state, fixture.seconds)).toEqual(fixture.completed);
+    expect(advance(game, loaded.state, fixture.seconds)).toEqual({ ...fixture.completed, version: 5 });
   }
 });

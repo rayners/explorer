@@ -20,6 +20,8 @@ Keep guaranteed wages and recovery, explicit orders, consequential-choice pauses
 
 Run `npm run audit:expeditions`, or `node --import tsx scripts/audit-expeditions.ts --json` for the structured report. The [retained report](analysis/expedition-audit-2026-10-28.json) uses v0.12 definitions at `c0f91d1`, eight seeds and neutral standing. It reproduces the review's seed-1701 introductory return trips: 31.96 credits/minute for Far Wake and 53.77 crowns/minute for Hollowmere, versus 102.63 currency/minute for a healthy specialist's 38-second hub shift.
 
+v0.13 extends the tool with actual longer-watch check-in probes; the [watch report](analysis/watch-cadence-2026-10-28.json) retains those alongside unchanged ordinary benchmarks. The original v0.12 report remains frozen. See [WATCHES.md](WATCHES.md) for the chosen bounded implementation; its measured pay is not a claim of player preference.
+
 These are **potential catalog benchmarks**, not probability-weighted offers from real campaigns. Each ordinary site is measured separately; project branches are mutually exclusive candidates and are never summed into one campaign. Bundles contain up to three ordinary contracts at one destination, with sequential field work. The prepared roster can reassign between jobs; assignment/trade/dialog interactions are excluded from command counts. Additional recruitment cost is reported separately rather than amortized into every trip. Optimistic reward liquidation assumes cargo can hold the payment.
 
 | Median over sampled catalogs                  | Far Wake cash/min | Hollowmere cash/min | Interpretation                                                                                                           |

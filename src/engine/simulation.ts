@@ -1,7 +1,14 @@
-import { activityParticipants, practice, proficiencyBonus, EXPERIENCE_CAP } from './proficiency';
+import {
+  activityParticipants,
+  practice,
+  teamSkillBonus as skillBonus,
+  EXPERIENCE_CAP,
+} from './proficiency';
 import { living, recruitmentError, joinRecruit } from './personnel';
 import { threatAlert, developThreat, respondToThreat } from './threats';
 import { routesAt } from './navigation';
+import { workWatchPlan } from './work-watches';
+export { teamSkillBonus as skillBonus } from './proficiency';
 import { discoverAtSite, discoveryChoice } from './discoveries';
 import { explorationPlan } from './sites';
 import { missionDiscovered, missionWorkError } from './missions';
@@ -63,7 +70,7 @@ function roll(s: GameState) {
 export function createState(g: GameDefinition, seed: number): GameState {
   const known = g.locations.filter((l) => l.initiallyKnown).map((l) => l.id);
   return {
-    version: 4,
+    version: 5,
     definition: g.id,
     generationVersion: g.generationVersion,
     seed: seed >>> 0,
@@ -103,21 +110,6 @@ export function createState(g: GameDefinition, seed: number): GameState {
     nextEvent: 1,
     milestones: [],
   };
-}
-export function skillBonus(
-  g: GameDefinition,
-  s: GameState,
-  skill: string,
-  slot: 'primary' | 'support',
-) {
-  return (
-    s.crew
-      .filter((c) => c.life !== 'dead' && c.assignment === slot && c.skill === skill)
-      .reduce((n, c) => n + (c.injury ? 0.06 : 0.18) + proficiencyBonus(c), 0) +
-    g.upgrades
-      .filter((u) => s.upgrades.includes(u.id) && u.skill === skill)
-      .reduce((n, u) => n + (u.bonus ?? 0), 0)
-  );
 }
 export function activityDuration(
   g: GameDefinition,
@@ -168,12 +160,20 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
   const s = clone(input),
     loc = g.locations.find((l) => l.id === s.location)!;
   const fail = (error: string): CommandResult => ({ state: input, error });
+  if ('watch' in command && command.type !== 'work')
+    return fail('Longer watches are only available for recovery work.');
   if (s.encounter && command.type !== 'encounter')
     return fail('Resolve the encounter before issuing new orders.');
   const threatContext = { event, progress, roll, spend, affordable, bonus: skillBonus };
   if (threatAlert(s) && !['threat', 'assign', 'hire', 'encounter'].includes(command.type))
     return fail('Resolve or contain the threat before resuming operations.');
-  if (command.type === 'discovery') {
+  if (command.type === 'cancelWorkWatch') {
+    if (!s.primary?.watch || s.primary.id !== command.id)
+      return fail('That extended work order is no longer active.');
+    const watch = s.primary.watch.id;
+    s.primary = null;
+    event(s, 'workWatchCancelled', { watch });
+  } else if (command.type === 'discovery') {
     const choice = discoveryChoice(g, s, command.id, command.choice);
     if (typeof choice === 'string') return fail(choice);
     s.incidents.find((record) => record.id === command.id)!.choice = choice.id;
@@ -249,6 +249,12 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
           : command.id;
     const a = g.activities.find((a) => a.id === id);
     if (!a) return fail('Unknown activity.');
+    const watch =
+      command.type === 'work' && command.watch !== undefined
+        ? workWatchPlan(g, s, command.watch)
+        : undefined;
+    if (command.type === 'work' && command.watch !== undefined && !watch)
+      return fail('This longer work order is not available.');
     if (a.mission) {
       const error = missionWorkError(g, s, a.mission);
       if (error) return fail(error);
@@ -301,7 +307,8 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
       return fail('Assign at least one living member to this team.');
     const cost = plan?.approach.cost ?? a.cost;
     if (!affordable(s, cost)) return fail('Insufficient supplies for this activity.');
-    const duration = activityDuration(g, s, id, selection?.site, selection?.approach);
+    const duration =
+      watch?.seconds ?? activityDuration(g, s, id, selection?.site, selection?.approach);
     spend(s, cost);
     s[a.slot] = {
       id: `j${s.nextEvent}`,
@@ -312,7 +319,10 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
       remaining: duration,
       total: duration,
       days: 0,
-      reward: clone(plan?.approach.reward ?? a.reward),
+      reward: watch
+        ? { [g.rules.currency]: watch.gross }
+        : clone(plan?.approach.reward ?? a.reward),
+      ...(watch ? { watch: { id: watch.id, debtPayment: watch.debtPayment } } : {}),
       risk: plan?.approach.risk ?? (a.slot === 'primary' && a.at === 'field' ? loc.danger : 0),
       ...(plan ? { site: plan.site.id } : {}),
     };
@@ -325,6 +335,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
       );
     event(s, 'activityStarted', {
       activity: id,
+      ...(watch ? { watch: watch.id, minutes: watch.seconds / 60 } : {}),
       ...(plan ? { site: plan.site.id, approach: plan.approach.id } : {}),
     });
   } else if (command.type === 'rescue') {
@@ -598,7 +609,7 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
     gain(g, s, job.reward);
     progress(g, s, a.id, loc.id);
     if (a.id === g.rules.workActivity && s.debt > 0) {
-      const paid = Math.min(20, s.debt, s.inventory[g.rules.currency]);
+      const paid = Math.min(job.watch?.debtPayment ?? 20, s.debt, s.inventory[g.rules.currency]);
       s.debt -= paid;
       s.inventory[g.rules.currency] -= paid;
     }
@@ -611,7 +622,11 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
       event(s, 'intercepted');
     }
     practice(s, job);
-    event(s, 'activityComplete', { activity: a.id, target: loc.id });
+    event(s, 'activityComplete', {
+      activity: a.id,
+      target: loc.id,
+      ...(job.watch ? { watch: job.watch.id, minutes: job.total / 60 } : {}),
+    });
     if (g.hooks?.afterActivity) Object.assign(s, g.hooks.afterActivity(clone(s), a));
   }
   if (job.risk > 0 && !s.encounter && roll(s) < job.risk) {

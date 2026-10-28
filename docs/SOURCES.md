@@ -110,3 +110,7 @@ The user subsequently requested a visual design review as well. A separate agent
 The ongoing roadmap instruction authorizes selecting the next bounded improvement after the reviews. [READABILITY.md](READABILITY.md) records that selection: current directives, readable operational text, scannable accepted-work cards and short landscape framing. These are implementation choices informed by review evidence, not a claim that every review recommendation was independently approved. Changes to expedition rewards, longer safe orders, world consequences and contextual generation remain later candidates.
 
 The following [expedition audit](EXPEDITION-AUDIT.md) implements the next evidence-gathering item under the same ongoing instruction. Its eight-seed catalog benchmarks and actual shift catch-up probes are reproducible local measurements, with optimistic staffing/route assumptions and unpriced discovery/faction value explicitly documented. They are not player-retention research or independent approval of a new economy.
+
+## Longer safe orders (v0.13)
+
+Continuing the recorded roadmap, [WATCHES.md](WATCHES.md) selects an explicitly chosen extended hub-work experiment. Duration/payment ratios, specialty-based pay, cancellation, single practice credit and schema-5 watch metadata are implementation choices under the ongoing authorization. Ten actual schema-4 saves/outcomes were captured from released `d69e8e0` before engine changes. No approval of an automatic queue, roguelite reset, passive upkeep or a new generation catalog is inferred.

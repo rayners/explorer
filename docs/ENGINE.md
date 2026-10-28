@@ -51,7 +51,15 @@ The host supplies elapsed time to the engine and owns storage. `encodeSave(state
 
 Keep browser timestamps monotonic when the system clock moves backward. Save on commands, periodic checkpoints, `visibilitychange`, and `pagehide`. Background browser timers are not a reliable simulation clock. The host may use Web Locks to ensure exactly one writing tab; other tabs only display saved updates. HTTP LAN previews use a checked, renewable storage lease as a best-effort fallback; HTTPS Web Locks provide the atomic guarantee.
 
-Storage format and definition generation version are independent. State schema 4 migrates legacy version-one, version-two and version-three states after verifying their original checksum. Schema 2 adds personnel/threat fields; schema 3 adds the incident ledger and discovery cooldown. The envelope format remains 1. Before changing either, retain old generator behavior or migrate generated content and provide explicit save migrations with old-save fixtures. Rejection is safer than silently regenerating a different universe for an old seed.
+Storage format and definition generation version are independent. State schema 5 migrates legacy states after verifying their original checksum. Schema 2 adds personnel/threat fields; schema 3 adds the incident ledger/cooldown; schema 4 adds practice/participants; schema 5 permits committed work-watch terms after validating schema 4. The envelope format remains 1. Before changing either, retain old generator behavior or migrate generated content and provide explicit save migrations with old-save fixtures. Rejection is safer than silently regenerating a different universe for an old seed.
+
+## Explicit work watches (v0.13)
+
+`dispatch(game,state,{type:'work',watch:'15m'|'1h'|'8h'})` extends only qualifying safe `rules.workActivity` work. `workWatchPlan` previews immutable fixed-duration terms using existing specialty bonuses; `watchActivity` checks currency-only, costless, repeatable primary hub work without side effects/hooks or conflicting built-in mappings. Ordinary work/activity commands retain old behavior. See [WATCHES.md](WATCHES.md) for the frozen duration/payment policy.
+
+`Job.watch?: { id: WorkWatch; debtPayment: number }` marks a committed watch. Existing timers/reward/participants store the actual duration, pay and contributors. Completion pays once, deducts at most its stored repayment (capped at dispatch debt and gross pay), progresses the activity once and grants surviving participants one practice point. It never queues another job or recomputes crew terms. `cancelWorkWatch` requires the current watch job ID, forfeits all its pay/practice/debt credit and leaves support untouched; stale IDs and ordinary/bound jobs are rejected. Decision holds and browser ownership remain authoritative.
+
+Schema 5 validates watch IDs, local primary hub activity, fixed duration, zero risk/days, currency-only positive reward and bounded repayment, without repricing saved bonuses. Schema-4 migration first validates the old state, rejecting watch metadata in legacy jobs, then changes only the version. Generations 1–7, names, catalogs, namespaces and envelope remain frozen.
 
 ## Verification contract
 

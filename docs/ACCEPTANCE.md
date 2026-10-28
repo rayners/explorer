@@ -1,5 +1,14 @@
 # Browser and device acceptance
 
+## Longer hub work (v0.13) — physical checks pending
+
+- On the iPhone 15 Pro Max in each game, open the ordinary work card at a hub and expand the longer-shift/duty choices. Read all three fixed durations, gross pay, debt repayment, take-home pay and cancellation terms in portrait/landscape. Check long labels, keyboard focus and scroll access above fixed navigation.
+- Start an order explicitly, lock/force-close Safari, and return. Verify remaining time and committed pay/debt, then one payout/practice point at completion and no automatically queued work. Repeat from both installed Home Screen games and offline.
+- Cancel a partly completed watch, first keeping current orders, then confirming. Verify no partial earnings, repayment or practice; support work must remain. Check that departure becomes possible after support finishes. Encounters/revealed threats still require their own response.
+- Restore an older save with a paid journey/support job and debt. The schema-5 upgrade must preserve the original job and outcome; older games/catalogs gain the new work option without resetting progress. Export a backup before manual migration checks.
+
+Automated Chromium/WebKit checks do not substitute for these physical-device results.
+
 ## Readability and action hierarchy (v0.12) — physical checks pending
 
 - On the iPhone 15 Pro Max, confirm the opening directive's acceptance action is readable above the scene in portrait and landscape, including Safari chrome and safe areas. Accept the first contract/oath and follow travel, survey and filing guidance.
