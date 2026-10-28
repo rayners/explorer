@@ -10,8 +10,8 @@ import { simulateWorld } from '../scripts/simulate-world';
 import { generateWorld } from '../src/engine/world-generation';
 import { scienceFictionWorld } from '../src/game/world';
 
-it('preserves complete released generation 1–3 definitions and freezes generation-4 catalogs across seeds and themes', () => {
-  const fixtures = ['worlds-legacy.json', 'worlds-v4.json'].flatMap((file) =>
+it('preserves complete released generation 1–3 definitions and freezes generation-4/5 catalogs across seeds and themes', () => {
+  const fixtures = ['worlds-legacy.json', 'worlds-v4.json', 'worlds-v5.json'].flatMap((file) =>
     JSON.parse(readFileSync(`tests/fixtures/${file}`, 'utf8')),
   );
   for (const fixture of fixtures) {
@@ -27,9 +27,9 @@ it('generates varied, deterministic, connected worlds with local hubs, bounded r
     const signatures = new Set<string>(),
       counts = new Set<number>();
     for (let seed = 0; seed < 100; seed++) {
-      const game = factory(seed);
+      const game = factory(seed, 4);
       expect(game.generationVersion).toBe(4);
-      expect(game).toEqual(factory(seed));
+      expect(game).toEqual(factory(seed, 4));
       signatures.add(JSON.stringify(game.routes));
       counts.add(game.locations.length);
       expect(game.regions.length).toBeGreaterThanOrEqual(factory(seed, 3).regions.length);

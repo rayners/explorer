@@ -124,7 +124,7 @@ test('a legacy Far Wake save migrates without losing resources or the original c
   legacy.crew.forEach((m: any) => delete m.life);
   legacy.inventory.credits = 777;
   await importState(page, encodeSave(legacy, Date.now()));
-  expect((await state(page)).version).toBe(3);
+  expect((await state(page)).version).toBe(4);
   expect((await state(page)).inventory.credits).toBe(777);
   expect((await state(page)).crew).toHaveLength(3);
   await page.reload();
@@ -394,7 +394,7 @@ test('released worlds retain their original names across import, secondary-tab u
   await page.getByRole('button', { name: 'Start a new expedition', exact: true }).click();
   await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
   const fresh = createGame(91);
-  expect((await state(page)).generationVersion).toBe(4);
+  expect((await state(page)).generationVersion).toBe(5);
   expect((await state(page)).crew.map((member: any) => member.name)).toEqual(
     fresh.initial.crew.map((member) => member.name),
   );
@@ -618,7 +618,7 @@ test('generated worlds show actual connections and preserve journeys to optional
     expect((await state(page, fantasy)).primary.target).toBe(added.id);
     await page.reload();
     await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
-    expect((await state(page, fantasy)).generationVersion).toBe(4);
+    expect((await state(page, fantasy)).generationVersion).toBe(game.generationVersion);
     expect((await state(page, fantasy)).primary.target).toBe(added.id);
     await next(page, 120, fantasy);
     await escape(page, fantasy);
@@ -637,5 +637,111 @@ test('generated worlds show actual connections and preserve journeys to optional
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
+  }
+});
+
+test('specialists gain practice and lasting discoveries join or train crew in both themes', async ({
+  page,
+}, testInfo) => {
+  const originalViewport = page.viewportSize()!;
+  for (const fantasy of [false, true]) {
+    await page.setViewportSize(originalViewport);
+    const { opportunityFixture } = await import('./opportunity-fixture');
+    const { recruitName } = await import('../src/engine/personnel');
+    const rescue = opportunityFixture(fantasy),
+      { game } = rescue;
+    await open(page, `/${game.id}/`);
+    await importState(page, encodeSave(rescue.state, Date.now()));
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    const def = game.discoveryEvents!.entries.find((event) => event.id === 'stranded-specialist')!;
+    if (def.kind !== 'choice') throw Error('Expected response');
+    const join = def.choices.find((choice) => choice.id === 'join')!,
+      offer = game.recruitment!.offers.find((offer) => offer.id === join.recruit)!;
+    const expected = recruitName(
+      offer,
+      rescue.state.seed,
+      rescue.state.incidents[0].recruitSerial!,
+    );
+    const panel = page.locator('.discovery-panel');
+    await expect(panel).toContainText(expected);
+    await expect(panel).toContainText('Joins resting');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    if (testInfo.project.name === 'iphone')
+      await panel.screenshot({ path: `/tmp/${game.id}-rescue-opportunity.png` });
+    const { dispatch } = await import('../src/engine/simulation');
+    const full = dispatch(game, rescue.state, { type: 'hire', id: offer.id });
+    expect(full.error).toBeUndefined();
+    await importState(page, encodeSave(full.state, Date.now()));
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    await expect(panel.getByRole('button', { name: join.name, exact: true })).toBeDisabled();
+    await expect(panel).toContainText('No accommodation available');
+    const alternative = def.choices.find((choice) => choice.id === 'resettle')!;
+    await panel.getByRole('button', { name: alternative.name, exact: true }).click();
+    await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+    expect((await state(page, fantasy)).crew.length).toBe(full.state.crew.length);
+    expect((await state(page, fantasy)).incidents[0].choice).toBe('resettle');
+    await importState(page, encodeSave(rescue.state, Date.now()));
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    await page.setViewportSize({ width: 932, height: 430 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    await page.setViewportSize(originalViewport);
+    await panel.getByRole('button', { name: join.name, exact: true }).click();
+    await expect(page.locator('#confirm-dialog')).toBeVisible();
+    await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+    expect((await state(page, fantasy)).crew.at(-1)).toMatchObject({
+      name: expected,
+      assignment: 'rest',
+      experience: 0,
+    });
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await state(page, fantasy)).incidents[0].choice).toBe('join');
+    const knowledge = opportunityFixture(fantasy, 'recovered-methods');
+    const discipline = fantasy ? 'mage' : 'engineering';
+    knowledge.state.crew.find((member) => member.skill === discipline)!.experience = 3;
+    await importState(page, encodeSave(knowledge.state, Date.now()));
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    const lore = game.discoveryEvents!.entries.find((event) => event.id === 'recovered-methods')!;
+    if (lore.kind !== 'choice') throw Error('Expected response');
+    await expect(panel).toContainText('3 → 7');
+    await panel
+      .getByRole('button', {
+        name: lore.choices.find((choice) => choice.id === 'study')!.name,
+        exact: true,
+      })
+      .click();
+    await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+    await nav(page, fantasy ? 'company' : 'operations');
+    const member = knowledge.state.crew.find((member) => member.skill === discipline)!;
+    const row = page
+      .locator('.crew-row')
+      .filter({ has: page.getByText(member.name, { exact: true }) });
+    await expect(row).toContainText('Practiced · 7/12 practice');
+    await expect(row).toContainText('+3% specialty');
+    // Actual work, rather than a second discovery response, advances the next point.
+    const fresh = createState(game, 1701);
+    fresh.location = game.id === 'far-wake' ? 'cinder' : 'old-road';
+    const learner = fresh.crew.find((member) => member.skill === (fantasy ? 'mage' : 'survey'))!;
+    learner.experience = 3;
+    await importState(page, encodeSave(fresh, Date.now()));
+    await nav(page, fantasy ? 'company' : 'operations');
+    await beginActivity(page, fantasy ? 'Read the signs' : 'Orbital survey');
+    await next(page, 120, fantasy);
+    await escape(page, fantasy);
+    expect(
+      (await state(page, fantasy)).crew.find((member: any) => member.id === learner.id).experience,
+    ).toBe(4);
+    await expect(
+      page.locator('.proficiency').filter({ hasText: 'Practiced · 4/12 practice' }),
+    ).toBeVisible();
+    if (testInfo.project.name === 'iphone')
+      await page
+        .locator('.crew-row')
+        .filter({ has: page.getByText(learner.name, { exact: true }) })
+        .screenshot({ path: `/tmp/${game.id}-crew-proficiency.png` });
   }
 });

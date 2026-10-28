@@ -1,3 +1,4 @@
+import { legacyState } from './legacy-state';
 import { it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { allocateNames, generateName, nameCapacity } from '../src/engine/names';
@@ -102,7 +103,7 @@ it('restores original released saves with their original cast, future recruits, 
     const raw = readFileSync(`tests/fixtures/${id}-generation1.json`, 'utf8');
     const original = JSON.parse(raw).state;
     const restored = decodeSave(raw, factory).state;
-    expect(restored).toEqual(original);
+    expect(legacyState(restored)).toEqual(original);
     const game = factory(restored.seed, restored.generationVersion);
     expect(game.generationVersion).toBe(1);
     expect(game.locations[0].name).toBe(id === 'far-wake' ? 'Anchor Station' : 'Mournwatch');
@@ -114,7 +115,7 @@ it('restores original released saves with their original cast, future recruits, 
     expect(recruitName(offer, restored.seed, restored.recruitSerial)).toBe(
       offer.names[(restored.seed + restored.recruitSerial) % offer.names.length],
     );
-    expect(restored.primary).toEqual(original.primary);
+    expect(legacyState(restored).primary).toEqual(original.primary);
   }
 });
 it('refuses unknown generation versions without replacing them with the newest factory', () => {

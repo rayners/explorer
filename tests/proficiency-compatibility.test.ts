@@ -1,3 +1,4 @@
+import { legacyState } from './legacy-state';
 import { it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createGame } from '../src/game/definition';
@@ -5,7 +6,7 @@ import { createHollowmere } from '../src/fantasy/definition';
 import { decodeSave } from '../src/engine/save';
 import { advance } from '../src/engine/simulation';
 /** Captured before personnel progression changes; preserve this baseline during migration. */
-it('preserves released paid parallel jobs, injuries and memorials before proficiency migration', () => {
+it('migrates released paid parallel jobs, injuries, memorials and receipts while preserving every old field', () => {
   const { fixtures } = JSON.parse(
     readFileSync('tests/fixtures/schema3-before-proficiency.json', 'utf8'),
   );
@@ -13,6 +14,8 @@ it('preserves released paid parallel jobs, injuries and memorials before profici
     const factory = fixture.game === 'far-wake' ? createGame : createHollowmere;
     const loaded = decodeSave(fixture.raw, factory);
     const game = factory(loaded.state.seed, loaded.state.generationVersion);
+    expect(loaded.state.version).toBe(4);
+    expect(loaded.state.crew.every((member) => member.experience === 0)).toBe(true);
     if (fixture.kind === 'parallel-work') {
       expect(loaded.state.primary).not.toBeNull();
       expect(loaded.state.support).not.toBeNull();
@@ -23,6 +26,16 @@ it('preserves released paid parallel jobs, injuries and memorials before profici
       expect(receipt.progress).toBe(1);
       expect(receipt.claimed).toBe(fixture.kind === 'filed-receipt');
     }
-    expect(advance(game, loaded.state, fixture.seconds)).toEqual(fixture.expected);
+    const completed = advance(game, loaded.state, fixture.seconds);
+    for (const member of completed.crew) {
+      const credit =
+        member.life === 'dead'
+          ? 0
+          : [loaded.state.primary, loaded.state.support].filter((job) =>
+              job?.participants?.includes(member.id),
+            ).length;
+      expect(member.experience).toBe(credit);
+    }
+    expect(legacyState(completed)).toEqual(fixture.expected);
   }
 });

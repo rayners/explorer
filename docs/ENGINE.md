@@ -51,7 +51,7 @@ The host supplies elapsed time to the engine and owns storage. `encodeSave(state
 
 Keep browser timestamps monotonic when the system clock moves backward. Save on commands, periodic checkpoints, `visibilitychange`, and `pagehide`. Background browser timers are not a reliable simulation clock. The host may use Web Locks to ensure exactly one writing tab; other tabs only display saved updates. HTTP LAN previews use a checked, renewable storage lease as a best-effort fallback; HTTPS Web Locks provide the atomic guarantee.
 
-Storage format and definition generation version are independent. State schema 3 migrates legacy version-one and version-two states after verifying their original checksum. Schema 2 adds personnel/threat fields; schema 3 adds the incident ledger and discovery cooldown. The envelope format remains 1. Before changing either, retain old generator behavior or migrate generated content and provide explicit save migrations with old-save fixtures. Rejection is safer than silently regenerating a different universe for an old seed.
+Storage format and definition generation version are independent. State schema 4 migrates legacy version-one, version-two and version-three states after verifying their original checksum. Schema 2 adds personnel/threat fields; schema 3 adds the incident ledger and discovery cooldown. The envelope format remains 1. Before changing either, retain old generator behavior or migrate generated content and provide explicit save migrations with old-save fixtures. Rejection is safer than silently regenerating a different universe for an old seed.
 
 ## Verification contract
 
@@ -91,7 +91,7 @@ Far Wake’s historical manifest URL is retained at the site root. `farWakeManif
 
 ## Versioned name generation
 
-Factories for Far Wake and Hollowmere default to generation 4, retain 3 for generated-site/authored-map saves and 2 for generated-name/authored-site saves, and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
+Factories for Far Wake and Hollowmere default to generation 5, retain 3 for generated-site/authored-map saves and 2 for generated-name/authored-site saves, and accept 1 for released authored-name saves. `decodeSave` passes both the saved seed and generation version to the factory. Hosts must also rebuild the rendered definition with `factory(loaded.state.seed, loaded.state.generationVersion)`. Never reconstruct an old save using the current default version.
 
 `generateName(seed, namespace, pattern, ordinal)` returns an indexed name; `allocateNames` fills a catalog of stable IDs without duplicate display names. Theme-owned `NamePattern` data supplies parts and a separator. A `RecruitDef.nameSource` supplies the pattern, namespace, ordinal offset and optional title; when absent, legacy `names` selection is unchanged. Recruitment previews and save validation use `recruitName` consistently. These functions do not touch `GameState.rng`. See [NAMES.md](NAMES.md) for frozen vocabulary and future extension rules.
 
@@ -115,4 +115,10 @@ Abandonment is rejected while associated work is committed, and completed bound 
 
 ## Generation-4 world assembly
 
-`generateWorld(seed, namespace, {regions, locations, routes}, recipe)` returns independent catalogs; `connectedGraph` builds connected seeded undirected graphs with optional required links. World recipes own kinds, yields, descriptions, factions, costs and time scales. Theme factories apply world assembly before names, sites and derived missions. Generation 4 is the new-expedition default; generations 1–3 reconstruct their frozen definitions. No state/envelope shape changes. Keep story-anchor IDs, protected routes, a connected local graph and hub per region, and a connected regional graph. Charts and route planning must use the returned catalogs. Full contract and acceptance: [WORLDS.md](WORLDS.md).
+`generateWorld(seed, namespace, {regions, locations, routes}, recipe)` returns independent catalogs; `connectedGraph` builds connected seeded undirected graphs with optional required links. World recipes own kinds, yields, descriptions, factions, costs and time scales. Theme factories apply world assembly before names, sites and derived missions. Generation 4 is retained for generated-map saves; generation 5 is the new-expedition default; generations 1–3 reconstruct their frozen definitions. No state/envelope shape changes. Keep story-anchor IDs, protected routes, a connected local graph and hub per region, and a connected regional graph. Charts and route planning must use the returned catalogs. Full contract and acceptance: [WORLDS.md](WORLDS.md).
+
+## Practice and personnel opportunities (v0.8)
+
+Schema 4 initializes `Member.experience` (0–30) and commits `Job.participants` for activities. Only surviving matching dispatch participants earn one point when that activity completes. At 4/12 points `proficiencyBonus` adds 0.03/0.06 to existing skill contribution; paid job terms never recompute. All paid activities/journeys survive casualties; new orders validate living staffing. Migration validates old schema-3 state before adding fields; its checksum is verified first.
+
+Generation-5 `DiscoveryChoice` supports `recruit` offer IDs and `training: {skill,points}`. Rescue selection reserves `IncidentRecord.recruitSerial`; preview/normal hiring/joining share the same naming sequence without double spending the reservation. Shared recruitment validation enforces hubs/capacity/archive limits, and save validation checks reservation/choice/member consistency. Training targets living matching specialists with capped gains. Choices apply their effects/receipt once and remain explicit. Content belongs to each theme; see [CREW.md](CREW.md).

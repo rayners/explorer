@@ -1,3 +1,4 @@
+import { activityParticipants, activitySkills, EXPERIENCE_CAP } from './proficiency';
 import { crewCapacity, living, recruitName } from './personnel';
 import type { DefinitionFactory, GameDefinition, GameState, Job } from './types';
 import { advance, OFFLINE_CAP } from './simulation';
@@ -28,14 +29,14 @@ function checksum(text: string) {
   return (h >>> 0).toString(16);
 }
 /** Validate external data before allowing it into a simulation. */
-export function validateState(value: unknown, g: GameDefinition): value is GameState {
+function validateStateSchema(value: unknown, g: GameDefinition, schema: 3 | 4): value is GameState {
   if (!object(value)) return false;
   const s = value as unknown as GameState;
   const locations = new Set(g.locations.map((l) => l.id)),
     activities = new Set(g.activities.map((a) => a.id)),
     resources = new Set(g.resources.map((r) => r.id));
   if (
-    s.version !== 3 ||
+    s.version !== schema ||
     s.definition !== g.id ||
     s.generationVersion !== g.generationVersion ||
     !Number.isInteger(s.seed) ||
@@ -104,6 +105,25 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
       : undefined;
     return (
       typeof j.id === 'string' &&
+      (schema === 3 ||
+        (j.kind === 'activity'
+          ? unique(j.participants) &&
+            Array.isArray(s.crew) &&
+            j.participants.every((id) =>
+              s.crew.some(
+                (member) =>
+                  object(member) &&
+                  member.id === id &&
+                  !!activity &&
+                  activitySkills(
+                    activity,
+                    g.sites
+                      ?.find((site) => site.id === j.site)
+                      ?.approaches.flatMap((approach) => approach.requirements ?? []),
+                  ).has(member.skill),
+              ),
+            )
+          : j.participants === undefined)) &&
       ['travel', 'activity', 'rescue'].includes(j.kind) &&
       locations.has(j.target) &&
       finite(j.remaining) &&
@@ -176,6 +196,10 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
         typeof c.id === 'string' &&
         typeof c.name === 'string' &&
         typeof c.skill === 'string' &&
+        (schema === 3 ||
+          (Number.isInteger(c.experience) &&
+            finite(c.experience) &&
+            c.experience <= EXPERIENCE_CAP)) &&
         (g.initial.crew.some(
           (x) =>
             x.id === c.id && x.name === c.name && x.skill === c.skill && c.recruit === undefined,
@@ -228,6 +252,28 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
     !s.incidents.every((record) => {
       if (!object(record)) return false;
       const def = g.discoveryEvents?.entries.find((entry) => entry.id === record.id);
+      const recruitment =
+        def?.kind === 'choice' ? def.choices.filter((choice) => choice.recruit) : [];
+      if (recruitment.length) {
+        if (
+          !finite(record.recruitSerial) ||
+          !Number.isInteger(record.recruitSerial) ||
+          record.recruitSerial >= s.recruitSerial ||
+          s.incidents.filter((other) => other.recruitSerial === record.recruitSerial).length !== 1
+        )
+          return false;
+        const serial = record.recruitSerial;
+        const choice = recruitment.find((choice) => choice.id === record.choice);
+        const members = s.crew.filter(
+          (member) => member.recruit && member.id === `${member.recruit}-${serial}`,
+        );
+        if (
+          choice
+            ? members.length !== 1 || members[0].recruit !== choice.recruit
+            : members.length > 0
+        )
+          return false;
+      } else if (record.recruitSerial !== undefined) return false;
       return (
         !!def &&
         typeof record.location === 'string' &&
@@ -297,6 +343,10 @@ export function validateState(value: unknown, g: GameDefinition): value is GameS
     return false;
   return true;
 }
+/** Only the current schema may enter a running simulation. */
+export function validateState(value: unknown, g: GameDefinition): value is GameState {
+  return validateStateSchema(value, g, 4);
+}
 /** JSON saves are portable, inspectable, and guarded against accidental corruption. */
 export function encodeSave(state: GameState, savedAt: number): string {
   const payload = { format: 'exploration-save' as const, version: 1 as const, savedAt, state };
@@ -339,6 +389,34 @@ export function decodeSave(text: string, definition: DefinitionFactory): LoadedS
   }
   if (object(v.state) && v.state.version === 2) {
     v.state = { ...v.state, version: 3, incidents: [], discoveryCooldown: 0 };
+  }
+  if (object(v.state) && v.state.version === 3) {
+    if (!validateStateSchema(v.state, g, 3)) throw Error('Legacy save state is invalid.');
+    const previous = v.state;
+    v.state = {
+      ...previous,
+      version: 4,
+      crew: previous.crew.map((member) => ({ ...member, experience: 0 })),
+      primary:
+        previous.primary?.kind === 'activity'
+          ? {
+              ...previous.primary,
+              participants: activityParticipants(
+                previous,
+                g.activities.find((a) => a.id === previous.primary!.definition)!,
+              ),
+            }
+          : previous.primary,
+      support: previous.support
+        ? {
+            ...previous.support,
+            participants: activityParticipants(
+              previous,
+              g.activities.find((a) => a.id === previous.support!.definition)!,
+            ),
+          }
+        : null,
+    };
   }
   if (!validateState(v.state, g))
     throw Error('Save state is invalid or its content generation version is unsupported.');

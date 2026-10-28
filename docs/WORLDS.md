@@ -8,7 +8,7 @@ Seeds now vary the actual travel graph and population of worlds/places, alongsid
 
 ## Generation 4
 
-New expeditions default to generation 4. All authored region/location IDs remain, protecting base mission targets and original threat investigations. Add zero to two regions, each with one hub and two or three field locations; each original region may gain one field location. Far Wake therefore has four to six systems; Hollowmere has three to five realms. Counts and connections vary by seed.
+Generation 4 introduced generated layouts. Fresh expeditions now use generation 5, reusing this frozen layout algorithm and adding [personnel opportunities](CREW.md). All authored region/location IDs remain, protecting base mission targets and original threat investigations. Add zero to two regions, each with one hub and two or three field locations; each original region may gain one field location. Far Wake therefore has four to six systems; Hollowmere has three to five realms. Counts and connections vary by seed.
 
 Each region's local graph is a connected spanning tree plus optional links. The interregional graph is another connected tree with optional links. Protected introductory routes are retained exactly: Anchor–Cinder and Cinder–Pale in Far Wake; Mournwatch–Old Road and Old Road–Lantern Camp in Hollowmere (display names are generated). All other links are regenerated. Extra crossings connect a field departure to a service hub. Far Wake keeps region-wide space departures; Hollowmere retains actual roads/passages between locations.
 
@@ -30,9 +30,9 @@ Local Far Wake routes take 60–90 real seconds; new interstellar crossings take
 
 ## Save compatibility
 
-Envelope 1 and state schema 3 remain unchanged. Seed plus generation version reconstruct the immutable catalog; existing job fields retain the paid destination, duration, fictional days, risk and reward. Versions 1–3 keep their complete previous definitions, including geography, names, site profiles and contracts. Full-definition hashes captured before implementation guard four seeds per old generation/theme; generation-4 hashes freeze six seeds per theme. Existing released job fixtures also remain in force.
+The layout release kept envelope 1/state schema 3 unchanged; v0.8 migrates state to schema 4 for personnel, independently of map generation. Seed plus generation version reconstruct the immutable catalog; existing job fields retain the paid destination, duration, fictional days, risk and reward. Versions 1–3 keep their complete previous definitions, including geography, names, site profiles and contracts. Full-definition hashes captured before implementation guard four seeds per old generation/theme; generation-4 hashes freeze six seeds per theme. Existing released job fixtures also remain in force.
 
-Existing expeditions keep their maps. A new seed/expedition through Settings uses generation 4; import/backup/read-only-tab paths continue to use the saved version. Reset still requires confirmation and writes a backup first. No automatic replacement or reset is introduced.
+Existing expeditions keep their maps. A new seed/expedition through Settings uses the current generation (5), with these same layout rules; import/backup/read-only-tab paths continue to use the saved version. Reset still requires confirmation and writes a backup first. No automatic replacement or reset is introduced.
 
 ## Verification
 

@@ -1,3 +1,4 @@
+import { living, recruitmentError } from './personnel';
 import type { DiscoveryChoice, GameDefinition, GameState, IncidentRecord } from './types';
 
 interface DiscoveryContext {
@@ -37,13 +38,25 @@ export function discoverAtSite(
       sites >= def.minimumSites &&
       (!def.locations || def.locations.includes(location)) &&
       !s.incidents.some((record) => record.id === def.id) &&
-      (def.kind !== 'exposure' || !s.threatHistory.includes(def.threat)),
+      (def.kind !== 'exposure' || !s.threatHistory.includes(def.threat)) &&
+      (def.kind !== 'choice' ||
+        !def.choices.some((choice) => choice.recruit) ||
+        s.recruitSerial < 1000),
   );
   if (!eligible.length || c.roll(s) >= policy.chance) return;
   let weight =
     c.roll(s) * eligible.reduce((total, def) => total + def.weight * (weights[def.id] ?? 1), 0);
   const selected = eligible.find((def) => (weight -= def.weight * (weights[def.id] ?? 1)) < 0)!;
-  s.incidents.push({ id: selected.id, location, site, at: s.elapsed, choice: null });
+  s.incidents.push({
+    id: selected.id,
+    location,
+    site,
+    at: s.elapsed,
+    choice: null,
+    ...(selected.kind === 'choice' && selected.choices.some((choice) => choice.recruit)
+      ? { recruitSerial: s.recruitSerial++ }
+      : {}),
+  });
   s.discoveryCooldown = policy.cooldown;
   if (selected.kind === 'exposure') {
     s.threat = { id: selected.threat, stage: 'hidden', pressure: 0, signs: 0 };
@@ -70,5 +83,21 @@ export function discoveryChoice(
       s.primary?.kind === 'rescue')
   )
     return 'Visit a service hub to settle this discovery. You can keep exploring meanwhile.';
-  return def.choices.find((option) => option.id === choice) ?? 'Unknown discovery response.';
+  const option = def.choices.find((option) => option.id === choice);
+  if (!option) return 'Unknown discovery response.';
+  if (option.recruit) {
+    const offer = g.recruitment?.offers.find((offer) => offer.id === option.recruit);
+    if (!offer || record.recruitSerial === undefined)
+      return 'This recruitment opportunity is not available.';
+    const error = recruitmentError(g, s, offer, record.recruitSerial);
+    if (error) return error;
+  }
+  if (
+    option.training &&
+    !living(s).some(
+      (member) => member.skill === option.training!.skill && (member.experience ?? 0) < 30,
+    )
+  )
+    return 'No living specialist can benefit from this training. You can wait or choose another response.';
+  return option;
 }

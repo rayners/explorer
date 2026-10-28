@@ -46,7 +46,17 @@ export function simulateWorld(seed: number, factory: DefinitionFactory = createG
   };
   const prepare = () => {
     const discovery = pendingDiscovery(game, state);
-    if (discovery) order({ type: 'discovery', id: discovery.id, choice: 'archive' });
+    if (discovery) {
+      const def = game.discoveryEvents!.entries.find((entry) => entry.id === discovery.id)!;
+      if (def.kind === 'choice')
+        order({
+          type: 'discovery',
+          id: discovery.id,
+          choice: def.choices.find((choice) =>
+            ['archive', 'resettle', 'release'].includes(choice.id),
+          )!.id,
+        });
+    }
     const reserves: Record<string, number> = {};
     reserves[game.rules.travelResource] = 45;
     reserves[game.rules.supplies] = game.rules.travelResource === game.rules.supplies ? 45 : 20;
@@ -76,15 +86,26 @@ export function simulateWorld(seed: number, factory: DefinitionFactory = createG
     }
   };
   const travel = (target: string) => {
-    const path = planRoute(game, state, target);
-    if (!path.length && target !== state.location) throw Error('No known itinerary.');
-    for (const route of path) {
+    let hops = 0;
+    while (state.location !== target) {
+      if (++hops > game.locations.length * 3) throw Error('Itinerary failed to converge.');
+      const route = planRoute(game, state, target)[0];
+      if (!route) throw Error('No known itinerary.');
       if (game.locations.find((l) => l.id === state.location)!.station) prepare();
       if (state.integrity < 35) activity('repair');
       order({ type: 'travel', target: route.to });
       finish();
-      if (game.locations.find((l) => l.id === state.location)!.station)
-        visitedHubs.add(state.location);
+      const arrived = game.locations.find((l) => l.id === state.location)!;
+      if (arrived.station) visitedHubs.add(arrived.id);
+      else if (route.interregional && state.location !== target) {
+        const hub = game.locations.find(
+          (l) => l.region === arrived.region && l.station && state.known.includes(l.id),
+        );
+        if (hub) {
+          travel(hub.id);
+          prepare();
+        }
+      }
     }
   };
   const returnToHub = () => {

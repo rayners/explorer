@@ -77,6 +77,7 @@ export interface RouteDef {
   interregional: boolean;
 }
 export interface Member {
+  experience?: number;
   id: string;
   name: string;
   skill: string;
@@ -120,6 +121,7 @@ export interface MissionDef {
   sourceSite?: string;
 }
 export interface Job {
+  participants?: string[];
   id: string;
   kind: 'travel' | 'activity' | 'rescue';
   definition: string;
@@ -187,6 +189,8 @@ export interface ThreatState {
   signs: number;
 }
 export interface DiscoveryChoice {
+  recruit?: string;
+  training?: { skill: string; points: number };
   id: string;
   name: string;
   description: string;
@@ -207,6 +211,7 @@ export type DiscoveryEventDef = {
 );
 /** Durable history, independent of the capped narrative log. IDs are unique per expedition. */
 export interface IncidentRecord {
+  recruitSerial?: number;
   id: string;
   location: string;
   site: string;

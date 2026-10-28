@@ -1,3 +1,4 @@
+import { proficiencyLabel, proficiencyHelp } from '../ui/proficiency';
 import { chartLines } from '../ui/world-map';
 import { missionDiscovered } from '../engine/missions';
 import { followUpBrief, followUpWork } from '../ui/mission-panels';
@@ -8,7 +9,12 @@ import { dispatch, view, cargo, price, activityDuration, routesFrom } from '../e
 import { living, crewCapacity } from '../engine/personnel';
 import { planRoute } from '../engine/navigation';
 import { threatAlert } from '../engine/threats';
-import { recruitmentPanel, threatPanel } from '../ui/expedition-panels';
+import {
+  recruitmentPanel,
+  threatPanel,
+  discoveryPanel,
+  discoveryHistory,
+} from '../ui/expedition-panels';
 import { drawFantasyScene } from './art';
 const esc = (value: unknown) =>
   String(value ?? '').replace(
@@ -91,6 +97,8 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       activityComplete: `${activity} completed at ${location}.`,
       surveyed: `${location} charted. ${p.count} paths and places revealed.`,
       siteExplored: `At ${location}: ${g.sites?.find((site) => site.id === p.site)?.name ?? p.site}. Records and relics recovered.`,
+      discoveryFound: `${location}: ${g.discoveryEvents?.entries.find((entry) => entry.id === p.discovery)?.title ?? 'a discovery'}. Bring the records to a refuge; ordinary work can continue.`,
+      discoverySettled: `The discovery response is recorded. Its effects have been applied.`,
       memberHired: `${p.member} joined the company as ${p.skill}. Assign them before setting out.`,
       memberLost: `${p.member} was killed by the White Guest. Their name remains in the ledger.`,
       threatAnomaly: 'An extra shadow fell across the campfire. Nobody could find its owner.',
@@ -181,7 +189,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
           const locked =
             !controller.isOwner() ||
             !choices.some((c) => c.assignment !== member.assignment && !c.error);
-          return `<div class="crew-row"><div class="crew-info"><strong>${esc(member.name)}</strong><small>${esc(member.skill.toUpperCase())}${member.injury ? ' · INJURED' : ''}</small></div><select data-member="${member.id}" aria-label="${esc(member.name)} assignment" ${locked ? 'disabled' : ''}>${choices.map((c) => `<option value="${c.assignment}" ${member.assignment === c.assignment ? 'selected' : ''} ${c.error ? 'disabled' : ''}>${c.assignment === 'primary' ? 'Expedition' : c.assignment === 'support' ? 'Support' : 'Rest'}${c.error && member.assignment !== c.assignment ? ' (unavailable)' : ''}</option>`).join('')}</select></div>`;
+          return `<div class="crew-row"><div class="crew-info"><strong>${esc(member.name)}</strong><small>${esc(member.skill.toUpperCase())}${member.injury ? ' · INJURED' : ''}</small><small class="proficiency">${esc(proficiencyLabel(member))}</small></div><select data-member="${member.id}" aria-label="${esc(member.name)} assignment" ${locked ? 'disabled' : ''}>${choices.map((c) => `<option value="${c.assignment}" ${member.assignment === c.assignment ? 'selected' : ''} ${c.error ? 'disabled' : ''}>${c.assignment === 'primary' ? 'Expedition' : c.assignment === 'support' ? 'Support' : 'Rest'}${c.error && member.assignment !== c.assignment ? ' (unavailable)' : ''}</option>`).join('')}</select></div>`;
         })
         .join('') ||
         '<p>The campfire is empty. Seek an escort to a refuge and recruit a militia volunteer.</p>',
@@ -191,7 +199,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
             'In memoriam',
             s.crew
               .filter((m) => m.life === 'dead')
-              .map((m) => `<p>${esc(m.name)} · ${esc(m.skill)}</p>`)
+              .map((m) => `<p>${esc(m.name)} · ${esc(m.skill)} · ${esc(proficiencyLabel(m))}</p>`)
               .join(''),
           )
         : ''
@@ -199,7 +207,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   }
   function company() {
     const loc = view(g, s).location;
-    return `${members()}<div class="section-label">${loc.station ? 'Refuge duties' : 'Expedition work'} / ${esc(loc.name)}</div><div class="activity-grid">${g.activities
+    return `${members()}<p class="proficiency-help">${proficiencyHelp}</p><div class="section-label">${loc.station ? 'Refuge duties' : 'Expedition work'} / ${esc(loc.name)}</div><div class="activity-grid">${g.activities
       .filter(
         (a) =>
           a.slot === 'primary' &&
@@ -227,7 +235,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
             `<div class="trade-row"><div><h3>${esc(r.name)} · ${s.inventory[r.id]}</h3><small>${esc(r.description)}</small><small>Buy ${price(g, s, r.id, 'buy')} crowns / Sell ${price(g, s, r.id, 'sell')} crowns per bundle</small></div><div class="fantasy-trade">${button('Buy 5', { type: 'trade', resource: r.id, amount: 5, direction: 'buy' })}${button('Sell 5', { type: 'trade', resource: r.id, amount: 5, direction: 'sell' })}${button('Sell 1', { type: 'trade', resource: r.id, amount: 1, direction: 'sell' })}</div></div>`,
         )
         .join(''),
-    )}<div class="section-label">Company recruitment</div>${recruitmentPanel(g, s, button)}<div class="section-label">Oaths & contracts / UP TO THREE ACTIVE</div><div class="activity-grid">${g.missions
+    )}<div class="section-label">Company recruitment</div>${discoveryHistory(g, s)}${recruitmentPanel(g, s, button)}<div class="section-label">Oaths & contracts / UP TO THREE ACTIVE</div><div class="activity-grid">${g.missions
       .filter((m) => missionDiscovered(g, s, m))
       .map((m) => {
         const state = s.missions.find((x) => x.id === m.id);
@@ -298,7 +306,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${jobs()}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.7<br><a href="../?games=1">All games</a></span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.8<br><a href="../?games=1">All games</a></span></footer>`;
       for (const el of root.querySelectorAll<HTMLElement>('[data-tab]'))
         el.setAttribute('aria-current', el.dataset.tab === tab ? 'page' : 'false');
       const canvas = main.querySelector<HTMLCanvasElement>('#fantasy-scene');
@@ -352,6 +360,18 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
       ) {
         ask(
           'Opening this reliquary can bring a hidden curse into the company. Explicit responses to the revealed curse can permanently kill companions. It will never kill anyone while you are away. Continue?',
+          () => controller.command(command),
+        );
+        return;
+      }
+      if (command.type === 'discovery') {
+        const def = g.discoveryEvents?.entries.find((entry) => entry.id === command.id);
+        const choice =
+          def?.kind === 'choice'
+            ? def.choices.find((choice) => choice.id === command.choice)
+            : undefined;
+        ask(
+          `${choice?.name ?? 'Settle discovery'}? ${choice?.description ?? ''} This decision is final for this company.`,
           () => controller.command(command),
         );
         return;

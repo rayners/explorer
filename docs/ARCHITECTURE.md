@@ -42,7 +42,7 @@ A job stores committed duration, costs already spent, rewards, destination and f
 | Preferences            | `far-wake.preferences` | `hollowmere.preferences` |
 | Runtime namespace      | `far-wake`             | `hollowmere`             |
 
-Command-lock and lease names are derived from the same namespace. Do not infer a save schema from the key suffix: it remains `.v1` while the contained state has migrated to schema 3. Browser local storage is not a cross-device service or guaranteed permanent storage. The checksum is not authentication.
+Command-lock and lease names are derived from the same namespace. Do not infer a save schema from the key suffix: it remains `.v1` while the contained state has migrated to schema 4. Browser local storage is not a cross-device service or guaranteed permanent storage. The checksum is not authentication.
 
 ## Library, manifests and build
 
@@ -102,3 +102,7 @@ Schema 3 initializes an empty ledger and cooldown when loading schema 2, after c
 ## Generated worlds (v0.7)
 
 Factories assemble authored story anchors, then generation-4 layouts (`engine/world-generation.ts`, `content/worlds.ts`, themed `world.ts` recipes), then names, sites and contextual missions. Pure graph/population algorithms remain inside the engine; theme vocabulary/resource IDs remain outside it. Versions 1–3 skip layout assembly entirely. Both charts draw actual interregional links through `ui/world-map.ts`; campaign simulation navigates known routes rather than fixed destination lists. See [WORLDS.md](WORLDS.md) for frozen catalog identities and guarantees.
+
+## Personnel progression (v0.8)
+
+The engine commits activity participants and grants bounded practice only at completion. Typed discovery effects reuse shared recruitment and proficiency functions, with themed generation-5 opportunity recipes assembled after the existing world/name/site/contract pipeline. Both mounts use shared effect previews and proficiency writing. State-schema migration and definition-generation compatibility remain independent; see [CREW.md](CREW.md) for reservation identity, roster/casualty guarantees and released fixtures.

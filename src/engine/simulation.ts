@@ -1,4 +1,5 @@
-import { living, crewCapacity, recruitName } from './personnel';
+import { activityParticipants, practice, proficiencyBonus, EXPERIENCE_CAP } from './proficiency';
+import { living, recruitmentError, joinRecruit } from './personnel';
 import { threatAlert, developThreat, respondToThreat } from './threats';
 import { routesAt } from './navigation';
 import { discoverAtSite, discoveryChoice } from './discoveries';
@@ -62,7 +63,7 @@ function roll(s: GameState) {
 export function createState(g: GameDefinition, seed: number): GameState {
   const known = g.locations.filter((l) => l.initiallyKnown).map((l) => l.id);
   return {
-    version: 3,
+    version: 4,
     definition: g.id,
     generationVersion: g.generationVersion,
     seed: seed >>> 0,
@@ -75,7 +76,11 @@ export function createState(g: GameDefinition, seed: number): GameState {
     wear: 8,
     capacity: g.initial.capacity,
     debt: 0,
-    crew: clone(g.initial.crew).map((member) => ({ ...member, life: 'alive' as const })),
+    crew: clone(g.initial.crew).map((member) => ({
+      ...member,
+      life: 'alive' as const,
+      experience: 0,
+    })),
     recruitSerial: 0,
     threat: null,
     threatHistory: [],
@@ -108,7 +113,7 @@ export function skillBonus(
   return (
     s.crew
       .filter((c) => c.life !== 'dead' && c.assignment === slot && c.skill === skill)
-      .reduce((n, c) => n + (c.injury ? 0.06 : 0.18), 0) +
+      .reduce((n, c) => n + (c.injury ? 0.06 : 0.18) + proficiencyBonus(c), 0) +
     g.upgrades
       .filter((u) => s.upgrades.includes(u.id) && u.skill === skill)
       .reduce((n, u) => n + (u.bonus ?? 0), 0)
@@ -172,6 +177,18 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     const choice = discoveryChoice(g, s, command.id, command.choice);
     if (typeof choice === 'string') return fail(choice);
     s.incidents.find((record) => record.id === command.id)!.choice = choice.id;
+    if (choice.recruit) {
+      const offer = g.recruitment!.offers.find((offer) => offer.id === choice.recruit)!;
+      const serial = s.incidents.find((record) => record.id === command.id)!.recruitSerial!;
+      const member = joinRecruit(s, offer, serial);
+      event(s, 'memberHired', { member: member.name, skill: member.skill });
+    }
+    if (choice.training)
+      for (const member of living(s).filter((member) => member.skill === choice.training!.skill))
+        member.experience = Math.min(
+          EXPERIENCE_CAP,
+          (member.experience ?? 0) + choice.training.points,
+        );
     gain(g, s, choice.reward);
     for (const [id, amount] of Object.entries(choice.reputation)) rep(s, id, amount);
     event(s, 'discoverySettled', { discovery: command.id, choice: choice.id });
@@ -179,29 +196,13 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     const error = respondToThreat(g, s, command.action, threatContext);
     if (error) return fail(error);
   } else if (command.type === 'hire') {
-    if (!loc.station || s.primary?.kind === 'travel' || s.primary?.kind === 'rescue')
-      return fail('Recruitment requires visiting a service hub.');
     const offer = g.recruitment?.offers.find((o) => o.id === command.id);
     if (!offer) return fail('This specialist is not available.');
-    if (offer.emergency && living(s).length > 0)
-      return fail('Emergency relief is reserved for expeditions with no surviving members.');
-    if (living(s).length >= crewCapacity(g, s))
-      return fail('No accommodation available. Install a capacity upgrade first.');
-    if (s.crew.length >= 1000)
-      return fail('The roster archive is full. Export this expedition before starting another.');
+    const error = recruitmentError(g, s, offer);
+    if (error) return fail(error);
     if (!affordable(s, offer.cost)) return fail('Insufficient funds to recruit this specialist.');
     spend(s, offer.cost);
-    const serial = s.recruitSerial++;
-    const member = {
-      id: `${offer.id}-${serial}`,
-      name: recruitName(offer, s.seed, serial),
-      skill: offer.skill,
-      assignment: 'rest' as const,
-      injury: 0,
-      life: 'alive' as const,
-      recruit: offer.id,
-    };
-    s.crew.push(member);
+    const member = joinRecruit(s, offer);
     event(s, 'memberHired', { member: member.name, skill: member.skill });
   } else if (command.type === 'assign') {
     const member = s.crew.find((c) => c.id === command.member);
@@ -305,6 +306,7 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     s[a.slot] = {
       id: `j${s.nextEvent}`,
       kind: 'activity',
+      participants: activityParticipants(s, a, plan?.approach.requirements),
       definition: id,
       target: s.location,
       remaining: duration,
@@ -604,6 +606,7 @@ function complete(g: GameDefinition, s: GameState, job: Job) {
       };
       event(s, 'intercepted');
     }
+    practice(s, job);
     event(s, 'activityComplete', { activity: a.id, target: loc.id });
     if (g.hooks?.afterActivity) Object.assign(s, g.hooks.afterActivity(clone(s), a));
   }

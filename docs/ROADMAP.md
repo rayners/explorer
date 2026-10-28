@@ -1,6 +1,6 @@
 # Roadmap and status
 
-Baseline: v0.7.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.8.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Active implementation queue
 
@@ -9,7 +9,7 @@ User direction (2026-10-28): keep working through the roadmap, recording decisio
 1. **Delivered v0.5: generated exploration sites.** Origin, condition, opportunity and complication affect available approaches, costs, rewards and risks in both games. Preserve old generations; design/acceptance: [SITES.md](SITES.md).
 2. **Delivered v0.6: missions derived from discoveries.** Create follow-up work from actual explored sites, factions and consequences, with saved identity, clear goals and hub completion. Design and acceptance: [MISSIONS.md](MISSIONS.md).
 3. **Delivered v0.7: generated system/realm layouts.** Vary topology and bodies/places while guaranteeing reachable service hubs, introductory goals and recovery. Version/persist generated references. Design and acceptance: [WORLDS.md](WORLDS.md). Generation-4 factories, connected graphs, optional regions/places, dynamic charts and actual-graph campaign simulation are implemented.
-4. **In progress: broaden lasting events and crew development.** Design: [CREW.md](CREW.md). Begin with bounded specialty proficiency, rescued-specialist opportunities and knowledge choices; preserve committed work, accommodation and safe absence. Migration/fixture work precedes mechanics; these features have not shipped.
+4. **Implemented; validating delivery: broaden lasting events and crew development.** Design: [CREW.md](CREW.md). Begin with bounded specialty proficiency, rescued-specialist opportunities and knowledge choices; preserve committed work, accommodation and safe absence. Schema-4 migration, participant accounting, roster progress and generation-5 opportunities are implemented in both themes. Release checks and publication are in progress.
 
 Full procedural campaigns are a staged direction now; this queue supersedes the earlier blanket deferral for these specific steps. Roguelite resets/metaprogression remain deferred. Physical iPhone checks still require the real device and remain explicitly pending; they do not block independent implementation.
 
@@ -78,3 +78,7 @@ Mission delivery: commit `4e1ba25`; [Pages workflow](https://github.com/rayners/
 ## Implemented in v0.7: generated layouts
 
 Fresh generation-4 expeditions vary region/place counts and travel graphs while protecting first journeys, all authored mission targets, local hubs and recovery. Both charts draw actual links and dynamic counts; Hollowmere explains multi-leg time/cost. Generations 1–3 retain exact full-definition fixtures. Query-string game URLs keep their theme offline. See [WORLDS.md](WORLDS.md); validation passed 120 unit tests, 78 browser cases and 16 production offline cases, plus both campaign simulators. [Pages workflow](https://github.com/rayners/explorer/actions/runs/40642900647) succeeded for `fc5a4f0` (following layout commit `2715c97`). Live iPhone WebKit checks passed for both themes and generations 3/4, including actual chart links, tagged offline URLs and exact-once arrival.
+
+## Implemented in v0.8: proficiency and lasting opportunities
+
+Living matching specialists earn bounded practice through completed work; Practiced/Veteran tiers improve their specialty. Paid activities survive crew loss and grant no practice to memorials or replacements. New generation-5 expeditions add stable-identity rescue and knowledge decisions in both settings; accommodation, neutral alternatives, one-time effects and safe absence remain enforced. Schema 4 migrates existing saves without changing paid terms; generations 1–4 retain full catalogs. Design/evidence: [CREW.md](CREW.md). Local validation: 133 unit tests, 81 browser cases, 18 production offline cases, frozen generation-1–5 catalogs and both campaign simulators pass. Publication/live checks are in progress.

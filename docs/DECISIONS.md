@@ -1,6 +1,6 @@
 # Decisions and rationale
 
-Recorded against v0.2.1 on 2026-10-27; updated for v0.7.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
+Recorded against v0.2.1 on 2026-10-27; updated for v0.8.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
 
 | Decision                                                                   | Reason and consequence                                                                                                                                                                                                                                                                  |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -56,3 +56,9 @@ Contextual follow-ups are additive to generation 3 so current site expeditions g
 New expeditions use generation 4, retaining authored story-anchor IDs and the first local/outbound journey while varying other connections and optional regions/places. Connected local and regional graphs guarantee structural reachability; each region has a service hub. The seed/version reconstructs catalogs without changing state schema. Generations 1–3 remain frozen, verified with full-definition hashes captured before implementation. Domain-separated layout streams leave outcome randomness independent. Actual-graph campaign simulations verify discovery, logistics, charter completion and recovery; browser charts use actual links/counts. See [WORLDS.md](WORLDS.md).
 
 Static HTML does not vary with URL queries. Workbox precache matching ignores query parameters so offline tagged game URLs resolve the correct game entry instead of the library fallback. The browser still receives its original query string; development speed helpers remain absent from production.
+
+## Practice and lasting opportunities (v0.8)
+
+Use bounded proficiency in existing specialties rather than inventing multiclass roles or a mandatory training currency. Commit participant IDs to paid activity jobs; credit surviving contributors at completion. Keep all paid jobs through casualties, fixing the prior last-member activity cancellation. The roster shows practice and actual contribution.
+
+Schema 4 migrates old personnel/jobs with zero historical experience, preserving every committed term. Generation 5 adds free specialist rescue or resettlement and training-knowledge or faction-release choices in both themes; earlier catalogs remain frozen. Reserve a rescue name serial only when the event actually occurs, so other hiring cannot change the found person. Capacity/standing/receipts remain shared mechanisms, and safe alternatives prevent dead ends. Exact rules/evidence: [CREW.md](CREW.md).

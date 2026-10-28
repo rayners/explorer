@@ -1,0 +1,74 @@
+[
+  {
+    "game": "far-wake",
+    "generation": 5,
+    "seed": 1,
+    "sha256": "1ce6fdaeeb876af34872ecfb36a5b7abfa90654256b54fd62b33d096fc0d0d4d"
+  },
+  {
+    "game": "far-wake",
+    "generation": 5,
+    "seed": 7,
+    "sha256": "f021044572d7fa39a4ad86f9dc68473057e92feaa57e5bb43d50ecb0a431d454"
+  },
+  {
+    "game": "far-wake",
+    "generation": 5,
+    "seed": 44,
+    "sha256": "02477e48cf7f0cff1c6fd04bffd98cb51a53e6bc13142dd6382c09afd2b2e665"
+  },
+  {
+    "game": "far-wake",
+    "generation": 5,
+    "seed": 1701,
+    "sha256": "16ec22f754edca4b6f492a12735cd493b58c774aae8a93390bdd6b1d32c23098"
+  },
+  {
+    "game": "far-wake",
+    "generation": 5,
+    "seed": 2026,
+    "sha256": "dcca496bf4310ed5d9648020fbab653853de01202e986d60273e86dcb99e34ae"
+  },
+  {
+    "game": "far-wake",
+    "generation": 5,
+    "seed": 4294967295,
+    "sha256": "90b08ddb692fbe6186e4a35b187b58f3afeca77c4f8656fe2ea31c76b157a784"
+  },
+  {
+    "game": "hollowmere",
+    "generation": 5,
+    "seed": 1,
+    "sha256": "43fd26c8e3b21ef9c8abe85f7760936cc7cd2c487474e9582c70c84da4334cfa"
+  },
+  {
+    "game": "hollowmere",
+    "generation": 5,
+    "seed": 7,
+    "sha256": "9a9893ab6feac192ce410b66485849c67fa89a1f3641c81826486394e91f1d7b"
+  },
+  {
+    "game": "hollowmere",
+    "generation": 5,
+    "seed": 44,
+    "sha256": "db6714df5c5d9c1b3d02ff59c191b986c5393ed32373a9bc0e22570a3b2860d3"
+  },
+  {
+    "game": "hollowmere",
+    "generation": 5,
+    "seed": 1701,
+    "sha256": "5babbee1b00fd10e34a23f8b54cf08451dd001e63f5b79393d8f832da3ba063a"
+  },
+  {
+    "game": "hollowmere",
+    "generation": 5,
+    "seed": 2026,
+    "sha256": "d0f4dc7a30b50da108207734b18fab4f3b9cb63bf967291fd9bbd4c9e714072c"
+  },
+  {
+    "game": "hollowmere",
+    "generation": 5,
+    "seed": 4294967295,
+    "sha256": "6f8dd8b20b3baf201d34c811cf9ead3c0fd608615239bc4bdcdbb03c5ab89106"
+  }
+]

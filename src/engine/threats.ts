@@ -108,11 +108,7 @@ export function respondToThreat(
         victim.life = 'dead';
         victim.injury = 0;
         c.event(s, 'memberLost', { member: victim.name });
-        for (const slot of ['primary', 'support'] as const)
-          if (s[slot]?.kind === 'activity' && !living(s).some((m) => m.assignment === slot)) {
-            s[slot] = null;
-            c.event(s, 'jobAbandoned');
-          }
+        // Paid orders retain their dispatch terms; new orders still enforce living staffing.
       }
     }
   }

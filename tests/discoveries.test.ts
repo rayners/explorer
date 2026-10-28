@@ -1,3 +1,4 @@
+import { legacyState } from './legacy-state';
 import { it, expect } from 'vitest';
 import { createGame } from '../src/game/definition';
 import { createHollowmere } from '../src/fantasy/definition';
@@ -76,7 +77,7 @@ it('surprise exposure reveals only after later completions and never kills durin
     next = reconcile(game, { state: next, savedAt: 0 }, 86400000).state;
   }
   expect(next.threat?.stage).toBe('suspected');
-  expect(next.crew).toEqual(state.crew);
+  expect(legacyState(next).crew).toEqual(legacyState(state).crew);
   expect(advance(game, next, 86400)).toEqual(next);
   const cleared = dispatch(game, next, { type: 'threat', action: 'purge' });
   expect(cleared.error).toBeUndefined();
@@ -246,7 +247,7 @@ it('migrates schema-two saves without rerolling past sites or changing threats a
     delete legacy.incidents;
     delete legacy.discoveryCooldown;
     const restored = decodeSave(encodeSave(legacy, 1000), () => game).state;
-    expect(restored).toEqual({ ...started, version: 3, incidents: [], discoveryCooldown: 0 });
+    expect(restored).toEqual({ ...started, version: 4, incidents: [], discoveryCooldown: 0 });
     expect(restored.rng).toBe(started.rng);
     expect(restored.discoveries).toEqual(started.discoveries);
   }
@@ -254,7 +255,7 @@ it('migrates schema-two saves without rerolling past sites or changing threats a
   fantasy.version = 2;
   delete fantasy.incidents;
   delete fantasy.discoveryCooldown;
-  expect(decodeSave(encodeSave(fantasy, 1000), createHollowmere).state.version).toBe(3);
+  expect(decodeSave(encodeSave(fantasy, 1000), createHollowmere).state.version).toBe(4);
 });
 it('rejects malformed or contradictory incident history before loading a save', () => {
   const { game, state } = setup('choice');

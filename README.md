@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.8
+
+Crew and companions earn practice by completing work in their specialty. At four and twelve points they become Practiced and Veteran, improving existing skill bonuses. Roster rows show progress; resting members do not gain work practice, and memorials retain it. Existing saves migrate without changing their maps or paid orders.
+
+New expeditions can find a stranded engineer/pathfinder or recover useful knowledge. Offer a place or arrange resettlement; train specialists or release the knowledge to a faction. Names remain stable, accommodation still applies, and choices wait safely until a hub visit. These opportunities belong to generation 5; older expeditions keep their event catalogs. See [crew development](docs/CREW.md).
+
 ## New in v0.7
 
 Fresh expeditions generate connected maps with optional systems/realms and new places, each feeding into sites and discovery contracts. Far Wake has four to six systems; Hollowmere has three to five realms. First journeys, service hubs and recovery remain reliable. Existing saves keep their original maps; a different seed through Settings creates a new world using the existing backup/confirmation flow. Both charts show actual links, and multi-leg fantasy journeys explain time and supplies.

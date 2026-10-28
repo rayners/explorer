@@ -1,6 +1,7 @@
 import type { Command, GameDefinition, GameState } from '../engine/types';
 import { living, crewCapacity, recruitName } from '../engine/personnel';
 import { dispatch } from '../engine/simulation';
+import { EXPERIENCE_CAP } from '../engine/proficiency';
 import { pendingDiscovery } from '../engine/discoveries';
 export type CommandButton = (label: string, command: Command, primary?: boolean) => string;
 const esc = (v: unknown) =>
@@ -78,12 +79,29 @@ export function discoveryPanel(
   return `<section class="panel discovery-panel" aria-labelledby="discovery-title"><div class="panel-head"><h2 id="discovery-title">${esc(def.title)}</h2><span class="eyebrow">DISCOVERY / FOLLOW-UP</span></div><div class="panel-body"><p>${esc(def.description)}</p><p>Recovered at ${esc(g.locations.find((l) => l.id === record.location)?.name)}: ${esc(g.sites?.find((site) => site.id === record.site)?.name ?? record.site)}. You can continue exploring; this choice will wait.</p><div class="activity-grid">${def.choices
     .map((choice) => {
       const command: Command = { type: 'discovery', id: def.id, choice: choice.id };
+      const offer = choice.recruit
+        ? g.recruitment?.offers.find((offer) => offer.id === choice.recruit)
+        : undefined;
+      const personnel =
+        offer && record.recruitSerial !== undefined
+          ? `<p>Joins resting: <strong>${esc(recruitName(offer, s.seed, record.recruitSerial))}</strong> · ${esc(offer.name)}. Uses one accommodation place.</p>`
+          : choice.training
+            ? `<p>Training: ${esc(choice.training.skill)} · +${choice.training.points} practice per living specialist (limit ${EXPERIENCE_CAP}).</p><p>${
+                living(s)
+                  .filter((member) => member.skill === choice.training!.skill)
+                  .map(
+                    (member) =>
+                      `${esc(member.name)}: ${member.experience ?? 0} → ${Math.min(EXPERIENCE_CAP, (member.experience ?? 0) + choice.training!.points)}`,
+                  )
+                  .join(' · ') || 'No matching living specialist.'
+              }</p>`
+            : '';
       const error = dispatch(g, s, command).error;
-      return `<article class="activity-card"><h3>${esc(choice.name)}</h3><p>${esc(choice.description)}</p><p class="cost">${effects(choice.reward, g.resources) || 'No payment'}<br>${effects(choice.reputation, g.factions) || 'No standing change'}</p>${button(choice.name, command)}${error ? `<small>${esc(error)}</small>` : ''}</article>`;
+      return `<article class="activity-card"><h3>${esc(choice.name)}</h3><p>${esc(choice.description)}</p>${personnel}<p class="cost">${effects(choice.reward, g.resources) || 'No payment'}<br>${effects(choice.reputation, g.factions) || 'No standing change'}</p>${button(choice.name, command)}${error ? `<small>${esc(error)}</small>` : ''}</article>`;
     })
     .join(
       '',
-    )}</div><small>Faction standing persists and affects port prices and access to work. Each claim can be settled once.</small></div></section>`;
+    )}</div><small>Faction standing persists and affects port prices and access to work. Each discovery can be settled once.</small></div></section>`;
 }
 
 export function discoveryHistory(g: GameDefinition, s: GameState): string {

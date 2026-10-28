@@ -6,12 +6,12 @@ export function describeEvent(g: GameDefinition, e: GameEvent): string {
     activity = g.activities.find((a) => a.id === p.activity)?.name ?? p.activity,
     mission = g.missions.find((m) => m.id === p.mission)?.name ?? p.mission;
   const messages: Record<string, string> = {
-    discoveryFound: `At ${location(p.target)}, the expedition recovered a disputed settlement charter. Bring it to a station to choose its future. Operations can continue.`,
+    discoveryFound: `At ${location(p.target)}: ${g.discoveryEvents?.entries.find((entry) => entry.id === p.discovery)?.title ?? 'a discovery'}. Bring the records to a station to choose their future. Operations can continue.`,
     discoverySettled: (() => {
       const def = g.discoveryEvents?.entries.find((entry) => entry.id === p.discovery);
       const choice =
         def?.kind === 'choice' ? def.choices.find((entry) => entry.id === p.choice) : undefined;
-      return `${def?.title ?? 'Discovery'}: ${choice?.name ?? p.choice}. The decision is recorded; faction standing and payment have been applied.`;
+      return `${def?.title ?? 'Discovery'}: ${choice?.name ?? p.choice}. The decision is recorded; the chosen effects have been applied.`;
     })(),
     memberHired: `${p.member} joined the crew as ${p.skill}. Assign them to a team in Operations.`,
     memberLost: `${p.member} was killed by the shipboard threat. Their place in the manifest is now a memorial.`,

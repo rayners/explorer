@@ -1,3 +1,4 @@
+import { legacyState } from './legacy-state';
 import { it, expect } from 'vitest';
 import { createGame } from '../src/game/definition';
 import { createHollowmere } from '../src/fantasy/definition';
@@ -207,9 +208,9 @@ it('adds follow-ups to released generation-three expeditions without replacing t
     const sample = factory(7),
       fixture = fixtures[sample.id];
     const restored = decodeSave(JSON.stringify(fixture.save), factory);
-    expect(restored.state).toEqual(fixture.save.state);
+    expect(legacyState(restored.state)).toEqual(fixture.save.state);
     const result = advance(sample, restored.state, 200);
-    expect(result).toEqual(fixture.completed);
+    expect(legacyState(result)).toEqual(fixture.completed);
     const offer = sample.missions.find(
       (mission) => mission.sourceSite === restored.state.primary!.site,
     )!;

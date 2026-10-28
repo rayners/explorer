@@ -80,3 +80,5 @@ The ongoing roadmap goal authorizes the next queued item: varied system/realm la
 ## Next personnel/event slice (2026-10-28)
 
 The active queue continues from generated layouts to lasting events and crew development. [CREW.md](CREW.md) records an implementation plan, including chosen proficiency bounds, typed rescue/training effects and a schema/content-version split. These are design choices under the ongoing roadmap authorization, not shipped mechanics or separately quoted user specifications. Roguelite progression remains deferred.
+
+Personnel implementation follows the recorded [CREW.md](CREW.md) plan: capped activity-earned proficiency and typed rescue/knowledge effects in both themes. Reservation timing, schema 4, generation 5, thresholds and payment/standing amounts are implementation decisions. Eight pre-change fixture scenarios preserve original old-field outcomes; experience/participants are checked separately rather than rewriting fixtures. Actual threat-casualty testing exposed old last-member activity cancellation, now corrected to retain paid orders.

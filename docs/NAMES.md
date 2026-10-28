@@ -4,9 +4,9 @@ Implemented in v0.4, 2026-10-28; requested by the user as the next procedural-co
 
 ## Behavior
 
-The frozen version-2 naming algorithm is used by generation-2, generation-3 and generation-4 expeditions. New expeditions default to generation 4, adding generated layouts before names/sites/contracts are assembled. Generations 2/3 retain their exact catalogs. They generate initial crew and recruits, faction names, region names and location names. Names remain display values over stable identities; generation 4 adds geography through the separate [world generator](WORLDS.md). Text referring to places or factions must resolve their display names rather than silently retaining the old names.
+The frozen version-2 naming algorithm is used by generation-2 through generation-5 expeditions. New expeditions default to generation 5, adding generated layouts before names/sites/contracts are assembled. Generations 2/3 retain their exact catalogs. They generate initial crew and recruits, faction names, region names and location names. Names remain display values over stable identities; generation 4 adds geography through the separate [world generator](WORLDS.md). Text referring to places or factions must resolve their display names rather than silently retaining the old names.
 
-Generation-version-1 saves continue using their original names and recruit pools. Factories accept an optional generation version, and all browser restore/import/backup/secondary-tab paths must rebuild that saved version. A fresh expedition or reset uses the latest version. Save envelope 1 and state schema 3 are unchanged: the existing saved seed and generation version identify the vocabulary/algorithm, and crew names are already stored.
+Generation-version-1 saves continue using their original names and recruit pools. Factories accept an optional generation version, and all browser restore/import/backup/secondary-tab paths must rebuild that saved version. A fresh expedition or reset uses the latest version. Save envelope 1 remains unchanged; state schema 4 adds personnel practice separately: the existing saved seed and generation version identify the vocabulary/algorithm, and crew names are already stored.
 
 ## Mechanism
 
@@ -39,3 +39,5 @@ Both themes supply 32 given names and 32 surnames (1,024 combinations). Initial 
 Fixtures captured from v0.3 before the naming change are `tests/fixtures/*-generation1.json`. A generation-2 name snapshot guards the initial algorithm and vocabularies. Changing sampler behavior, word ordering, prefixes or vocabulary sizes must retain a version-2 implementation for existing saves rather than updating that fixture to hide a compatibility break.
 
 The default seed remains 1701, so first-time players share its generated names. To see another cast and set of names, start an expedition/company with a different seed in Settings. Loading or resetting with the same seed and version intentionally reproduces its names. Existing expeditions keep generation 1 and do not need a reset to remain playable; starting a fresh expedition is optional and uses the existing backup/confirmation flow.
+
+Generation-5 rescue discoveries reserve a serial in their durable incident at onset. The found specialist preview and eventual joining use this serial; ordinary recruits skip it. Resettlement leaves it unused. No name is consumed by preview or a failed choice; this prevents other hiring from changing a survivor's identity. See [CREW.md](CREW.md).

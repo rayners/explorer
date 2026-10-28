@@ -64,3 +64,7 @@ Unit coverage exercises introductory protection, quiet outcomes, weighted select
 Browser tests exercise normal expedition onset without an exposure confirmation, hidden reload, delayed reveal/purge and the claim's field-to-station/confirmation/history flow on desktop, iPhone WebKit and tablet WebKit. Production offline tests settle a saved claim and verify effects persist exactly once without development helpers. Physical iPhone checks remain pending in [ACCEPTANCE.md](ACCEPTANCE.md).
 
 See [ENGINE.md](ENGINE.md) for API contracts, [DECISIONS.md](DECISIONS.md) for safeguards and [ROADMAP.md](ROADMAP.md) for future procedural direction.
+
+## Generation-5 personnel opportunities (v0.8)
+
+Both settings now include once-only rescue and knowledge choices, documented in [CREW.md](CREW.md). Far Wake keeps 35% eligible-site selection and its two earlier events; Hollowmere introduces a 30% opportunity catalog without changing its explicit curse. Both protect the introductory location, require four sites and retain two-site cooldown and pending-event/threat suppression. Rescue reserves a stable name serial at onset; joining respects capacity and has a resettlement alternative. Knowledge grants capped practice or can be released for payment/standing. Choices settle at hubs once and remain safe during absence. Generations 1–4 retain their prior catalogs; schema 4 validates personnel reservations and migrates older state.

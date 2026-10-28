@@ -400,7 +400,7 @@ test('generated-world journeys catch up once and query-string game URLs keep the
       page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, `${game.id}.save.v1`);
     const arrived = await read();
     expect(arrived.location).toBe(added.id);
-    expect(arrived.generationVersion).toBe(4);
+    expect(arrived.generationVersion).toBe(game.generationVersion);
     expect(arrived.primary).toBeNull();
     expect(arrived.inventory).toEqual(started.state.inventory);
     await page.reload();
@@ -413,5 +413,75 @@ test('generated-world journeys catch up once and query-string game URLs keep the
       true,
     );
   }
+  await context.setOffline(false);
+});
+
+test('reserved specialists and knowledge choices settle once offline in both themes', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  const { opportunityFixture } = await import('./opportunity-fixture');
+  for (const fantasy of [false, true])
+    for (const id of ['stranded-specialist', 'recovered-methods']) {
+      const fixture = opportunityFixture(fantasy, id),
+        { game, state } = fixture;
+      const key = `${game.id}.save.v1`,
+        marker = `${game.id}-${id}`;
+      await page.addInitScript(
+        ({ key, raw, marker }) => {
+          if (!sessionStorage.getItem(marker)) {
+            localStorage.setItem(key, raw);
+            sessionStorage.setItem(marker, 'yes');
+          }
+        },
+        { key, raw: encodeSave(state, Date.now()), marker },
+      );
+      await context.setOffline(false);
+      await page.goto(new URL(`${game.id}/?discovery=${id}`, baseURL).href);
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      await page.evaluate(async () => await navigator.serviceWorker.ready);
+      await page.reload();
+      await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+      await context.setOffline(true);
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      await page
+        .getByRole('navigation')
+        .getByRole('button', { name: fantasy ? /Refuge/ : /Contacts/ })
+        .click();
+      const def = game.discoveryEvents!.entries.find((event) => event.id === id)!;
+      if (def.kind !== 'choice') throw Error('Expected choices');
+      const choice = def.choices.find(
+        (choice) => choice.id === (id === 'stranded-specialist' ? 'join' : 'study'),
+      )!;
+      await page
+        .locator('.discovery-panel')
+        .getByRole('button', { name: choice.name, exact: true })
+        .click();
+      await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+      expect(saved.version).toBe(4);
+      expect(saved.incidents.find((record: any) => record.id === id).choice).toBe(choice.id);
+      if (choice.recruit) {
+        expect(saved.crew.length).toBe(state.crew.length + 1);
+        expect(saved.crew.at(-1).assignment).toBe('rest');
+        expect(saved.recruitSerial).toBe(state.recruitSerial);
+      } else {
+        const skill = choice.training!.skill;
+        for (const member of state.crew.filter(
+          (member) => member.skill === skill && member.life !== 'dead',
+        ))
+          expect(saved.crew.find((entry: any) => entry.id === member.id).experience).toBe(
+            Math.min(30, (member.experience ?? 0) + 4),
+          );
+      }
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      const again = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+      expect(again.crew).toEqual(saved.crew);
+    }
   await context.setOffline(false);
 });

@@ -1348,3 +1348,10 @@ body.reduce-motion * {
 .activity-card .flex > h3 {
   min-width: 0;
 }
+
+.crew-info .proficiency {
+  display: block;
+  margin-top: 4px;
+  line-height: 1.6;
+  color: var(--accent);
+}

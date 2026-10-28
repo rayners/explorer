@@ -26,7 +26,7 @@ export function finishNamedDefinition(
   version: number,
   theme: NamingTheme,
 ): GameDefinition {
-  if (version !== 1 && version !== 2 && version !== 3 && version !== 4)
+  if (version !== 1 && version !== 2 && version !== 3 && version !== 4 && version !== 5)
     throw Error('Unsupported content generation version.');
   game.generationVersion = version;
   if (version >= 2) {

@@ -1,3 +1,4 @@
+import { legacyState } from './legacy-state';
 import { it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -209,10 +210,12 @@ it('keeps released generation-two site lists and committed exploration outcomes 
   ] as const) {
     const fixture = fixtures[id];
     const loaded = decodeSave(JSON.stringify(fixture.save), factory);
-    expect(loaded.state).toEqual(fixture.save.state);
+    expect(legacyState(loaded.state)).toEqual(fixture.save.state);
     const game = factory(loaded.state.seed, loaded.state.generationVersion);
     expect(game.sites).toBeUndefined();
-    expect(advance(game, loaded.state, loaded.state.primary!.remaining)).toEqual(fixture.completed);
+    expect(legacyState(advance(game, loaded.state, loaded.state.primary!.remaining))).toEqual(
+      fixture.completed,
+    );
     expect(factory(7, 1).sites).toBeUndefined();
   }
 });
@@ -232,7 +235,7 @@ it('rejects invalid, unrelated and already-completed committed site references o
 });
 
 it('site context changes discovery eligibility without spending additional gameplay randomness', () => {
-  const game = createGame(7),
+  const game = createGame(7, 3),
     state = ready(game);
   const site = game.sites!.find((site) => site.location === 'morrow')!;
   site.approaches[0].risk = 0;

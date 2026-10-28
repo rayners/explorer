@@ -1,3 +1,4 @@
+import { proficiencyLabel, proficiencyHelp } from './proficiency';
 import { chartLines } from './world-map';
 import { missionDiscovered } from '../engine/missions';
 import { followUpBrief, followUpWork } from './mission-panels';
@@ -135,7 +136,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
         const locked =
           !controller.isOwner() ||
           !choices.some((choice) => choice.assignment !== member.assignment && !choice.error);
-        return `<div class="crew-row"><canvas class="portrait" data-portrait="${index}" role="img" aria-label="Pixel portrait of ${esc(member.name)}"></canvas><div class="crew-info"><strong>${esc(member.name)}</strong><small>${esc(member.skill.toUpperCase())} ${member.injury ? '· INJURED' : ''}</small></div><select aria-label="${esc(member.name)} assignment" data-member="${member.id}" ${locked ? 'disabled' : ''}>${choices.map((choice) => `<option value="${choice.assignment}" ${choice.assignment === member.assignment ? 'selected' : ''} ${choice.error ? 'disabled' : ''}>${choice.label}${choice.error && choice.assignment !== member.assignment ? ' (unavailable)' : ''}</option>`).join('')}</select>${locked && controller.isOwner() ? `<small>${esc(choices.find((choice) => choice.error)?.error ?? 'Assignments are unavailable.')}</small>` : ''}</div>`;
+        return `<div class="crew-row"><canvas class="portrait" data-portrait="${index}" role="img" aria-label="Pixel portrait of ${esc(member.name)}"></canvas><div class="crew-info"><strong>${esc(member.name)}</strong><small>${esc(member.skill.toUpperCase())} ${member.injury ? '· INJURED' : ''}</small><small class="proficiency">${esc(proficiencyLabel(member))}</small></div><select aria-label="${esc(member.name)} assignment" data-member="${member.id}" ${locked ? 'disabled' : ''}>${choices.map((choice) => `<option value="${choice.assignment}" ${choice.assignment === member.assignment ? 'selected' : ''} ${choice.error ? 'disabled' : ''}>${choice.label}${choice.error && choice.assignment !== member.assignment ? ' (unavailable)' : ''}</option>`).join('')}</select>${locked && controller.isOwner() ? `<small>${esc(choices.find((choice) => choice.error)?.error ?? 'Assignments are unavailable.')}</small>` : ''}</div>`;
       })
       .join('');
   }
@@ -234,10 +235,10 @@ export function mountApp(root: HTMLElement, controller: AppController) {
         s.crew.some((m) => m.life === 'dead')
           ? `<div class="line"></div><h3>In memoriam</h3><p>${s.crew
               .filter((m) => m.life === 'dead')
-              .map((m) => esc(m.name))
+              .map((m) => `${esc(m.name)} · ${esc(proficiencyLabel(m))}`)
               .join('<br>')}</p>`
           : ''
-      }<p style="font-size:10px;margin-top:15px">Matching specialties speed activities. Expedition security improves combat odds. Injuries reduce bonuses; treatment is available at stations. Assignments lock while a team is working.</p>`,
+      }<p style="font-size:10px;margin-top:15px">${proficiencyHelp} Expedition security improves combat odds. Injuries reduce bonuses; treatment is available at stations. Assignments lock while a team is working.</p>`,
       'PRIMARY / SUPPORT',
     )}${panel('Vessel condition', `${metric('Hull integrity', s.integrity)}${metric('Machinery wear', s.wear, 100, true)}${metric('Cargo hold', cargo(g, s), s.capacity)}<p>Wear increases with travel and makes arrival damage worse. Restore the hull and service equipment before committing to a long crossing.</p>`)}${panel('Equipment upgrades', g.upgrades.map((u) => `<div style="padding:12px 0;border-bottom:1px solid var(--line)"><h3>${esc(u.name)}</h3><p style="font-size:10px;margin:7px 0">${esc(u.description)}</p><small>${esc(amountText(u.cost))}</small><div class="row-actions">${s.upgrades.includes(u.id) ? '<span class="badge green">INSTALLED</span>' : button('Install upgrade', { type: 'upgrade', id: u.id })}</div></div>`).join(''), 'STATION INSTALLATION')}</div></div>`;
   }
@@ -378,7 +379,7 @@ export function mountApp(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.7<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Vent contaminated compartment')}${discoveryPanel(g, s, button, tab === 'contacts' ? undefined : '<button data-tab="contacts">Review discovery</button>')}${jobs()}${tab === 'overview' ? overview() : tab === 'navigation' ? navigation() : tab === 'operations' ? operations() : contacts()}<footer class="footer"><span>SV KESTREL / DEEP FIELD SURVEY<br>YOUR PROGRESS CONTINUES WHILE YOU'RE AWAY.</span><span>FAR WAKE v0.8<br>SEED ${s.seed} · LOCAL EXPEDITION</span></footer>`;
       root.classList.toggle('readonly', !controller.isOwner());
       for (const b of root.querySelectorAll<HTMLElement>('.nav-button'))
         b.setAttribute('aria-current', b.dataset.tab === tab ? 'page' : 'false');
