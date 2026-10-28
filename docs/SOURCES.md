@@ -102,3 +102,5 @@ The user approved proceeding with the next roadmap candidate: more discoveries/m
 ## Independent game design review (2026-10-28)
 
 The user requested a separate agent's design review of both games. The [retained review](reviews/DESIGN-REVIEW-2026-10-28.md) records its evidence, limitations and prioritized recommendations against v0.11. This request authorizes review; the recommendations are proposals rather than new user requirements or approved gameplay changes.
+
+The user subsequently requested a visual design review as well. A separate agent's [visual review](reviews/VISUAL-DESIGN-REVIEW-2026-10-28.md) records rendered library/game observations and retained screenshot evidence. Desktop/browser emulation and prepared populated states are identified explicitly; this is not physical iPhone acceptance or approval to implement the proposed changes.

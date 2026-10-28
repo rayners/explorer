@@ -30,3 +30,4 @@ Documentation baseline: v0.11.0, updated 2026-10-28. Source and tests govern exe
 Independent reviews:
 
 - [Game design review, 2026-10-28](reviews/DESIGN-REVIEW-2026-10-28.md): exploration, pacing, rewards, crew choices and theme identity in both games. Recommendations are proposals, not approved specifications.
+- [Visual design review, 2026-10-28](reviews/VISUAL-DESIGN-REVIEW-2026-10-28.md): rendered desktop and phone layouts, typography, hierarchy, artwork and theme presentation. Recommendations are proposals, not approved specifications.
