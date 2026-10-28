@@ -71,7 +71,7 @@ Physical iPhone checks remain pending: discover a site, find its follow-up at a 
 
 ## v0.7 generated-world checks
 
-Local validation: 120 unit tests, 78 browser cases and 16 production offline cases passed.
+Release validation: 120 unit tests, 78 browser cases and 16 production offline cases passed locally and in CI. Live iPhone WebKit checks also passed for generations 3/4 in both games, including chart links and tagged offline journeys. A subsequent compatibility-preparation test covers eight captured schema-3 scenarios; no new personnel mechanic is shipped.
 
 Automated coverage freezes complete old/new catalogs, checks 100 layouts per theme for connected graphs/hubs/valid content, preserves intro routes, saves optional-place travel and explores full campaigns across eight seeds per theme. Browser checks cover real chart edges, 44px non-overlapping targets, imported generated maps, optional destinations, reloads and portrait/landscape overflow. Production cases verify generated travel catches up once and query-string game URLs retain the correct theme offline.
 

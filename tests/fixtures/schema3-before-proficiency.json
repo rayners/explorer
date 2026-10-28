@@ -1,0 +1,1865 @@
+{
+  "sourceCommit": "fc5a4f0520716090c60052dc9cf2822e751a1063",
+  "fixtures": [
+    {
+      "game": "far-wake",
+      "generation": 3,
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":3,\"definition\":\"far-wake\",\"generationVersion\":3,\"seed\":7,\"rng\":7,\"elapsed\":0,\"calendarDays\":0,\"location\":\"cinder\",\"inventory\":{\"credits\":320,\"fuel\":32,\"parts\":9,\"ammo\":8,\"provisions\":18,\"ore\":0,\"ice\":0},\"integrity\":60,\"wear\":8,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"mara\",\"name\":\"Vera Okonkwo\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":1,\"life\":\"alive\"},{\"id\":\"ishaan\",\"name\":\"Tomas Novak\",\"skill\":\"engineering\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"ada\",\"name\":\"Sol Navarro\",\"skill\":\"security\",\"assignment\":\"rest\",\"injury\":0,\"life\":\"dead\"}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"anchor\",\"cinder\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":0,\"pirates\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"definition\":\"survey\",\"target\":\"cinder\",\"remaining\":42,\"total\":42,\"days\":0,\"reward\":{},\"risk\":0.08},\"support\":{\"id\":\"j2\",\"kind\":\"activity\",\"definition\":\"repair\",\"target\":\"cinder\",\"remaining\":34,\"total\":34,\"days\":0,\"reward\":{},\"risk\":0},\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"survey\"}},{\"id\":2,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"repair\"}}],\"nextEvent\":3,\"milestones\":[]},\"checksum\":\"f5f6c558\"}",
+      "seconds": 200,
+      "expected": {
+        "version": 3,
+        "definition": "far-wake",
+        "generationVersion": 3,
+        "seed": 7,
+        "rng": 3663131633,
+        "elapsed": 42,
+        "calendarDays": 0,
+        "location": "cinder",
+        "inventory": {
+          "credits": 320,
+          "fuel": 32,
+          "parts": 9,
+          "ammo": 8,
+          "provisions": 18,
+          "ore": 0,
+          "ice": 0
+        },
+        "integrity": 95,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Vera Okonkwo",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 1,
+            "life": "alive"
+          },
+          {
+            "id": "ishaan",
+            "name": "Tomas Novak",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ada",
+            "name": "Sol Navarro",
+            "skill": "security",
+            "assignment": "rest",
+            "injury": 0,
+            "life": "dead"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "anchor",
+          "cinder",
+          "morrow",
+          "rubble",
+          "pale-0"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "morrow": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "rubble": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": {
+          "id": "e6",
+          "source": "pirates",
+          "strength": 1
+        },
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "survey"
+            }
+          },
+          {
+            "id": 2,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "repair"
+            }
+          },
+          {
+            "id": 3,
+            "at": 34,
+            "key": "activityComplete",
+            "params": {
+              "activity": "repair",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 4,
+            "at": 42,
+            "key": "surveyed",
+            "params": {
+              "target": "cinder",
+              "count": 3
+            }
+          },
+          {
+            "id": 5,
+            "at": 42,
+            "key": "activityComplete",
+            "params": {
+              "activity": "survey",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 6,
+            "at": 42,
+            "key": "intercepted",
+            "params": {}
+          }
+        ],
+        "nextEvent": 7,
+        "milestones": []
+      },
+      "kind": "parallel-work"
+    },
+    {
+      "game": "far-wake",
+      "generation": 4,
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":3,\"definition\":\"far-wake\",\"generationVersion\":4,\"seed\":7,\"rng\":7,\"elapsed\":0,\"calendarDays\":0,\"location\":\"cinder\",\"inventory\":{\"credits\":320,\"fuel\":32,\"parts\":9,\"ammo\":8,\"provisions\":18,\"ore\":0,\"ice\":0},\"integrity\":60,\"wear\":8,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"mara\",\"name\":\"Vera Okonkwo\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":1,\"life\":\"alive\"},{\"id\":\"ishaan\",\"name\":\"Tomas Novak\",\"skill\":\"engineering\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"ada\",\"name\":\"Sol Navarro\",\"skill\":\"security\",\"assignment\":\"rest\",\"injury\":0,\"life\":\"dead\"}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"anchor\",\"cinder\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":0,\"pirates\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"definition\":\"survey\",\"target\":\"cinder\",\"remaining\":42,\"total\":42,\"days\":0,\"reward\":{},\"risk\":0.08},\"support\":{\"id\":\"j2\",\"kind\":\"activity\",\"definition\":\"repair\",\"target\":\"cinder\",\"remaining\":34,\"total\":34,\"days\":0,\"reward\":{},\"risk\":0},\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"survey\"}},{\"id\":2,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"repair\"}}],\"nextEvent\":3,\"milestones\":[]},\"checksum\":\"467070d7\"}",
+      "seconds": 200,
+      "expected": {
+        "version": 3,
+        "definition": "far-wake",
+        "generationVersion": 4,
+        "seed": 7,
+        "rng": 3663131633,
+        "elapsed": 42,
+        "calendarDays": 0,
+        "location": "cinder",
+        "inventory": {
+          "credits": 320,
+          "fuel": 32,
+          "parts": 9,
+          "ammo": 8,
+          "provisions": 18,
+          "ore": 0,
+          "ice": 0
+        },
+        "integrity": 95,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Vera Okonkwo",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 1,
+            "life": "alive"
+          },
+          {
+            "id": "ishaan",
+            "name": "Tomas Novak",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ada",
+            "name": "Sol Navarro",
+            "skill": "security",
+            "assignment": "rest",
+            "injury": 0,
+            "life": "dead"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "anchor",
+          "cinder",
+          "morrow",
+          "rubble",
+          "pale-0"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "morrow": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "rubble": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": {
+          "id": "e6",
+          "source": "pirates",
+          "strength": 1
+        },
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "survey"
+            }
+          },
+          {
+            "id": 2,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "repair"
+            }
+          },
+          {
+            "id": 3,
+            "at": 34,
+            "key": "activityComplete",
+            "params": {
+              "activity": "repair",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 4,
+            "at": 42,
+            "key": "surveyed",
+            "params": {
+              "target": "cinder",
+              "count": 3
+            }
+          },
+          {
+            "id": 5,
+            "at": 42,
+            "key": "activityComplete",
+            "params": {
+              "activity": "survey",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 6,
+            "at": 42,
+            "key": "intercepted",
+            "params": {}
+          }
+        ],
+        "nextEvent": 7,
+        "milestones": []
+      },
+      "kind": "parallel-work"
+    },
+    {
+      "game": "hollowmere",
+      "generation": 3,
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":3,\"definition\":\"hollowmere\",\"generationVersion\":3,\"seed\":7,\"rng\":7,\"elapsed\":0,\"calendarDays\":0,\"location\":\"old-road\",\"inventory\":{\"gold\":320,\"rations\":30,\"wood\":12,\"bolts\":12,\"incense\":12,\"herbs\":4,\"relics\":0},\"integrity\":60,\"wear\":8,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"bran\",\"name\":\"Orrin Blackthorn\",\"skill\":\"fighter\",\"assignment\":\"rest\",\"injury\":0,\"life\":\"dead\"},{\"id\":\"ves\",\"name\":\"Iona Thorn\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":1,\"life\":\"alive\"},{\"id\":\"elin\",\"name\":\"Ronan Nettle\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\"}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"mournwatch\",\"old-road\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":0,\"covenant\":0,\"court\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"definition\":\"survey\",\"target\":\"old-road\",\"remaining\":42,\"total\":42,\"days\":0,\"reward\":{},\"risk\":0.07},\"support\":{\"id\":\"j2\",\"kind\":\"activity\",\"definition\":\"triage\",\"target\":\"old-road\",\"remaining\":38,\"total\":38,\"days\":0,\"reward\":{},\"risk\":0},\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"survey\"}},{\"id\":2,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"triage\"}}],\"nextEvent\":3,\"milestones\":[]},\"checksum\":\"8fcf27b8\"}",
+      "seconds": 200,
+      "expected": {
+        "version": 3,
+        "definition": "hollowmere",
+        "generationVersion": 3,
+        "seed": 7,
+        "rng": 3663131633,
+        "elapsed": 42,
+        "calendarDays": 0,
+        "location": "old-road",
+        "inventory": {
+          "gold": 320,
+          "rations": 30,
+          "wood": 12,
+          "bolts": 12,
+          "incense": 12,
+          "herbs": 4,
+          "relics": 0
+        },
+        "integrity": 60,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Orrin Blackthorn",
+            "skill": "fighter",
+            "assignment": "rest",
+            "injury": 0,
+            "life": "dead"
+          },
+          {
+            "id": "ves",
+            "name": "Iona Thorn",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "elin",
+            "name": "Ronan Nettle",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "mournwatch",
+          "old-road",
+          "briar",
+          "ash-camp"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "briar": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "ash-camp": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": {
+          "id": "e6",
+          "source": "court",
+          "strength": 1
+        },
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "survey"
+            }
+          },
+          {
+            "id": 2,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "triage"
+            }
+          },
+          {
+            "id": 3,
+            "at": 38,
+            "key": "activityComplete",
+            "params": {
+              "activity": "triage",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 4,
+            "at": 42,
+            "key": "surveyed",
+            "params": {
+              "target": "old-road",
+              "count": 2
+            }
+          },
+          {
+            "id": 5,
+            "at": 42,
+            "key": "activityComplete",
+            "params": {
+              "activity": "survey",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 6,
+            "at": 42,
+            "key": "intercepted",
+            "params": {}
+          }
+        ],
+        "nextEvent": 7,
+        "milestones": []
+      },
+      "kind": "parallel-work"
+    },
+    {
+      "game": "hollowmere",
+      "generation": 4,
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":3,\"definition\":\"hollowmere\",\"generationVersion\":4,\"seed\":7,\"rng\":7,\"elapsed\":0,\"calendarDays\":0,\"location\":\"old-road\",\"inventory\":{\"gold\":320,\"rations\":30,\"wood\":12,\"bolts\":12,\"incense\":12,\"herbs\":4,\"relics\":0},\"integrity\":60,\"wear\":8,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"bran\",\"name\":\"Orrin Blackthorn\",\"skill\":\"fighter\",\"assignment\":\"rest\",\"injury\":0,\"life\":\"dead\"},{\"id\":\"ves\",\"name\":\"Iona Thorn\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":1,\"life\":\"alive\"},{\"id\":\"elin\",\"name\":\"Ronan Nettle\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\"}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"mournwatch\",\"old-road\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":0,\"covenant\":0,\"court\":0},\"primary\":{\"id\":\"j1\",\"kind\":\"activity\",\"definition\":\"survey\",\"target\":\"old-road\",\"remaining\":42,\"total\":42,\"days\":0,\"reward\":{},\"risk\":0.07},\"support\":{\"id\":\"j2\",\"kind\":\"activity\",\"definition\":\"triage\",\"target\":\"old-road\",\"remaining\":38,\"total\":38,\"days\":0,\"reward\":{},\"risk\":0},\"encounter\":null,\"missions\":[],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"survey\"}},{\"id\":2,\"at\":0,\"key\":\"activityStarted\",\"params\":{\"activity\":\"triage\"}}],\"nextEvent\":3,\"milestones\":[]},\"checksum\":\"c81819cd\"}",
+      "seconds": 200,
+      "expected": {
+        "version": 3,
+        "definition": "hollowmere",
+        "generationVersion": 4,
+        "seed": 7,
+        "rng": 3663131633,
+        "elapsed": 42,
+        "calendarDays": 0,
+        "location": "old-road",
+        "inventory": {
+          "gold": 320,
+          "rations": 30,
+          "wood": 12,
+          "bolts": 12,
+          "incense": 12,
+          "herbs": 4,
+          "relics": 0
+        },
+        "integrity": 60,
+        "wear": 8,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Orrin Blackthorn",
+            "skill": "fighter",
+            "assignment": "rest",
+            "injury": 0,
+            "life": "dead"
+          },
+          {
+            "id": "ves",
+            "name": "Iona Thorn",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "elin",
+            "name": "Ronan Nettle",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "mournwatch",
+          "old-road",
+          "briar",
+          "ash-camp"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "briar": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "ash-camp": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": {
+          "id": "e6",
+          "source": "court",
+          "strength": 1
+        },
+        "missions": [],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "survey"
+            }
+          },
+          {
+            "id": 2,
+            "at": 0,
+            "key": "activityStarted",
+            "params": {
+              "activity": "triage"
+            }
+          },
+          {
+            "id": 3,
+            "at": 38,
+            "key": "activityComplete",
+            "params": {
+              "activity": "triage",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 4,
+            "at": 42,
+            "key": "surveyed",
+            "params": {
+              "target": "old-road",
+              "count": 2
+            }
+          },
+          {
+            "id": 5,
+            "at": 42,
+            "key": "activityComplete",
+            "params": {
+              "activity": "survey",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 6,
+            "at": 42,
+            "key": "intercepted",
+            "params": {}
+          }
+        ],
+        "nextEvent": 7,
+        "milestones": []
+      },
+      "kind": "parallel-work"
+    },
+    {
+      "game": "far-wake",
+      "generation": 4,
+      "kind": "completed-receipt",
+      "mission": "follow-up:site:cinder:0:study",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":3,\"definition\":\"far-wake\",\"generationVersion\":4,\"seed\":7,\"rng\":4231026106,\"elapsed\":433,\"calendarDays\":16,\"location\":\"anchor\",\"inventory\":{\"credits\":345,\"fuel\":10,\"parts\":12,\"ammo\":6,\"provisions\":6,\"ore\":3,\"ice\":0},\"integrity\":96,\"wear\":20,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"mara\",\"name\":\"Vera Okonkwo\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"ishaan\",\"name\":\"Tomas Novak\",\"skill\":\"engineering\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"ada\",\"name\":\"Sol Navarro\",\"skill\":\"security\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\"}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"anchor\",\"cinder\",\"morrow\",\"rubble\",\"pale-0\",\"meridian-1\",\"hollow-1\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":true,\"sites\":[\"site:cinder:0\"],\"dataSold\":false},\"morrow\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"rubble\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"pale-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-1\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"hollow-1\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":0,\"independent\":0,\"pirates\":0},\"primary\":null,\"support\":null,\"encounter\":null,\"missions\":[{\"id\":\"follow-up:site:cinder:0:study\",\"progress\":1,\"claimed\":false}],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"departed\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":2,\"at\":60,\"key\":\"arrived\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":3,\"at\":60,\"key\":\"intercepted\",\"params\":{}},{\"id\":4,\"at\":60,\"key\":\"surrendered\",\"params\":{}},{\"id\":5,\"at\":60,\"key\":\"activityStarted\",\"params\":{\"activity\":\"survey\"}},{\"id\":6,\"at\":98,\"key\":\"surveyed\",\"params\":{\"target\":\"cinder\",\"count\":3}},{\"id\":7,\"at\":98,\"key\":\"activityComplete\",\"params\":{\"activity\":\"survey\",\"target\":\"cinder\"}},{\"id\":8,\"at\":99,\"key\":\"activityStarted\",\"params\":{\"activity\":\"explore\",\"site\":\"site:cinder:0\",\"approach\":\"direct\"}},{\"id\":9,\"at\":184,\"key\":\"siteExplored\",\"params\":{\"target\":\"cinder\",\"site\":\"site:cinder:0\"}},{\"id\":10,\"at\":184,\"key\":\"activityComplete\",\"params\":{\"activity\":\"explore\",\"target\":\"cinder\"}},{\"id\":11,\"at\":185,\"key\":\"departed\",\"params\":{\"target\":\"anchor\",\"days\":4}},{\"id\":12,\"at\":245,\"key\":\"arrived\",\"params\":{\"target\":\"anchor\",\"days\":4}},{\"id\":13,\"at\":246,\"key\":\"missionAccepted\",\"params\":{\"mission\":\"follow-up:site:cinder:0:study\"}},{\"id\":14,\"at\":246,\"key\":\"departed\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":15,\"at\":306,\"key\":\"arrived\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":16,\"at\":307,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work:follow-up:site:cinder:0:study\"}},{\"id\":17,\"at\":371,\"key\":\"activityComplete\",\"params\":{\"activity\":\"work:follow-up:site:cinder:0:study\",\"target\":\"cinder\"}},{\"id\":18,\"at\":372,\"key\":\"departed\",\"params\":{\"target\":\"anchor\",\"days\":4}},{\"id\":19,\"at\":432,\"key\":\"arrived\",\"params\":{\"target\":\"anchor\",\"days\":4}}],\"nextEvent\":20,\"milestones\":[]},\"checksum\":\"64820bfd\"}",
+      "seconds": 200,
+      "expected": {
+        "version": 3,
+        "definition": "far-wake",
+        "generationVersion": 4,
+        "seed": 7,
+        "rng": 4231026106,
+        "elapsed": 633,
+        "calendarDays": 16,
+        "location": "anchor",
+        "inventory": {
+          "credits": 345,
+          "fuel": 10,
+          "parts": 12,
+          "ammo": 6,
+          "provisions": 6,
+          "ore": 3,
+          "ice": 0
+        },
+        "integrity": 96,
+        "wear": 20,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Vera Okonkwo",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ishaan",
+            "name": "Tomas Novak",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ada",
+            "name": "Sol Navarro",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "anchor",
+          "cinder",
+          "morrow",
+          "rubble",
+          "pale-0",
+          "meridian-1",
+          "hollow-1"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": true,
+            "sites": [
+              "site:cinder:0"
+            ],
+            "dataSold": false
+          },
+          "morrow": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "rubble": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-1": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-1": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 0,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [
+          {
+            "id": "follow-up:site:cinder:0:study",
+            "progress": 1,
+            "claimed": false
+          }
+        ],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "departed",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 2,
+            "at": 60,
+            "key": "arrived",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 3,
+            "at": 60,
+            "key": "intercepted",
+            "params": {}
+          },
+          {
+            "id": 4,
+            "at": 60,
+            "key": "surrendered",
+            "params": {}
+          },
+          {
+            "id": 5,
+            "at": 60,
+            "key": "activityStarted",
+            "params": {
+              "activity": "survey"
+            }
+          },
+          {
+            "id": 6,
+            "at": 98,
+            "key": "surveyed",
+            "params": {
+              "target": "cinder",
+              "count": 3
+            }
+          },
+          {
+            "id": 7,
+            "at": 98,
+            "key": "activityComplete",
+            "params": {
+              "activity": "survey",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 8,
+            "at": 99,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:cinder:0",
+              "approach": "direct"
+            }
+          },
+          {
+            "id": 9,
+            "at": 184,
+            "key": "siteExplored",
+            "params": {
+              "target": "cinder",
+              "site": "site:cinder:0"
+            }
+          },
+          {
+            "id": 10,
+            "at": 184,
+            "key": "activityComplete",
+            "params": {
+              "activity": "explore",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 11,
+            "at": 185,
+            "key": "departed",
+            "params": {
+              "target": "anchor",
+              "days": 4
+            }
+          },
+          {
+            "id": 12,
+            "at": 245,
+            "key": "arrived",
+            "params": {
+              "target": "anchor",
+              "days": 4
+            }
+          },
+          {
+            "id": 13,
+            "at": 246,
+            "key": "missionAccepted",
+            "params": {
+              "mission": "follow-up:site:cinder:0:study"
+            }
+          },
+          {
+            "id": 14,
+            "at": 246,
+            "key": "departed",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 15,
+            "at": 306,
+            "key": "arrived",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 16,
+            "at": 307,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work:follow-up:site:cinder:0:study"
+            }
+          },
+          {
+            "id": 17,
+            "at": 371,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work:follow-up:site:cinder:0:study",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 18,
+            "at": 372,
+            "key": "departed",
+            "params": {
+              "target": "anchor",
+              "days": 4
+            }
+          },
+          {
+            "id": 19,
+            "at": 432,
+            "key": "arrived",
+            "params": {
+              "target": "anchor",
+              "days": 4
+            }
+          }
+        ],
+        "nextEvent": 20,
+        "milestones": []
+      }
+    },
+    {
+      "game": "far-wake",
+      "generation": 4,
+      "kind": "filed-receipt",
+      "mission": "follow-up:site:cinder:0:study",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":3,\"definition\":\"far-wake\",\"generationVersion\":4,\"seed\":7,\"rng\":4231026106,\"elapsed\":433,\"calendarDays\":16,\"location\":\"anchor\",\"inventory\":{\"credits\":495,\"fuel\":10,\"parts\":12,\"ammo\":6,\"provisions\":6,\"ore\":3,\"ice\":0},\"integrity\":96,\"wear\":20,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"mara\",\"name\":\"Vera Okonkwo\",\"skill\":\"survey\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"ishaan\",\"name\":\"Tomas Novak\",\"skill\":\"engineering\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"ada\",\"name\":\"Sol Navarro\",\"skill\":\"security\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\"}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"anchor\",\"cinder\",\"morrow\",\"rubble\",\"pale-0\",\"meridian-1\",\"hollow-1\"],\"discoveries\":{\"anchor\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"cinder\":{\"surveyed\":true,\"sites\":[\"site:cinder:0\"],\"dataSold\":false},\"morrow\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"rubble\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"pale-0\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"meridian-1\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"hollow-1\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"combine\":6,\"independent\":0,\"pirates\":0},\"primary\":null,\"support\":null,\"encounter\":null,\"missions\":[{\"id\":\"follow-up:site:cinder:0:study\",\"progress\":1,\"claimed\":true}],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"departed\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":2,\"at\":60,\"key\":\"arrived\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":3,\"at\":60,\"key\":\"intercepted\",\"params\":{}},{\"id\":4,\"at\":60,\"key\":\"surrendered\",\"params\":{}},{\"id\":5,\"at\":60,\"key\":\"activityStarted\",\"params\":{\"activity\":\"survey\"}},{\"id\":6,\"at\":98,\"key\":\"surveyed\",\"params\":{\"target\":\"cinder\",\"count\":3}},{\"id\":7,\"at\":98,\"key\":\"activityComplete\",\"params\":{\"activity\":\"survey\",\"target\":\"cinder\"}},{\"id\":8,\"at\":99,\"key\":\"activityStarted\",\"params\":{\"activity\":\"explore\",\"site\":\"site:cinder:0\",\"approach\":\"direct\"}},{\"id\":9,\"at\":184,\"key\":\"siteExplored\",\"params\":{\"target\":\"cinder\",\"site\":\"site:cinder:0\"}},{\"id\":10,\"at\":184,\"key\":\"activityComplete\",\"params\":{\"activity\":\"explore\",\"target\":\"cinder\"}},{\"id\":11,\"at\":185,\"key\":\"departed\",\"params\":{\"target\":\"anchor\",\"days\":4}},{\"id\":12,\"at\":245,\"key\":\"arrived\",\"params\":{\"target\":\"anchor\",\"days\":4}},{\"id\":13,\"at\":246,\"key\":\"missionAccepted\",\"params\":{\"mission\":\"follow-up:site:cinder:0:study\"}},{\"id\":14,\"at\":246,\"key\":\"departed\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":15,\"at\":306,\"key\":\"arrived\",\"params\":{\"target\":\"cinder\",\"days\":4}},{\"id\":16,\"at\":307,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work:follow-up:site:cinder:0:study\"}},{\"id\":17,\"at\":371,\"key\":\"activityComplete\",\"params\":{\"activity\":\"work:follow-up:site:cinder:0:study\",\"target\":\"cinder\"}},{\"id\":18,\"at\":372,\"key\":\"departed\",\"params\":{\"target\":\"anchor\",\"days\":4}},{\"id\":19,\"at\":432,\"key\":\"arrived\",\"params\":{\"target\":\"anchor\",\"days\":4}},{\"id\":20,\"at\":433,\"key\":\"missionClaimed\",\"params\":{\"mission\":\"follow-up:site:cinder:0:study\"}}],\"nextEvent\":21,\"milestones\":[]},\"checksum\":\"8f1f68a3\"}",
+      "seconds": 200,
+      "expected": {
+        "version": 3,
+        "definition": "far-wake",
+        "generationVersion": 4,
+        "seed": 7,
+        "rng": 4231026106,
+        "elapsed": 633,
+        "calendarDays": 16,
+        "location": "anchor",
+        "inventory": {
+          "credits": 495,
+          "fuel": 10,
+          "parts": 12,
+          "ammo": 6,
+          "provisions": 6,
+          "ore": 3,
+          "ice": 0
+        },
+        "integrity": 96,
+        "wear": 20,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "mara",
+            "name": "Vera Okonkwo",
+            "skill": "survey",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ishaan",
+            "name": "Tomas Novak",
+            "skill": "engineering",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ada",
+            "name": "Sol Navarro",
+            "skill": "security",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "anchor",
+          "cinder",
+          "morrow",
+          "rubble",
+          "pale-0",
+          "meridian-1",
+          "hollow-1"
+        ],
+        "discoveries": {
+          "anchor": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "cinder": {
+            "surveyed": true,
+            "sites": [
+              "site:cinder:0"
+            ],
+            "dataSold": false
+          },
+          "morrow": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "rubble": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "pale-0": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "meridian-1": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "hollow-1": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "combine": 6,
+          "independent": 0,
+          "pirates": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [
+          {
+            "id": "follow-up:site:cinder:0:study",
+            "progress": 1,
+            "claimed": true
+          }
+        ],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "departed",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 2,
+            "at": 60,
+            "key": "arrived",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 3,
+            "at": 60,
+            "key": "intercepted",
+            "params": {}
+          },
+          {
+            "id": 4,
+            "at": 60,
+            "key": "surrendered",
+            "params": {}
+          },
+          {
+            "id": 5,
+            "at": 60,
+            "key": "activityStarted",
+            "params": {
+              "activity": "survey"
+            }
+          },
+          {
+            "id": 6,
+            "at": 98,
+            "key": "surveyed",
+            "params": {
+              "target": "cinder",
+              "count": 3
+            }
+          },
+          {
+            "id": 7,
+            "at": 98,
+            "key": "activityComplete",
+            "params": {
+              "activity": "survey",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 8,
+            "at": 99,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:cinder:0",
+              "approach": "direct"
+            }
+          },
+          {
+            "id": 9,
+            "at": 184,
+            "key": "siteExplored",
+            "params": {
+              "target": "cinder",
+              "site": "site:cinder:0"
+            }
+          },
+          {
+            "id": 10,
+            "at": 184,
+            "key": "activityComplete",
+            "params": {
+              "activity": "explore",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 11,
+            "at": 185,
+            "key": "departed",
+            "params": {
+              "target": "anchor",
+              "days": 4
+            }
+          },
+          {
+            "id": 12,
+            "at": 245,
+            "key": "arrived",
+            "params": {
+              "target": "anchor",
+              "days": 4
+            }
+          },
+          {
+            "id": 13,
+            "at": 246,
+            "key": "missionAccepted",
+            "params": {
+              "mission": "follow-up:site:cinder:0:study"
+            }
+          },
+          {
+            "id": 14,
+            "at": 246,
+            "key": "departed",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 15,
+            "at": 306,
+            "key": "arrived",
+            "params": {
+              "target": "cinder",
+              "days": 4
+            }
+          },
+          {
+            "id": 16,
+            "at": 307,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work:follow-up:site:cinder:0:study"
+            }
+          },
+          {
+            "id": 17,
+            "at": 371,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work:follow-up:site:cinder:0:study",
+              "target": "cinder"
+            }
+          },
+          {
+            "id": 18,
+            "at": 372,
+            "key": "departed",
+            "params": {
+              "target": "anchor",
+              "days": 4
+            }
+          },
+          {
+            "id": 19,
+            "at": 432,
+            "key": "arrived",
+            "params": {
+              "target": "anchor",
+              "days": 4
+            }
+          },
+          {
+            "id": 20,
+            "at": 433,
+            "key": "missionClaimed",
+            "params": {
+              "mission": "follow-up:site:cinder:0:study"
+            }
+          }
+        ],
+        "nextEvent": 21,
+        "milestones": []
+      }
+    },
+    {
+      "game": "hollowmere",
+      "generation": 4,
+      "kind": "completed-receipt",
+      "mission": "follow-up:site:old-road:0:study",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":3,\"definition\":\"hollowmere\",\"generationVersion\":4,\"seed\":7,\"rng\":4231026106,\"elapsed\":364,\"calendarDays\":0.8,\"location\":\"mournwatch\",\"inventory\":{\"gold\":380,\"rations\":16,\"wood\":9,\"bolts\":9,\"incense\":11,\"herbs\":3,\"relics\":2},\"integrity\":96,\"wear\":20,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"bran\",\"name\":\"Orrin Blackthorn\",\"skill\":\"fighter\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"ves\",\"name\":\"Iona Thorn\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"elin\",\"name\":\"Ronan Nettle\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\"}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"mournwatch\",\"old-road\",\"briar\",\"ash-camp\",\"below-generated-0\",\"generated-region-0-generated-0\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":true,\"sites\":[\"site:old-road:0\"],\"dataSold\":false},\"briar\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"ash-camp\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"below-generated-0\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"generated-region-0-generated-0\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":0,\"covenant\":0,\"court\":0},\"primary\":null,\"support\":null,\"encounter\":null,\"missions\":[{\"id\":\"follow-up:site:old-road:0:study\",\"progress\":1,\"claimed\":false}],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"departed\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":2,\"at\":45,\"key\":\"arrived\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":3,\"at\":45,\"key\":\"intercepted\",\"params\":{}},{\"id\":4,\"at\":45,\"key\":\"surrendered\",\"params\":{}},{\"id\":5,\"at\":45,\"key\":\"activityStarted\",\"params\":{\"activity\":\"survey\"}},{\"id\":6,\"at\":83,\"key\":\"surveyed\",\"params\":{\"target\":\"old-road\",\"count\":2}},{\"id\":7,\"at\":83,\"key\":\"activityComplete\",\"params\":{\"activity\":\"survey\",\"target\":\"old-road\"}},{\"id\":8,\"at\":84,\"key\":\"activityStarted\",\"params\":{\"activity\":\"explore\",\"site\":\"site:old-road:0\",\"approach\":\"direct\"}},{\"id\":9,\"at\":160,\"key\":\"siteExplored\",\"params\":{\"target\":\"old-road\",\"site\":\"site:old-road:0\"}},{\"id\":10,\"at\":160,\"key\":\"activityComplete\",\"params\":{\"activity\":\"explore\",\"target\":\"old-road\"}},{\"id\":11,\"at\":161,\"key\":\"departed\",\"params\":{\"target\":\"mournwatch\",\"days\":0.2}},{\"id\":12,\"at\":206,\"key\":\"arrived\",\"params\":{\"target\":\"mournwatch\",\"days\":0.2}},{\"id\":13,\"at\":207,\"key\":\"missionAccepted\",\"params\":{\"mission\":\"follow-up:site:old-road:0:study\"}},{\"id\":14,\"at\":207,\"key\":\"departed\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":15,\"at\":252,\"key\":\"arrived\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":16,\"at\":253,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work:follow-up:site:old-road:0:study\"}},{\"id\":17,\"at\":317,\"key\":\"activityComplete\",\"params\":{\"activity\":\"work:follow-up:site:old-road:0:study\",\"target\":\"old-road\"}},{\"id\":18,\"at\":318,\"key\":\"departed\",\"params\":{\"target\":\"mournwatch\",\"days\":0.2}},{\"id\":19,\"at\":363,\"key\":\"arrived\",\"params\":{\"target\":\"mournwatch\",\"days\":0.2}}],\"nextEvent\":20,\"milestones\":[]},\"checksum\":\"32c53b4b\"}",
+      "seconds": 200,
+      "expected": {
+        "version": 3,
+        "definition": "hollowmere",
+        "generationVersion": 4,
+        "seed": 7,
+        "rng": 4231026106,
+        "elapsed": 564,
+        "calendarDays": 0.8,
+        "location": "mournwatch",
+        "inventory": {
+          "gold": 380,
+          "rations": 16,
+          "wood": 9,
+          "bolts": 9,
+          "incense": 11,
+          "herbs": 3,
+          "relics": 2
+        },
+        "integrity": 96,
+        "wear": 20,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Orrin Blackthorn",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ves",
+            "name": "Iona Thorn",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "elin",
+            "name": "Ronan Nettle",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "mournwatch",
+          "old-road",
+          "briar",
+          "ash-camp",
+          "below-generated-0",
+          "generated-region-0-generated-0"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": true,
+            "sites": [
+              "site:old-road:0"
+            ],
+            "dataSold": false
+          },
+          "briar": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "ash-camp": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "below-generated-0": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-generated-0": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 0,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [
+          {
+            "id": "follow-up:site:old-road:0:study",
+            "progress": 1,
+            "claimed": false
+          }
+        ],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "departed",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 2,
+            "at": 45,
+            "key": "arrived",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 3,
+            "at": 45,
+            "key": "intercepted",
+            "params": {}
+          },
+          {
+            "id": 4,
+            "at": 45,
+            "key": "surrendered",
+            "params": {}
+          },
+          {
+            "id": 5,
+            "at": 45,
+            "key": "activityStarted",
+            "params": {
+              "activity": "survey"
+            }
+          },
+          {
+            "id": 6,
+            "at": 83,
+            "key": "surveyed",
+            "params": {
+              "target": "old-road",
+              "count": 2
+            }
+          },
+          {
+            "id": 7,
+            "at": 83,
+            "key": "activityComplete",
+            "params": {
+              "activity": "survey",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 8,
+            "at": 84,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:old-road:0",
+              "approach": "direct"
+            }
+          },
+          {
+            "id": 9,
+            "at": 160,
+            "key": "siteExplored",
+            "params": {
+              "target": "old-road",
+              "site": "site:old-road:0"
+            }
+          },
+          {
+            "id": 10,
+            "at": 160,
+            "key": "activityComplete",
+            "params": {
+              "activity": "explore",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 11,
+            "at": 161,
+            "key": "departed",
+            "params": {
+              "target": "mournwatch",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 12,
+            "at": 206,
+            "key": "arrived",
+            "params": {
+              "target": "mournwatch",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 13,
+            "at": 207,
+            "key": "missionAccepted",
+            "params": {
+              "mission": "follow-up:site:old-road:0:study"
+            }
+          },
+          {
+            "id": 14,
+            "at": 207,
+            "key": "departed",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 15,
+            "at": 252,
+            "key": "arrived",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 16,
+            "at": 253,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work:follow-up:site:old-road:0:study"
+            }
+          },
+          {
+            "id": 17,
+            "at": 317,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work:follow-up:site:old-road:0:study",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 18,
+            "at": 318,
+            "key": "departed",
+            "params": {
+              "target": "mournwatch",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 19,
+            "at": 363,
+            "key": "arrived",
+            "params": {
+              "target": "mournwatch",
+              "days": 0.2
+            }
+          }
+        ],
+        "nextEvent": 20,
+        "milestones": []
+      }
+    },
+    {
+      "game": "hollowmere",
+      "generation": 4,
+      "kind": "filed-receipt",
+      "mission": "follow-up:site:old-road:0:study",
+      "raw": "{\"format\":\"exploration-save\",\"version\":1,\"savedAt\":1000000,\"state\":{\"version\":3,\"definition\":\"hollowmere\",\"generationVersion\":4,\"seed\":7,\"rng\":4231026106,\"elapsed\":364,\"calendarDays\":0.8,\"location\":\"mournwatch\",\"inventory\":{\"gold\":530,\"rations\":16,\"wood\":9,\"bolts\":9,\"incense\":11,\"herbs\":3,\"relics\":2},\"integrity\":96,\"wear\":20,\"capacity\":120,\"debt\":0,\"crew\":[{\"id\":\"bran\",\"name\":\"Orrin Blackthorn\",\"skill\":\"fighter\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"ves\",\"name\":\"Iona Thorn\",\"skill\":\"mage\",\"assignment\":\"primary\",\"injury\":0,\"life\":\"alive\"},{\"id\":\"elin\",\"name\":\"Ronan Nettle\",\"skill\":\"cleric\",\"assignment\":\"support\",\"injury\":0,\"life\":\"alive\"}],\"recruitSerial\":0,\"threat\":null,\"threatHistory\":[],\"incidents\":[],\"discoveryCooldown\":0,\"known\":[\"mournwatch\",\"old-road\",\"briar\",\"ash-camp\",\"below-generated-0\",\"generated-region-0-generated-0\"],\"discoveries\":{\"mournwatch\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"old-road\":{\"surveyed\":true,\"sites\":[\"site:old-road:0\"],\"dataSold\":false},\"briar\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"ash-camp\":{\"surveyed\":true,\"sites\":[],\"dataSold\":false},\"below-generated-0\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false},\"generated-region-0-generated-0\":{\"surveyed\":false,\"sites\":[],\"dataSold\":false}},\"reputation\":{\"wardens\":6,\"covenant\":0,\"court\":0},\"primary\":null,\"support\":null,\"encounter\":null,\"missions\":[{\"id\":\"follow-up:site:old-road:0:study\",\"progress\":1,\"claimed\":true}],\"upgrades\":[],\"events\":[{\"id\":0,\"at\":0,\"key\":\"welcome\",\"params\":{}},{\"id\":1,\"at\":0,\"key\":\"departed\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":2,\"at\":45,\"key\":\"arrived\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":3,\"at\":45,\"key\":\"intercepted\",\"params\":{}},{\"id\":4,\"at\":45,\"key\":\"surrendered\",\"params\":{}},{\"id\":5,\"at\":45,\"key\":\"activityStarted\",\"params\":{\"activity\":\"survey\"}},{\"id\":6,\"at\":83,\"key\":\"surveyed\",\"params\":{\"target\":\"old-road\",\"count\":2}},{\"id\":7,\"at\":83,\"key\":\"activityComplete\",\"params\":{\"activity\":\"survey\",\"target\":\"old-road\"}},{\"id\":8,\"at\":84,\"key\":\"activityStarted\",\"params\":{\"activity\":\"explore\",\"site\":\"site:old-road:0\",\"approach\":\"direct\"}},{\"id\":9,\"at\":160,\"key\":\"siteExplored\",\"params\":{\"target\":\"old-road\",\"site\":\"site:old-road:0\"}},{\"id\":10,\"at\":160,\"key\":\"activityComplete\",\"params\":{\"activity\":\"explore\",\"target\":\"old-road\"}},{\"id\":11,\"at\":161,\"key\":\"departed\",\"params\":{\"target\":\"mournwatch\",\"days\":0.2}},{\"id\":12,\"at\":206,\"key\":\"arrived\",\"params\":{\"target\":\"mournwatch\",\"days\":0.2}},{\"id\":13,\"at\":207,\"key\":\"missionAccepted\",\"params\":{\"mission\":\"follow-up:site:old-road:0:study\"}},{\"id\":14,\"at\":207,\"key\":\"departed\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":15,\"at\":252,\"key\":\"arrived\",\"params\":{\"target\":\"old-road\",\"days\":0.2}},{\"id\":16,\"at\":253,\"key\":\"activityStarted\",\"params\":{\"activity\":\"work:follow-up:site:old-road:0:study\"}},{\"id\":17,\"at\":317,\"key\":\"activityComplete\",\"params\":{\"activity\":\"work:follow-up:site:old-road:0:study\",\"target\":\"old-road\"}},{\"id\":18,\"at\":318,\"key\":\"departed\",\"params\":{\"target\":\"mournwatch\",\"days\":0.2}},{\"id\":19,\"at\":363,\"key\":\"arrived\",\"params\":{\"target\":\"mournwatch\",\"days\":0.2}},{\"id\":20,\"at\":364,\"key\":\"missionClaimed\",\"params\":{\"mission\":\"follow-up:site:old-road:0:study\"}}],\"nextEvent\":21,\"milestones\":[]},\"checksum\":\"7e4fbe80\"}",
+      "seconds": 200,
+      "expected": {
+        "version": 3,
+        "definition": "hollowmere",
+        "generationVersion": 4,
+        "seed": 7,
+        "rng": 4231026106,
+        "elapsed": 564,
+        "calendarDays": 0.8,
+        "location": "mournwatch",
+        "inventory": {
+          "gold": 530,
+          "rations": 16,
+          "wood": 9,
+          "bolts": 9,
+          "incense": 11,
+          "herbs": 3,
+          "relics": 2
+        },
+        "integrity": 96,
+        "wear": 20,
+        "capacity": 120,
+        "debt": 0,
+        "crew": [
+          {
+            "id": "bran",
+            "name": "Orrin Blackthorn",
+            "skill": "fighter",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "ves",
+            "name": "Iona Thorn",
+            "skill": "mage",
+            "assignment": "primary",
+            "injury": 0,
+            "life": "alive"
+          },
+          {
+            "id": "elin",
+            "name": "Ronan Nettle",
+            "skill": "cleric",
+            "assignment": "support",
+            "injury": 0,
+            "life": "alive"
+          }
+        ],
+        "recruitSerial": 0,
+        "threat": null,
+        "threatHistory": [],
+        "incidents": [],
+        "discoveryCooldown": 0,
+        "known": [
+          "mournwatch",
+          "old-road",
+          "briar",
+          "ash-camp",
+          "below-generated-0",
+          "generated-region-0-generated-0"
+        ],
+        "discoveries": {
+          "mournwatch": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "old-road": {
+            "surveyed": true,
+            "sites": [
+              "site:old-road:0"
+            ],
+            "dataSold": false
+          },
+          "briar": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "ash-camp": {
+            "surveyed": true,
+            "sites": [],
+            "dataSold": false
+          },
+          "below-generated-0": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          },
+          "generated-region-0-generated-0": {
+            "surveyed": false,
+            "sites": [],
+            "dataSold": false
+          }
+        },
+        "reputation": {
+          "wardens": 6,
+          "covenant": 0,
+          "court": 0
+        },
+        "primary": null,
+        "support": null,
+        "encounter": null,
+        "missions": [
+          {
+            "id": "follow-up:site:old-road:0:study",
+            "progress": 1,
+            "claimed": true
+          }
+        ],
+        "upgrades": [],
+        "events": [
+          {
+            "id": 0,
+            "at": 0,
+            "key": "welcome",
+            "params": {}
+          },
+          {
+            "id": 1,
+            "at": 0,
+            "key": "departed",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 2,
+            "at": 45,
+            "key": "arrived",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 3,
+            "at": 45,
+            "key": "intercepted",
+            "params": {}
+          },
+          {
+            "id": 4,
+            "at": 45,
+            "key": "surrendered",
+            "params": {}
+          },
+          {
+            "id": 5,
+            "at": 45,
+            "key": "activityStarted",
+            "params": {
+              "activity": "survey"
+            }
+          },
+          {
+            "id": 6,
+            "at": 83,
+            "key": "surveyed",
+            "params": {
+              "target": "old-road",
+              "count": 2
+            }
+          },
+          {
+            "id": 7,
+            "at": 83,
+            "key": "activityComplete",
+            "params": {
+              "activity": "survey",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 8,
+            "at": 84,
+            "key": "activityStarted",
+            "params": {
+              "activity": "explore",
+              "site": "site:old-road:0",
+              "approach": "direct"
+            }
+          },
+          {
+            "id": 9,
+            "at": 160,
+            "key": "siteExplored",
+            "params": {
+              "target": "old-road",
+              "site": "site:old-road:0"
+            }
+          },
+          {
+            "id": 10,
+            "at": 160,
+            "key": "activityComplete",
+            "params": {
+              "activity": "explore",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 11,
+            "at": 161,
+            "key": "departed",
+            "params": {
+              "target": "mournwatch",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 12,
+            "at": 206,
+            "key": "arrived",
+            "params": {
+              "target": "mournwatch",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 13,
+            "at": 207,
+            "key": "missionAccepted",
+            "params": {
+              "mission": "follow-up:site:old-road:0:study"
+            }
+          },
+          {
+            "id": 14,
+            "at": 207,
+            "key": "departed",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 15,
+            "at": 252,
+            "key": "arrived",
+            "params": {
+              "target": "old-road",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 16,
+            "at": 253,
+            "key": "activityStarted",
+            "params": {
+              "activity": "work:follow-up:site:old-road:0:study"
+            }
+          },
+          {
+            "id": 17,
+            "at": 317,
+            "key": "activityComplete",
+            "params": {
+              "activity": "work:follow-up:site:old-road:0:study",
+              "target": "old-road"
+            }
+          },
+          {
+            "id": 18,
+            "at": 318,
+            "key": "departed",
+            "params": {
+              "target": "mournwatch",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 19,
+            "at": 363,
+            "key": "arrived",
+            "params": {
+              "target": "mournwatch",
+              "days": 0.2
+            }
+          },
+          {
+            "id": 20,
+            "at": 364,
+            "key": "missionClaimed",
+            "params": {
+              "mission": "follow-up:site:old-road:0:study"
+            }
+          }
+        ],
+        "nextEvent": 21,
+        "milestones": []
+      }
+    }
+  ]
+}
