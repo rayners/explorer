@@ -84,7 +84,7 @@ body.fantasy {
 .fantasy .action-reason {
   display: block;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   margin-top: 5px;
   line-height: 1.7;
 }
@@ -157,7 +157,7 @@ body.fantasy {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .fantasy .nav-button {
-    font-size: 10px;
+    font-size: 12px;
   }
   .fantasy .nav-button span {
     font-size: 17px;

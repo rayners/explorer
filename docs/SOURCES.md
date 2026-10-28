@@ -104,3 +104,7 @@ The user approved proceeding with the next roadmap candidate: more discoveries/m
 The user requested a separate agent's design review of both games. The [retained review](reviews/DESIGN-REVIEW-2026-10-28.md) records its evidence, limitations and prioritized recommendations against v0.11. This request authorizes review; the recommendations are proposals rather than new user requirements or approved gameplay changes.
 
 The user subsequently requested a visual design review as well. A separate agent's [visual review](reviews/VISUAL-DESIGN-REVIEW-2026-10-28.md) records rendered library/game observations and retained screenshot evidence. Desktop/browser emulation and prepared populated states are identified explicitly; this is not physical iPhone acceptance or approval to implement the proposed changes.
+
+## Readability implementation (v0.12)
+
+The ongoing roadmap instruction authorizes selecting the next bounded improvement after the reviews. [READABILITY.md](READABILITY.md) records that selection: current directives, readable operational text, scannable accepted-work cards and short landscape framing. These are implementation choices informed by review evidence, not a claim that every review recommendation was independently approved. Changes to expedition rewards, longer safe orders, world consequences and contextual generation remain later candidates.

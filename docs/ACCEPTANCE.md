@@ -1,5 +1,14 @@
 # Browser and device acceptance
 
+## Readability and action hierarchy (v0.12) — physical checks pending
+
+- On the iPhone 15 Pro Max, confirm the opening directive's acceptance action is readable above the scene in portrait and landscape, including Safari chrome and safe areas. Accept the first contract/oath and follow travel, survey and filing guidance.
+- Check larger stock labels/units and wrapping resources. Visit every tab with long generated names; rotate, enlarge text/zoom, and confirm scrolling reaches actions above the fixed phone navigation.
+- Review accepted primary/support work with missing supplies and a wrongly assigned specialist. Those blockers must remain visible with story/estimates collapsed. Expand both sections by touch and keyboard; no resources or orders should change.
+- Dispatch explicitly, suspend/reopen, and confirm paid terms and completed receipts remain intact. Repeat offline/from Home Screen in both games. Native details expansion is temporary view state and may reset after a simulation transition.
+
+Automated browser emulation does not close these physical-device checks.
+
 Automated coverage uses Chromium desktop and actual WebKit with iPhone 15 Pro Max and iPad viewport/touch settings. It does not substitute for a physical iPhone Safari run.
 
 ## Automated checks

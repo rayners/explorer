@@ -131,6 +131,10 @@ Generation-5 `DiscoveryChoice` supports `recruit` offer IDs and `training: {skil
 
 The browser host derives expedition preparation in `ui/expedition-planning.ts` using existing mission definitions, living assignments, inventory, `planRoute` and `dispatch`. These are read-only views; no new engine command/state/catalog is introduced. Estimates use fastest known-time itineraries and a reachable known return hub, excluding uncertain hazards and future resupply. Accepted committed work must not be treated as requiring payment/staffing again; completed receipts require only return/filing. Never dispatch merely to open a route preview. See [PLANNING.md](PLANNING.md).
 
+## Readable work views (v0.12)
+
+Shared accepted-work cards render the existing `expeditionPlan` phases and engine dispatch availability. Story and route estimates can be expanded without issuing commands; current supply/staffing gaps and order restrictions remain visible. Paid jobs retain committed terms and do not regain supply or staffing requirements. Themed overview guidance reads existing mission/job state without changing it or exposing hidden threats. This changes neither engine contracts nor generation/state/envelope versions. See [READABILITY.md](READABILITY.md).
+
 ## Project recipe roles (v0.11)
 
 `ProjectBranch.slot?: ActivityDef['slot']` defaults to primary. `requirements?: SkillRequirement[]` defaults to the existing one-specialty requirement on the work team. Explicit requirements can name support/primary assignments; generator output remains unchanged for old recipes. A support field project uses ordinary support jobs: pay at dispatch, remain at the source, block departure while active, preserve committed jobs through roster loss, zero support incident risk, and resolve one objective receipt at completion. Required specialists on another team supply eligibility, but gain no practice through that job unless they are committed matching participants on its own slot. Generation-7 catalog assembly adds content; state schema 4 and envelope 1 remain unchanged. See [VARIETY.md](VARIETY.md).

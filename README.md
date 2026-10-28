@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.12
+
+Both overviews put the current directive before the pixel scene. Hollowmere follows the first oath through travel, survey and reporting; Far Wake keeps its existing state-aware guidance. Larger decision text and stock labels, wrapping phone resources and a compact landscape layout make preparation easier to read.
+
+Accepted discovery work now separates status, source, supplies, roles and next actions from expandable story and route estimates. Missing supplies and assignment problems stay visible, and opening details never issues an order. Existing expeditions gain these changes without a reset. See [readability and action hierarchy](docs/READABILITY.md).
+
 ## New in v0.11
 
 Fresh expeditions add three discoveries per game: derelict salvage, a distress beacon and disputed research in Far Wake; a haunted shrine, lost caravan and dangerous bargain in Hollowmere. Choices can grant materials, recruit a medic/fighter, train specialists or change faction standing. Each response unlocks a distinct optional commission.

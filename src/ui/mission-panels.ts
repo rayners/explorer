@@ -1,6 +1,7 @@
 import { preparationPanel } from './planning-panels';
-import type { ActivityDef, GameDefinition, GameState } from '../engine/types';
+import type { ActivityDef, Command, GameDefinition, GameState } from '../engine/types';
 import { activityDuration } from '../engine/simulation';
+import { expeditionPlan } from './expedition-planning';
 const esc = (value: unknown) =>
   String(value ?? '').replace(
     /[&<>"']/g,
@@ -9,6 +10,40 @@ const esc = (value: unknown) =>
 export function workTeamRequirements(activity: ActivityDef): string {
   const team = (slot: string) => (slot === 'support' ? 'support' : 'expedition');
   return `Work team: ${activity.slot === 'support' ? 'Support' : 'Expedition'}<br>Team requirements: ${activity.requirements?.map((requirement) => `${requirement.count} ${esc(requirement.skill)} (${team(requirement.assignment ?? activity.slot)})`).join(' · ') || 'One living member on the work team'}`;
+}
+/** A shared accepted-work brief. Engine dispatch still owns availability and paid terms. */
+export function boundWorkCard(
+  g: GameDefinition,
+  s: GameState,
+  id: string,
+  button: (label: string, command: Command, primary?: boolean) => string,
+  supportLabel: string,
+): string {
+  const activity = g.activities.find((activity) => activity.id === id)!;
+  const mission = g.missions.find((mission) => mission.id === activity.mission)!;
+  const plan = expeditionPlan(g, s, mission.id)!;
+  const job = [s.primary, s.support].find((job) => job?.definition === id);
+  const status = {
+    accept: 'Accept at a hub',
+    prepare: 'Preparation needed',
+    travel: 'Travel to source',
+    work: 'Ready for work',
+    waiting: job ? 'Work in progress' : 'Journey in progress',
+    return: 'Work complete',
+    file: 'Ready to file',
+    filed: 'Filed',
+  }[plan.phase];
+  const cost =
+    Object.entries(activity.cost)
+      .map(([id, amount]) => `${amount} ${esc(g.resources.find((r) => r.id === id)?.name ?? id)}`)
+      .join(' · ') || 'None';
+  return `<article class="activity-card bound-work"><div class="work-status">${status}</div><h3>${esc(activity.name)}</h3><p class="work-source">Source: ${esc(g.locations.find((location) => location.id === mission.objective.target)?.name)}</p>${plan.phase !== 'waiting' ? `<p class="cost">Work supplies: ${cost}<br>${workTeamRequirements(activity)}</p>` : ''}${preparationPanel(g, s, mission.id, 'work')}<div class="work-order">${button(activity.slot === 'support' ? supportLabel : 'Begin activity', { type: 'activity', id }, plan.phase === 'work')}</div><p class="payment-note">Supplies are paid on dispatch. Payment is collected once at a service hub after completion.</p><details class="work-details"><summary>Story & work details</summary><p>${esc(activity.description)}</p><p>Field work: ${job?.total ?? activityDuration(g, s, id)}s real</p><p>Payment: ${Object.entries(
+    mission.reward,
+  )
+    .map(([id, amount]) => `${amount} ${esc(g.resources.find((r) => r.id === id)?.name ?? id)}`)
+    .join(
+      ' · ',
+    )}<br>Patron standing on filing: +${mission.reputation} ${esc(g.factions.find((f) => f.id === mission.faction)?.name)}</p></details></article>`;
 }
 /** Show the actual work requirements before the player accepts a generated contract. */
 export function followUpBrief(
@@ -53,7 +88,7 @@ export function followUpWork(
           const mission = s.missions.find((mission) => mission.id === activity.mission)!;
           const definition = g.missions.find((definition) => definition.id === mission.id)!;
           return mission.progress >= definition.objective.count
-            ? `<article class="activity-card"><h3>${esc(definition.name)}</h3>${followUpBrief(g, s, mission.id, 'work')}</article>`
+            ? `<article class="activity-card bound-receipt"><div class="work-status">${expeditionPlan(g, s, mission.id)?.phase === 'file' ? 'Ready to file' : 'Work complete'}</div><h3>${esc(definition.name)}</h3>${followUpBrief(g, s, mission.id, 'work')}</article>`
             : render(activity.id);
         })
         .join('')}</div>`

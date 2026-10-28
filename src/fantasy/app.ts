@@ -1,13 +1,8 @@
-import {
-  planningSummary,
-  projectOffers,
-  routePlanPanel,
-  preparationPanel,
-} from '../ui/planning-panels';
+import { planningSummary, projectOffers, routePlanPanel } from '../ui/planning-panels';
 import { proficiencyLabel, proficiencyHelp } from '../ui/proficiency';
 import { chartLines } from '../ui/world-map';
 import { missionDiscovered } from '../engine/missions';
-import { followUpBrief, followUpWork, workTeamRequirements } from '../ui/mission-panels';
+import { followUpBrief, followUpWork, boundWorkCard } from '../ui/mission-panels';
 import { activityPreview, sitePanel } from '../ui/site-panels';
 import type { GameDefinition, GameState, Command, Job } from '../engine/types';
 import type { AppController } from '../browser/controller';
@@ -22,6 +17,7 @@ import {
   discoveryHistory,
 } from '../ui/expedition-panels';
 import { drawFantasyScene } from './art';
+import { fantasyGuidance } from './guidance';
 const esc = (value: unknown) =>
   String(value ?? '').replace(
     /[&<>"']/g,
@@ -154,12 +150,16 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   function actionCard(id: string) {
     const a = g.activities.find((a) => a.id === id)!,
       preview = activityPreview(g, s, id);
-    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${a.mission ? `<p class="cost">${workTeamRequirements(a)}</p>${preparationPanel(g, s, a.mission, 'work')}` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}</article>`;
+    if (a.mission) return boundWorkCard(g, s, id, button, 'Begin support work');
+    return `<article class="activity-card"><div class="flex between"><h3>${esc(a.name)}</h3><span class="badge">${time(activityDuration(g, s, id))}</span></div><p>${esc(a.description)}</p><small>${esc(amounts(preview.cost))}</small>${preview.note ? `<p>${esc(preview.note)}</p>` : ''}${Object.keys(preview.reward).length ? `<small>Return: ${esc(amounts(preview.reward))}</small>` : ''}${button(a.slot === 'support' ? 'Begin support work' : 'Begin activity', { type: 'activity', id }, !dispatch(g, s, { type: 'activity', id }).error)}</article>`;
+  }
+  function directive() {
+    const guide = fantasyGuidance(g, s);
+    return `<section class="directive" aria-label="Current directive"><div><h2>${esc(guide.title)}</h2><p>${esc(guide.text)}</p></div><div class="directive-action">${guide.accept ? button('Accept Beyond the last lantern', { type: 'accept', id: 'first-road' }, true) : `<button class="primary" data-tab="${guide.tab}">Open ${guide.tab}</button>`}</div></section>`;
   }
   function chronicle() {
-    const v = view(g, s),
-      intro = !s.missions.some((m) => m.id === 'first-road');
-    return `<div class="dashboard"><div class="stack"><section class="panel"><div class="panel-head"><h2>${esc(v.location.name)}</h2><span class="eyebrow">${esc(v.location.kind)}</span></div><canvas class="scene" id="fantasy-scene" role="img" aria-label="Pixel art of a lantern-bearing company at ${esc(v.location.name)}"></canvas><div class="scene-caption"><div class="location-title">${esc(v.region.name)}</div><p>${esc(v.location.description)}</p><div class="row-actions"><button class="primary" data-tab="${v.location.station ? 'journey' : 'company'}">${v.location.station ? 'Take the road' : 'Explore this place'}</button><button data-tab="refuge">Contracts & provisions</button></div></div></section>${panel('The next page', intro ? `<p>Accept the first oath, then follow ${esc(g.locations.find((l) => l.id === 'old-road')!.name)}. Read the signs and return to report your findings.</p><div class="row-actions">${button('Accept Beyond the last lantern', { type: 'accept', id: 'first-road' }, true)}</div>` : '<p>Chart places, investigate sites, and return to a refuge with supplies and relics. A mage reads wards, a fighter leads expeditions, and a cleric keeps the company alive.</p>')}${panel('The company chronicle', log())}</div><div class="stack">${panel('At the campfire', `<div class="status-lines"><div><span>Living companions</span><b>${living(s).length} / ${crewCapacity(g, s)}</b></div><div><span>Names in memoriam</span><b>${s.crew.filter((m) => m.life === 'dead').length}</b></div><div><span>Equipment condition</span><b>${Math.round(s.integrity)}%</b></div><div><span>Equipment wear</span><b>${Math.round(s.wear)}%</b></div><div><span>Pack capacity</span><b>${cargo(g, s)} / ${s.capacity}</b></div><div><span>Escort debt</span><b>${s.debt} crowns</b></div><div><span>Places charted</span><b>${Object.entries(s.discoveries).filter(([id, d]) => d.surveyed && !g.locations.find((l) => l.id === id)!.station).length} / ${g.locations.filter((l) => !l.station).length}</b></div></div>`)}${panel('What each class brings', '<p><b>Fighters</b> lead dangerous expeditions and hold the line.</p><p><b>Mages</b> read signs, open wards, and strengthen combat.</p><p><b>Clerics</b> heal, consecrate, and can prevent a fatal curse attack from Support.</p><p><b>Scouts</b> improve gathering and help track the White Guest from Support.</p>')}</div></div>`;
+    const v = view(g, s);
+    return `${directive()}<div class="dashboard"><div class="stack"><section class="panel"><div class="panel-head"><h2>${esc(v.location.name)}</h2><span class="eyebrow">${esc(v.location.kind)}</span></div><canvas class="scene" id="fantasy-scene" role="img" aria-label="Pixel art of a lantern-bearing company at ${esc(v.location.name)}"></canvas><div class="scene-caption"><div class="location-title">${esc(v.region.name)}</div><p>${esc(v.location.description)}</p><div class="row-actions"><button class="primary" data-tab="${v.location.station ? 'journey' : 'company'}">${v.location.station ? 'Take the road' : 'Explore this place'}</button><button data-tab="refuge">Contracts & provisions</button></div></div></section>${panel('The company chronicle', log())}</div><div class="stack">${panel('At the campfire', `<div class="status-lines"><div><span>Living companions</span><b>${living(s).length} / ${crewCapacity(g, s)}</b></div><div><span>Names in memoriam</span><b>${s.crew.filter((m) => m.life === 'dead').length}</b></div><div><span>Equipment condition</span><b>${Math.round(s.integrity)}%</b></div><div><span>Equipment wear</span><b>${Math.round(s.wear)}%</b></div><div><span>Pack capacity</span><b>${cargo(g, s)} / ${s.capacity}</b></div><div><span>Escort debt</span><b>${s.debt} crowns</b></div><div><span>Places charted</span><b>${Object.entries(s.discoveries).filter(([id, d]) => d.surveyed && !g.locations.find((l) => l.id === id)!.station).length} / ${g.locations.filter((l) => !l.station).length}</b></div></div>`)}${panel('What each class brings', '<p><b>Fighters</b> lead dangerous expeditions and hold the line.</p><p><b>Mages</b> read signs, open wards, and strengthen combat.</p><p><b>Clerics</b> heal, consecrate, and can prevent a fatal curse attack from Support.</p><p><b>Scouts</b> improve gathering and help track the White Guest from Support.</p>')}</div></div>`;
   }
   function journey() {
     const current = view(g, s),
@@ -316,6 +316,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
           'Buy provisions, recruit companions, and take another oath.',
         ],
       };
+      main.classList.toggle('work-focused', tab !== 'chronicle');
       main.innerHTML = `${!controller.isOwner() ? '<div class="banner">This company is active in another tab. Close it and reload here to take command.</div>' : ''}<div class="page-heading"><div><div class="eyebrow">HOLLOWMERE / ${tab.toUpperCase()}</div><h1>${titles[tab][0]}</h1><p>${titles[tab][1]}</p></div><span class="badge">YEAR ${v.year}</span></div><div class="resource-strip">${[
         'gold',
         'rations',
@@ -329,7 +330,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
         })
         .join(
           '',
-        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${planningSummary(g, s)}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.11<br><a href="../?games=1">All games</a></span></footer>`;
+        )}</div>${encounter()}${threatPanel(g, s, button, 'Burn the cursed stores')}${discoveryPanel(g, s, (label, command, primary) => button(label, command, primary, false), tab === 'refuge' ? undefined : '<button data-tab="refuge">Review discovery</button>')}${jobs()}${planningSummary(g, s)}${tab === 'chronicle' ? chronicle() : tab === 'journey' ? journey() : tab === 'company' ? company() : refuge()}<footer class="footer"><span>HOLLOWMERE / COMPANY CHRONICLE<br>THE FOREST KEEPS ITS OWN ACCOUNTS.</span><span>SEED ${s.seed} · v0.12<br><a href="../?games=1">All games</a></span></footer>`;
       for (const el of root.querySelectorAll<HTMLElement>('[data-tab]'))
         el.setAttribute('aria-current', el.dataset.tab === tab ? 'page' : 'false');
       const canvas = main.querySelector<HTMLCanvasElement>('#fantasy-scene');

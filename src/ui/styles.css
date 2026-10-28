@@ -35,7 +35,7 @@ button {
   color: inherit;
   padding: 10px 14px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.4;
   border-radius: 2px;
 }
@@ -97,22 +97,22 @@ h1 {
   color: #e5e3d0;
 }
 h2 {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   font-weight: 500;
 }
 h3 {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.6;
   font-weight: 500;
 }
 p {
-  font-size: 12px;
-  line-height: 1.8;
+  font-size: 14px;
+  line-height: 1.65;
   color: var(--muted);
 }
 small {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.7;
   color: var(--muted);
 }
@@ -153,8 +153,8 @@ small {
   gap: 6px;
   padding: 5px 7px;
   border: 1px solid var(--line);
-  font-size: 9px;
-  letter-spacing: 1px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 .dot {
@@ -319,7 +319,7 @@ small {
   display: block;
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-size: 9px;
+  font-size: 12px;
 }
 .resource strong {
   font-size: 21px;
@@ -329,7 +329,7 @@ small {
   color: #dedfcb;
 }
 .resource strong span {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-left: 7px;
 }
@@ -337,6 +337,93 @@ small {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 282px;
   gap: 22px;
+}
+.directive {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid var(--accent);
+  border-left-width: 3px;
+  background: var(--panel);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+.directive > div {
+  min-width: 0;
+}
+.directive p {
+  margin-top: 6px;
+  max-width: 70ch;
+}
+.directive-action {
+  flex-shrink: 0;
+  max-width: 100%;
+}
+.work-status {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--accent);
+}
+.activity-card.bound-work p {
+  flex: initial;
+}
+.bound-work h3,
+.bound-work p {
+  overflow-wrap: anywhere;
+}
+.bound-work .work-source,
+.bound-work .payment-note {
+  font-size: 12px;
+}
+.work-details,
+.preparation-details {
+  min-width: 0;
+}
+.work-details summary,
+.preparation-details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 12px 0;
+  min-height: 44px;
+}
+.work-details summary:focus-visible,
+.preparation-details summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.work-details p + p {
+  margin-top: 12px;
+}
+.resource {
+  min-width: 0;
+}
+.resource small {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .directive {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+  }
+  .directive h2 {
+    font-size: 15px;
+  }
+  .directive-action button {
+    width: 100%;
+  }
+  .work-focused .page-heading {
+    margin-bottom: 12px;
+  }
+  .work-focused .page-heading h1 {
+    font-size: 26px;
+  }
+  .work-focused .page-heading p {
+    display: none;
+  }
 }
 .panel {
   border: 1px solid var(--line);
@@ -484,11 +571,11 @@ small {
 }
 .crew-info strong {
   display: block;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: normal;
 }
 .crew-info small {
-  font-size: 9px;
+  font-size: 12px;
 }
 .crew-dot {
   width: 5px;
@@ -540,11 +627,11 @@ small {
   gap: 10px;
 }
 .activity-card p {
-  font-size: 11px;
+  font-size: 14px;
   flex: 1;
 }
 .activity-card .cost {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--accent);
   line-height: 1.8;
 }
@@ -553,7 +640,7 @@ small {
   align-self: flex-start;
 }
 .activity-card .reason {
-  font-size: 10px;
+  font-size: 12px;
   color: #99a6a0;
 }
 .section-label {
@@ -997,7 +1084,7 @@ body.reduce-motion * {
     font-size: 18px;
   }
   .resource small {
-    font-size: 8px;
+    font-size: 12px;
   }
   .resource {
     padding: 10px;
@@ -1049,7 +1136,7 @@ body.reduce-motion * {
     gap: 5px;
     padding: 7px 2px;
     min-height: 56px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .nav-button .nav-number {
     display: none;
@@ -1085,7 +1172,7 @@ body.reduce-motion * {
     min-width: 44px;
   }
   .topbar-right .badge {
-    font-size: 8px;
+    font-size: 11px;
     padding: 5px;
   }
   .page {
@@ -1098,27 +1185,32 @@ body.reduce-motion * {
     font-size: 34px;
   }
   .page-heading p {
-    font-size: 11px;
+    font-size: 14px;
   }
   .page-heading .eyebrow {
     font-size: 9px;
   }
   .resource-strip {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    margin-bottom: 20px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin-bottom: 16px;
   }
   .resource {
+    grid-column: span 2;
     padding: 11px 7px;
   }
+  .resource:nth-child(n + 4) {
+    grid-column: span 3;
+    border-top: 1px solid var(--line);
+  }
   .resource small {
-    font-size: 7px;
+    font-size: 12px;
     letter-spacing: 0.4px;
   }
   .resource strong {
     font-size: 18px;
   }
   .resource strong span {
-    font-size: 8px;
+    font-size: 12px;
     display: block;
     margin: 4px 0 0;
   }
@@ -1162,7 +1254,7 @@ body.reduce-motion * {
     gap: 9px;
   }
   .route-card h3 {
-    font-size: 12px;
+    font-size: 15px;
   }
   .route-card button {
     padding: 8px 10px;
@@ -1176,7 +1268,7 @@ body.reduce-motion * {
     padding: 6px 3px;
   }
   .star-button small {
-    font-size: 8px;
+    font-size: 11px;
   }
   .notice {
     bottom: calc(92px + env(safe-area-inset-bottom));
@@ -1214,7 +1306,7 @@ body.reduce-motion * {
     padding: 20px;
   }
   .badge {
-    font-size: 8px;
+    font-size: 11px;
   }
   .active-job {
     padding: 14px;
@@ -1384,8 +1476,7 @@ body.reduce-motion * {
 .preparation summary {
   cursor: pointer;
   min-height: 44px;
-  display: flex;
-  align-items: center;
+  display: list-item;
   color: var(--accent);
 }
 .route-plan {
@@ -1395,4 +1486,73 @@ body.reduce-motion * {
 .crew-row,
 .trade-row {
   scroll-margin-top: 90px;
+}
+
+/* Short landscape phones need less framing even when their width resembles a tablet. */
+@media (min-width: 641px) and (max-height: 540px) {
+  .app-shell {
+    grid-template-columns: 124px minmax(0, 1fr);
+  }
+  .sidebar {
+    padding: 12px 8px;
+    padding-left: max(8px, env(safe-area-inset-left));
+    overflow-y: auto;
+  }
+  .sidebar > .wordmark,
+  .sidebar > .charter,
+  .sidebar-bottom {
+    display: none;
+  }
+  .nav-button {
+    padding: 8px;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .nav-number {
+    display: none;
+  }
+  .topbar {
+    height: auto;
+    min-height: 48px;
+    padding: 5px 16px;
+  }
+  .topbar-location .eyebrow,
+  .storage-label {
+    display: none;
+  }
+  .page {
+    padding: 14px 16px;
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  .page-heading {
+    margin-bottom: 12px;
+  }
+  .page-heading h1 {
+    font-size: 26px;
+  }
+  .page-heading .eyebrow,
+  .page-heading p,
+  .coordinate {
+    display: none;
+  }
+  .resource-strip {
+    margin-bottom: 12px;
+  }
+  .resource {
+    padding: 8px;
+  }
+  .resource small {
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+  .resource strong {
+    margin-top: 3px;
+    font-size: 18px;
+  }
+  .directive {
+    padding: 10px 12px;
+  }
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
 }

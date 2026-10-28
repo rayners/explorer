@@ -12,6 +12,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 | [HOLLOWMERE.md](HOLLOWMERE.md)     | Fantasy setting, party roles, curse and recovery                        |
 | [VARIETY.md](VARIETY.md)           | Versioned encounter variety, team roles and safe alternatives           |
 | [PLANNING.md](PLANNING.md)         | Expedition preparation, next steps and contract-linked routes           |
+| [READABILITY.md](READABILITY.md)   | Current directives, accepted-work hierarchy and responsive readability   |
 | [PROJECTS.md](PROJECTS.md)         | Implemented faction projects linked to settled discovery choices        |
 | [CREW.md](CREW.md)                 | Crew proficiency, lasting opportunities and migration contract          |
 | [WORLDS.md](WORLDS.md)             | Generated layouts, reachability guarantees and version compatibility    |
@@ -25,7 +26,7 @@ Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md
 
 Requirements describe what was requested. Decisions describe the implementation chosen to satisfy it. Roadmap entries describe future possibilities unless explicitly marked implemented. Keep these distinctions when updating the documents.
 
-Documentation baseline: v0.11.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
+Documentation baseline: v0.12.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
 
 Independent reviews:
 

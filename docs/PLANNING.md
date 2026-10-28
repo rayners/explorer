@@ -23,6 +23,8 @@ Test phase transitions, simultaneous stock/assignment gaps, missing/dead special
 
 ## Implementation notes
 
+v0.12 presentation refinement: accepted-work cards share readable status/source/requirements and put narrative/full route estimates in native details sections. Supply/staffing gaps and order restrictions remain outside the collapsed sections; opening details remains read-only. Overview directives and compact landscape framing are documented in [READABILITY.md](READABILITY.md). Planning/economy semantics are unchanged.
+
 `expeditionPlan` derives phases, current dispatch restrictions, simultaneous resource/staffing gaps and complete known-route estimates. `knownHubRoute` chooses the fastest reachable known hub, never an uncharted destination. Completed work excludes all already-paid supplies and staffing. In-transit views wait for arrival rather than estimating from the departure location. The definition/state inputs and outcome RNG remain unchanged.
 
 `planningSummary` links to boards and accepted work; `projectOffers` places optional faction commissions first. `preparationPanel` shows checklists inside both contract and activity cards. Ordinary unaccepted follow-ups keep their detailed preparation collapsed so larger boards remain scannable. Completed receipts are retained in the work view until filed. Existing mission acceptance, command checks and replay protection remain authoritative.

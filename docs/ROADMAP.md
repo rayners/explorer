@@ -1,8 +1,10 @@
 # Roadmap and status
 
-Baseline: v0.11.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.12.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Active implementation queue
+
+**Implemented locally after the reviews: readability and action hierarchy (v0.12).** [READABILITY.md](READABILITY.md) selects a shared presentation slice: early overview directives, scannable accepted-work cards, readable stock/decision text and short-height landscape layouts. This uses the ongoing roadmap authorization; it does not adopt every review proposal. After delivery, design the expedition-value/session-cadence audit before expanding the content catalog.
 
 User direction (2026-10-28): keep working through the roadmap, recording decisions and moving to the next item after each verified delivery.
 

@@ -87,6 +87,8 @@ When bumping a release version, edit only `package.json.version`, the lockfile r
 
 [Expedition planning](docs/PLANNING.md) is a read-only shared UI layer for existing bound contracts. Keep estimates based on known routes and current stock/assignments, preserve paid jobs/receipts, and never dispatch from route selection. Map targets are temporary view state; all generations 1–6 remain frozen.
 
+[Readability](docs/READABILITY.md) keeps current directives before scenes and shared accepted-work cards scannable. Narrative/route estimates may be collapsed; missing supplies, staffing, payment timing and unavailable reasons remain visible. Expanding details never dispatches. Check both narrow portrait and short landscape screens; presentation changes do not require new content generations.
+
 [Faction projects](docs/PROJECTS.md) adds generation-6 commissions requiring an exact settled incident, choice and source. Keep generations 1–5 frozen; visibility, acceptance and save validation must use the same prerequisite. Projects reuse paid activity jobs and one-time hub filing without a new state schema. Theme recipes own all patrons, costs and roles.
 
 [Discovery missions](docs/MISSIONS.md) documents the additive generation-3 contract catalog. Keep source discoveries, mission/activity IDs and accepted work compatible. Bound work requires an accepted unfinished contract; completed work is retained until filed and cannot be abandoned/replayed. No payment occurs at work completion. Existing generations 1/2 stay unchanged.

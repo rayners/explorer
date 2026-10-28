@@ -19,6 +19,8 @@ The engine cannot import either game or browser/UI code. Game definitions supply
 
 `tests/content.test.ts` checks engine isolation and Far Wake references; `tests/victorian.test.ts` exercises an alternate setting without importing Far Wake. Fantasy, personnel, threat and save tests cover the second actual consumer and its mechanics.
 
+The shared accepted-work presentation in `src/ui/mission-panels.ts` uses the existing read-only planning selectors; native details elements expand narrative/estimates without simulation commands. Overview directives remain theme-owned (`src/game/text.ts`, `src/fantasy/guidance.ts`). [READABILITY.md](READABILITY.md) records their layout and accessibility contract.
+
 ## Command and time flow
 
 1. An entry point calls `startBrowserGame` with a namespace, definition factory, development-helper name and UI mount.

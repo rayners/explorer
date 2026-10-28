@@ -1,6 +1,6 @@
 # Decisions and rationale
 
-Recorded against v0.2.1 on 2026-10-27; updated for v0.11.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
+Recorded against v0.2.1 on 2026-10-27; updated for v0.12.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
 
 | Decision                                                                   | Reason and consequence                                                                                                                                                                                                                                                                  |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -26,6 +26,10 @@ Recorded against v0.2.1 on 2026-10-27; updated for v0.11.0 on 2026-10-28. These 
 | Preserve Far Wake's historical installation identity                       | Keep the root manifest URL and an explicit ID equal to its previous root start URL under the deployment base. New start/scope point to `far-wake/`; legacy standalone root launches redirect there. `?games=1` explicitly opens the library.                                            |
 | One root service worker, separate game manifests                           | All pages can be precached and visited offline, including from a picker-first visit. Each game installs with its own starting page. Real iPhone install/upgrade acceptance is still pending.                                                                                            |
 | Automated WebKit coverage plus explicit physical acceptance                | Actual WebKit with iPhone/iPad settings catches browser behavior; it cannot prove hardware Safari, suspension or home-screen upgrade behavior. Never relabel pending manual checks as passed.                                                                                           |
+
+## Readability and action hierarchy (v0.12)
+
+Under ongoing roadmap authorization, select the reviews' readability/action-hierarchy slice before another content expansion. Keep the established artwork and engine: early overview directives, a shared accepted-work card, expandable story/route estimates, visible blockers, larger decision text and wrapping phone resources. A short-height landscape layout uses a compact labelled sidebar. Hollowmere's guidance follows existing first-oath state; it neither reveals hidden threats nor dispatches journeys. No new generator, save fields, balance or automatic orders. The next design candidate is an expedition-value/session-cadence audit; numerical rebalancing and longer orders are not specified by this UI release. See [READABILITY.md](READABILITY.md).
 
 ## Alternatives and limits
 

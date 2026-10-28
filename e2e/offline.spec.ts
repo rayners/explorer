@@ -3,6 +3,66 @@ import { test, expect } from '@playwright/test';
 import { createGame } from '../src/game/definition';
 import { createState, dispatch, advance } from '../src/engine/simulation';
 import { encodeSave } from '../src/engine/save';
+test('compact work briefs expand offline without spending and explicit orders retain paid terms', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  const { supportVarietyFixture } = await import('./variety-fixture');
+  for (const fantasy of [false, true]) {
+    const fixture = supportVarietyFixture(fantasy);
+    const key = `${fixture.game.id}.save.v1`,
+      marker = `readability-${fixture.game.id}`;
+    await page.addInitScript(
+      ({ key, marker, raw }) => {
+        if (!sessionStorage.getItem(marker)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(marker, 'yes');
+        }
+      },
+      { key, marker, raw: encodeSave(fixture.state, Date.now()) },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${fixture.game.id}/?brief=compact`, baseURL).href);
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    const read = () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+    const before = await read(),
+      card = page.locator('.bound-work');
+    await expect(card.locator('.work-status')).toHaveText('Ready for work');
+    await card.getByText('Story & work details', { exact: true }).click();
+    await card.getByText('Check expedition preparation', { exact: true }).click();
+    expect((await read()).inventory).toEqual(before.inventory);
+    expect((await read()).support).toBeNull();
+    await card
+      .getByRole('button', {
+        name: fantasy ? 'Begin support work' : 'Start support job',
+        exact: true,
+      })
+      .click();
+    const paid = await read();
+    expect(paid.support.definition).toBe(fixture.work.id);
+    for (const [resource, amount] of Object.entries(fixture.work.cost))
+      expect(paid.inventory[resource]).toBe(before.inventory[resource] - amount);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    expect((await read()).inventory).toEqual(paid.inventory);
+    expect((await read()).support.id).toBe(paid.support.id);
+    expect(await page.evaluate(() => !('__farWake' in window) && !('__hollowmere' in window))).toBe(
+      true,
+    );
+  }
+  await context.setOffline(false);
+});
 test('production app catches up a saved voyage and reloads offline', async ({
   page,
   context,
