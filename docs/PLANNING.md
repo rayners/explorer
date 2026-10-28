@@ -13,7 +13,7 @@ The v0.9 UI puts faction projects after the long ordinary board. Work briefs lis
 - Compare required work supplies and assigned living specialists with current availability. Distinguish missing specialties from existing specialists on another team. Show outbound/work/return supply estimates separately and an aggregate shortage checklist. Use the shortest known-time route and nearest reachable known service hub for return estimates. A missing route is explicitly unpriced, never treated as free or ready. Hazard losses, future market stock and optional activities are outside the estimate.
 - Already committed work must never be labelled as needing payment/staffing again, including after casualties. Completed receipts need only return travel/filing. Show encounters and other current order restrictions using authoritative engine dispatch errors. Injury is not a new staffing restriction.
 - “Plot route to source” / “Plot route to hub” opens the proper map region and an accessible focused route preview. The preview shows total time, fictional days, supplies, shortages and the next leg. Only an explicit next-leg command spends supplies. Every leg remains separately ordered. During transit/recovery, wait for arrival before calculating remaining routes from the old location.
-- Planning selections are temporary view state, cleared on invalid/imported targets or ordinary region selection. No automatic purchases, reassignment, acceptance, departure or filing. No new content generation, save schema, namespace, browser preference or migration. Existing generations 1–6 stay frozen.
+- Planning selections are temporary view state, cleared when an import leaves the target invalid, or on ordinary region selection. No automatic purchases, reassignment, acceptance, departure or filing. No new content generation, save schema, namespace, browser preference or migration. Existing generations 1–6 stay frozen.
 
 ## Architecture and checks
 
@@ -34,3 +34,9 @@ No game definitions, engine costs/timing, content generation, save state/envelop
 ## Local verification
 
 143 unit tests, 90 browser cases and 24 production offline cases passed, together with typecheck, Pages-base production build, local documentation links and `git diff --check`. Browser coverage includes multi-leg Far Wake cryosleep confirmation, fantasy recruitment/assignment, correct-region focused previews, no dispatch on plotting, preparation gaps, retained receipts and reload in Chromium/iPhone WebKit/tablet WebKit. Production offline tests cover generations 3 and 6 in both themes. Phone route/work screenshots were inspected; this remains emulation, with physical Safari checks pending. Frozen generation-1–6 catalogs and released save fixtures pass unchanged.
+
+## Delivery evidence
+
+Feature commit `1e7d9e6` passed [Pages workflow 40704011179](https://github.com/rayners/explorer/actions/runs/40704011179) and deployed successfully. Published iPhone WebKit checks passed in both games for generations 3 and 6: offline receipt guidance, focused hub routes, no departure on plotting, explicit travel costs and durable saves after reload. Current project checks also verified prioritized offers, simultaneous preparation gaps, correct-region source routes and no automatic dispatch; the library routes passed. Physical iPhone checks remain pending.
+
+Follow-up `e340498` restores two dependency version labels to their unchanged locked downloads (`regjsgen` and `source-map`, both 0.8.0). No dependency payload, integrity hash or gameplay changed. Future release bumps must edit only the root package version fields.

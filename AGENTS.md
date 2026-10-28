@@ -72,6 +72,8 @@ Playwright requires Chromium and WebKit (`npx playwright install chromium webkit
 
 Add behavior tests for mechanics, regressions, save migrations and lifecycle changes; use invariant/reference checks for content. Use the frontier simulator when changing costs, timing or recoverability. For documentation-only work, check factual accuracy, local links and formatting; avoid unnecessary game tests. A WebKit emulation pass is not a physical-device result; keep pending checks explicit in [ACCEPTANCE.md](docs/ACCEPTANCE.md).
 
+When bumping a release version, edit only `package.json.version`, the lockfile root `version` and `packages[""].version` through structured JSON fields. Never replace matching version strings globally; dependency versions must continue to match their locked downloads.
+
 `npm run icons` regenerates icons. `npm run screenshots` captures the library and both games; inspect `scripts/screenshots.ts` for server expectations. Development-only `?speed=60`, `window.__farWake` and `window.__hollowmere` helpers must remain absent in production.
 
 ## Adding a game or changing behavior
