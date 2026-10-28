@@ -1,6 +1,6 @@
 # Decisions and rationale
 
-Recorded against v0.2.1 on 2026-10-27; updated for v0.8.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
+Recorded against v0.2.1 on 2026-10-27; updated for v0.9.0 on 2026-10-28. These are implemented choices unless marked deferred. User goals are separate in [REQUIREMENTS.md](REQUIREMENTS.md).
 
 | Decision                                                                   | Reason and consequence                                                                                                                                                                                                                                                                  |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -62,3 +62,7 @@ Static HTML does not vary with URL queries. Workbox precache matching ignores qu
 Use bounded proficiency in existing specialties rather than inventing multiclass roles or a mandatory training currency. Commit participant IDs to paid activity jobs; credit surviving contributors at completion. Keep all paid jobs through casualties, fixing the prior last-member activity cancellation. The roster shows practice and actual contribution.
 
 Schema 4 migrates old personnel/jobs with zero historical experience, preserving every committed term. Generation 5 adds free specialist rescue or resettlement and training-knowledge or faction-release choices in both themes; earlier catalogs remain frozen. Reserve a rescue name serial only when the event actually occurs, so other hiring cannot change the found person. Capacity/standing/receipts remain shared mechanisms, and safe alternatives prevent dead ends. Exact rules/evidence: [CREW.md](CREW.md).
+
+## Discovery-driven faction projects (v0.9)
+
+Generate a bounded potential catalog at generation 6, exposing only exact settled ledger branches. Reuse mission/activity state and receipts rather than adding a parallel project lifecycle; schema 4 and envelope 1 remain unchanged. New projects differ in actual supplies, specialist, patron and work. Neutral verification and all recovery remain optional and safe. Preview consequences before the response and show original choice/source in briefs. Generations 1–5 retain catalogs, including frozen released v0.8 response/job fixtures. Full diplomacy, territory and roguelite progression remain deferred. See [PROJECTS.md](PROJECTS.md).

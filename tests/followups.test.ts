@@ -35,7 +35,9 @@ it('derives valid, contextual follow-ups and work definitions for both site cata
     const game = factory(7),
       another = factory(7);
     expect(game).toEqual(another);
-    expect(game.missions.filter((mission) => mission.sourceSite)).toHaveLength(game.sites!.length);
+    expect(
+      game.missions.filter((mission) => mission.sourceSite && !mission.discoveryChoice),
+    ).toHaveLength(game.sites!.length);
     expect(new Set(game.missions.map((mission) => mission.id)).size).toBe(game.missions.length);
     expect(new Set(game.activities.map((activity) => activity.id)).size).toBe(
       game.activities.length,

@@ -11,9 +11,12 @@ import { generateWorld } from '../src/engine/world-generation';
 import { scienceFictionWorld } from '../src/game/world';
 
 it('preserves complete released generation 1–3 definitions and freezes generation-4/5 catalogs across seeds and themes', () => {
-  const fixtures = ['worlds-legacy.json', 'worlds-v4.json', 'worlds-v5.json'].flatMap((file) =>
-    JSON.parse(readFileSync(`tests/fixtures/${file}`, 'utf8')),
-  );
+  const fixtures = [
+    'worlds-legacy.json',
+    'worlds-v4.json',
+    'worlds-v5.json',
+    'worlds-v6.json',
+  ].flatMap((file) => JSON.parse(readFileSync(`tests/fixtures/${file}`, 'utf8')));
   for (const fixture of fixtures) {
     const game = (fixture.game === 'far-wake' ? createGame : createHollowmere)(
       fixture.seed,

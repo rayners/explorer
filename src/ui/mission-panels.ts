@@ -11,6 +11,9 @@ export function followUpBrief(g: GameDefinition, s: GameState, id: string): stri
   if (!activity) return '';
   const progress = s.missions.find((mission) => mission.id === id);
   const mission = g.missions.find((mission) => mission.id === id)!;
+  const patron = mission.discoveryChoice
+    ? `<br>Patron standing on filing: +${mission.reputation} ${esc(g.factions.find((faction) => faction.id === mission.faction)?.name)}`
+    : '';
   if (progress && progress.progress >= mission.objective.count)
     return `<p class="cost">Field work complete. ${progress.claimed ? 'Payment filed.' : 'Return to a service hub with the work receipt.'}</p>`;
   const cost = Object.entries(activity.cost)
@@ -19,7 +22,7 @@ export function followUpBrief(g: GameDefinition, s: GameState, id: string): stri
         `${amount} ${esc(g.resources.find((resource) => resource.id === id)?.name ?? id)}`,
     )
     .join(' · ');
-  return `<p class="cost">Field work: ${activityDuration(g, s, activity.id)}s real<br>Work supplies: ${cost || 'None'}${activity.requirements?.length ? `<br>Expedition requirements: ${activity.requirements.map((r) => `${r.count} ${esc(r.skill)}`).join(' · ')}` : ''}</p>`;
+  return `<p class="cost">Field work: ${activityDuration(g, s, activity.id)}s real<br>Work supplies: ${cost || 'None'}${patron}${activity.requirements?.length ? `<br>Expedition requirements: ${activity.requirements.map((r) => `${r.count} ${esc(r.skill)}`).join(' · ')}` : ''}</p>`;
 }
 /** Accepted work remains visible with its destination even while preparing at a hub. */
 export function followUpWork(

@@ -380,7 +380,11 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     const m = g.missions.find((m) => m.id === command.id);
     if (!m || s.missions.some((x) => x.id === m.id)) return fail('Contract unavailable.');
     if (!missionDiscovered(g, s, m))
-      return fail('Explore the source site before accepting this follow-up.');
+      return fail(
+        m.discoveryChoice
+          ? 'Settle the matching discovery at this source site before accepting its project.'
+          : 'Explore the source site before accepting this follow-up.',
+      );
     if (m.requires && !s.missions.some((x) => x.id === m.requires && x.claimed))
       return fail('Complete the prerequisite contract first.');
     if (s.missions.filter((x) => !x.claimed).length >= 3)

@@ -86,3 +86,12 @@ Automated coverage verifies schema-1/2/3 migration, all old paid-job fields, zer
 Physical iPhone checks remain pending: read practice/help on roster rows, finish matching primary/support work while locked and verify one point, import a pre-v0.8 save, find a survivor and hire another specialist before responding, verify the survivor's name stays fixed, fill/upgrade accommodation, confirm join or resettlement, and train/release recovered knowledge offline. Check confirmations, visible unavailable reasons, memorial records and portrait/landscape layout.
 
 Live v0.8 checks passed in iPhone WebKit for both themes: offline rescue joining, knowledge training, durable receipts and real schema-3 parallel-job migration with once-only practice. A following compatibility-preparation test freezes 11 generation-5 discovery responses for future faction projects. Physical-device results remain pending.
+
+## Discovery-driven projects (v0.9) — physical checks pending
+
+- On the physical iPhone 15 Pro Max, use a fresh generation-6 expedition and settle a rescue/knowledge discovery in each game; in Far Wake also check a settlement claim. Confirm the response previews the optional project/patron and the board shows only the actual chosen branch/source.
+- Review origin, supplies, required expedition specialist and standing before acceptance. Verify a support cleric must be reassigned for primary consecration work, and disabled actions explain why.
+- Accept, travel to the named source, dispatch work, suspend Safari, resume and return to a hub. File once; reload/force-close and verify the receipt/payment remains single. Repeat after installing each game to Home Screen and while offline.
+- Check portrait/landscape scrolling, touch controls and long generated names on the project card. Confirm old expeditions retain their catalogs and exports.
+
+Automated browser tests cover desktop Chromium and iPhone/tablet WebKit flows; production offline cases cover completion and filing in both themes. Emulation is not a physical-device pass.

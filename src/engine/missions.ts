@@ -2,7 +2,18 @@ import type { GameDefinition, GameState, MissionDef } from './types';
 
 /** A source discovery gates follow-ups without hiding authored prerequisite contracts. */
 export function missionDiscovered(g: GameDefinition, s: GameState, mission: MissionDef): boolean {
-  if (!mission.sourceSite) return true;
+  if (
+    mission.discoveryChoice &&
+    !s.incidents.some(
+      (record) =>
+        record.id === mission.discoveryChoice!.incident &&
+        record.choice === mission.discoveryChoice!.choice &&
+        record.site === mission.sourceSite &&
+        g.sites?.some((site) => site.id === record.site && site.location === record.location),
+    )
+  )
+    return false;
+  if (!mission.sourceSite) return !mission.discoveryChoice;
   const site = g.sites?.find((site) => site.id === mission.sourceSite);
   return !!site && !!s.discoveries[site.location]?.sites.includes(site.id);
 }

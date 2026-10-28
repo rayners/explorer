@@ -86,3 +86,7 @@ Personnel implementation follows the recorded [CREW.md](CREW.md) plan: capped ac
 ## Next indirect-faction slice (2026-10-28)
 
 After implementing the queued personnel/events milestone, the ongoing instruction to extend/work through the roadmap leads to [PROJECTS.md](PROJECTS.md): follow-up work shaped by actual settled discoveries. This develops the original indirect-faction direction. Exact prerequisite/catalog design and generation-version proposal are implementation choices and remain unshipped; no separate user approval of those details is claimed.
+
+## Discovery-driven projects, v0.9 (2026-10-28)
+
+The user endorsed the prepared next-step design (“Sounds great”, then “Make it so”). [PROJECTS.md](PROJECTS.md) records the bounded implementation of the ongoing roadmap and earlier indirect-faction interest. Exact patrons, branch economics and generation-6 catalog assembly are implementation decisions. Released v0.8 commit `c538a6f` supplied immutable generation-5 settled-response/job fixtures; new tests check all 11 branches without replacing those fixtures. No territory, autonomous diplomacy or roguelite specification is inferred.

@@ -68,3 +68,7 @@ See [ENGINE.md](ENGINE.md) for API contracts, [DECISIONS.md](DECISIONS.md) for s
 ## Generation-5 personnel opportunities (v0.8)
 
 Both settings now include once-only rescue and knowledge choices, documented in [CREW.md](CREW.md). Far Wake keeps 35% eligible-site selection and its two earlier events; Hollowmere introduces a 30% opportunity catalog without changing its explicit curse. Both protect the introductory location, require four sites and retain two-site cooldown and pending-event/threat suppression. Rescue reserves a stable name serial at onset; joining respects capacity and has a resettlement alternative. Knowledge grants capped practice or can be released for payment/standing. Choices settle at hubs once and remain safe during absence. Generations 1–4 retain their prior catalogs; schema 4 validates personnel reservations and migrates older state.
+
+## Lasting follow-up commissions (v0.9)
+
+In generation 6, settled charter, rescued-specialist and recovered-knowledge choices can expose optional faction projects linked to their exact source. The original incident roll and once-only ledger remain unchanged; no event rerolls or passive consequences are added. Response cards preview the resulting project/patron. See [PROJECTS.md](PROJECTS.md).

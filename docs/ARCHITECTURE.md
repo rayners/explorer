@@ -106,3 +106,7 @@ Factories assemble authored story anchors, then generation-4 layouts (`engine/wo
 ## Personnel progression (v0.8)
 
 The engine commits activity participants and grants bounded practice only at completion. Typed discovery effects reuse shared recruitment and proficiency functions, with themed generation-5 opportunity recipes assembled after the existing world/name/site/contract pipeline. Both mounts use shared effect previews and proficiency writing. State-schema migration and definition-generation compatibility remain independent; see [CREW.md](CREW.md) for reservation identity, roster/casualty guarantees and released fixtures.
+
+## Discovery-driven projects (v0.9)
+
+Assembly ends with `finishProjects` for generation 6. Pure `engine/project-generation.ts` creates a bounded potential catalog from themed `projects.ts` recipes; `content/projects.ts` appends it. Missions carry an exact incident/choice prerequisite and existing source-site reference. Shared eligibility checks read the durable incident ledger, and existing mission/job state tracks acceptance, work and filing. Discovery cards preview the optional branch; shared work briefs show preparation and patron. Previous generations skip assembly, preserving full definitions. See [PROJECTS.md](PROJECTS.md).

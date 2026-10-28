@@ -119,6 +119,7 @@ export interface MissionDef {
   reputation: number;
   requires?: string;
   sourceSite?: string;
+  discoveryChoice?: { incident: string; choice: string };
 }
 export interface Job {
   participants?: string[];

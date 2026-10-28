@@ -96,8 +96,17 @@ export function discoveryPanel(
                   .join(' · ') || 'No matching living specialist.'
               }</p>`
             : '';
+      const project = g.missions.find(
+        (mission) =>
+          mission.sourceSite === record.site &&
+          mission.discoveryChoice?.incident === record.id &&
+          mission.discoveryChoice.choice === choice.id,
+      );
+      const followUp = project
+        ? `<p>Optional project unlocked: <strong>${esc(project.name)}</strong>. Patron: ${esc(g.factions.find((faction) => faction.id === project.faction)?.name)}. Review its work and supplies on the service hub contract board.</p>`
+        : '';
       const error = dispatch(g, s, command).error;
-      return `<article class="activity-card"><h3>${esc(choice.name)}</h3><p>${esc(choice.description)}</p>${personnel}<p class="cost">${effects(choice.reward, g.resources) || 'No payment'}<br>${effects(choice.reputation, g.factions) || 'No standing change'}</p>${button(choice.name, command)}${error ? `<small>${esc(error)}</small>` : ''}</article>`;
+      return `<article class="activity-card"><h3>${esc(choice.name)}</h3><p>${esc(choice.description)}</p>${personnel}${followUp}<p class="cost">${effects(choice.reward, g.resources) || 'No payment'}<br>${effects(choice.reputation, g.factions) || 'No standing change'}</p>${button(choice.name, command)}${error ? `<small>${esc(error)}</small>` : ''}</article>`;
     })
     .join(
       '',

@@ -45,3 +45,7 @@ Recipes own all writing, traits, roles, costs and payment. The recipient is the 
 Existing state schema 3 stores the accepted/claimed ledger and ordinary jobs, so no schema migration or save-key change is needed. Import validation rejects missing source discoveries, dangling work jobs, and work whose contract is already completed or claimed. Fixtures captured directly from the released v0.5 source prove existing generation-3 paid site orders still complete identically. `tests/fixtures/followups-v1.json` freezes the new additive catalog; future changes must preserve accepted identities/costs or use a compatible new version/migration.
 
 Validation includes behavior tests for eligibility, hub/role/location checks, costs, active limits, standing, exact-once work/payment, release/reaccept protection, offline receipts and malformed imports. Browser coverage exercises complete journeys in both themes on desktop and iPhone/iPad WebKit; production offline coverage separately completes work and files completed receipts. Physical iPhone acceptance remains pending.
+
+## Projects from settled choices (v0.9)
+
+Generation 6 adds optional commissions beyond the original one-per-explored-site follow-ups. They require `discoveryChoice` plus the exact `sourceSite`, and are hidden until the actual incident is settled with the matching response there. The existing accepted-work/payment/anti-replay contract applies unchanged. See [PROJECTS.md](PROJECTS.md) for branches, compatibility and validation.

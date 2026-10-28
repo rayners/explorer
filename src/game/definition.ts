@@ -1,3 +1,5 @@
+import { finishProjects } from '../content/projects';
+import { scienceFictionProjects } from './projects';
 import { finishOpportunities } from '../content/opportunities';
 import { scienceFictionOpportunities } from './opportunities';
 import { finishWorld } from '../content/worlds';
@@ -11,7 +13,7 @@ import { scienceFictionNames } from './names';
 import type { GameDefinition, LocationDef, MissionDef, RouteDef } from '../engine/types';
 import { generator } from '../engine/random';
 /** Rebuild the saved content generation; fresh expeditions use generated layouts. */
-export function createGame(seed = 1701, generationVersion = 5): GameDefinition {
+export function createGame(seed = 1701, generationVersion = 6): GameDefinition {
   const rng = generator(seed);
   const regions = [
     {
@@ -804,20 +806,23 @@ export function createGame(seed = 1701, generationVersion = 5): GameDefinition {
       },
     ],
   };
-  return finishOpportunities(
-    finishFollowUps(
-      finishSites(
-        finishNamedDefinition(
-          finishWorld(definition, seed, generationVersion, scienceFictionWorld),
+  return finishProjects(
+    finishOpportunities(
+      finishFollowUps(
+        finishSites(
+          finishNamedDefinition(
+            finishWorld(definition, seed, generationVersion, scienceFictionWorld),
+            seed,
+            generationVersion,
+            scienceFictionNames,
+          ),
           seed,
-          generationVersion,
-          scienceFictionNames,
+          scienceFictionSites,
         ),
-        seed,
-        scienceFictionSites,
+        scienceFictionFollowUps,
       ),
-      scienceFictionFollowUps,
+      scienceFictionOpportunities,
     ),
-    scienceFictionOpportunities,
+    scienceFictionProjects,
   );
 }

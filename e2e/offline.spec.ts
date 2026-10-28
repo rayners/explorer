@@ -485,3 +485,100 @@ test('reserved specialists and knowledge choices settle once offline in both the
     }
   await context.setOffline(false);
 });
+
+for (const readyToFile of [false, true])
+  test(`faction projects ${readyToFile ? 'file offline' : 'catch up offline'} with one durable receipt in both themes`, async ({
+    page,
+    context,
+    baseURL,
+  }) => {
+    const { opportunityFixture } = await import('./opportunity-fixture');
+    for (const fantasy of [false, true]) {
+      const {
+        game,
+        state: found,
+        source,
+      } = opportunityFixture(fantasy, 'stranded-specialist', true, 6);
+      let state = dispatch(game, found, {
+        type: 'discovery',
+        id: 'stranded-specialist',
+        choice: 'resettle',
+      }).state;
+      const mission = game.missions.find(
+        (mission) =>
+          mission.sourceSite === state.incidents[0].site &&
+          mission.discoveryChoice?.incident === 'stranded-specialist' &&
+          mission.discoveryChoice.choice === 'resettle',
+      )!;
+      const work = game.activities.find((activity) => activity.mission === mission.id)!;
+      state = dispatch(game, state, { type: 'accept', id: mission.id }).state;
+      state.location = source.id;
+      state.rng = 1;
+      const order = dispatch(game, state, { type: 'activity', id: work.id });
+      expect(order.error).toBeUndefined();
+      state = order.state;
+      if (readyToFile) {
+        state = advance(game, state, 200);
+        if (state.encounter)
+          state = dispatch(game, state, { type: 'encounter', choice: 'surrender' }).state;
+        state.location = game.initial.location;
+      }
+      const key = `${game.id}.save.v1`,
+        marker = `${key}-project-${readyToFile}`;
+      await page.addInitScript(
+        ({ key, raw, marker }) => {
+          if (!sessionStorage.getItem(marker)) {
+            localStorage.setItem(key, raw);
+            sessionStorage.setItem(marker, 'yes');
+          }
+        },
+        { key, raw: encodeSave(state, Date.now() - (readyToFile ? 0 : 200000)), marker },
+      );
+      await context.setOffline(false);
+      await page.goto(new URL(`${game.id}/?project=1`, baseURL).href);
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      await page.evaluate(async () => await navigator.serviceWorker.ready);
+      await page.reload();
+      await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+      await context.setOffline(true);
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      const read = () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+      if (readyToFile) {
+        await page
+          .getByRole('navigation')
+          .getByRole('button', { name: fantasy ? /Refuge/ : /Contacts/ })
+          .click();
+        const card = page
+          .locator('.activity-card')
+          .filter({ has: page.getByRole('heading', { name: mission.name, exact: true }) });
+        await expect(card).toContainText('Field work complete');
+        await card
+          .getByRole('button', {
+            name: fantasy ? 'Report completed oath' : 'File contract',
+            exact: true,
+          })
+          .click();
+      }
+      const saved = await read();
+      expect(saved.missions.find((entry: any) => entry.id === mission.id)).toMatchObject({
+        progress: 1,
+        claimed: readyToFile,
+      });
+      expect(saved.inventory[game.rules.currency]).toBe(
+        state.inventory[game.rules.currency] +
+          (readyToFile ? mission.reward[game.rules.currency] : 0),
+      );
+      await page.reload();
+      await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+      const again = await read();
+      expect(again.inventory).toEqual(saved.inventory);
+      expect(again.reputation).toEqual(saved.reputation);
+      expect(again.crew).toEqual(saved.crew);
+      expect(again.missions).toEqual(saved.missions);
+      expect(
+        await page.evaluate(() => !('__farWake' in window) && !('__hollowmere' in window)),
+      ).toBe(true);
+    }
+    await context.setOffline(false);
+  });

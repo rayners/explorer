@@ -394,7 +394,7 @@ test('released worlds retain their original names across import, secondary-tab u
   await page.getByRole('button', { name: 'Start a new expedition', exact: true }).click();
   await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
   const fresh = createGame(91);
-  expect((await state(page)).generationVersion).toBe(5);
+  expect((await state(page)).generationVersion).toBe(6);
   expect((await state(page)).crew.map((member: any) => member.name)).toEqual(
     fresh.initial.crew.map((member) => member.name),
   );
@@ -743,5 +743,108 @@ test('specialists gain practice and lasting discoveries join or train crew in bo
         .locator('.crew-row')
         .filter({ has: page.getByText(learner.name, { exact: true }) })
         .screenshot({ path: `/tmp/${game.id}-crew-proficiency.png` });
+  }
+});
+
+test('settled discoveries unlock distinct faction projects with source work and retained filing receipts', async ({
+  page,
+}, testInfo) => {
+  const { opportunityFixture } = await import('./opportunity-fixture');
+  const { planRoute } = await import('../src/engine/navigation');
+  for (const fantasy of [false, true]) {
+    const {
+      game,
+      state: found,
+      source,
+    } = opportunityFixture(fantasy, 'stranded-specialist', true, 6);
+    await open(page, `/${game.id}/`);
+    await importState(page, encodeSave(found, Date.now()));
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    const mission = game.missions.find(
+      (mission) =>
+        mission.sourceSite === found.incidents[0].site &&
+        mission.discoveryChoice?.incident === 'stranded-specialist' &&
+        mission.discoveryChoice.choice === 'resettle',
+    )!;
+    const work = game.activities.find((activity) => activity.mission === mission.id)!;
+    await expect(page.getByRole('heading', { name: mission.name, exact: true })).toHaveCount(0);
+    await expect(page.locator('.discovery-panel')).toContainText('Optional project unlocked');
+    const event = game.discoveryEvents!.entries.find(
+      (event) => event.id === 'stranded-specialist',
+    )!;
+    if (event.kind !== 'choice') throw Error('Expected response');
+    await page
+      .locator('.discovery-panel')
+      .getByRole('button', {
+        name: event.choices.find((choice) => choice.id === 'resettle')!.name,
+        exact: true,
+      })
+      .click();
+    await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+    const card = page
+      .locator('.activity-card')
+      .filter({ has: page.getByRole('heading', { name: mission.name, exact: true }) });
+    await expect(card).toContainText('Origin:');
+    await expect(card).toContainText('Patron standing on filing');
+    await expect(card).toContainText(source.name);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    if (testInfo.project.name === 'iphone')
+      await card.screenshot({ path: `/tmp/${game.id}-faction-project.png` });
+    await card
+      .getByRole('button', { name: fantasy ? 'Accept oath' : 'Accept contract', exact: true })
+      .click();
+    const travel = async (target: string) => {
+      const itinerary = planRoute(game, await state(page, fantasy), target);
+      for (const leg of itinerary) {
+        await nav(page, fantasy ? 'journey' : 'navigation');
+        const destination = game.locations.find((location) => location.id === leg.to)!;
+        await page
+          .locator('.route-card')
+          .filter({ has: page.getByRole('heading', { name: destination.name, exact: true }) })
+          .getByRole('button', { name: fantasy ? 'Travel' : 'Set course', exact: true })
+          .click();
+        await next(page, leg.seconds + 10, fantasy);
+        await escape(page, fantasy);
+      }
+    };
+    await nav(page, fantasy ? 'company' : 'operations');
+    const task = page
+      .locator('.follow-up-work .activity-card')
+      .filter({ has: page.getByRole('heading', { name: work.name, exact: true }) });
+    await expect(task.getByRole('button', { name: 'Begin activity', exact: true })).toBeDisabled();
+    await travel(source.id);
+    await nav(page, fantasy ? 'company' : 'operations');
+    await task.getByRole('button', { name: 'Begin activity', exact: true }).click();
+    expect((await state(page, fantasy)).primary.definition).toBe(work.id);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await next(page, 150, fantasy);
+    await escape(page, fantasy);
+    await travel(game.initial.location);
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    await expect(card).toContainText('Field work complete');
+    const before = await state(page, fantasy);
+    await card
+      .getByRole('button', {
+        name: fantasy ? 'Report completed oath' : 'File contract',
+        exact: true,
+      })
+      .click();
+    const after = await state(page, fantasy);
+    expect(after.inventory[game.rules.currency]).toBe(
+      before.inventory[game.rules.currency] + mission.reward[game.rules.currency],
+    );
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await nav(page, fantasy ? 'refuge' : 'contacts');
+    if (fantasy) await expect(card).toContainText('FULFILLED');
+    else await expect(page.getByText(mission.name, { exact: true })).toBeVisible();
+    expect((await state(page, fantasy)).inventory).toEqual(after.inventory);
+    await page.setViewportSize({ width: 932, height: 430 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
   }
 });

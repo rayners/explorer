@@ -1,6 +1,6 @@
 # Roadmap and status
 
-Baseline: v0.8.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.9.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Active implementation queue
 
@@ -11,7 +11,8 @@ User direction (2026-10-28): keep working through the roadmap, recording decisio
 3. **Delivered v0.7: generated system/realm layouts.** Vary topology and bodies/places while guaranteeing reachable service hubs, introductory goals and recovery. Version/persist generated references. Design and acceptance: [WORLDS.md](WORLDS.md). Generation-4 factories, connected graphs, optional regions/places, dynamic charts and actual-graph campaign simulation are implemented.
 4. **Delivered v0.8: broaden lasting events and crew development.** Design: [CREW.md](CREW.md). Begin with bounded specialty proficiency, rescued-specialist opportunities and knowledge choices; preserve committed work, accommodation and safe absence. Schema-4 migration, participant accounting, roster progress and generation-5 opportunities are implemented in both themes. Release checks, Pages deployment and live offline checks passed.
 
-5. **Design started: faction projects shaped by settled discoveries.** Link later optional work, preparations and patrons to actual incident responses and source sites in both themes. Reuse accepted work/receipts, keep existing catalogs and neutral recovery, and validate references before expanding campaign structure. Plan: [PROJECTS.md](PROJECTS.md). No project behavior has shipped.
+5. **Implemented v0.9: faction projects shaped by settled discoveries.** Exact incident/choice/source prerequisites unlock one optional branch per settled incident. Both themes have distinct patrons, field supplies and specialists; existing accepted-work receipts and neutral recovery remain intact. Generation 6 adds catalogs, preserving generations 1–5 and state schema 4. Design: [PROJECTS.md](PROJECTS.md). Publication verification is recorded below.
+6. **Next design candidate: expedition planning and project readability.** Review how players find unlocked work, compare preparation needs and plan multi-leg journeys to source sites. Start with a usability audit against actual play, then record a bounded design before changing behavior. Avoid automatic dispatch, new mandatory chores or expanding faction simulation without a separate design.
 
 Full procedural campaigns are a staged direction now; this queue supersedes the earlier blanket deferral for these specific steps. Roguelite resets/metaprogression remain deferred. Physical iPhone checks still require the real device and remain explicitly pending; they do not block independent implementation.
 
@@ -84,3 +85,7 @@ Fresh generation-4 expeditions vary region/place counts and travel graphs while 
 ## Implemented in v0.8: proficiency and lasting opportunities
 
 Living matching specialists earn bounded practice through completed work; Practiced/Veteran tiers improve their specialty. Paid activities survive crew loss and grant no practice to memorials or replacements. New generation-5 expeditions add stable-identity rescue and knowledge decisions in both settings; accommodation, neutral alternatives, one-time effects and safe absence remain enforced. Schema 4 migrates existing saves without changing paid terms; generations 1–4 retain full catalogs. Design/evidence: [CREW.md](CREW.md). Local validation: 133 unit tests, 81 browser cases, 18 production offline cases, frozen generation-1–5 catalogs and both campaign simulators pass. [Pages workflow](https://github.com/rayners/explorer/actions/runs/40690435083) succeeded for `c538a6f`. Live iPhone WebKit verified both choices in both themes, real schema-3 migration, offline practice and durable exact-once receipts. A subsequent preparation test freezes 11 generation-5 responses for project work.
+
+## Implemented in v0.9: discovery-driven faction projects
+
+Eleven themed response branches generate optional commissions at actual discovery sources. A matching settled choice is required for visibility, acceptance and save validation. Work requires the displayed specialist/supplies, retains paid terms, completes once and pays only at hub filing. New generation-6 expeditions reuse frozen geography/names/sites; older catalogs remain intact. Discovery previews explain the resulting patron/project, and briefs show origin and preparation. See [PROJECTS.md](PROJECTS.md). Local validation passed 138 unit tests, 84 browser cases, 22 production offline cases, typecheck/Pages build and both campaign simulators. Mobile project briefs were visually inspected. Deployment evidence follows after publication; physical iPhone acceptance remains pending.

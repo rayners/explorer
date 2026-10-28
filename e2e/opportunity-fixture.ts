@@ -2,8 +2,13 @@ import { createGame } from '../src/game/definition';
 import { createHollowmere } from '../src/fantasy/definition';
 import { createState, dispatch, advance } from '../src/engine/simulation';
 /** Reach an opportunity through the actual seeded selector; do not fabricate its identity receipt. */
-export function opportunityFixture(fantasy: boolean, id = 'stranded-specialist', atHub = true) {
-  const game = (fantasy ? createHollowmere : createGame)(1701, 5);
+export function opportunityFixture(
+  fantasy: boolean,
+  id = 'stranded-specialist',
+  atHub = true,
+  generation = 5,
+) {
+  const game = (fantasy ? createHollowmere : createGame)(1701, generation);
   const source = game.locations.find((l) => !l.station && !l.initiallyKnown)!;
   for (let rng = 1; rng < 1000; rng++) {
     const state = createState(game, 1701);

@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.9
+
+Discovery decisions now unlock optional faction projects in both games. Your response determines the patron, supplies and specialist needed: company beacons, communal reserves, rescue routes, consecrated shelters and elder wards. Accept at a hub, return to the original site for work, then file the receipt once for payment and standing. Briefs explain the original decision and preparation.
+
+Projects belong to new generation-6 expeditions. Existing expeditions retain their catalogs and progress. Starting a fresh expedition in Settings is optional; export your current save first if you want to keep a separate copy. See [faction projects](docs/PROJECTS.md).
+
 ## New in v0.8
 
 Crew and companions earn practice by completing work in their specialty. At four and twelve points they become Practiced and Veteran, improving existing skill bonuses. Roster rows show progress; resting members do not gain work practice, and memorials retain it. Existing saves migrate without changing their maps or paid orders.
