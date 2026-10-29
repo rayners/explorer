@@ -89,6 +89,8 @@ When bumping a release version, edit only `package.json.version`, the lockfile r
 
 [Expedition planning](docs/PLANNING.md) is a read-only shared UI layer for existing bound contracts. Keep estimates based on known routes and current stock/assignments, preserve paid jobs/receipts, and never dispatch from route selection. Map targets are temporary view state; all generations 1–6 remain frozen.
 
+[Destination comparison](docs/BUNDLES.md) groups only actual discovered, known-source bound contracts. Separate offers, unstarted accepted work, committed jobs and receipts; count shared travel once, preserve paid terms, and never price unknown/transit routes as free. Receipt-only groups need current-to-hub filing guidance. Review links use stable IDs and focus existing briefs; they never accept or dispatch. Keep all generations, saves and namespaces unchanged.
+
 [Readability](docs/READABILITY.md) keeps current directives before scenes and shared accepted-work cards scannable. Narrative/route estimates may be collapsed; missing supplies, staffing, payment timing and unavailable reasons remain visible. Expanding details never dispatches. Check both narrow portrait and short landscape screens; presentation changes do not require new content generations.
 
 [Longer hub work](docs/WATCHES.md) uses one committed primary job through the existing safe recovery-work mapping. Preserve fixed watch IDs/durations, stored reward/debt terms, surviving participant credit and explicit cancellation without partial payout. Schema 5 validates schema 4 before upgrading its version, with captured released fixtures; no catalog generation changes. Never turn a watch into a repeat queue or recalculate paid terms after casualties.

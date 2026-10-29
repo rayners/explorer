@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.15
+
+**Work by destination** groups discovered field contracts in both games' board and work views. Expand a place to compare the known journey and nearby hub, shared supplies for accepted work, team gaps and completed receipts. Destinations with accepted work appear first; offers stay separate from the accepted-work estimate.
+
+Review links focus the existing contract brief, and route links open the chart without departing. Each contract still needs its own acceptance, field order and hub filing. Work already in progress keeps its paid terms. Existing expeditions and offline saves gain the view without a reset. See [destination planning](docs/BUNDLES.md).
+
 ## New in v0.14
 
 The published library and both games share limited PostHog usage and sanitized error reporting. Disable **Share usage and sanitized error reports** in either game's settings or the library footer; the preference applies across Explorer on this browser. Browser DNT/GPC and unavailable storage suppress sharing.

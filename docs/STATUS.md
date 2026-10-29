@@ -13,12 +13,12 @@ Updated 2026-10-29. Read after [AGENTS.md](../AGENTS.md). Verify current checkou
 
 ## Active roadmap
 
-The user explicitly resumed the autonomous roadmap after restart. Tracking is delivered. **Next: implement the prepared read-only destination bundles in [BUNDLES.md](BUNDLES.md)**, using actual discovered/accepted contracts, shared route costs and known filing hubs. The design is written; no destination-bundle code exists yet. Changed-place consequences and contextual discovery selection follow as design candidates. Full roguelite campaigns/resets remain deferred. Keep the full ongoing goal active: this release is a milestone, not completion of the entire roadmap.
+The user explicitly resumed the autonomous roadmap after restart. Tracking is delivered. **Current: destination comparison, v0.15, in [BUNDLES.md](BUNDLES.md)**, using actual discovered/accepted contracts, shared route costs and known filing hubs. The pure destination selector, shared summary and navigation-only brief links are now implemented locally with initial unit coverage. Browser/offline checks and release validation/publication remain in progress; this feature is not yet shipped. Changed-place consequences and contextual discovery selection follow as design candidates. Full roguelite campaigns/resets remain deferred. Keep the full ongoing goal active: this release is a milestone, not completion of the entire roadmap.
 
 ## Next work
 
-1. Inspect `git status` and current HEAD; finish any pending follow-up deployment verification. Do not infer publication from a push alone.
-2. Read BUNDLES, PLANNING and relevant selectors/tests. Current preparation lives in `src/ui/expedition-planning.ts`; route/card presentation in `src/ui/planning-panels.ts`. Start with a pure selector and behavior tests before both themed mounts.
+1. Inspect `git status` and current HEAD. Published v0.14 follow-up `76b77d9` passed [Pages workflow 40940595811](https://github.com/rayners/explorer/actions/runs/40940595811) and live route/bundle checks. Destination code is local v0.15, not yet published.
+2. The destination selector/panel are in `src/ui/destination-planning.ts` and `src/ui/destination-panels.ts`. Eight new unit cases and six browser/four offline cases passed before final ordering refinement. Final local release checks passed: 175 unit, 117 browser, 12 telemetry and 38 offline cases, plus typecheck/Pages build. Final portrait/landscape previews were inspected; no overflow. No simulator rerun is needed because logistics are unchanged.
 3. Preserve discovery/choice gating, old catalogs, paid jobs, receipt-only return guidance, transit deferral, three-contract capacity and explicit acceptance/dispatch. No batch commands or saved view state.
 4. Validate unit/type/browser/offline behavior, publish through main/Pages, verify live affected routes, and update the roadmap/handoff evidence.
 

@@ -150,3 +150,7 @@ Shared accepted-work cards render the existing `expeditionPlan` phases and engin
 ## Browser analytics boundary (v0.14)
 
 Usage/error observation is optional browser-host behavior and adds no commands, state fields, event parameters, random draws or time semantics. The engine remains network/browser independent. Observers may consume completion keys; they must not serialize state, command arguments, event parameters or generated names into telemetry. Save envelope 1/state schema 5 and generations 1–7 are unchanged. See [TELEMETRY.md](TELEMETRY.md).
+
+## Destination summaries (v0.15)
+
+The browser/UI planning layer groups actual discovered bound contracts and reads existing activity durations, paid jobs and effective routes. It adds no engine command, state field, job metadata, random draw or automatic scheduling. All acceptance/dispatch/filing validation remains authoritative in the existing transitions. Shared estimates count travel once and never recalculate paid terms. Envelope 1/state 5 and generations 1–7 remain unchanged. [BUNDLES.md](BUNDLES.md) records the UI contract.

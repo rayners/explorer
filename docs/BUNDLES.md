@@ -1,6 +1,6 @@
 # Destination-based expedition comparison
 
-Next bounded design, 2026-10-28, under ongoing roadmap authorization, after [explicit hub work](WATCHES.md). The [audit](EXPEDITION-AUDIT.md) shows that nearby hubs and same-destination work can materially improve return-trip efficiency. This document focuses implementation; no destination-group UI is shipped yet.
+Next bounded design, 2026-10-28, under ongoing roadmap authorization, after [explicit hub work](WATCHES.md). The [audit](EXPEDITION-AUDIT.md) shows that nearby hubs and same-destination work can materially improve return-trip efficiency. The v0.15 selector and UI are implemented locally; final validation and publication are pending in [STATUS.md](STATUS.md).
 
 ## Goal
 
@@ -24,6 +24,24 @@ Keep a small player-facing summary; do not introduce scoring formulas or display
 
 ## Acceptance and next implementation
 
+Implementation choices (2026-10-29): keep the pure selector in the UI planning layer. Entries use stable mission/activity/source IDs and one of offer, unstarted, committed or receipt. Only known, discovered sources participate. Combine accepted unstarted work costs and conservative serial durations; expose a shared total only when both source and nearby-hub routes are known. Unknown travel stays unpriced, with work supplies still shown separately. Receipts always have separate current-to-filing-hub guidance; receipt-only groups have no source journey. Paid job remainders use existing slot timers. Brief controls focus the existing board/work card; they carry no engine command. Capacity counts every unclaimed contract, including authored work and receipts. Destinations with accepted work appear before offers-only destinations; within them, accepted/committed work and receipts precede offers. Expanded groups put cost/readiness/filing information before long review labels, following the existing readability hierarchy.
+
 Start with a pure destination selector and behavior tests for discovery gating, real chosen projects, contract capacity, unknown routes, nearby hubs, mixed primary/support roles, paid jobs after roster loss, completed receipts and transit. Then add shared summary markup and navigation-only brief links to both mounts. Browser checks must prove opening a group/brief/route neither accepts nor dispatches nor spends, retains keyboard focus, and fits older/current saves. Production offline checks should restore summaries and preserve exact paid outcomes. Physical iPhone acceptance remains pending.
 
 After verified delivery, design one visible changed-place consequence per theme, then contextual discovery selection. These later mechanics need their own compatibility/outcome designs; they are not implemented by grouping existing offers.
+
+## Implementation (v0.15)
+
+`src/ui/destination-planning.ts` derives stable-ID groups using `missionDiscovered`, existing accepted work, `expeditionPlan`, `activityDuration`, `planRoute` and `knownHubRoute`. It never mutates definitions/state or consumes outcome randomness. Offers, unstarted accepted work, committed jobs and receipts remain distinct. Only accepted unstarted work contributes to the combined supply/time estimate; the shared journey is counted once. Missing routes yield no priced total. Receipts retain independent current-to-hub filing guidance; receipt-only groups omit source journeys. Travel/recovery defers route estimates. Capacity includes all unclaimed contracts, including authored contracts and completed receipts.
+
+`src/ui/destination-panels.ts` renders shared native details groups on both board/work screens. Accepted destinations come first and estimates precede long review labels. Individual review controls switch the themed view and focus an existing stable-ID brief heading; route controls reuse the existing chart preview. No review control carries an engine command. Committed job remainders use the existing primary/support timer updates. Existing full preparation cards, authoritative dispatch errors and paid receipts remain accessible.
+
+No save envelope/state schema, generator version, catalog, outcome, namespace, manifest, cost/timing or telemetry schema changes. Physical iPhone acceptance remains pending.
+
+## Rendered checks
+
+Retained final production-preview captures: [Far Wake phone](screenshots/destinations-far-wake-phone.png) and [Hollowmere phone](screenshots/destinations-hollowmere-phone.png). Both portrait and 932×430 landscape were inspected without horizontal overflow. The captures show shared estimates before individual review controls and actual staffing gaps. These are automated iPhone WebKit previews, not physical-device acceptance.
+
+## Local validation
+
+175 unit, 117 browser, 12 telemetry and 38 production offline checks passed, together with strict typecheck/Pages build, formatting and documentation links. Coverage includes exact discovery choices, shared route costs, capacity, unknown/transit routes, paid work after casualties, receipt-only groups, generations 1–7/save restoration, navigation-only focus, old/current offline summaries and unchanged committed terms. No engine, content, balance or persistence changes; the logistics simulators need no new assumptions. Publication/live checks remain pending in [STATUS.md](STATUS.md).

@@ -37,7 +37,7 @@ export function boundWorkCard(
     Object.entries(activity.cost)
       .map(([id, amount]) => `${amount} ${esc(g.resources.find((r) => r.id === id)?.name ?? id)}`)
       .join(' · ') || 'None';
-  return `<article class="activity-card bound-work"><div class="work-status">${status}</div><h3>${esc(activity.name)}</h3><p class="work-source">Source: ${esc(g.locations.find((location) => location.id === mission.objective.target)?.name)}</p>${plan.phase !== 'waiting' ? `<p class="cost">Work supplies: ${cost}<br>${workTeamRequirements(activity)}</p>` : ''}${preparationPanel(g, s, mission.id, 'work')}<div class="work-order">${button(activity.slot === 'support' ? supportLabel : 'Begin activity', { type: 'activity', id }, plan.phase === 'work')}</div><p class="payment-note">Supplies are paid on dispatch. Payment is collected once at a service hub after completion.</p><details class="work-details"><summary>Story & work details</summary><p>${esc(activity.description)}</p><p>Field work: ${job?.total ?? activityDuration(g, s, id)}s real</p><p>Payment: ${Object.entries(
+  return `<article class="activity-card bound-work" data-contract-brief="${esc(mission.id)}"><div class="work-status">${status}</div><h3>${esc(activity.name)}</h3><p class="work-source">Source: ${esc(g.locations.find((location) => location.id === mission.objective.target)?.name)}</p>${plan.phase !== 'waiting' ? `<p class="cost">Work supplies: ${cost}<br>${workTeamRequirements(activity)}</p>` : ''}${preparationPanel(g, s, mission.id, 'work')}<div class="work-order">${button(activity.slot === 'support' ? supportLabel : 'Begin activity', { type: 'activity', id }, plan.phase === 'work')}</div><p class="payment-note">Supplies are paid on dispatch. Payment is collected once at a service hub after completion.</p><details class="work-details"><summary>Story & work details</summary><p>${esc(activity.description)}</p><p>Field work: ${job?.total ?? activityDuration(g, s, id)}s real</p><p>Payment: ${Object.entries(
     mission.reward,
   )
     .map(([id, amount]) => `${amount} ${esc(g.resources.find((r) => r.id === id)?.name ?? id)}`)
@@ -88,7 +88,7 @@ export function followUpWork(
           const mission = s.missions.find((mission) => mission.id === activity.mission)!;
           const definition = g.missions.find((definition) => definition.id === mission.id)!;
           return mission.progress >= definition.objective.count
-            ? `<article class="activity-card bound-receipt"><div class="work-status">${expeditionPlan(g, s, mission.id)?.phase === 'file' ? 'Ready to file' : 'Work complete'}</div><h3>${esc(definition.name)}</h3>${followUpBrief(g, s, mission.id, 'work')}</article>`
+            ? `<article class="activity-card bound-receipt" data-contract-brief="${esc(definition.id)}"><div class="work-status">${expeditionPlan(g, s, mission.id)?.phase === 'file' ? 'Ready to file' : 'Work complete'}</div><h3>${esc(definition.name)}</h3>${followUpBrief(g, s, mission.id, 'work')}</article>`
             : render(activity.id);
         })
         .join('')}</div>`

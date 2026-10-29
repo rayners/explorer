@@ -8,6 +8,7 @@ export default defineConfig({
     'picker.spec.ts',
     'readability.spec.ts',
     'watches.spec.ts',
+    'destinations.spec.ts',
   ],
   timeout: 30000,
   fullyParallel: true,

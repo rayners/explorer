@@ -990,3 +990,121 @@ test('new support commissions and parallel primary work retain offline receipts 
     }
   await context.setOffline(false);
 });
+
+test('legacy destination summaries and focused briefs restore offline without accepting or departing', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  for (const fantasy of [false, true]) {
+    const game = (fantasy ? createHollowmere : createGame)(1701, 3),
+      state = createState(game, 1701);
+    const source = game.locations.find((l) => !l.station && l.initiallyKnown)!;
+    state.discoveries[source.id] = { surveyed: true, sites: [source.sites[0]], dataSold: false };
+    const mission = game.missions.find(
+      (m) => m.sourceSite === source.sites[0] && !m.discoveryChoice,
+    )!;
+    const accepted = dispatch(game, state, { type: 'accept', id: mission.id });
+    expect(accepted.error).toBeUndefined();
+    const key = `${game.id}.save.v1`,
+      marker = `destinations-legacy-${game.id}`;
+    await page.addInitScript(
+      ({ key, marker, raw }) => {
+        if (!sessionStorage.getItem(marker)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(marker, 'yes');
+        }
+      },
+      { key, marker, raw: encodeSave(accepted.state, Date.now()) },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${game.id}/?destinations=legacy`, baseURL).href);
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    const read = () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key),
+      before = await read();
+    let group = page.locator(`[data-destination="${source.id}"]`);
+    await group.locator('summary').click();
+    await group.locator(`[data-contract-review="${mission.id}"]`).click();
+    await expect(page.locator(`[data-contract-brief="${mission.id}"] h3`)).toBeFocused();
+    group = page.locator(`[data-destination="${source.id}"]`);
+    await group.locator('summary').click();
+    await group.getByRole('button', { name: 'Plot source route', exact: true }).click();
+    await expect(page.locator('#route-plan-title')).toBeFocused();
+    const after = await read();
+    expect(after.inventory).toEqual(before.inventory);
+    expect(after.missions).toEqual(before.missions);
+    expect(after.primary).toBeNull();
+  }
+  await context.setOffline(false);
+});
+
+test('destination review offline preserves committed support work and completed filing receipts', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  const { supportVarietyFixture } = await import('./variety-fixture');
+  for (const fantasy of [false, true]) {
+    const f = supportVarietyFixture(fantasy),
+      key = `${f.game.id}.save.v1`,
+      marker = `destinations-paid-${f.game.id}`;
+    await page.addInitScript(
+      ({ key, marker, raw }) => {
+        if (!sessionStorage.getItem(marker)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(marker, 'yes');
+        }
+      },
+      { key, marker, raw: encodeSave(f.paid, Date.now()) },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${f.game.id}/?destinations=paid`, baseURL).href);
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page
+      .locator('.planning-summary')
+      .getByRole('button', { name: 'Review accepted work', exact: true })
+      .click();
+    const group = page.locator(`[data-destination="${f.source.id}"]`);
+    await group.locator('summary').click();
+    await expect(group).toContainText('Work in progress — supplies paid');
+    await group.locator(`[data-contract-review="${f.mission.id}"]`).click();
+    await expect(page.locator(`[data-contract-brief="${f.mission.id}"] h3`)).toBeFocused();
+    const paid = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+    expect(paid.support.reward).toEqual(f.paid.support!.reward);
+    expect(paid.support.participants).toEqual(f.paid.support!.participants);
+    await page.getByRole('button', { name: 'Settings', exact: true }).click();
+    await page
+      .getByRole('textbox', { name: 'Save JSON' })
+      .fill(encodeSave({ ...f.completed, location: f.game.initial.location }, Date.now()));
+    await page.getByRole('button', { name: 'Import pasted save' }).click();
+    await page.getByRole('button', { name: 'Confirm order', exact: true }).click();
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: fantasy ? /Company/ : /Operations/ })
+      .click();
+    await page.locator(`[data-destination="${f.source.id}"] summary`).click();
+    await expect(
+      page.locator(`[data-destination="${f.source.id}"] .destination-filing`),
+    ).toContainText('File at this service hub.');
+    await page.locator(`[data-contract-review="${f.mission.id}"]`).click();
+    await expect(page.locator('.bound-receipt h3')).toBeFocused();
+    const receipt = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+    expect(receipt.inventory).toEqual(f.completed.inventory);
+    expect(receipt.missions.find((m: any) => m.id === f.mission.id).claimed).toBe(false);
+  }
+  await context.setOffline(false);
+});

@@ -2,7 +2,7 @@
 
 Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md](../README.md) for running and playing the games.
 
-Restarting development: read [STATUS.md](STATUS.md) first for the shipped baseline, active roadmap and tracking validation/publication state. [TELEMETRY.md](TELEMETRY.md) describes the v0.14 privacy contract and implementation.
+Restarting development: read [STATUS.md](STATUS.md) first for the shipped baseline, active roadmap and current validation/publication state. [TELEMETRY.md](TELEMETRY.md) describes the v0.14 privacy contract and implementation.
 
 | Document                           | Purpose                                                                 |
 | ---------------------------------- | ----------------------------------------------------------------------- |
@@ -19,7 +19,7 @@ Restarting development: read [STATUS.md](STATUS.md) first for the shipped baseli
 | [READABILITY.md](READABILITY.md)   | Current directives, accepted-work hierarchy and responsive readability   |
 | [EXPEDITION-AUDIT.md](EXPEDITION-AUDIT.md) | Reproducible return-commission economics and single-order check-in behavior |
 | [WATCHES.md](WATCHES.md) | Explicit longer hub work, committed payment/debt and cancellation |
-| [BUNDLES.md](BUNDLES.md) | Next design: compare actual work and staging hubs by destination |
+| [BUNDLES.md](BUNDLES.md) | Implemented destination comparison; validation/publication state in STATUS |
 | [PROJECTS.md](PROJECTS.md)         | Implemented faction projects linked to settled discovery choices        |
 | [CREW.md](CREW.md)                 | Crew proficiency, lasting opportunities and migration contract          |
 | [WORLDS.md](WORLDS.md)             | Generated layouts, reachability guarantees and version compatibility    |
@@ -33,7 +33,7 @@ Restarting development: read [STATUS.md](STATUS.md) first for the shipped baseli
 
 Requirements describe what was requested. Decisions describe the implementation chosen to satisfy it. Roadmap entries describe future possibilities unless explicitly marked implemented. Keep these distinctions when updating the documents.
 
-Development documentation: v0.14.0, updated 2026-10-29; publication state is recorded in STATUS.md. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
+Development documentation: v0.15.0, updated 2026-10-29; publication state is recorded in STATUS.md. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
 
 Independent reviews:
 

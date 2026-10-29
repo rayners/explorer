@@ -1,3 +1,4 @@
+import { destinationPanel, focusContractBrief } from '../ui/destination-panels';
 import { mountTelemetryPreference } from '../browser/telemetry';
 import { duration as time } from '../ui/time';
 import { planningSummary, projectOffers, routePlanPanel } from '../ui/planning-panels';
@@ -217,7 +218,7 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   }
   function company() {
     const loc = view(g, s).location;
-    return `${followUpWork(g, s, actionCard)}${members()}<p class="proficiency-help">${proficiencyHelp}</p><div class="section-label">${loc.station ? 'Refuge duties' : 'Expedition work'} / ${esc(loc.name)}</div><div class="activity-grid">${g.activities
+    return `${destinationPanel(g, s)}${followUpWork(g, s, actionCard)}${members()}<p class="proficiency-help">${proficiencyHelp}</p><div class="section-label">${loc.station ? 'Refuge duties' : 'Expedition work'} / ${esc(loc.name)}</div><div class="activity-grid">${g.activities
       .filter(
         (a) =>
           a.slot === 'primary' &&
@@ -239,9 +240,9 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
     const missionCard = (id: string) => {
       const m = g.missions.find((mission) => mission.id === id)!;
       const state = s.missions.find((x) => x.id === m.id);
-      return `<article class="activity-card"><h3>${esc(m.name)}</h3><p>${esc(m.description)}</p>${followUpBrief(g, s, m.id)}<small>${esc(amounts(m.reward))}</small>${state?.claimed ? '<span class="badge green">FULFILLED</span>' : state ? `<span class="mission-status">${state.progress} / ${m.objective.count}</span>${button('Report completed oath', { type: 'claim', id: m.id }, true)}${button('Release oath', { type: 'abandon', id: m.id })}` : button('Accept oath', { type: 'accept', id: m.id }, true)}</article>`;
+      return `<article class="activity-card" data-contract-brief="${esc(m.id)}"><h3>${esc(m.name)}</h3><p>${esc(m.description)}</p>${followUpBrief(g, s, m.id)}<small>${esc(amounts(m.reward))}</small>${state?.claimed ? '<span class="badge green">FULFILLED</span>' : state ? `<span class="mission-status">${state.progress} / ${m.objective.count}</span>${button('Report completed oath', { type: 'claim', id: m.id }, true)}${button('Release oath', { type: 'abandon', id: m.id })}` : button('Accept oath', { type: 'accept', id: m.id }, true)}</article>`;
     };
-    return `${projectOffers(g, s, missionCard)}<div class="faction-grid">${g.factions.map((f) => `<article class="faction-card" style="--faction:${f.color}"><h3>${esc(f.name)}</h3><p>${esc(f.description)}</p><span class="faction-score">${s.reputation[f.id]}</span></article>`).join('')}</div><div class="section-label">The provisioner / ${cargo(g, s)} OF ${s.capacity} PACK SPACE</div>${panel(
+    return `${destinationPanel(g, s)}${projectOffers(g, s, missionCard)}<div class="faction-grid">${g.factions.map((f) => `<article class="faction-card" style="--faction:${f.color}"><h3>${esc(f.name)}</h3><p>${esc(f.description)}</p><span class="faction-score">${s.reputation[f.id]}</span></article>`).join('')}</div><div class="section-label">The provisioner / ${cargo(g, s)} OF ${s.capacity} PACK SPACE</div>${panel(
       'Provisions',
       g.resources
         .filter((r) => r.id !== 'gold')
@@ -368,6 +369,13 @@ export function mountFantasy(root: HTMLElement, controller: AppController) {
   root.addEventListener('click', async (event) => {
     const target = (event.target as Element).closest<HTMLElement>('button');
     if (!target) return;
+    if (target.dataset.contractReview) {
+      const id = target.dataset.contractReview;
+      tab = target.dataset.contractView === 'board' ? 'refuge' : 'company';
+      update(s, g, true);
+      focusContractBrief(main, id);
+      return;
+    }
     if (target.dataset.routeTarget) {
       const destination = g.locations.find(
         (location) => location.id === target.dataset.routeTarget && s.known.includes(location.id),

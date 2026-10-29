@@ -1,5 +1,14 @@
 # Browser and device acceptance
 
+## Destination planning (v0.15) — physical checks pending
+
+- In both games on the iPhone 15 Pro Max, open the board and work views after exploring a site or settling a faction discovery. Expand Work by destination in portrait and short landscape. Accepted destinations should come first, with readable shared travel/work estimates and visible supply/team gaps.
+- Review an offer, accepted work and a completed receipt by touch and keyboard. Focus must land on the matching existing brief; no contract, inventory, team or order should change from review. Plot source/filing routes and verify that departure still needs its own explicit order.
+- Compare two accepted contracts at one source: travel should count once, offers should not join the accepted-work total, and all accepted contracts/receipts should count against the three-slot limit. Missing routes must remain unpriced; in-transit summaries must wait for arrival.
+- Restore a released expedition and reopen offline. A paid job must retain its supplies/participants/pay and complete once, while a receipt can be filed at a hub without returning to its source. No reset or new seed is needed for this UI.
+
+Automated Chromium/WebKit checks do not substitute for these physical-device results.
+
 ## Usage/error reporting (v0.14) — physical checks pending
 
 - In Safari and both installed games, find the sharing checkbox in Settings; toggle it with touch/keyboard, rotate and confirm readable text and scroll access. Verify the library footer and other game reflect the same preference after navigation/reload.

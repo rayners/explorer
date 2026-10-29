@@ -1601,3 +1601,31 @@ body.reduce-motion * {
     grid-template-columns: 1fr;
   }
 }
+
+.destination-group {
+  border-top: 1px solid var(--line);
+  padding-block: 10px;
+}
+.destination-group summary {
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.destination-body {
+  padding-block: 8px;
+}
+.destination-entry,
+.destination-estimate,
+.destination-filing {
+  margin-block: 12px;
+}
+.destination-overview button {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.destination-overview small {
+  font-size: 12px;
+  line-height: 1.6;
+}
