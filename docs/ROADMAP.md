@@ -1,10 +1,10 @@
 # Roadmap and status
 
-Baseline: v0.13.0, 2026-10-28. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
+Baseline: v0.15.1, 2026-10-29. This is a status and design queue, not a release schedule. Requirements and rationale live in [REQUIREMENTS.md](REQUIREMENTS.md) and [DECISIONS.md](DECISIONS.md).
 
 ## Active implementation queue
 
-**Current priority: duplicate recruitment previews (v0.15.1).** Fix the user-reported same-name offers in both games, with distinct deterministic candidates, exact preview-to-hire identity and protection for existing saved crew and survivors. Validation/publication pending; see [NAMES.md](NAMES.md) and [STATUS.md](STATUS.md). Resume facilities afterward.
+**Fixed v0.15.1: duplicate recruitment previews.** Both games show distinct deterministic candidates and hire the exact displayed identity, preserving saved crew/memorials/survivors and all generation catalogs. Final [Pages workflow](https://github.com/rayners/explorer/actions/runs/40951200516) and live old/current offline hiring checks passed. Local suites: 181 unit, 120 browser, 12 telemetry, 40 offline cases, build and both simulators. See [NAMES.md](NAMES.md). Resume the unimplemented facilities design next.
 
 **Delivered: privacy-conscious usage/error tracking (v0.14).** The user resumed work after restart. Shared browser-only reporting, sanitized errors, ephemeral page identity and cross-game/library opt-out are published. [Pages workflow](https://github.com/rayners/explorer/actions/runs/40939176487) passed 167 unit, 111 browser, 12 telemetry and 34 offline cases; live routes, opt-out and the six known verification records' ingestion/privacy fields were checked. See [TELEMETRY.md](TELEMETRY.md) and [STATUS.md](STATUS.md). **Delivered v0.15: destination comparison.** [Pages workflow](https://github.com/rayners/explorer/actions/runs/40944395989) passed 175 unit, 117 browser, 12 telemetry and 38 offline checks. Published offline review/route/receipt flows passed in both themes. [BUNDLES.md](BUNDLES.md) records the implementation and captures. **Next: lasting place changes**, designed but unimplemented in [FACILITIES.md](FACILITIES.md); contextual discovery selection follows.
 
