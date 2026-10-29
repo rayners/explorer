@@ -15,7 +15,11 @@ export function recruitmentPanel(g: GameDefinition, s: GameState, button: Comman
   return `<section class="panel"><div class="panel-head"><h2>Recruit specialists</h2><span class="eyebrow">${living(s).length} / ${crewCapacity(g, s)} PLACES</span></div><div class="panel-body"><p>Accommodation limits your active company. New recruits start resting; assign them to a team. Casualties remain in the memorial and free their place.</p><div class="activity-grid">${g.recruitment.offers
     .filter((o) => !o.emergency || living(s).length === 0)
     .map((offer) => {
-      const command: Command = { type: 'hire', id: offer.id },
+      const command: Command = {
+          type: 'hire',
+          id: offer.id,
+          serial: candidates.get(offer.id)?.serial,
+        },
         error = dispatch(g, s, command).error;
       return `<article class="activity-card" data-recruit="${esc(offer.id)}"><h3>${esc(offer.name)}</h3><small><span data-recruit-name>${esc(candidates.get(offer.id)?.name ?? 'No candidate available')}</span> · ${esc(offer.skill)}</small><p>${esc(offer.description)}</p><div class="cost">${
         Object.entries(offer.cost)

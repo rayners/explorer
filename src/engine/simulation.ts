@@ -200,9 +200,13 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     if (!offer) return fail('This specialist is not available.');
     const error = recruitmentError(g, s, offer);
     if (error) return fail(error);
+    const candidate = recruitmentCandidates(g, s).get(offer.id)!;
+    if (command.serial !== undefined && command.serial !== candidate.serial)
+      return fail(
+        'This candidate has changed. Review the refreshed recruitment offer before hiring.',
+      );
     if (!affordable(s, offer.cost)) return fail('Insufficient funds to recruit this specialist.');
     spend(s, offer.cost);
-    const candidate = recruitmentCandidates(g, s).get(offer.id)!;
     s.recruitSerial = Math.max(s.recruitSerial, candidate.serial + 1);
     const member = joinRecruit(s, offer, candidate.serial);
     event(s, 'memberHired', { member: member.name, skill: member.skill });

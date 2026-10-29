@@ -308,7 +308,7 @@ export type Command =
   | { type: 'discovery'; id: string; choice: string }
   | { type: 'travel'; target: string }
   | { type: 'activity'; id: string; site?: string; approach?: string }
-  | { type: 'hire'; id: string }
+  | { type: 'hire'; id: string; serial?: number }
   | { type: 'threat'; action: 'search' | 'contain' | 'confront' | 'purge' }
   | { type: 'work'; watch?: WorkWatch }
   | { type: 'cancelWorkWatch'; id: string }

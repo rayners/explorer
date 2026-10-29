@@ -67,6 +67,29 @@ it('does not spend names on previews or failed hires and fills unused gaps witho
   }
 });
 
+it('rejects a stale explicit candidate instead of charging for a different person', () => {
+  for (const factory of [createGame, createHollowmere]) {
+    const original = factory(44);
+    const game = { ...original, recruitment: { ...original.recruitment!, capacity: 8 } };
+    const state = createState(game, 44);
+    state.inventory[game.rules.currency] = 2000;
+    const offers = game.recruitment.offers.filter((offer) => !offer.emergency);
+    const wanted = offers.at(-1)!;
+    const preview = recruitmentCandidates(game, state).get(wanted.id)!;
+    const changed = dispatch(game, state, { type: 'hire', id: offers[0].id }).state;
+    expect(recruitmentCandidates(game, changed).get(wanted.id)!.serial).not.toBe(preview.serial);
+    const before = structuredClone(changed);
+    const stale = dispatch(game, changed, { type: 'hire', id: wanted.id, serial: preview.serial });
+    expect(stale.error).toContain('candidate has changed');
+    expect(stale.state).toBe(changed);
+    expect(changed).toEqual(before);
+    const current = recruitmentCandidates(game, changed).get(wanted.id)!;
+    const hired = dispatch(game, changed, { type: 'hire', id: wanted.id, serial: current.serial });
+    expect(hired.error).toBeUndefined();
+    expect(hired.state.crew.at(-1)!.name).toBe(current.name);
+  }
+});
+
 it('retains a discovered survivor through other hiring and reserves new survivors in free gaps without consuming RNG', () => {
   for (const fantasy of [false, true]) {
     const { game, state } = opportunityFixture(fantasy, 'stranded-specialist', true, 7);
