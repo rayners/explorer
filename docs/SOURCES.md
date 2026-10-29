@@ -132,3 +132,7 @@ The user's ongoing instruction to keep working through the roadmap authorizes th
 ## Next bounded lasting-place design (2026-10-29)
 
 After verified destination comparison delivery, [FACILITIES.md](FACILITIES.md) chooses a limited resupply point as the first material source change, under the ongoing roadmap instruction. The user did not specify its exact branches/goods. The existing relief-relay/cleric-vigil writing and project roles informed the proposal. It is explicitly unimplemented and proposes generation-8 assembly plus an optional generic market-access contract, without silently turning field locations into full service hubs. These are recorded implementation/design choices, not additional user requirements.
+
+## Duplicate hireable names (2026-10-29)
+
+The user reported that all hireable crew appeared to have the same name. Local reproduction confirmed that all generated roles previewed `recruitSerial` against the shared people domain; some legacy fantasy pools also overlap. The fix allocates distinct free candidate serials without changing grammar, past member identities, saved shape or content catalogs. This report takes priority over the unimplemented facilities design. [NAMES.md](NAMES.md) records the mechanism and compatibility boundary.

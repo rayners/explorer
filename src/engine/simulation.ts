@@ -4,7 +4,7 @@ import {
   teamSkillBonus as skillBonus,
   EXPERIENCE_CAP,
 } from './proficiency';
-import { living, recruitmentError, joinRecruit } from './personnel';
+import { living, recruitmentError, joinRecruit, recruitmentCandidates } from './personnel';
 import { threatAlert, developThreat, respondToThreat } from './threats';
 import { routesAt } from './navigation';
 import { workWatchPlan } from './work-watches';
@@ -202,7 +202,9 @@ export function dispatch(g: GameDefinition, input: GameState, command: Command):
     if (error) return fail(error);
     if (!affordable(s, offer.cost)) return fail('Insufficient funds to recruit this specialist.');
     spend(s, offer.cost);
-    const member = joinRecruit(s, offer);
+    const candidate = recruitmentCandidates(g, s).get(offer.id)!;
+    s.recruitSerial = Math.max(s.recruitSerial, candidate.serial + 1);
+    const member = joinRecruit(s, offer, candidate.serial);
     event(s, 'memberHired', { member: member.name, skill: member.skill });
   } else if (command.type === 'assign') {
     const member = s.crew.find((c) => c.id === command.member);

@@ -9,6 +9,7 @@ export default defineConfig({
     'readability.spec.ts',
     'watches.spec.ts',
     'destinations.spec.ts',
+    'recruitment-names.spec.ts',
   ],
   timeout: 30000,
   fullyParallel: true,

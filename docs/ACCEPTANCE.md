@@ -1,5 +1,9 @@
 # Browser and device acceptance
 
+## Recruitment names (v0.15.1) — physical check pending
+
+- In both games on the iPhone, open recruitment and confirm visible roles show different candidate names. Reload and compare again before hiring. Hire a non-first role and confirm the joined person's name matches the preview and survives reopening offline. Existing crew/memorial names and a previously discovered survivor must stay unchanged. No reset is needed.
+
 ## Destination planning (v0.15) — physical checks pending
 
 - In both games on the iPhone 15 Pro Max, open the board and work views after exploring a site or settling a faction discovery. Expand Work by destination in portrait and short landscape. Accepted destinations should come first, with readable shared travel/work estimates and visible supply/team gaps.

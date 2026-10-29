@@ -1,5 +1,5 @@
 import type { GameDefinition, GameState, Member, RecruitDef } from './types';
-import { generateName } from './names';
+import { generateName, nameCapacity } from './names';
 /** Living members supply skills and occupy accommodation. Casualties stay in the roster. */
 export function living(state: GameState): Member[] {
   return state.crew.filter((member) => member.life !== 'dead');
@@ -25,6 +25,67 @@ export function recruitName(offer: RecruitDef, seed: number, serial: number): st
   return offer.names[(seed + serial) % offer.names.length] ?? offer.name;
 }
 
+function usedRecruitSerials(state: GameState): Set<number> {
+  return new Set([
+    ...state.crew
+      .filter((member) => member.recruit)
+      .map((member) => Number(member.id.slice(member.recruit!.length + 1))),
+    ...state.incidents.flatMap((record) =>
+      record.recruitSerial === undefined ? [] : [record.recruitSerial],
+    ),
+  ]);
+}
+/** The counter is a high-water mark; unselected previews never consume archive space. */
+export function nextRecruitSerial(state: GameState): number | undefined {
+  const used = usedRecruitSerials(state);
+  for (let serial = 0; serial < 1000; serial++) if (!used.has(serial)) return serial;
+}
+/** Stable simultaneous candidates, sharing the existing indexed name pool and saved IDs. */
+export function recruitmentCandidates(game: GameDefinition, state: GameState) {
+  const used = usedRecruitSerials(state),
+    boardNames = new Set<string>();
+  const archiveNames = new Set(state.crew.map((member) => member.name));
+  for (const record of state.incidents) {
+    if (record.recruitSerial === undefined) continue;
+    const discovery = game.discoveryEvents?.entries.find((entry) => entry.id === record.id);
+    if (discovery?.kind !== 'choice') continue;
+    for (const choice of discovery.choices) {
+      const offer = game.recruitment?.offers.find((offer) => offer.id === choice.recruit);
+      if (offer) archiveNames.add(recruitName(offer, state.seed, record.recruitSerial));
+    }
+  }
+  const candidates = new Map<string, { serial: number; name: string }>();
+  const offers = [...(game.recruitment?.offers ?? [])];
+  // Preserve the free recovery option even when only one name slot remains.
+  if (!living(state).length) offers.sort((a, b) => Number(!!b.emergency) - Number(!!a.emergency));
+  for (const offer of offers) {
+    if (offer.emergency && living(state).length) continue;
+    const limit = offer.nameSource
+      ? Math.min(1000, nameCapacity(offer.nameSource.pattern) - offer.nameSource.offset)
+      : 1000;
+    let fresh: { serial: number; name: string } | undefined,
+      distinct: typeof fresh,
+      fallback: typeof fresh;
+    for (let serial = 0; serial < limit; serial++) {
+      if (used.has(serial)) continue;
+      const candidate = { serial, name: recruitName(offer, state.seed, serial) };
+      fallback ??= candidate;
+      if (boardNames.has(candidate.name)) continue;
+      distinct ??= candidate;
+      if (!archiveNames.has(candidate.name)) {
+        fresh = candidate;
+        break;
+      }
+    }
+    const candidate = fresh ?? distinct ?? fallback;
+    if (!candidate) continue;
+    candidates.set(offer.id, candidate);
+    used.add(candidate.serial);
+    boardNames.add(candidate.name);
+  }
+  return candidates;
+}
+
 /** Shared recruitment checks for paid hiring and a discovery's reserved, free recruit. */
 export function recruitmentError(
   game: GameDefinition,
@@ -42,7 +103,10 @@ export function recruitmentError(
     return 'Emergency relief is reserved for expeditions with no surviving members.';
   if (living(state).length >= crewCapacity(game, state))
     return 'No accommodation available. Install a capacity upgrade first.';
-  if (state.crew.length >= 1000 || (reservedSerial === undefined && state.recruitSerial >= 1000))
+  if (
+    state.crew.length >= 1000 ||
+    (reservedSerial === undefined && !recruitmentCandidates(game, state).has(offer.id))
+  )
     return 'The roster archive is full. Export this expedition before starting another.';
   if (
     reservedSerial !== undefined &&

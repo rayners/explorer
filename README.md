@@ -27,6 +27,10 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## Fixed in v0.15.1
+
+Recruitment offers now preview different candidates instead of sharing one name across roles. Hiring selects the person shown on that offer; reloads, old expeditions, memorials and discovered survivors retain their identities. Existing saves need no reset.
+
 ## New in v0.15
 
 **Work by destination** groups discovered field contracts in both games' board and work views. Expand a place to compare the known journey and nearby hub, shared supplies for accepted work, team gaps and completed receipts. Destinations with accepted work appear first; offers stay separate from the accepted-work estimate.

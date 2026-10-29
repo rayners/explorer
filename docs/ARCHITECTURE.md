@@ -130,3 +130,7 @@ Factories finish generation-6 projects, then call `content/variety.ts` for gener
 ## Destination comparison (v0.15)
 
 `ui/destination-planning.ts` is a pure planning selector over existing contracts/discoveries/routes; `ui/destination-panels.ts` renders the shared board/work summary and focuses existing brief headings. Both mounts supply navigation-only click handling through stable mission IDs. `mission-panels.ts` and themed board cards expose those IDs without using generated names as identity. Existing route actions still open a chart; engine commands remain separate. Shared trip estimates include only accepted unstarted work, exclude paid jobs/receipts, and defer unknown or in-transit routes. See [BUNDLES.md](BUNDLES.md). No simulation, save, catalog or browser persistence changes.
+
+## Recruitment preview correction (v0.15.1)
+
+The shared recruitment panel reads `recruitmentCandidates` from the pure personnel layer; ordinary hire dispatch commits that exact preview. The allocator excludes crew/memorial and survivor-reserved serials, reuses unselected gaps and preserves the counter as a high-water mark. Discovery onset reserves a free serial once. Frozen name generation and saved identity validation remain unchanged; no new persistence or theme branches are introduced. See [NAMES.md](NAMES.md).

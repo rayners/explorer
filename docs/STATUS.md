@@ -11,6 +11,10 @@ Updated 2026-10-29. Read after [AGENTS.md](../AGENTS.md). Verify current checkou
 - PostHog tracking remains as delivered in v0.14: browser-only allowlisted usage/sanitized errors, shared opt-out and privacy signals, no persistent player identity. [TELEMETRY.md](TELEMETRY.md) records its verified project/settings/ingestion evidence. Both public Actions build variables remain configured; no analytics schema change in v0.15.
 - Envelope **1**, state schema **5**, content generations **1–7**, fresh default **7**, save/preferences/locks and manifest identities remain unchanged. Physical iPhone checks remain pending in [ACCEPTANCE.md](ACCEPTANCE.md).
 
+## Current priority — recruitment names (v0.15.1, local)
+
+The user reported identical names across hireable roles. Confirmed: all role previews used the same next serial. A shared pure candidate allocator now previews distinct unused serials and the successful hire uses the selected preview. It reuses unselected gaps and protects memorial/survivor identities, without changing frozen grammars/catalogs or saved names. Counter remains a bounded high-water mark; failed commands/previews do not reserve people. No schema/generation/save-key changes or reset required. Local validation passed: **180 unit, 120 browser, 12 telemetry and 40 offline cases**, strict typecheck/Pages build and both campaign simulators. Frozen catalogs and released save checks passed; no new state or content generation. Publication/live verification pending. This bug fix takes priority over facilities.
+
 ## Active roadmap
 
 The user explicitly resumed the autonomous roadmap after restart. Tracking and destination comparison are delivered. **Next: implement the bounded lasting-place design in [FACILITIES.md](FACILITIES.md)**: an earned, limited field resupply point per theme, activated by exact source-bound commission filing. This design is written but unimplemented. It proposes content generation 8 while preserving 1–7 and deriving activation from existing claimed missions; confirm that no saved-shape change is needed before implementation.

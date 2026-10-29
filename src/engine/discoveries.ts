@@ -1,4 +1,4 @@
-import { living, recruitmentError } from './personnel';
+import { living, recruitmentError, nextRecruitSerial } from './personnel';
 import type { DiscoveryChoice, GameDefinition, GameState, IncidentRecord } from './types';
 
 interface DiscoveryContext {
@@ -41,21 +41,24 @@ export function discoverAtSite(
       (def.kind !== 'exposure' || !s.threatHistory.includes(def.threat)) &&
       (def.kind !== 'choice' ||
         !def.choices.some((choice) => choice.recruit) ||
-        s.recruitSerial < 1000),
+        nextRecruitSerial(s) !== undefined),
   );
   if (!eligible.length || c.roll(s) >= policy.chance) return;
   let weight =
     c.roll(s) * eligible.reduce((total, def) => total + def.weight * (weights[def.id] ?? 1), 0);
   const selected = eligible.find((def) => (weight -= def.weight * (weights[def.id] ?? 1)) < 0)!;
+  const recruitSerial =
+    selected.kind === 'choice' && selected.choices.some((choice) => choice.recruit)
+      ? nextRecruitSerial(s)
+      : undefined;
+  if (recruitSerial !== undefined) s.recruitSerial = Math.max(s.recruitSerial, recruitSerial + 1);
   s.incidents.push({
     id: selected.id,
     location,
     site,
     at: s.elapsed,
     choice: null,
-    ...(selected.kind === 'choice' && selected.choices.some((choice) => choice.recruit)
-      ? { recruitSerial: s.recruitSerial++ }
-      : {}),
+    ...(recruitSerial !== undefined ? { recruitSerial } : {}),
   });
   s.discoveryCooldown = policy.cooldown;
   if (selected.kind === 'exposure') {

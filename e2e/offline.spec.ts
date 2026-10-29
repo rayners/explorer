@@ -1108,3 +1108,46 @@ test('destination review offline preserves committed support work and completed 
   }
   await context.setOffline(false);
 });
+
+test('offline recruitment shows different candidates and preserves the selected hire through reload', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  for (const fantasy of [false, true]) {
+    const game = (fantasy ? createHollowmere : createGame)(1701, 7),
+      key = `${game.id}.save.v1`,
+      marker = `candidate-names-${game.id}`;
+    await page.addInitScript(
+      ({ key, marker, raw }) => {
+        if (!sessionStorage.getItem(marker)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem(marker, 'yes');
+        }
+      },
+      { key, marker, raw: encodeSave(createState(game, 1701), Date.now()) },
+    );
+    await context.setOffline(false);
+    await page.goto(new URL(`${game.id}/`, baseURL).href);
+    await page.evaluate(async () => await navigator.serviceWorker.ready);
+    await page.reload();
+    await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: fantasy ? /Refuge/ : /Contacts/ })
+      .click();
+    const names = await page.locator('[data-recruit-name]').allTextContents();
+    expect(new Set(names).size).toBe(names.length);
+    const card = page.locator('[data-recruit]').last(),
+      name = await card.locator('[data-recruit-name]').textContent();
+    await card.getByRole('button', { name: /^Recruit / }).click();
+    await page.reload();
+    await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
+    const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state, key);
+    expect(saved.crew.at(-1).name).toBe(name);
+  }
+  await context.setOffline(false);
+});

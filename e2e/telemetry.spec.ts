@@ -104,6 +104,22 @@ test('both games record accepted orders, share opt-out with the library and keep
       )
       .toBe(1);
     expect(events.at(-1).properties.kind).toBe('accept');
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: game === 'hollowmere' ? /Refuge/ : /Contacts/ })
+      .click();
+    const candidate = page.locator('[data-recruit]').last();
+    const candidateName = await candidate.locator('[data-recruit-name]').textContent();
+    await candidate.getByRole('button', { name: /^Recruit / }).click();
+    await expect
+      .poll(
+        () =>
+          events.filter((e) => e.event === 'explorer_order' && e.properties.surface === game)
+            .length,
+      )
+      .toBe(2);
+    expect(events.at(-1).properties.kind).toBe('hire');
+    expect(JSON.stringify(events)).not.toContain(candidateName);
     await page.getByRole('button', { name: 'Settings', exact: true }).click();
     await page.getByRole('checkbox', { name: 'Share usage and sanitized error reports' }).uncheck();
     const count = events.length;
@@ -162,6 +178,7 @@ test('storage denial and DNT suppress sharing while keeping the library usable',
       page.getByRole('checkbox', { name: 'Share usage and sanitized error reports' }),
     ).not.toBeChecked();
     expect(events).toEqual([]);
+    await context.unrouteAll({ behavior: 'wait' });
     await context.close();
   }
 });
@@ -233,6 +250,7 @@ test('foreground completions are reported once and restored history is not repla
     await expect(page.locator('#save-status')).toHaveText('LOCAL SAVE ACTIVE');
     expect(events.filter((e) => e.event === 'explorer_progress')).toHaveLength(1);
     expect(events.filter((e) => e.event === 'explorer_order')).toHaveLength(0);
+    await context.unrouteAll({ behavior: 'wait' });
     await context.close();
   }
 });

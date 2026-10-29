@@ -30,7 +30,7 @@ The public token/host are build configuration, with ignored `.env.local`, blank 
 
 The latest browser SDK (1.441.2) was inspected and removed before implementation. Its automatically enriched properties and retry queue add avoidable privacy/lifecycle complexity for this narrow request. Direct capture follows the same gated browser-adapter pattern as clicker while allowing explicit `credentials: omit`, `referrerPolicy: no-referrer`, no retry queue and no remote feature requests. This is an intentional implementation choice, not a copy of clicker's SDK integration. References: [capture API](https://posthog.com/docs/api/capture), [anonymous events](https://posthog.com/docs/data/anonymous-vs-identified-events), [exception schema](https://posthog.com/docs/error-tracking/capture), [JavaScript configuration](https://posthog.com/docs/libraries/js/config).
 
-User request, 2026-10-28: add PostHog tracking to the games following the clicker examples, limited to usage data and error capture, with no personally identifiable data. **Nothing in this document describes shipped telemetry.** Current release v0.13 has no PostHog integration. Connection/handoff status is in [STATUS.md](STATUS.md).
+Usage/error tracking shipped in v0.14 under the user’s request for no personally identifiable data. The recruitment-name fix leaves this payload contract unchanged; production regression coverage verifies that hiring sends only its command category, never the selected candidate’s name. Current delivery state is in [STATUS.md](STATUS.md).
 
 ## Payload and operational contract
 

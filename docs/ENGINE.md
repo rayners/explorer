@@ -154,3 +154,7 @@ Usage/error observation is optional browser-host behavior and adds no commands, 
 ## Destination summaries (v0.15)
 
 The browser/UI planning layer groups actual discovered bound contracts and reads existing activity durations, paid jobs and effective routes. It adds no engine command, state field, job metadata, random draw or automatic scheduling. All acceptance/dispatch/filing validation remains authoritative in the existing transitions. Shared estimates count travel once and never recalculate paid terms. Envelope 1/state 5 and generations 1–7 remain unchanged. [BUNDLES.md](BUNDLES.md) records the UI contract.
+
+## Recruitment candidate identity (v0.15.1)
+
+`recruitmentCandidates(definition, state)` is a pure role-to-name/serial preview. It allocates only unused pool slots, excluding all crew/memorials and incident-reserved survivor serials. Ordinary hiring uses that exact candidate after existing staffing/capacity/funds checks. `nextRecruitSerial(state)` supplies the lowest free slot for a new survivor, reserved only at actual onset. `recruitSerial` is a bounded high-water mark; gaps from unselected offers remain available. `recruitName(offer, seed, serial)` and save identity validation are unchanged, preserving stored names and all generation catalogs. No schema or content-generation changes.
