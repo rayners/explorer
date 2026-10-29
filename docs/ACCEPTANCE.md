@@ -1,5 +1,12 @@
 # Browser and device acceptance
 
+## Usage/error reporting (v0.14) — physical checks pending
+
+- In Safari and both installed games, find the sharing checkbox in Settings; toggle it with touch/keyboard, rotate and confirm readable text and scroll access. Verify the library footer and other game reflect the same preference after navigation/reload.
+- With sharing disabled, play and export/import a backup as usual. Reopen offline; play and settings must work without waiting for analytics. Reconnect without replaying offline telemetry.
+- Check Safari privacy/storage restrictions and enabled browser privacy signals: sharing should stay off and gameplay remain available. Network failures must not replace game/save warnings or block orders.
+- Automated payload tests use Chromium and WebKit against a production build served under canonical-origin routing. They do not constitute physical-device acceptance or prove live ingestion by themselves.
+
 ## Longer hub work (v0.13) — physical checks pending
 
 - On the iPhone 15 Pro Max in each game, open the ordinary work card at a hub and expand the longer-shift/duty choices. Read all three fixed durations, gross pay, debt repayment, take-home pay and cancellation terms in portrait/landscape. Check long labels, keyboard focus and scroll access above fixed navigation.
@@ -26,6 +33,7 @@ Automated coverage uses Chromium desktop and actual WebKit with iPhone 15 Pro Ma
 - `npm run build`: strict TypeScript and static PWA production output.
 - `npm run test:e2e`: recruitment/capacity and roster persistence, legacy save migration, hidden threats and purging, fantasy class requirements, cross-game save/lock isolation, and the original accept/travel/survey/file journey, reload restoration, save import/export, keyboard dialog dismissal, portrait and landscape overflow, competing-tab ownership, failed import/reset writes, touch-visible cargo explanations, and valid crew reassignment during independent work.
 - `npm run test:offline` after build: a saved voyage catches up on launch; production service worker then serves the app after an offline reload for both Far Wake and Hollowmere in Chromium and WebKit. Development helpers must be absent.
+- `npm run test:telemetry` after a Pages-base build with public configuration: actual serialized capture requests, opt-out, private error/query text, anonymous page IDs, request failures, local suppression, browser signals, storage denial and read-only tabs. Requests are intercepted; no test traffic enters PostHog.
 - `npm audit`: dependency advisories.
 
 ## Physical iPhone 15 Pro Max — pending

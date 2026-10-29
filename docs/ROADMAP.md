@@ -4,7 +4,7 @@ Baseline: v0.13.0, 2026-10-28. This is a status and design queue, not a release 
 
 ## Active implementation queue
 
-**Current handoff: roadmap paused by the user.** The latest explicit request is PostHog usage/error tracking following clicker, without personally identifiable data. Implementation has not started because the installed skill requires connected PostHog tools, which were not available. Read [STATUS.md](STATUS.md) and [TELEMETRY.md](TELEMETRY.md) after restart. Do not automatically resume this roadmap from the historical ongoing-work instruction below; the later pause takes precedence. Destination bundles remain prepared, not implemented.
+**Current work: privacy-conscious usage/error tracking (v0.14).** The user resumed the roadmap after restarting Codex; PostHog tools are available and clicker's project/privacy setting were verified. The browser adapter and shared opt-out are implemented locally; release validation/publication are in progress. See [STATUS.md](STATUS.md) and [TELEMETRY.md](TELEMETRY.md). Destination bundles remain the next designed item, followed by changed-place consequences and contextual discovery selection.
 
 **Delivered after the reviews: readability and action hierarchy (v0.12).** [READABILITY.md](READABILITY.md) records early overview directives, scannable accepted-work cards, readable stock/decision text and short-height landscape layouts. Pages deployment and live checks passed. This uses the ongoing roadmap authorization; it does not adopt every review proposal.
 

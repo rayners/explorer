@@ -16,6 +16,7 @@
     "scripts",
     "vite.config.ts",
     "playwright.config.ts",
-    "playwright.offline.config.ts"
+    "playwright.offline.config.ts",
+    "playwright.telemetry.config.ts"
   ]
 }

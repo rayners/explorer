@@ -34,7 +34,7 @@ The optional trigger, casualty safeguards, exact roles, capacity limits, setting
 
 ## Site and delivery
 
-Later request (2026-10-28), still unimplemented: add PostHog usage tracking and error capture to the games, following `../clicker`, without personally identifiable data. Exact event schema, project identity and SDK/privacy configuration are not yet verified. [TELEMETRY.md](TELEMETRY.md) records the pending work; [STATUS.md](STATUS.md) records the user's paused roadmap and restart prerequisite.
+Later request (2026-10-28): add PostHog usage tracking and error capture to the games following `../clicker`, without personally identifiable data. The v0.14 browser adapter implements allowlisted usage, sanitized errors and shared opt-out, with no replay/autocapture or persistent identity. [TELEMETRY.md](TELEMETRY.md) records the privacy boundary, verified project setting and implementation choices; [STATUS.md](STATUS.md) records current release evidence.
 
 Push code to `rayners/explorer` and publish its GitHub Pages site, like clicker. The main page should select among implemented games. Each game must remain accessible on its own page. Preserve existing progress when changing entry points.
 

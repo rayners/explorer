@@ -64,6 +64,7 @@ npm test
 npm run typecheck
 npm run test:e2e
 PAGES_BASE_PATH=/explorer/ npm run build
+npm run test:telemetry
 PAGES_BASE_PATH=/explorer/ npm run test:offline
 npm run simulate
 npm run simulate:world
@@ -105,6 +106,10 @@ When bumping a release version, edit only `package.json.version`, the lockfile r
 Write its goal and design first. Reuse generic mechanisms, create a stable definition ID and distinct browser namespace, add a themed mount and HTML entry, configure its manifest and Vite build input, then add the implemented game to the picker. Cover save isolation, its introductory journey, library return, mobile layout and offline access. See [architecture](docs/ARCHITECTURE.md).
 
 Update the relevant design, engine contract, decision record and roadmap when behavior changes. Record pending ideas as pending, not approved specifications. Update acceptance steps when a new user flow needs a real-device check.
+
+## Browser telemetry
+
+Read [TELEMETRY.md](docs/TELEMETRY.md) before changing usage/error reporting. Keep it outside the engine and use allowlisted categories only: no saves, seeds, names, arbitrary messages/stacks, URLs or persistent identity. Preserve shared opt-out, browser privacy signals, canonical production gating and failure isolation. `npm run test:telemetry` tests an existing Pages-base production build with public ingestion configuration and intercepts outgoing traffic; it must not send synthetic private data to PostHog. Public ingestion configuration comes from local environment/Actions variables, never admin credentials.
 
 ## Publishing
 

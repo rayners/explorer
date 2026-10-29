@@ -2,13 +2,13 @@
 
 Start with [AGENTS.md](../AGENTS.md) for repository working rules and [README.md](../README.md) for running and playing the games.
 
-Restarting development: read [STATUS.md](STATUS.md) first. It records the shipped release, paused roadmap, pending PostHog request and connection prerequisite. Tracking is not implemented; [TELEMETRY.md](TELEMETRY.md) records the work still required.
+Restarting development: read [STATUS.md](STATUS.md) first for the shipped baseline, active roadmap and tracking validation/publication state. [TELEMETRY.md](TELEMETRY.md) describes the v0.14 privacy contract and implementation.
 
 | Document                           | Purpose                                                                 |
 | ---------------------------------- | ----------------------------------------------------------------------- |
 | [REQUIREMENTS.md](REQUIREMENTS.md) | User goals, requested scope and acceptance intent                       |
 | [STATUS.md](STATUS.md) | Current development handoff, latest task and restart procedure |
-| [TELEMETRY.md](TELEMETRY.md) | Pending PostHog usage/error tracking and privacy review |
+| [TELEMETRY.md](TELEMETRY.md) | PostHog usage/error tracking and privacy contract |
 | [DECISIONS.md](DECISIONS.md)       | Chosen behavior, rationale, tradeoffs and compatibility constraints     |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Module boundaries, execution flow, hosting and extension checklist      |
 | [ENGINE.md](ENGINE.md)             | Engine integration API, content contracts, time and save semantics      |
@@ -33,7 +33,7 @@ Restarting development: read [STATUS.md](STATUS.md) first. It records the shippe
 
 Requirements describe what was requested. Decisions describe the implementation chosen to satisfy it. Roadmap entries describe future possibilities unless explicitly marked implemented. Keep these distinctions when updating the documents.
 
-Documentation baseline: v0.13.0, updated 2026-10-28. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
+Development documentation: v0.14.0, updated 2026-10-29; publication state is recorded in STATUS.md. Source and tests govern executable behavior; reconcile documentation when that behavior changes. Historical commit references remain useful after later versions ship.
 
 Independent reviews:
 

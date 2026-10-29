@@ -122,3 +122,7 @@ Assembly ends with `finishProjects` for generation 6. Pure `engine/project-gener
 ## Variety assembly (v0.11)
 
 Factories finish generation-6 projects, then call `content/variety.ts` for generation 7. Themed `variety.ts` files own events and branch terms; shared assembly resolves stable-ID names, appends discoveries and invokes the same pure project generator only for the new branches. Optional `ProjectBranch.slot`/`requirements` map to existing activity fields; no new state mechanism is introduced. Shared work-team writing labels role assignments and both mounts keep bound work out of generic unaccepted activity lists. See [VARIETY.md](VARIETY.md).
+
+## Usage/error reporting (v0.14)
+
+`src/browser/telemetry.ts` is a browser-only observer/transport, with allowlisted payload construction and explicit fetch privacy settings. The runtime reports successful command types and foreground arrival/activity completions; it never forwards command arguments, event parameters or state. Reconciliation, imports and secondary-tab saves do not replay historical milestones. Hidden or delayed ticks do not report progress. Library observation imports no simulation. Shared opt-out controls are mounted in both settings and the library footer; their single `explorer.telemetry.optOut` preference does not combine saves, game preferences or command locks. No save/schema/generation changes. Build-time public ingestion settings come from environment variables. [TELEMETRY.md](TELEMETRY.md) describes payloads, privacy constraints and production browser checks.

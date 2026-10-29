@@ -4,6 +4,7 @@ import { advance, createState, dispatch } from '../engine/simulation';
 import { decodeSave, encodeSave, reconcile } from '../engine/save';
 import type { Command, GameDefinition, GameState, DefinitionFactory } from '../engine/types';
 import type { AppController, GameApp } from './controller';
+import { startTelemetry, PROGRESS, type Surface } from './telemetry';
 /** Shared browser lifecycle: independent saves, preferences and command locks per game. */
 export function startBrowserGame(options: {
   namespace: string;
@@ -12,6 +13,7 @@ export function startBrowserGame(options: {
   mount: (root: HTMLElement, controller: AppController) => GameApp;
 }) {
   const createGame = options.createDefinition;
+  const telemetry = startTelemetry(options.namespace as Surface);
   const KEY = `${options.namespace}.save.v1`,
     BACKUP = `${options.namespace}.backup.v1`;
   let game = createGame(1701),
@@ -125,6 +127,11 @@ export function startBrowserGame(options: {
     state = advance(game, state, seconds * (document.hidden ? 1 : debugSpeed));
     savedAt = Math.max(savedAt, now);
     if (state.nextEvent !== before) {
+      if (!document.hidden && seconds <= 2)
+        for (const entry of state.events) {
+          if (entry.id >= before && (PROGRESS as readonly string[]).includes(entry.key))
+            telemetry.track({ event: 'explorer_progress', kind: entry.key });
+        }
       persist();
       if (state.encounter)
         app.notify('Unregistered contact. Operations are paused for your orders.');
@@ -143,6 +150,7 @@ export function startBrowserGame(options: {
       return;
     }
     state = result.state;
+    telemetry.track({ event: 'explorer_order', kind: command.type });
     sound();
     persist();
     app.update(state, game);

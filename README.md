@@ -27,6 +27,12 @@ Moving Far Wake leaves its save, backup, preference, and lock keys unchanged. Th
 
 ![Game selection](docs/screenshots/picker-desktop.png)
 
+## New in v0.14
+
+The published library and both games share limited PostHog usage and sanitized error reporting. Disable **Share usage and sanitized error reports** in either game's settings or the library footer; the preference applies across Explorer on this browser. Browser DNT/GPC and unavailable storage suppress sharing.
+
+Events contain the game, release, order/completion categories and coarse visible minutes. Errors exclude messages, stacks and filenames. No names, saves, seeds, page URLs, persistent player IDs, autocapture or session replay are sent. A random ID exists only until the page reloads; PostHog's project discards client IP data and events disable GeoIP. Network connections necessarily reveal IP/user agent to the receiving server. Gameplay, saves and offline access work when reporting is blocked. Details and build configuration: [TELEMETRY.md](docs/TELEMETRY.md).
+
 ## New in v0.13
 
 At stations and refuges, expand **Longer station shifts** or **Longer refuge duties** on the ordinary work card. Choose one 15-minute, one-hour or eight-hour order, with its pay, debt repayment and take-home amount shown before starting. Skills improve pay; duration stays fixed. Short active shifts remain more profitable per minute.

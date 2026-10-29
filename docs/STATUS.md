@@ -1,31 +1,25 @@
 # Development handoff
 
-Updated 2026-10-28. Read this after [AGENTS.md](../AGENTS.md) when restarting a session. This is a handoff snapshot; verify the current checkout, tools and external workflow state before continuing.
+Updated 2026-10-29. Read after [AGENTS.md](../AGENTS.md). Verify current checkout, tools and external workflow state before continuing.
 
-## Current release
+## Current release and work
 
-- Version **0.13.0**, on `main`; latest implementation commit **`a94b016`**. The checkout was clean before this documentation-only handoff.
-- Both games have explicit 15-minute, one-hour and eight-hour hub work, fixed committed pay/debt terms, cancellation without partial credit, safe absence and schema-5 migration. [WATCHES.md](WATCHES.md) records the design and fixtures.
-- `a94b016` fixes Hollowmere's long countdown (`479m 60s`) through shared hour-aware formatting and prepares [BUNDLES.md](BUNDLES.md). Its [Pages workflow 40751150926](https://github.com/rayners/explorer/actions/runs/40751150926) succeeded; status and commit were rechecked for this handoff. Both live game routes were previously checked after deployment, including corrected watch timers.
-- Last release validation: **164 unit tests, 111 browser cases, 34 production offline cases**, typecheck/Pages build, both logistics simulators and the cadence audit. These game suites were not rerun for this docs-only handoff. Physical iPhone Safari/Home Screen checks remain pending in [ACCEPTANCE.md](ACCEPTANCE.md).
-- Save envelope **1**, state schema **5**, independent content generations **1–7**, fresh-game default **7**. No save keys or manifest identities changed.
+- Published baseline is **0.13.0**, latest implementation `a94b016`. Docs handoff `08901db` [Pages workflow](https://github.com/rayners/explorer/actions/runs/40753141182) succeeded, rechecked on resuming work.
+- **0.14.0 is implemented locally, not yet published.** Shared usage/sanitized-error tracking and opt-out are in [TELEMETRY.md](TELEMETRY.md); full release validation and live verification are in progress. Do not claim live tracking yet.
+- PostHog tools respond after restart. Sole accessible project **677229** matches clicker's configuration and has **anonymize_ips: true**, verified through `project-get`; no project settings changed. Explorer uses a direct capture API adapter rather than the SDK after privacy/lifecycle review. Build configuration is in ignored `.env.local`; both repository Actions variables are configured and their names verified before publication.
+- Local validation: **167 unit tests**, strict typecheck/Pages build and **12 production telemetry cases** pass. The game suite passed 110/111 initially; one tablet case was interrupted by a navigation while evaluating overflow and passed its targeted rerun. **34 offline cases** passed before the final typography-only adjustment; CI will run all suites on the final commit. Final output precaches 24 assets (~282 KiB). Physical-device checks remain pending.
+- Envelope **1**, state schema **5**, content generations **1–7**, fresh default **7**, storage namespaces and manifest identities remain unchanged. Both games retain 15-minute/one-hour/eight-hour safe work. Physical iPhone checks remain pending in [ACCEPTANCE.md](ACCEPTANCE.md).
 
-## Latest requested task — pending
+## Active roadmap
 
-The user asked to add PostHog usage tracking and error capture to the games, following `../clicker`, with **no personally identifiable data**. This takes priority over destination bundles when the user resumes work. [TELEMETRY.md](TELEMETRY.md) records the request, inspected references, privacy review and implementation checklist.
+The user explicitly resumed the autonomous roadmap after restart. Complete tracking validation, docs, publication and live payload/ingestion verification first. Then implement the prepared read-only destination bundles in [BUNDLES.md](BUNDLES.md). Changed-place consequences and contextual discovery selection follow as design candidates. Full roguelite campaigns/resets remain deferred. Keep the full ongoing goal active until its actual scope is satisfied; a release is a milestone, not completion of the entire roadmap.
 
-**No tracking implementation exists yet.** No PostHog dependency, telemetry module, settings control, event submission or project configuration was added. No analytics code/dependency edits are waiting in the worktree.
+## Next verification steps
 
-The PostHog skill is available, but **no PostHog tools were exposed in the session**, including the last handoff check. Plugin discovery was attempted; it did not establish a usable connection. Do not infer connection status from an installed skill or a generic tool success response.
+1. Inspect `git status` and pending diff; finish expanded payload tests and any privacy/lifecycle fixes. Keep telemetry out of engine/state and preserve ordinary gameplay even when storage/network/analytics fails.
+2. Preserve the configured public `VITE_POSTHOG_TOKEN` / `VITE_POSTHOG_HOST` repository build variables, referenced by Pages workflow. No admin/OAuth credentials belong in source or bundle.
+3. Run `npm test`, `PAGES_BASE_PATH=/explorer/ npm run build`, `npm run test:telemetry`, `npm run test:e2e`, `PAGES_BASE_PATH=/explorer/ npm run test:offline`. Tests intercept telemetry; no synthetic private data should enter PostHog.
+4. Update release evidence, push main under ongoing authorization, wait for Pages success, verify live library/game routes and sanitized payloads plus narrowly scoped ingestion/privacy evidence using PostHog tools. Do not report publication before deployment succeeds.
+5. Record pending physical-device checks honestly; browser WebKit is emulation. Proceed to destination bundles after verified delivery.
 
-The installed `posthog:posthog` skill's Step 0 requires: “If PostHog tools are unavailable, pause and ask the user to connect the PostHog app.” Work stopped at that prerequisite, not because of a game-code failure or an automatic approval rejection. The session's skill was at `/home/rayners/.codex/plugins/cache/openai-curated-remote/posthog/2.0.2/skills/posthog/SKILL.md`; rediscover its current location/instructions after restart.
-
-## Resume procedure
-
-1. Read this handoff, [TELEMETRY.md](TELEMETRY.md), the working guide and relevant architecture/save/browser contracts. Check `git status` and current HEAD; do not assume this snapshot is still the latest commit.
-2. Discover the PostHog tools and read the current skill. The user may need to enable the bundled app, complete OAuth, and restart the session for tools to appear. Verify availability rather than repeating connection requests without checking.
-3. Resolve the intended organization/project. Clicker's project is the reference/candidate, but Explorer's target project and current server privacy settings have **not** been verified. Never treat a public ingestion key as an administrative credential or proof of project identity/privacy settings.
-4. Complete the privacy/event design and implementation using current official documentation/tools, then test payloads, failure/offline behavior and production gating. Follow the repository's normal reviewable-change, validation and publication workflow.
-5. The ongoing autonomous roadmap goal is **paused at the user's request**. This documentation task does not resume it. Resume that goal only on explicit user direction. Destination bundles are designed but unimplemented; they follow the tracking task if roadmap work resumes. Changed-place consequences and contextual discovery selection remain later candidates; roguelite resets remain deferred.
-
-Temporary `/tmp` live-check scripts/screenshots may not survive restart or transfer; they are not required inputs. Repository tests, captured fixtures, design documents and linked CI runs are the durable evidence.
+Temporary `/tmp` scripts are not durable handoff dependencies. Repository tests/fixtures/designs and CI links are authoritative retained evidence.

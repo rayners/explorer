@@ -146,3 +146,7 @@ Shared accepted-work cards render the existing `expeditionPlan` phases and engin
 ## Project recipe roles (v0.11)
 
 `ProjectBranch.slot?: ActivityDef['slot']` defaults to primary. `requirements?: SkillRequirement[]` defaults to the existing one-specialty requirement on the work team. Explicit requirements can name support/primary assignments; generator output remains unchanged for old recipes. A support field project uses ordinary support jobs: pay at dispatch, remain at the source, block departure while active, preserve committed jobs through roster loss, zero support incident risk, and resolve one objective receipt at completion. Required specialists on another team supply eligibility, but gain no practice through that job unless they are committed matching participants on its own slot. Generation-7 catalog assembly adds content; state schema 4 and envelope 1 remain unchanged. See [VARIETY.md](VARIETY.md).
+
+## Browser analytics boundary (v0.14)
+
+Usage/error observation is optional browser-host behavior and adds no commands, state fields, event parameters, random draws or time semantics. The engine remains network/browser independent. Observers may consume completion keys; they must not serialize state, command arguments, event parameters or generated names into telemetry. Save envelope 1/state schema 5 and generations 1–7 are unchanged. See [TELEMETRY.md](TELEMETRY.md).

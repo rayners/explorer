@@ -82,3 +82,7 @@ Use read-only shared UI selectors to connect discovery work with current resourc
 ## Discovery variety (v0.11)
 
 New generation 7 appends six finite discoveries and twelve response/source-bound commissions. Reuse existing recruitment, training, material and standing effects rather than add recurring pact obligations or automatic threat penalties. Extend project recipes with optional slot/requirements; frozen defaults reproduce all generation-6 projects. Four support field commissions use the existing zero-risk support job semantics and departure lock; cross-team prerequisites use existing assignment checks, with practice only for actual committed work-team participants. Old catalogs and schema/envelope remain unchanged. See [VARIETY.md](VARIETY.md).
+
+## Limited usage and sanitized errors (v0.14)
+
+Follow clicker's gated browser adapter pattern, using the documented PostHog capture API directly to avoid automatic property enrichment, persistent identity and SDK retry queues. Keep analytics outside the deterministic engine. Rebuild every event from bounded categories; never forward state, command arguments, error messages/stacks, filenames, URLs or referrers. Page-memory identity and disabled person/GeoIP processing trade retention/diagnostic detail for the user's no-PII requirement. Browser DNT/GPC and a shared persistent opt-out suppress capture, including errors; blocked/offline delivery is dropped without retries. Client-IP discard was verified in clicker's existing project; no global project changes affect clicker. See [TELEMETRY.md](TELEMETRY.md).

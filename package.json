@@ -1,6 +1,6 @@
 {
   "name": "far-wake",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,7 +16,8 @@
     "screenshots": "tsx scripts/screenshots.ts",
     "format": "prettier --write .",
     "simulate:world": "tsx scripts/simulate-world.ts",
-    "audit:expeditions": "tsx scripts/audit-expeditions.ts"
+    "audit:expeditions": "tsx scripts/audit-expeditions.ts",
+    "test:telemetry": "playwright test --config playwright.telemetry.config.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
