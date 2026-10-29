@@ -1,0 +1,145 @@
+{
+  "release": "0.14.0",
+  "featureCommit": "3228b9c800d903832cf5c358c5815d3f31d41c7c",
+  "workflow": "https://github.com/rayners/explorer/actions/runs/40939176487",
+  "verifiedOn": "2026-10-29",
+  "environment": "Published canonical routes in Playwright iPhone WebKit; not physical-device acceptance",
+  "project": 677229,
+  "projectDiscardsClientIPs": true,
+  "transport": {
+    "verifiedEvents": 6,
+    "statuses": [200, 200, 200, 200, 200, 200],
+    "credentialsAbsent": true,
+    "referrerAbsent": true,
+    "sharedOptOutPassed": true
+  },
+  "lookup": {
+    "scope": "Only three known ephemeral verification page IDs within the last 30 minutes",
+    "taxonomyTool": "UNAVAILABLE; metadata discovery and exact-record lookup succeeded"
+  },
+  "records": [
+    {
+      "event": "explorer_opened",
+      "surface": "library",
+      "release": "0.14.0",
+      "storedPropertyKeys": [
+        "$geoip_disable",
+        "$process_person_profile",
+        "app",
+        "release",
+        "surface",
+        "telemetry_version"
+      ],
+      "storedIPPresent": false,
+      "geoIPEnriched": false,
+      "personProcessing": false
+    },
+    {
+      "event": "explorer_opened",
+      "surface": "far-wake",
+      "release": "0.14.0",
+      "storedPropertyKeys": [
+        "$geoip_disable",
+        "$process_person_profile",
+        "app",
+        "release",
+        "surface",
+        "telemetry_version"
+      ],
+      "storedIPPresent": false,
+      "geoIPEnriched": false,
+      "personProcessing": false
+    },
+    {
+      "event": "explorer_order",
+      "surface": "far-wake",
+      "release": "0.14.0",
+      "storedPropertyKeys": [
+        "$geoip_disable",
+        "$process_person_profile",
+        "app",
+        "kind",
+        "release",
+        "surface",
+        "telemetry_version"
+      ],
+      "storedIPPresent": false,
+      "geoIPEnriched": false,
+      "personProcessing": false
+    },
+    {
+      "event": "$exception",
+      "surface": "far-wake",
+      "release": "0.14.0",
+      "storedPropertyKeys": [
+        "$exception_fingerprint",
+        "$exception_fingerprint_record",
+        "$exception_functions",
+        "$exception_handled",
+        "$exception_issue_id",
+        "$exception_list",
+        "$exception_sources",
+        "$exception_types",
+        "$exception_values",
+        "$geoip_disable",
+        "$process_person_profile",
+        "app",
+        "column",
+        "line",
+        "origin",
+        "release",
+        "surface",
+        "telemetry_version"
+      ],
+      "storedIPPresent": false,
+      "geoIPEnriched": false,
+      "personProcessing": false
+    },
+    {
+      "event": "explorer_opened",
+      "surface": "hollowmere",
+      "release": "0.14.0",
+      "storedPropertyKeys": [
+        "$geoip_disable",
+        "$process_person_profile",
+        "app",
+        "release",
+        "surface",
+        "telemetry_version"
+      ],
+      "storedIPPresent": false,
+      "geoIPEnriched": false,
+      "personProcessing": false
+    },
+    {
+      "event": "explorer_order",
+      "surface": "hollowmere",
+      "release": "0.14.0",
+      "storedPropertyKeys": [
+        "$geoip_disable",
+        "$process_person_profile",
+        "app",
+        "kind",
+        "release",
+        "surface",
+        "telemetry_version"
+      ],
+      "storedIPPresent": false,
+      "geoIPEnriched": false,
+      "personProcessing": false
+    }
+  ],
+  "syntheticException": {
+    "type": "TypeError",
+    "storedValue": "Sanitized TypeError",
+    "sourceCount": 0,
+    "functionCount": 0,
+    "stackFramesPresent": false
+  },
+  "limitations": [
+    "Transport metadata is visible to receiving infrastructure; this is not an infrastructure log audit.",
+    "Stored lookup covers only the known verification records, not unrelated project data.",
+    "No cross-visit player identity or retention measurement.",
+    "Physical iPhone acceptance remains pending."
+  ]
+}

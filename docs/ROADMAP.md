@@ -4,7 +4,7 @@ Baseline: v0.13.0, 2026-10-28. This is a status and design queue, not a release 
 
 ## Active implementation queue
 
-**Current work: privacy-conscious usage/error tracking (v0.14).** The user resumed the roadmap after restarting Codex; PostHog tools are available and clicker's project/privacy setting were verified. The browser adapter and shared opt-out are implemented locally; release validation/publication are in progress. See [STATUS.md](STATUS.md) and [TELEMETRY.md](TELEMETRY.md). Destination bundles remain the next designed item, followed by changed-place consequences and contextual discovery selection.
+**Delivered: privacy-conscious usage/error tracking (v0.14).** The user resumed work after restart. Shared browser-only reporting, sanitized errors, ephemeral page identity and cross-game/library opt-out are published. [Pages workflow](https://github.com/rayners/explorer/actions/runs/40939176487) passed 167 unit, 111 browser, 12 telemetry and 34 offline cases; live routes, opt-out and the six known verification records' ingestion/privacy fields were checked. See [TELEMETRY.md](TELEMETRY.md) and [STATUS.md](STATUS.md). **Next: destination bundles**, then changed-place consequences and contextual discovery selection under their own designs.
 
 **Delivered after the reviews: readability and action hierarchy (v0.12).** [READABILITY.md](READABILITY.md) records early overview directives, scannable accepted-work cards, readable stock/decision text and short-height landscape layouts. Pages deployment and live checks passed. This uses the ongoing roadmap authorization; it does not adopt every review proposal.
 

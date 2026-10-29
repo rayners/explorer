@@ -67,3 +67,11 @@ Production telemetry tests serve the build under intercepted canonical-origin ro
 ## Reference and rationale
 
 Read-only clicker references: `../clicker/src/engine/posthog.ts`, `../clicker/src/engine/telemetry.ts`, `../clicker/docs/TELEMETRY.md`. Their gating/opt-out/failure isolation pattern informed Explorer. Their persistent browser identity, automatic SDK context and raw exception forwarding were not copied because this request asks for no personally identifiable data. Current PostHog docs and project settings are stronger evidence than the sibling's historical privacy notes.
+
+## Release verification (2026-10-29)
+
+Retained [verification report](reviews/TELEMETRY-VERIFICATION-2026-10-29.json) contains event/property names and pass/fail results without raw page identities or transport metadata.
+
+Feature `3228b9c` was published by [Pages workflow 40939176487](https://github.com/rayners/explorer/actions/runs/40939176487): 167 unit, 111 browser, 12 telemetry and 34 offline checks passed. Live iPhone WebKit exercised all three routes and shared opt-out. Six known verification events (three opens, two accepted orders, one deliberately synthetic sanitized TypeError) returned HTTP 200 and were retrieved through a point lookup of only their three ephemeral page IDs within 30 minutes. No private test strings were submitted live.
+
+Stored usage properties matched the declared allowlist; IP/GeoIP were absent and person processing false. PostHog added exception grouping metadata (`$exception_issue_id`, fingerprint record, types/values/handled/source/function arrays); the value remained `Sanitized TypeError`, source/function arrays were empty and no stack appeared. These server-derived fields are not additional browser collection. The synthetic test issue is retained as verification evidence, not a player failure. Active project's IP-discard setting was rechecked. The taxonomy tool was unavailable, so the record lookup used verified table metadata plus exact observed outgoing page IDs/names. This demonstrates those records' stored properties; it is not a blanket audit of all unrelated clicker data or receiving infrastructure logs. Physical-device acceptance remains pending.
