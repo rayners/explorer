@@ -19,7 +19,8 @@ Restarting development: read [STATUS.md](STATUS.md) first for the shipped baseli
 | [READABILITY.md](READABILITY.md)   | Current directives, accepted-work hierarchy and responsive readability   |
 | [EXPEDITION-AUDIT.md](EXPEDITION-AUDIT.md) | Reproducible return-commission economics and single-order check-in behavior |
 | [WATCHES.md](WATCHES.md) | Explicit longer hub work, committed payment/debt and cancellation |
-| [BUNDLES.md](BUNDLES.md) | Implemented destination comparison; validation/publication state in STATUS |
+| [FACILITIES.md](FACILITIES.md) | Next design: earned, limited resupply points at actual discovery sources |
+| [BUNDLES.md](BUNDLES.md) | Published destination comparison and verification |
 | [PROJECTS.md](PROJECTS.md)         | Implemented faction projects linked to settled discovery choices        |
 | [CREW.md](CREW.md)                 | Crew proficiency, lasting opportunities and migration contract          |
 | [WORLDS.md](WORLDS.md)             | Generated layouts, reachability guarantees and version compatibility    |

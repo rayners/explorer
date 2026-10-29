@@ -128,3 +128,7 @@ After restart the connected tools responded and the user explicitly resumed road
 ## Destination comparison (2026-10-29)
 
 The user's ongoing instruction to keep working through the roadmap authorizes the next bounded slice after tracking. [BUNDLES.md](BUNDLES.md) was prepared before implementation using the retained expedition audit's same-destination/shared-travel findings. Grouping actual discoveries, conservative serial estimates and navigation-only review controls are implementation choices; this does not approve automatic orders, reward rebalancing, new content catalogs or all independent-review proposals. Local rendered phone/landscape inspection led to accepted-work-first ordering and estimates before long offer labels. Physical iPhone acceptance remains pending.
+
+## Next bounded lasting-place design (2026-10-29)
+
+After verified destination comparison delivery, [FACILITIES.md](FACILITIES.md) chooses a limited resupply point as the first material source change, under the ongoing roadmap instruction. The user did not specify its exact branches/goods. The existing relief-relay/cleric-vigil writing and project roles informed the proposal. It is explicitly unimplemented and proposes generation-8 assembly plus an optional generic market-access contract, without silently turning field locations into full service hubs. These are recorded implementation/design choices, not additional user requirements.
